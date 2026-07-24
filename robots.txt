@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+pinterest-site-verification=2a746982a858a3c81ba075ac647402e5
