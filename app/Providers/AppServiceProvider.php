@@ -14,8 +14,11 @@ use App\View\Components\JetButton;
 use App\View\Components\JetInput;
 use App\View\Components\JetLabel;
 use App\View\Components\JetValidationErrors;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -24,21 +27,21 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         Schema::defaultStringLength(191);
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
         // Register Jetstream components
         Blade::component('jet-authentication-card', JetAuthenticationCard::class);
         Blade::component('jet-authentication-card-logo', JetAuthenticationCardLogo::class);

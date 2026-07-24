@@ -1,9 +1,38 @@
 # Change Log
 
+## 13.0.1 - 20-July-2026
+
+- add `.gitattributes` file and reduce size of package archive (#630, thanks @hosni)
+
+
+## 13.0.0 - 19-Mar-2026
+
+- Added Laravel 13 support
+
+
+## 12.0.0 - 26-Feb-2025
+
+- Added Laravel 12 support
+
+
+## 11.0.1 - 28-Nov-2024
+
+- Support PHP 8.4 (#616, thanks @SupianIDz)
+- Notice that Lumen will be deprecated in the next major release
+
+
+## 11.0.0 - 12-Mar-2024
+
+- Added Laravel 11 support (#608, thanks @fulopattila122)
+- Changed the minimum PHP version to 8.2 to line up with Laravel 11
+- fix for larastan issue (#596, thanks @WalrusSoup)
+
+
 ## 10.0.0 - 16-Feb-2023
 
-- Laravel 10 support
+- Laravel 10.0 support
 - switch to using Pest instead of PHPUnit for tests
+
 
 ## 9.0.0 - 24-Jan-2022
 

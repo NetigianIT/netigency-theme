@@ -11,7 +11,7 @@ use Mews\Purifier\Facades\Purifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class BlogController extends Controller
 {
@@ -101,7 +101,7 @@ class BlogController extends Controller
             $blog_image_name = time().'-'.$blog_image_file->getClientOriginalName();
 
             // Resizing an uploaded file
-            Image::make($request->file('blog_image'))->fit(600, 400)->save($folder1.$blog_image_name);
+            Image::read($request->file('blog_image'))->cover(600, 400)->save($folder1.$blog_image_name);
 
             // Original size upload file
             $blog_image_file->move($folder, $blog_image_name);
@@ -232,7 +232,7 @@ class BlogController extends Controller
             File::delete(public_path($folder1.$blog->blog_image));
 
             // Resizing an uploaded file
-            Image::make($request->file('blog_image'))->fit(600, 400)->save($folder1.$blog_image_name);
+            Image::read($request->file('blog_image'))->cover(600, 400)->save($folder1.$blog_image_name);
 
             // Original size upload file
             $blog_image_file->move($folder, $blog_image_name);
