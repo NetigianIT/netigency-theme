@@ -7,8 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <!-- Styles / Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         @livewireStyles
 
