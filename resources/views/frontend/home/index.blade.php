@@ -8,7 +8,7 @@
     <meta name="title" content="@if (isset($general_seo)){{ $general_seo->site_name }} @endif">
     <meta name="description" content="@if (isset($general_seo)){{ $general_seo->site_desc }} @endif">
     <meta name="keywords" content="@if (isset($general_seo)){{ $general_seo->site_keywords }} @endif">
-    <meta name="author" content="elsecolor">
+    <meta name="author" content="Netigian IT">
     <meta property="fb:app_id" content="@if (isset($general_seo)){{ $general_seo->fb_app_id }} @endif">
     <meta property="og:title" content="@if (isset($general_seo)){{ $general_seo->site_name }} @endif">
     <meta property="og:url" content="@if (isset($general_seo)){{ url()->current() }} @endif">
@@ -287,7 +287,7 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endisset
@@ -373,7 +373,7 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endisset
@@ -439,7 +439,7 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endif
@@ -515,7 +515,7 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endif
@@ -601,7 +601,7 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endisset
@@ -687,7 +687,7 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endisset
@@ -753,7 +753,7 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endif
@@ -829,7 +829,7 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:digitalteam@example.com" class="hero-email-link">digitalteam@example.com</a>
+                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endif
@@ -915,7 +915,7 @@
                                             <li>
                                                 <div class="text">
                                                     <h5>Company Name :</h5>
-                                                    <p>DigitalTeam</p>
+                                                    <p>Netigian IT</p>
                                                 </div>
                                             </li>
                                             <li>
@@ -2367,7 +2367,7 @@
                                 </div>
                                 <div class="body">
                                     <h5>E-Mail Phone:</h5>
-                                    <p>filaous@example.com</p>
+                                    <p>contact@netigianit.com</p>
                                     <p>+1 422-200-5555</p>
                                 </div>
                             </div>
@@ -2588,7 +2588,7 @@
                                                 <h6>E-Mail & Phone:</h6>
                                                 <div class="text">
                                                     <p>+1 422-200-5555</p>
-                                                    <p>digitalteam@example.com</p>
+                                                    <p>contact@netigianit.com</p>
                                                 </div>
                                             </li>
                                         </ul>

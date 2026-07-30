@@ -8,7 +8,7 @@
     <meta name="title" content="@if (isset($blog)) {{ $blog->title }} @elseif (isset($service)) {{ $service->title }} @elseif (isset($portfolio->title)) {{ $portfolio->title }} @elseif (isset($general_seo)){{ $general_seo->site_name }} @endif">
     <meta name="description" content="@if (isset($blog)) {{ $blog->meta_desc }} @elseif (isset($service)) {{ $service->meta_desc }} @elseif (isset($portfolio)) {{ $portfolio->meta_desc }} @elseif (isset($general_seo)){{ $general_seo->site_desc }} @endif">
     <meta name="keywords" content="@if (isset($blog)) {{ $blog->meta_keyword }} @elseif (isset($service)) {{ $service->meta_keyword }} @elseif (isset($portfolio)) {{ $portfolio->meta_keyword }} @elseif (isset($general_seo)){{ $general_seo->site_keywords }} @endif ">
-    <meta name="author" content="elsecolor">
+    <meta name="author" content="Netigian IT">
     <meta property="fb:app_id" content="@if (isset($general_seo)){{ $general_seo->fb_app_id }} @endif">
     <meta property="og:title" content="@if (isset($blog)) {{ $blog->title }} @elseif (isset($service)) {{ $service->title }} @elseif (isset($portfolio->title)) {{ $portfolio->title }} @elseif (isset($general_seo)){{ $general_seo->site_name }} @endif">
     <meta property="og:url" content="{{ url()->current() }}">
@@ -345,7 +345,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                                     <h6>E-Mail & Phone:</h6>
                                                     <div class="text">
                                                         <p>+1 422-200-5555</p>
-                                                        <p>digitalteam@example.com</p>
+                                                        <p>contact@netigianit.com</p>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -357,7 +357,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                     </div>
                     <div class="copyright">
                         <div class="container">
-                            <p class="copyright-text">© Copyright 2021. Powered By ElseColor</p>
+                            <p class="copyright-text">© Copyright 2024. Powered By Netigian IT</p>
                         </div>
                     </div>
                 </footer>

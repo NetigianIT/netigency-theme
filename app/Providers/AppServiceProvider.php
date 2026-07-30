@@ -9,7 +9,6 @@ use App\Models\Admin\Seo;
 use App\Models\Admin\SiteImage;
 use App\Models\Frontend\Comment;
 use App\View\Components\JetAuthenticationCard;
-use App\View\Components\JetAuthenticationCardLogo;
 use App\View\Components\JetButton;
 use App\View\Components\JetInput;
 use App\View\Components\JetLabel;
@@ -44,7 +43,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Register Jetstream components
         Blade::component('jet-authentication-card', JetAuthenticationCard::class);
-        Blade::component('jet-authentication-card-logo', JetAuthenticationCardLogo::class);
         Blade::component('jet-validation-errors', JetValidationErrors::class);
         Blade::component('jet-label', JetLabel::class);
         Blade::component('jet-input', JetInput::class);

@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\ContactSectionController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\CounterSectionController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DemoModeController;
 use App\Http\Controllers\Admin\ErrorPageController;
 use App\Http\Controllers\Admin\ExternalUrlController;
 use App\Http\Controllers\Admin\FeatureController;
@@ -32,7 +31,6 @@ use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\PortfolioDetailController;
 use App\Http\Controllers\Admin\PortfolioSectionController;
 use App\Http\Controllers\Admin\PortfolioSliderController;
-use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\QuickAccessButtonController;
 use App\Http\Controllers\Admin\SectionController;
@@ -437,13 +435,6 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:comments check
 });
 
 
-Route::post('admin/demo-mode', [DemoModeController::class, 'update_demo_mode'])->name('admin.demo_mode');;
-
-Route::get('preview', [PreviewController::class, 'index'])
-    ->name('preview.index')->middleware('XSS');
-
-Route::get('preview/set-homepage/{choose_version_id}', [PreviewController::class, 'set_homepage'])
-    ->name('preview.set_homepage')->middleware('XSS');
 // End Landing Site Admin Route
 
 

@@ -74,30 +74,13 @@ class PermissionsSeeder extends Seeder
         $role3->givePermissionTo('portfolio check');
 
 
-        // create demo users
+        // create admin user
         $user = \App\Models\User::factory()->create([
-            'name' => 'Super-Admin User',
+            'name' => 'Admin',
             'email' => 'admin@netigency.com',
             'password' => Hash::make('12345678'),
             'type' => 0,
         ]);
         $user->assignRole($role1);
-
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin16@elsecolor.com',
-            'password' => Hash::make('admin16'),
-            'type' => 0,
-        ]);
-        $user->assignRole($role2);
-
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Editor User',
-            'email' => 'editor16@gmail.com',
-            'password' => Hash::make('editor16'),
-            'type' => 0,
-        ]);
-        $user->assignRole($role3);
-
     }
 }
