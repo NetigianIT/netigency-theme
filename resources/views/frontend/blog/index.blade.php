@@ -2,33 +2,9 @@
 
 @section('content')
 
-    <!--// Breadcrumb Section Start //-->
-    <section class="breadcrumb-section section" data-scroll-index="1" @if (isset($breadcrumb)) data-bg-image-path = "{{ asset('uploads/img/general/'.$breadcrumb->breadcrumb_image) }}"
-             @else data-bg-image-path="{{ asset('uploads/img/dummy/1920x350.jpg') }}"
-            @endif>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="breadcrumb-inner">
-                        <h1>{{ __('frontend.blogs') }}</h1>
-                        <ul class="breadcrumb-links">
-                            <li>
-                                <a href="{{ url('/') }}">{{ __('frontend.home') }}</a>
-                            </li>
-                            <li class="active">
-                                {{ __('frontend.blogs') }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--// Breadcrumb Section end //-->
-
     <!-- Blog Grid Start -->
     @if (count($blogs) > 0)
-        <section class="section pb-minus-76" id="blog">
+        <section class="section pb-minus-76 page-content-offset" id="blog">
             <div class="container">
                 <div class="row">
                     @foreach ($blogs as $blog)
@@ -75,7 +51,7 @@
             </div>
         </section>
     @else
-        <section class="section pb-minus-76" id="blog">
+        <section class="section pb-minus-76 page-content-offset" id="blog">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">

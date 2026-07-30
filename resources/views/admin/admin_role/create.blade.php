@@ -28,7 +28,7 @@
                                 <div class="form-group">
                                     <label>{{ __('content.permissions') }} <span class="text-red">*</span></label><br>
                                     @foreach ($permissions as $permission)
-                                        <span class="badge badge-success mr-3 mb-3 font-16"><input type="checkbox" name="is_ok[]" value="{{ $permission->name }}"> {{ $permission->name }}</span>
+                                        <span class="badge badge-success mr-3 mb-3 font-16 permission-chip"><input type="checkbox" name="is_ok[]" value="{{ $permission->name }}"> {{ $permission->name }}</span>
                                     @endforeach
                                     <small class="form-text text-muted">{{ __('content.set_permissions_for_this_role') }}</small>
                                 </div>

@@ -31,6 +31,18 @@
     <!-- Title -->
     <title>@if (isset($general_seo)){{ $general_seo->site_name }} @endif @if (isset($blog)) {{ $blog->title }} @elseif (isset($service)) {{ $service->title }} @elseif (isset($portfolio->title)) {{ $portfolio->title }} @endif</title>
 
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = stored || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+                document.documentElement.classList.toggle('dark', theme === 'dark');
+            } catch (e) {}
+        })();
+    </script>
+
 @if (!empty($general_site_image->favicon_image))
     <!-- Favicon -->
         <link href="{{ asset('uplods/img/general/'.$general_site_image->favicon_image) }}" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
@@ -88,6 +100,9 @@
         @endif
 
     @endisset
+
+    <!--// Dark / Light Mode //-->
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=14">
 
 @if (isset($google_analytic))
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -159,33 +174,58 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                 <span class="line-3"></span>
                             </span>
                     </button>
-                    <div class="collapse navbar-collapse main-menu justify-content-end" id="fixedNavbar">
-                        <ul class="navbar-nav">
+                    <div class="collapse navbar-collapse main-menu" id="fixedNavbar">
+                        <ul class="navbar-nav header-nav-center">
                             <li class="nav-item">
-                                <a class="nav-link menu-link" href="{{ url('/') }}">{{ __('frontend.back_to_home') }}</a>
+                                <a class="nav-link menu-link" href="{{ url('/') }}">{{ __('frontend.home') }}</a>
                             </li>
-                            @if (count($display_dropdowns) > 0)
+                            @if (($section_arr['service_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="{{ url('/#services') }}">{{ __('frontend.services') }}</a>
+                            </li>
+                            @endif
+                            @if (($section_arr['portfolio_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="{{ url('/#porfolio') }}">{{ __('frontend.portfolio') }}</a>
+                            </li>
+                            @endif
+                            @if (($section_arr['blog_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ request()->is('blogs*') ? 'active' : '' }}" href="{{ route('blog-page.index') }}">{{ __('frontend.blogs') }}</a>
+                            </li>
+                            @endif
+                            @if (($section_arr['page_menu'] ?? 0) == 1)
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="pageDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @if (session()->has('language_name_from_dropdown')) {{ session()->get('language_name_from_dropdown') }} @else {{ $language->language_name }} @endif
+                                        {{ __('frontend.pages') }}
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="pageDropdownMenu">
+                                        @foreach ($header_pages as $header_page)
+                                            <a class="dropdown-item" href="{{ route('any-page.show', ['page_slug' => $header_page->page_slug]) }}">{{ $header_page->page_title }}</a>
+                                        @endforeach
+                                    </div>
+                                </li>
+                            @endif
+                        </ul>
+                        <ul class="navbar-nav header-nav-right">
+                            @if (count($display_dropdowns) > 0)
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="langDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @if (session()->has('language_name_from_dropdown')) {{ session()->get('language_name_from_dropdown') }} @else {{ $language->language_name }} @endif
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdownMenu">
                                         @foreach ($display_dropdowns as $display_dropdown)
                                             <a class="dropdown-item" href="{{ url('language/set-locale/'.$display_dropdown->id) }}">{{ $display_dropdown->language_name }}</a>
                                         @endforeach
                                     </div>
                                 </li>
                             @endif
-                            @isset ($external_url)
-                                @if ($external_url->status == 1)
-                                    <li class="nav-item navbar-btn-resp d-flex align-items-center">
-                                        <a href="{{ $external_url->btn_link }}" class="primary-btn">
-                                            <span class="text">{{ $external_url->btn_name }}</span>
-                                            <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endisset
+                            <li class="nav-item d-flex align-items-center header-theme-item">
+                                <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
+                                    <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                                    <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -210,7 +250,8 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                     <div class="footer-widget">
                                         <h6 class="footer-title">{{ __('frontend.about_us') }}</h6>
                                         @if (!empty($general_site_image->site_colored_logo_image))
-                                            <img src="{{ asset('uploads/img/general/'.$general_site_image->site_white_logo_image) }}" alt="footer logo" class="img-fluid footer-logo">
+                                            <img src="{{ asset('uploads/img/general/'.$general_site_image->site_white_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-white">
+                                            <img src="{{ asset('uploads/img/general/'.$general_site_image->site_colored_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-colored">
                                         @endif
                                         @if (!empty($site_info->short_desc)) <p class="footer-desc">{{ $site_info->short_desc }}</p> @endif
                                         <div class="footer-social-links">
@@ -492,6 +533,8 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 <script src="{{ asset('assets/frontend/vendor/js/isotope.min.js') }}"></script>
 <!--// Main Js //-->
 <script src="{{ asset('assets/frontend/js/main.js') }}"></script>
+<!--// Dark / Light Mode //-->
+<script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 
 @if (session()->has('language_direction_from_dropdown'))
 

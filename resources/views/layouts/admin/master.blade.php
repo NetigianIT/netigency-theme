@@ -12,6 +12,18 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = stored || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+                document.documentElement.classList.toggle('dark', theme === 'dark');
+            } catch (e) {}
+        })();
+    </script>
+
     <!-- Favicon -->
     @if(isset($general_site_image))
 
@@ -75,10 +87,132 @@
     <!-- Summer note Css -->
     <link href="{{ asset('assets/admin/side_menu/css/summernote-bs4.min.css') }}" rel="stylesheet">
 
+    <style>
+        /* Always keep admin sidebar expanded (no icon-only collapse) */
+        .navbar-toggler[data-toggle="minimize"] {
+            display: none !important;
+        }
+
+        /* Full-height sidebar column with logo — fully separate from content */
+        @media (min-width: 992px) {
+            .navbar.fixed-top {
+                left: 255px;
+                right: 0;
+                width: auto;
+                padding-left: 0;
+            }
+
+            .navbar .navbar-brand-wrapper {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 255px;
+                height: 60px;
+                z-index: 1040;
+                margin: 0;
+                border-right: 1px solid var(--ni-border, #e6ebef);
+                border-bottom: 1px solid var(--ni-border, #e6ebef);
+            }
+
+            .navbar .navbar-menu-wrapper {
+                width: 100% !important;
+                margin-left: 0;
+                border-bottom: 1px solid var(--ni-border, #e6ebef);
+                box-shadow: none !important;
+            }
+
+            .sidebar-fixed .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 255px;
+                height: 100vh;
+                max-height: 100vh;
+                padding-top: 60px;
+                overflow: hidden;
+                z-index: 1030;
+                border-right: 1px solid var(--ni-border, #e6ebef);
+            }
+
+            .sidebar-fixed .sidebar .nav:not(.sub-menu) {
+                height: calc(100vh - 60px);
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+                overflow-x: hidden;
+                margin-bottom: 0;
+                scrollbar-width: thin;
+                scrollbar-color: #b0b0b0 transparent;
+            }
+
+            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-thumb {
+                background-color: #b0b0b0;
+                border-radius: 4px;
+            }
+
+            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-thumb:hover {
+                background-color: #888;
+            }
+
+            .sidebar-fixed .main-panel {
+                margin-left: 255px;
+            }
+
+            body.rtl-version .navbar.fixed-top {
+                left: 0;
+                right: 255px;
+            }
+
+            body.rtl-version .navbar .navbar-brand-wrapper {
+                left: auto;
+                right: 0;
+                border-right: none;
+                border-left: 1px solid var(--ni-border, #e6ebef);
+            }
+
+            body.rtl-version .sidebar-fixed .sidebar {
+                left: auto;
+                right: 0;
+                border-right: none;
+                border-left: 1px solid var(--ni-border, #e6ebef);
+            }
+
+            body.rtl-version .sidebar-fixed .main-panel {
+                margin-left: 0;
+                margin-right: 255px;
+            }
+        }
+
+        @media screen and (max-width: 1199px) {
+            .sidebar-offcanvas {
+                scrollbar-width: thin;
+                scrollbar-color: #b0b0b0 transparent;
+            }
+
+            .sidebar-offcanvas::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .sidebar-offcanvas::-webkit-scrollbar-thumb {
+                background-color: #b0b0b0;
+                border-radius: 4px;
+            }
+        }
+    </style>
+
+    <!-- Dark / Light Mode -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=4">
 
 </head>
 
-<body @if (session()->has('language_direction_from_dropdown')) @if(session()->get('language_direction_from_dropdown') == 1)  class="rtl-version" @endif @elseif (isset($language)) @if ($language->direction == 1) class="rtl-version" @endif  @endif >
+<body class="sidebar-fixed @if (session()->has('language_direction_from_dropdown')) @if(session()->get('language_direction_from_dropdown') == 1) rtl-version @endif @elseif (isset($language)) @if ($language->direction == 1) rtl-version @endif  @endif">
 <!-- Preloader -->
 @if ($section_arr['preloader'] == 1)
     <div id="preloader-area">
@@ -152,6 +286,12 @@
                 </li>
             </ul>
             <ul class="top-navbar-area navbar-nav navbar-nav-right">
+                <li class="nav-item d-flex align-items-center">
+                    <button type="button" class="admin-theme-toggle" data-theme-toggle aria-label="Toggle color mode">
+                        <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                        <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                    </button>
+                </li>
                 <li  class="nav-item dropdown dropdown-animate">
                     <a href="{{ url('/') }}" class="badge badge-primary d-none d-md-block">
                         {{ __('content.site') }}
@@ -769,6 +909,8 @@
 
 <!-- Custom JS -->
 <script src="{{ asset('assets/admin/side_menu/js/custom.js') }}"></script>
+<!-- Dark / Light Mode -->
+<script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 
 <!-- Icon Picker JS -->
 <script src="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js') }}"> </script>

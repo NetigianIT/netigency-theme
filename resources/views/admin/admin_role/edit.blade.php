@@ -37,9 +37,9 @@
                                     @endphp
                                     @foreach ($permissions as $permission)
                                             @if (in_array($permission->name , $checked_permissions))
-                                                <span class="badge badge-success mr-3 mb-3 font-16"><input type="checkbox" name="is_ok[]" value="{{ $permission->name }}" checked> {{ $permission->name }}</span>
+                                                <span class="badge badge-success mr-3 mb-3 font-16 permission-chip"><input type="checkbox" name="is_ok[]" value="{{ $permission->name }}" checked> {{ $permission->name }}</span>
                                             @else
-                                                <span class="badge badge-success mr-3 mb-3 font-16"><input type="checkbox" name="is_ok[]" value="{{ $permission->name }}"> {{ $permission->name }}</span>
+                                                <span class="badge badge-success mr-3 mb-3 font-16 permission-chip"><input type="checkbox" name="is_ok[]" value="{{ $permission->name }}"> {{ $permission->name }}</span>
                                             @endif
                                     @endforeach
                                     <small class="form-text text-muted">{{ __('content.set_permissions_for_this_role') }}</small>

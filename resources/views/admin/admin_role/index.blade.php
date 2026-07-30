@@ -36,10 +36,10 @@
                                     <td>
                                         @php  $role_permissions = $role->getAllPermissions(); @endphp
                                         @if ($role->name == 'super-admin')
-                                            <span class="badge badge-success m-1">{{ __('content.has_all_permissions') }}</span>
+                                            <span class="badge badge-success m-1 permission-chip">{{ __('content.has_all_permissions') }}</span>
                                         @else
                                             @foreach ($role_permissions as $role_permission)
-                                                <span class="badge badge-success m-1">{{ $role_permission->name }}</span>
+                                                <span class="badge badge-success m-1 permission-chip">{{ $role_permission->name }}</span>
                                             @endforeach
                                         @endif
                                     </td>

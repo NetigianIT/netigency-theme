@@ -3,6 +3,17 @@
 <head>
     <!-- Meta Tags -->
     <meta charset="utf-8">
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = stored || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+                document.documentElement.classList.toggle('dark', theme === 'dark');
+            } catch (e) {}
+        })();
+    </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="title" content="@if (isset($general_seo)){{ $general_seo->site_name }} @endif">
@@ -88,6 +99,9 @@
 
     @endisset
 
+    <!--// Dark / Light Mode //-->
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=14">
+
 @if (isset($google_analytic))
     <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $google_analytic->google_analytic }}"></script>
@@ -130,16 +144,11 @@
                                 <span class="line-3"></span>
                             </span>
                     </button>
-                    <div class="collapse navbar-collapse main-menu justify-content-end" id="fixedNavbar">
-                        <ul class="navbar-nav">
+                    <div class="collapse navbar-collapse main-menu" id="fixedNavbar">
+                        <ul class="navbar-nav header-nav-center">
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="1">{{ __('frontend.home') }}</a>
                             </li>
-                            <!--@if ($section_arr['about_us_section'] == 1)-->
-                            <!--<li class="nav-item">-->
-                            <!--    <a class="nav-link menu-link" href="#" data-scroll-nav="2">{{ __('frontend.about_us') }}</a>-->
-                            <!--</li>-->
-                            <!--@endif-->
                             @if ($section_arr['service_section'] == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="3">{{ __('frontend.services') }}</a>
@@ -167,33 +176,26 @@
                                     </div>
                                 </li>
                                @endif
-                            @if ($section_arr['contact_section'] == 1)
-                            <li class="nav-item">
-                                <a class="nav-link menu-link" href="#" data-scroll-nav="7">{{ __('frontend.contact') }}</a>
-                            </li>
-                            @endif
+                        </ul>
+                        <ul class="navbar-nav header-nav-right">
                             @if (count($display_dropdowns) > 0)
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="pageDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" id="langDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         @if (session()->has('language_name_from_dropdown')) {{ session()->get('language_name_from_dropdown') }} @else {{ $language->language_name }} @endif
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="pageDropdownMenu">
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdownMenu">
                                         @foreach ($display_dropdowns as $display_dropdown)
                                             <a class="dropdown-item" href="{{ url('language/set-locale/'.$display_dropdown->id) }}">{{ $display_dropdown->language_name }}</a>
                                         @endforeach
                                     </div>
                                 </li>
                             @endif
-                            @isset ($external_url)
-                                @if ($external_url->status == 1)
-                                    <li class="nav-item navbar-btn-resp d-flex align-items-center">
-                                        <a href="{{ $external_url->btn_link }}" class="primary-btn">
-                                            <span class="text">{{ $external_url->btn_name }}</span>
-                                            <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endisset
+                            <li class="nav-item d-flex align-items-center header-theme-item">
+                                <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
+                                    <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                                    <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -244,13 +246,9 @@
                                     @endforeach
                                 </ul>
                             @endif
-                            @if (!empty($site_info->email))
-                                <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
-                            @endif
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                         </section>
                     @else
-                        <section class="hero-banner" data-scroll-index="1">
+                        <section class="hero-banner mt-5" data-scroll-index="1">
                             <div class="container">
                                 <div class="row align-items-center">
                                     <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
@@ -287,8 +285,6 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endisset
                 @elseif (session()->get('choose_version') == 1)
@@ -328,9 +324,6 @@
                                         <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
                                     @endforeach
                                 </ul>
-                            @endif
-                            @if (!empty($site_info->email))
-                                <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
                             @endif
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                         </section>
@@ -373,7 +366,6 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endisset
@@ -404,9 +396,6 @@
                                         <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
                                     @endforeach
                                 </ul>
-                            @endif
-                            @if (!empty($site_info->email))
-                                <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
                             @endif
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                         </section>
@@ -439,7 +428,6 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endif
@@ -477,9 +465,6 @@
                                     @endforeach
                                 </ul>
                             @endif
-                            @if (!empty($site_info->email))
-                                <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
-                            @endif
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                         </section>
                     @else
@@ -515,7 +500,6 @@
                                 <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                             </ul>
-                            <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                             <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                         </section>
                     @endif
@@ -558,9 +542,6 @@
                                 @endforeach
                             </ul>
                         @endif
-                        @if (!empty($site_info->email))
-                            <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
-                        @endif
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                     </section>
                 @else
@@ -601,7 +582,6 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endisset
@@ -642,9 +622,6 @@
                                     <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
                                 @endforeach
                             </ul>
-                        @endif
-                        @if (!empty($site_info->email))
-                            <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
                         @endif
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                     </section>
@@ -687,7 +664,6 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endisset
@@ -718,9 +694,6 @@
                                     <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
                                 @endforeach
                             </ul>
-                        @endif
-                        @if (!empty($site_info->email))
-                            <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
                         @endif
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                     </section>
@@ -753,7 +726,6 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endif
@@ -791,9 +763,6 @@
                                 @endforeach
                             </ul>
                         @endif
-                        @if (!empty($site_info->email))
-                            <a href="mailto:{{ $site_info->email }}" class="hero-email-link">{{ $site_info->email }}</a>
-                        @endif
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
                     </section>
                 @else
@@ -829,7 +798,6 @@
                             <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
                         </ul>
-                        <a href="mailto:contact@netigianit.com" class="hero-email-link">contact@netigianit.com</a>
                         <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
                     </section>
                 @endif
@@ -1122,7 +1090,7 @@
         <!--// Services Section Start //-->
         @if ($section_arr['service_section'] == 1)
         @if (isset($service_section) || count($services) > 0)
-            <section class="section pb-minus-70" data-scroll-index="3">
+            <section class="section pb-minus-70" id="services" data-scroll-index="3">
                 <div class="container">
                    @isset ($service_section)
                         <div class="row justify-content-center">
@@ -1157,7 +1125,7 @@
                 </div>
             </section>
         @else
-            <section class="section pb-minus-70" data-scroll-index="3">
+            <section class="section pb-minus-70" id="services" data-scroll-index="3">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-6">
@@ -1590,14 +1558,12 @@
                         @foreach ($portfolios as $portfolio)
                             <div class="col-md-6 col-lg-4 portfolio-item {{ $portfolio->portfolio_category->portfolio_category_slug }}">
                                 <div class="portfolio-item-inner">
-                                   @if ($portfolio->image_status == 1 && !empty($portfolio->thumbnail_image))
                                         <div class="portfolio-item-img">
-                                            <img src="{{ asset('uploads/img/portfolio/'.$portfolio->thumbnail_image) }}" alt="Portfolio image" class="img-fluid">
-                                            <a href="{{ asset('uploads/img/portfolio/'.$portfolio->thumbnail_image) }}" class="portfolio-zoom-link">
+                                            <img src="{{ portfolio_image_url($portfolio->thumbnail_image) }}" alt="Portfolio image" class="img-fluid">
+                                            <a href="{{ portfolio_image_url($portfolio->thumbnail_image) }}" class="portfolio-zoom-link">
                                                 <i class="fas fa-search"></i>
                                             </a>
                                         </div>
-                                       @endif
                                     <div class="body">
                                         <div class="portfolio-details">
                                             <span>{{ $portfolio->portfolio_category->category_name }}</span>
@@ -2453,7 +2419,8 @@
                                 <div class="footer-widget">
                                     <h6 class="footer-title">{{ __('frontend.about_us') }}</h6>
                                     @if (!empty($general_site_image->site_colored_logo_image))
-                                        <img src="{{ asset('uploads/img/general/'.$general_site_image->site_white_logo_image) }}" alt="footer logo" class="img-fluid footer-logo">
+                                        <img src="{{ asset('uploads/img/general/'.$general_site_image->site_white_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-white">
+                                        <img src="{{ asset('uploads/img/general/'.$general_site_image->site_colored_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-colored">
                                     @endif
                                     @if (!empty($site_info->short_desc)) <p class="footer-desc">{{ $site_info->short_desc }}</p> @endif
                                     <div class="footer-social-links">
@@ -2754,6 +2721,8 @@
 
 <!--// Main Js //-->
 <script src="{{ asset('assets/frontend/js/main.js') }}"></script>
+<!--// Dark / Light Mode //-->
+<script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 
 @if (session()->has('language_direction_from_dropdown'))
 

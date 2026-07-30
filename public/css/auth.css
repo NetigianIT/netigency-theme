@@ -6,8 +6,8 @@
     --auth-input-bg: #ffffff;
     --auth-input-text: #0f172a;
     --auth-input-border: #cbd5e1;
-    --auth-brand: #f97316;
-    --auth-brand-hover: #ea580c;
+    --auth-brand: #15bf86;
+    --auth-brand-hover: #119a6c;
     --auth-check: #64748b;
     --auth-toggle-bg: #ffffff;
     --auth-toggle-border: #e2e8f0;
@@ -28,11 +28,11 @@ html.dark {
     --auth-text: #f8fafc;
     --auth-muted: #94a3b8;
     --auth-label: #ffffff;
-    --auth-input-bg: #e8eef7;
-    --auth-input-text: #0f172a;
-    --auth-input-border: #cbd5e1;
-    --auth-brand: #f97316;
-    --auth-brand-hover: #fb923c;
+    --auth-input-bg: transparent;
+    --auth-input-text: #f8fafc;
+    --auth-input-border: #475569;
+    --auth-brand: #15bf86;
+    --auth-brand-hover: #34d399;
     --auth-check: #94a3b8;
     --auth-toggle-bg: #1e293b;
     --auth-toggle-border: #334155;
@@ -287,6 +287,18 @@ body.auth-body {
     box-shadow: none;
 }
 
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus,
+.auth-input-wrap input:-webkit-autofill,
+.auth-input-wrap input:-webkit-autofill:hover,
+.auth-input-wrap input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--auth-input-text);
+    caret-color: var(--auth-input-text);
+    transition: background-color 99999s ease-in-out 0s;
+    box-shadow: 0 0 0 1000px var(--auth-card-bg) inset;
+}
+
 .auth-input-wrap {
     position: relative;
 }
@@ -306,12 +318,12 @@ body.auth-body {
     width: 3rem;
     border: 0;
     background: transparent;
-    color: #64748b;
+    color: var(--auth-muted);
     cursor: pointer;
 }
 
 .auth-eye:hover {
-    color: #0f172a;
+    color: var(--auth-text);
 }
 
 .auth-eye svg {

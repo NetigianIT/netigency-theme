@@ -27,7 +27,7 @@
         </script>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <link rel="stylesheet" href="{{ asset('css/auth.css') }}?v=4">
+        <link rel="stylesheet" href="{{ asset('css/auth.css') }}?v=5">
 
         <script src="{{ asset('assets/admin/side_menu/js/dist/alpine.js') }}" defer></script>
     </head>

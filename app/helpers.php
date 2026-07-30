@@ -37,3 +37,19 @@ if (! function_exists('getSiteLanguage')) {
         return $language;
     }
 }
+
+if (! function_exists('portfolio_image_url')) {
+    /**
+     * Portfolio thumbnail URL with demo fallback when missing.
+     */
+    function portfolio_image_url($filename = null)
+    {
+        $fallback = 'uploads/img/dummy/portfolio-demo.png';
+
+        if (! empty($filename) && file_exists(public_path('uploads/img/portfolio/' . $filename))) {
+            return asset('uploads/img/portfolio/' . $filename);
+        }
+
+        return asset($fallback);
+    }
+}

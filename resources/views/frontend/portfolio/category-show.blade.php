@@ -34,14 +34,12 @@
                     @foreach ($portfolios as $portfolio)
                         <div class="col-md-6 col-lg-4 portfolio-item {{ $portfolio->portfolio_category->portfolio_category_slug }}">
                             <div class="portfolio-item-inner">
-                                @if ($portfolio->image_status == 1 && !empty($portfolio->thumbnail_image))
                                     <div class="portfolio-item-img">
-                                        <img src="{{ asset('uploads/img/portfolio/'.$portfolio->thumbnail_image) }}" alt="Portfolio image" class="img-fluid">
-                                        <a href="{{ asset('uploads/img/portfolio/'.$portfolio->thumbnail_image) }}" class="portfolio-zoom-link">
+                                        <img src="{{ portfolio_image_url($portfolio->thumbnail_image) }}" alt="Portfolio image" class="img-fluid">
+                                        <a href="{{ portfolio_image_url($portfolio->thumbnail_image) }}" class="portfolio-zoom-link">
                                             <i class="fas fa-search"></i>
                                         </a>
                                     </div>
-                                @endif
                                 <div class="body">
                                     <div class="portfolio-details">
                                         <span>{{ $portfolio->portfolio_category->category_name }}</span>

@@ -76,12 +76,12 @@
       }
     }
 
-    $('[data-toggle="minimize"]').on("click", function() {
-      if ((body.hasClass('sidebar-toggle-display')) || (body.hasClass('sidebar-absolute'))) {
-        body.toggleClass('sidebar-hidden');
-      } else {
-        body.toggleClass('sidebar-icon-only');
-      }
+    // Keep sidebar always expanded — collapse / icon-only mode disabled
+    body.removeClass('sidebar-icon-only sidebar-hidden');
+    $('[data-toggle="minimize"]').off('click').on('click', function(e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return false;
     });
 
     //checkbox and radios
