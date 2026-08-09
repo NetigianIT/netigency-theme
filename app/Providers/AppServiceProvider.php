@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Admin\Language;
 use App\Models\Admin\Message;
+use App\Models\Admin\Page;
 use App\Models\Admin\Section;
 use App\Models\Admin\Seo;
 use App\Models\Admin\SiteImage;
@@ -116,6 +117,26 @@ class AppServiceProvider extends ServiceProvider
             View::share('general_unread_comments', $general_unread_comments);
             View::share('general_unread_comment_count', $general_unread_comment_count);
         }
+
+        // Header pages menu for frontend layout (needed on every page, not only homepage)
+        View::composer('layouts.frontend.master', function ($view) {
+            if (! Schema::hasTable('pages')) {
+                $view->with('header_pages', collect());
+
+                return;
+            }
+
+            $language = getSiteLanguage();
+            $header_pages = $language
+                ? Page::where('language_id', $language->id)
+                    ->where('display_header_menu', 1)
+                    ->where('status', 1)
+                    ->orderBy('order', 'asc')
+                    ->get()
+                : collect();
+
+            $view->with('header_pages', $header_pages);
+        });
 
     }
 }

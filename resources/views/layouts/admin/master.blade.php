@@ -93,25 +93,133 @@
             display: none !important;
         }
 
-        /* Full-height sidebar column with logo — fully separate from content */
+        /* Hide empty navbar brand slot — logo lives in sidebar */
+        .navbar .navbar-brand-wrapper {
+            display: none !important;
+        }
+
+        /* Sidebar logo — same height as top nav */
+        .ni-sidebar-brand {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px !important;
+            height: 52px !important;
+            padding: 0 14px !important;
+            margin: 0;
+            border-bottom: 1px solid var(--ni-border, #2a2f3a);
+            background: var(--ni-sidebar, #12151c);
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+
+        .ni-sidebar-brand a {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+
+        .ni-sidebar-brand img,
+        .ni-sidebar-brand .admin-sidebar-logo {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            height: 52px !important;
+            max-height: 52px !important;
+            width: auto !important;
+            max-width: 210px !important;
+            object-fit: contain !important;
+        }
+
+        .navbar,
+        .navbar .navbar-menu-wrapper {
+            min-height: 52px !important;
+            height: 52px !important;
+        }
+
+        .ni-sidebar-brand-text {
+            display: none;
+            color: #15bf86;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .ni-sidebar-brand.is-fallback .admin-sidebar-logo {
+            display: none !important;
+        }
+
+        .ni-sidebar-brand.is-fallback .ni-sidebar-brand-text {
+            display: block !important;
+        }
+
+        /* Submenu dropdown — enough padding for text */
+        .sidebar .nav.sub-menu {
+            padding: 6px 14px 10px 28px !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item {
+            margin-bottom: 4px !important;
+            background: transparent !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link {
+            padding: 12px 16px 12px 20px !important;
+            line-height: 1.45 !important;
+            min-height: 44px !important;
+            display: flex !important;
+            align-items: center !important;
+            border-radius: 10px !important;
+            margin: 0 0 0 8px !important;
+            white-space: normal !important;
+            height: auto !important;
+            color: var(--ni-muted, #9ca3af) !important;
+            background: transparent !important;
+        }
+
+        /* Kill indigo (#5867dd) — match green primary everywhere */
+        .sidebar .nav .nav-item .nav-link .menu-title,
+        .sidebar .nav .nav-item .nav-link i,
+        .sidebar .nav .nav-item .nav-link i.menu-icon,
+        .sidebar .nav .nav-item .nav-link i.ti-angle-right {
+            color: var(--ni-muted, #9ca3af) !important;
+        }
+
+        .sidebar .nav .nav-item:hover > .nav-link,
+        .sidebar .nav .nav-item.active > .nav-link,
+        .sidebar .nav .nav-item:hover > .nav-link .menu-title,
+        .sidebar .nav .nav-item.active > .nav-link .menu-title,
+        .sidebar .nav .nav-item:hover > .nav-link i,
+        .sidebar .nav .nav-item.active > .nav-link i,
+        .sidebar .nav .nav-item:hover > .nav-link i.menu-icon,
+        .sidebar .nav .nav-item.active > .nav-link i.menu-icon,
+        .sidebar .nav .nav-item:hover > .nav-link i.ti-angle-right,
+        .sidebar .nav .nav-item.active > .nav-link i.ti-angle-right,
+        .sidebar .nav.sub-menu .nav-item .nav-link:hover,
+        .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            color: #15bf86 !important;
+        }
+
+        .sidebar .nav .nav-item:hover > .nav-link,
+        .sidebar .nav .nav-item.active > .nav-link,
+        .sidebar .nav.sub-menu .nav-item .nav-link:hover,
+        .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            background: rgba(21, 191, 134, 0.16) !important;
+        }
+
+        /* Full-height sidebar — fully separate from content */
         @media (min-width: 992px) {
             .navbar.fixed-top {
                 left: 255px;
                 right: 0;
                 width: auto;
                 padding-left: 0;
-            }
-
-            .navbar .navbar-brand-wrapper {
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 255px;
-                height: 60px;
-                z-index: 1040;
-                margin: 0;
-                border-right: 1px solid var(--ni-border, #e6ebef);
-                border-bottom: 1px solid var(--ni-border, #e6ebef);
             }
 
             .navbar .navbar-menu-wrapper {
@@ -128,37 +236,66 @@
                 width: 255px;
                 height: 100vh;
                 max-height: 100vh;
-                padding-top: 60px;
+                padding-top: 0;
                 overflow: hidden;
                 z-index: 1030;
                 border-right: 1px solid var(--ni-border, #e6ebef);
+                display: flex;
+                flex-direction: column;
             }
 
             .sidebar-fixed .sidebar .nav:not(.sub-menu) {
-                height: calc(100vh - 60px);
-                max-height: calc(100vh - 60px);
+                height: calc(100vh - 52px);
+                max-height: calc(100vh - 52px);
                 overflow-y: auto;
                 overflow-x: hidden;
                 margin-bottom: 0;
-                scrollbar-width: thin;
-                scrollbar-color: #b0b0b0 transparent;
+                scrollbar-width: none;
+                scrollbar-color: transparent transparent;
             }
 
             .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar {
+                width: 0;
+                height: 0;
+            }
+
+            .sidebar-fixed .sidebar:hover .nav:not(.sub-menu) {
+                scrollbar-width: thin;
+                scrollbar-color: #6b7280 transparent;
+            }
+
+            .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar {
                 width: 4px;
             }
 
-            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-track {
+            .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-track {
                 background: transparent;
             }
 
-            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-thumb {
-                background-color: #b0b0b0;
+            .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb {
+                background-color: #6b7280;
                 border-radius: 4px;
             }
 
-            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-thumb:hover {
-                background-color: #888;
+            .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb:hover {
+                background-color: #9ca3af;
+            }
+
+            .sidebar-fixed .sidebar .ps__rail-y {
+                opacity: 0 !important;
+                width: 4px !important;
+                background: transparent !important;
+            }
+
+            .sidebar-fixed .sidebar:hover .ps__rail-y,
+            .sidebar-fixed .sidebar .ps__rail-y:hover {
+                opacity: 1 !important;
+            }
+
+            .sidebar-fixed .sidebar .ps__thumb-y {
+                background-color: #6b7280 !important;
+                width: 4px !important;
+                border-radius: 4px !important;
             }
 
             .sidebar-fixed .main-panel {
@@ -168,13 +305,6 @@
             body.rtl-version .navbar.fixed-top {
                 left: 0;
                 right: 255px;
-            }
-
-            body.rtl-version .navbar .navbar-brand-wrapper {
-                left: auto;
-                right: 0;
-                border-right: none;
-                border-left: 1px solid var(--ni-border, #e6ebef);
             }
 
             body.rtl-version .sidebar-fixed .sidebar {
@@ -191,24 +321,37 @@
         }
 
         @media screen and (max-width: 1199px) {
+            .sidebar-offcanvas .nav:not(.sub-menu),
             .sidebar-offcanvas {
-                scrollbar-width: thin;
-                scrollbar-color: #b0b0b0 transparent;
+                scrollbar-width: none;
             }
 
+            .sidebar-offcanvas .nav:not(.sub-menu)::-webkit-scrollbar,
             .sidebar-offcanvas::-webkit-scrollbar {
+                width: 0;
+            }
+
+            .sidebar-offcanvas:hover .nav:not(.sub-menu),
+            .sidebar-offcanvas:hover {
+                scrollbar-width: thin;
+                scrollbar-color: #6b7280 transparent;
+            }
+
+            .sidebar-offcanvas:hover .nav:not(.sub-menu)::-webkit-scrollbar,
+            .sidebar-offcanvas:hover::-webkit-scrollbar {
                 width: 4px;
             }
 
-            .sidebar-offcanvas::-webkit-scrollbar-thumb {
-                background-color: #b0b0b0;
+            .sidebar-offcanvas:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb,
+            .sidebar-offcanvas:hover::-webkit-scrollbar-thumb {
+                background-color: #6b7280;
                 border-radius: 4px;
             }
         }
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=13">
 
 </head>
 
@@ -230,40 +373,18 @@
 
 <div class="main-container-wrapper">
     <!-- Top bar area -->
+    @php
+        $adminLogo = optional($general_site_image ?? null)->admin_logo_image;
+        $siteWhiteLogo = optional($general_site_image ?? null)->site_white_logo_image;
+        $siteColoredLogo = optional($general_site_image ?? null)->site_colored_logo_image;
+        $sidebarLogo = $adminLogo ?: ($siteWhiteLogo ?: ($siteColoredLogo ?: null));
+        // Root-relative path so logo loads from current host (APP_URL may point at production)
+        $sidebarLogoSrc = $sidebarLogo
+            ? '/uploads/img/general/'.$sidebarLogo
+            : '/uploads/img/dummy/white-logo.png';
+    @endphp
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            @if (isset($general_site_image))
-
-                @if (!empty($general_site_image->admin_logo_image))
-                    <a class="navbar-brand brand-logo mr-5" href="{{ url('dashboard') }}">
-                        <img src="{{ asset('uploads/img/general/'.$general_site_image->admin_logo_image) }}" class="mr-2" alt="logo" />
-                    </a>
-                @endif
-
-                @if (!empty($general_site_image->admin_small_logo_image))
-                    <a class="navbar-brand brand-logo-mini" href="{{ url('dashboard') }}">
-                        <img src="{{ asset('uploads/img/general/'.$general_site_image->admin_small_logo_image) }}" alt="logo" />
-                    </a>
-                @endif
-
-            @endif
-            @if (isset($general_creative_site_image))
-
-                @if (!empty($general_creative_site_image->admin_logo_image))
-                    <a class="navbar-brand brand-logo mr-5" href="{{ url('dashboard') }}">
-                        <img src="{{ asset('uploads/creative/img/general/'.$general_creative_site_image->admin_logo_image) }}" class="mr-2" alt="logo" />
-                    </a>
-                @endif
-
-                @if (!empty($general_creative_site_image->admin_small_logo_image))
-                    <a class="navbar-brand brand-logo-mini" href="{{ url('dashboard') }}">
-                        <img src="{{ asset('uploads/creative/img/general/'.$general_creative_site_image->admin_small_logo_image) }}" alt="logo" />
-                    </a>
-                @endif
-
-            @endif
-
-        </div>
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center" aria-hidden="true"></div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
@@ -272,19 +393,38 @@
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </button>
-            <ul class="navbar-nav mr-lg-2">
-                <li class="nav-item d-none d-md-block">
-                    <span class="badge badge-primary">
-                    {{ __('content.data_language') }}: {{ $data_language->language_name }} <i class="fas fa-hand-point-right ml-1"></i>
-
-                    </span>
-                </li>
-                <li  class="nav-item dropdown dropdown-animate">
-                    <a href="#" class="count-indicator"  data-toggle="modal" data-target="#processedLanguageModal">
-                        <i class="fas fa-globe-europe"></i>
-                    </a>
-                </li>
-            </ul>
+            <div class="d-flex align-items-center flex-grow-1 overflow-hidden">
+                <button type="button" class="ni-top-search" id="niAdminSearchToggle" aria-label="Search menu" title="Search menu">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="ni-admin-search-wrap" id="niAdminSearchWrap" hidden>
+                    <input type="search" id="niAdminSearchInput" class="form-control form-control-sm" placeholder="Search menu..." autocomplete="off">
+                </div>
+                <ul class="ni-quick-links" id="niQuickLinks">
+                    @can('portfolio check')
+                        <li><a href="{{ url('admin/portfolio') }}" class="{{ request()->is('admin/portfolio*') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> {{ __('content.portfolios') }}</a></li>
+                    @endcan
+                    @can('features check')
+                        <li><a href="{{ url('admin/feature/create') }}" class="{{ request()->is('admin/feature*') ? 'active' : '' }}"><i class="fas fa-star"></i> {{ __('content.features') }}</a></li>
+                    @endcan
+                    @can('services check')
+                        <li><a href="{{ url('admin/service') }}" class="{{ request()->is('admin/service*') ? 'active' : '' }}"><i class="fas fa-people-carry"></i> {{ __('content.services') }}</a></li>
+                    @endcan
+                    @can('blogs check')
+                        <li><a href="{{ url('admin/blog') }}" class="{{ request()->is('admin/blog*') ? 'active' : '' }}"><i class="fab fa-blogger-b"></i> {{ __('content.blogs') }}</a></li>
+                    @endcan
+                    @can('testimonials check')
+                        <li><a href="{{ url('admin/testimonial/create') }}" class="{{ request()->is('admin/testimonial*') ? 'active' : '' }}"><i class="fas fa-quote-right"></i> {{ __('content.testimonials') }}</a></li>
+                    @endcan
+                    @can('contact check')
+                        <li><a href="{{ url('admin/message') }}" class="{{ request()->is('admin/message*') ? 'active' : '' }}"><i class="fas fa-inbox"></i> {{ __('content.messages') }}</a></li>
+                    @endcan
+                    <li><a href="{{ url('/') }}" target="_blank"><i class="fas fa-external-link-alt"></i> {{ __('content.site') }}</a></li>
+                </ul>
+                <button type="button" class="badge badge-primary d-none d-lg-inline-flex align-items-center ml-2 ni-data-lang-btn" data-toggle="modal" data-target="#processedLanguageModal" title="{{ __('content.data_language') }}">
+                    {{ $data_language->language_name }}
+                </button>
+            </div>
             <ul class="top-navbar-area navbar-nav navbar-nav-right">
                 <li class="nav-item d-flex align-items-center">
                     <button type="button" class="admin-theme-toggle" data-theme-toggle aria-label="Toggle color mode">
@@ -292,18 +432,13 @@
                         <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
                     </button>
                 </li>
-                <li  class="nav-item dropdown dropdown-animate">
-                    <a href="{{ url('/') }}" class="badge badge-primary d-none d-md-block">
-                        {{ __('content.site') }}
-                    </a>
-                </li>
 
                 @if (count($display_dropdowns) > 0)
                     <li class="nav-item dropdown dropdown-animate">
-                        <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-                            @if (session()->has('language_name_from_dropdown')) {{ session()->get('language_name_from_dropdown') }} @else {{ $language->language_name }} @endif<i class="arrow_carrot-down"></i>
+                        <a class="nav-link count-indicator dropdown-toggle" id="languageDropdown" href="#" data-toggle="dropdown">
+                            <i class="fas fa-globe"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="languageDropdown">
                             <p class="mb-0 font-weight-normal float-left dropdown-header">{{ __('content.languages') }}</p>
 
                             @foreach ($display_dropdowns as $display_dropdown)
@@ -394,12 +529,25 @@
     <div class="container-fluid page-body-wrapper">
         <!-- Side Menu area -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="ni-sidebar-brand" id="niSidebarBrand">
+                <a href="{{ url('dashboard') }}" title="Dashboard">
+                    <img src="{{ $sidebarLogoSrc }}" class="admin-sidebar-logo" alt="Netigian IT" width="210" height="52"
+                         onerror="this.closest('.ni-sidebar-brand').classList.add('is-fallback');">
+                    <span class="ni-sidebar-brand-text">Netigian IT</span>
+                </a>
+            </div>
             <ul class="nav">
+                <li class="nav-item ni-nav-section">
+                    <span class="sidebar-menu-title">Overview</span>
+                </li>
                 <li class="nav-item {{ (request()->is('dashboard')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('dashboard') }}">
-                        <i class="fas fa-th-large menu-icon"></i>
+                        <i class="fas fa-home menu-icon"></i>
                         <span class="menu-title">{{ __('content.dashboard') }}</span>
                     </a>
+                </li>
+                <li class="nav-item ni-nav-section">
+                    <span class="sidebar-menu-title">Content</span>
                 </li>
                 @hasrole ('super-admin')
                 <li class="nav-item {{ (request()->is('admin/admin-role') ||
@@ -911,6 +1059,61 @@
 <script src="{{ asset('assets/admin/side_menu/js/custom.js') }}"></script>
 <!-- Dark / Light Mode -->
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
+<script>
+(function () {
+    var toggle = document.getElementById('niAdminSearchToggle');
+    var wrap = document.getElementById('niAdminSearchWrap');
+    var input = document.getElementById('niAdminSearchInput');
+    var quickLinks = document.getElementById('niQuickLinks');
+    if (!toggle || !wrap || !input) return;
+
+    toggle.addEventListener('click', function () {
+        var opening = wrap.hasAttribute('hidden');
+        if (opening) {
+            wrap.removeAttribute('hidden');
+            if (quickLinks) quickLinks.style.display = 'none';
+            input.focus();
+        } else {
+            wrap.setAttribute('hidden', '');
+            if (quickLinks) quickLinks.style.display = '';
+            input.value = '';
+            filterSidebar('');
+        }
+    });
+
+    input.addEventListener('input', function () {
+        filterSidebar(input.value);
+    });
+
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            wrap.setAttribute('hidden', '');
+            if (quickLinks) quickLinks.style.display = '';
+            input.value = '';
+            filterSidebar('');
+        }
+    });
+
+    function filterSidebar(query) {
+        var q = (query || '').toLowerCase().trim();
+        var items = document.querySelectorAll('#sidebar .nav > .nav-item');
+        items.forEach(function (item) {
+            if (item.classList.contains('ni-nav-section')) {
+                item.style.display = q ? 'none' : '';
+                return;
+            }
+            var title = item.querySelector('.menu-title');
+            var text = title ? title.textContent.toLowerCase() : '';
+            var sub = item.querySelectorAll('.sub-menu .nav-link');
+            var subMatch = false;
+            sub.forEach(function (link) {
+                if (link.textContent.toLowerCase().indexOf(q) !== -1) subMatch = true;
+            });
+            item.style.display = (!q || text.indexOf(q) !== -1 || subMatch) ? '' : 'none';
+        });
+    }
+})();
+</script>
 
 <!-- Icon Picker JS -->
 <script src="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js') }}"> </script>

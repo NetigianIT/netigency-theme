@@ -380,7 +380,8 @@
 }
 
 #counters {
-  background-color: #15bf86;
+  background-color: transparent !important;
+  background-image: none !important;
 }
 
 .how-i-work-item .img {
@@ -631,8 +632,8 @@
 }
 
 .contact-form-wrap .contact-form-group .form-control {
-  -webkit-box-shadow: 0 10px 15px 0 rgba(106, 176, 76, 0.1);
-          box-shadow: 0 10px 15px 0 rgba(106, 176, 76, 0.1);
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .contact-form-wrap .contact-form-group #txtCaptchaSpan {
@@ -703,8 +704,8 @@
 }
 
 .leave-comment-wrapper .comment-form-group .form-control {
-  -webkit-box-shadow: 0 10px 15px 0 rgba(106, 176, 76, 0.1);
-          box-shadow: 0 10px 15px 0 rgba(106, 176, 76, 0.1);
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .footer .footer-top .footer-widget .footer-title:after {

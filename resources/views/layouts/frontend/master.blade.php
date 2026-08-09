@@ -102,7 +102,49 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=14">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=23">
+    <style>
+        .hero-social-list{display:none!important}
+        .contact-form-wrap .contact-form-group .form-control,
+        .contact-form-wrap .contact-form-group .form-control:focus{
+            background:transparent!important;
+            background-color:transparent!important;
+            box-shadow:none!important;
+            border:1px solid rgba(255,255,255,.18)!important;
+            height:auto!important;
+            min-height:56px!important;
+            padding:16px 24px!important;
+            line-height:1.5!important;
+            box-sizing:border-box!important;
+        }
+        .contact-form-wrap .contact-form-group textarea.form-control,
+        .contact-form-wrap .contact-form-group textarea.form-control:focus{
+            min-height:160px!important;
+            padding:18px 24px!important;
+            resize:vertical!important;
+        }
+        html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control:focus{
+            border-color:rgba(0,0,0,.12)!important;
+        }
+        #counters.counters-section,
+        .counters-section{
+            background-color:var(--ni-page-bg,#0b0f0d)!important;
+            background-image:none!important;
+        }
+        html[data-theme="light"] #counters.counters-section,
+        html[data-theme="light"] .counters-section{
+            background-color:var(--ni-section-bg,#f4faf7)!important;
+        }
+        .counters-section-bg{display:none!important}
+        /* Compact nav; keep logo size */
+        .header,.header-shrink{padding:0!important}
+        .header .navbar{min-height:0!important;align-items:center!important;padding-top:4px!important;padding-bottom:4px!important}
+        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:8px 14px!important;line-height:24px!important}
+        .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important}
+        .header .navbar-brand img{height:84px!important;max-height:84px!important;width:auto!important;max-width:none!important}
+        @media (max-width:991.98px){.header .navbar-brand img{height:68px!important;max-height:68px!important}}
+    </style>
 
 @if (isset($google_analytic))
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -195,27 +237,31 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             </li>
                             @endif
                             @if (($section_arr['page_menu'] ?? 0) == 1)
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="pageDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ __('frontend.pages') }}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="pageDropdownMenu">
-                                        @foreach ($header_pages as $header_page)
-                                            <a class="dropdown-item" href="{{ route('any-page.show', ['page_slug' => $header_page->page_slug]) }}">{{ $header_page->page_title }}</a>
-                                        @endforeach
-                                    </div>
-                                </li>
+                                @foreach (($header_pages ?? []) as $header_page)
+                                    <li class="nav-item">
+                                        <a class="nav-link menu-link {{ request()->routeIs('any-page.show') && request()->route('page_slug') === $header_page->page_slug ? 'active' : '' }}" href="{{ route('any-page.show', ['page_slug' => $header_page->page_slug]) }}">{{ $header_page->page_title }}</a>
+                                    </li>
+                                @endforeach
                             @endif
                         </ul>
                         <ul class="navbar-nav header-nav-right">
                             @if (count($display_dropdowns) > 0)
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="langDropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @if (session()->has('language_name_from_dropdown')) {{ session()->get('language_name_from_dropdown') }} @else {{ $language->language_name }} @endif
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdownMenu">
+                                @php
+                                    $currentLangCode = session()->has('language_code_from_dropdown')
+                                        ? session()->get('language_code_from_dropdown')
+                                        : ($language->language_code ?? '');
+                                @endphp
+                                <li class="nav-item d-flex align-items-center header-lang-item">
+                                    <div class="lang-toggle" role="group" aria-label="Language">
                                         @foreach ($display_dropdowns as $display_dropdown)
-                                            <a class="dropdown-item" href="{{ url('language/set-locale/'.$display_dropdown->id) }}">{{ $display_dropdown->language_name }}</a>
+                                            @php
+                                                $langShort = strtoupper(explode('_', str_replace('-', '_', $display_dropdown->language_code))[0]);
+                                                $isActiveLang = strcasecmp($display_dropdown->language_code, $currentLangCode) === 0;
+                                            @endphp
+                                            <a href="{{ url('language/set-locale/'.$display_dropdown->id) }}"
+                                               class="lang-toggle-btn{{ $isActiveLang ? ' active' : '' }}"
+                                               @if ($isActiveLang) aria-current="true" @endif
+                                               title="{{ $display_dropdown->language_name }}">{{ $langShort }}</a>
                                         @endforeach
                                     </div>
                                 </li>

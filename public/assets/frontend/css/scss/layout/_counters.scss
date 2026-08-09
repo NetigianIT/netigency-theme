@@ -1,24 +1,105 @@
 /* ---------------------------------------------------------------- */
 /* 14.Counters                      
 /* ---------------------------------------------------------------- */  
-#counters {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: $color_primary;
-    background-image: url(../img/bg/counter-bg.png);
+#counters,
+.counters-section {
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    background-image: none;
+    padding-top: 90px;
+    padding-bottom: 70px;
 }
+
+.counters-section-bg {
+    display: none;
+}
+
+.counters-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.counters-heading {
+    margin-bottom: 48px;
+
+    h2 {
+        font-size: clamp(1.5rem, 2.4vw, 2rem);
+        line-height: 1.35;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: $color_white;
+
+        &:after {
+            width: 48px;
+            height: 3px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.85);
+        }
+    }
+}
+
+.counters-grid {
+    margin-top: 8px;
+}
+
 .counter-item {
+    position: relative;
     margin-bottom: 30px;
     text-align: center;
-    h3 {
-        font-size: 50px;
-        color: $color_white;
-        margin-bottom: 15px;
+    padding: 36px 28px 32px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease, border-color 0.35s ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 18%;
+        right: 18%;
+        height: 2px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+        opacity: 0.9;
     }
-    p {
-        font-weight: 500;
+
+    &:hover {
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.42);
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.16);
+    }
+
+    .counter-item-index {
+        display: inline-block;
+        margin-bottom: 14px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.62);
+    }
+
+    h3 {
+        font-size: clamp(2.4rem, 4vw, 3.25rem);
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: -0.03em;
         color: $color_white;
-        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    p {
+        margin: 0;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 1rem;
+        letter-spacing: 0.01em;
     }
 }

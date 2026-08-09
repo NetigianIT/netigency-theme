@@ -40,17 +40,22 @@
 		position: relative;
 		margin-bottom: 20px;
 		.form-control {
-			height: 60px;
+			height: auto;
+			min-height: 56px;
 			color: $color_dark;
             outline: none;
-            border: none;
-			padding: 0 60px 0 30px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+			padding: 16px 24px;
+            line-height: 1.5;
             border-radius: 30px;
+            background: transparent;
+            box-sizing: border-box;
             transition: all 0.25s ease;
-            box-shadow: 0 10px 15px 0 rgba($color_primary, 0.1);
+            box-shadow: none;
 			&:focus {
 				outline: none;
 				color: $color_dark;
+                background: transparent;
 			}
 		}
 		#txtInput {
@@ -71,7 +76,8 @@
 		}
 		textarea.form-control {
 			height: auto;
-			padding-top: 20px;
+			min-height: 160px;
+			padding: 18px 24px;
 		}
 	}	
 	.empty-form span, .email-invalid span, .phone-invalid span, .terms-alert span, .subject-alert span, .security-alert span {
