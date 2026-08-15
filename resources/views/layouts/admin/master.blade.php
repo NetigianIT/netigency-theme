@@ -87,10 +87,26 @@
     <!-- Summer note Css -->
     <link href="{{ asset('assets/admin/side_menu/css/summernote-bs4.min.css') }}" rel="stylesheet">
 
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css') }}">
+
     <style>
         /* Always keep admin sidebar expanded (no icon-only collapse) */
         .navbar-toggler[data-toggle="minimize"] {
             display: none !important;
+        }
+
+        /* Hamburger only on tablet/mobile — high specificity */
+        .navbar .top-navbar-area .nav-item.ni-menu-toggle-item {
+            display: none !important;
+        }
+
+        @media (max-width: 1199.98px) {
+            .navbar .top-navbar-area .nav-item.ni-menu-toggle-item {
+                display: flex !important;
+                align-items: center !important;
+            }
         }
 
         /* Hide empty navbar brand slot — logo lives in sidebar */
@@ -159,23 +175,39 @@
             display: block !important;
         }
 
-        /* Submenu dropdown — enough padding for text */
+        /* Sidebar menu — left/right inset from edges */
+        .sidebar .nav:not(.sub-menu) > .nav-item {
+            margin-bottom: 2px !important;
+        }
+
+        .sidebar .nav:not(.sub-menu) > .nav-item > .nav-link {
+            margin: 0 14px !important;
+            padding: 8px 12px !important;
+            border-radius: 10px;
+        }
+
+        .sidebar .nav .nav-item .sidebar-menu-title {
+            padding: 0.5rem 1.65rem 0.25rem !important;
+        }
+
+        /* Submenu — same tight gap as main items */
         .sidebar .nav.sub-menu {
-            padding: 6px 14px 10px 28px !important;
+            padding: 2px 12px 2px 28px !important;
+            margin: 0 !important;
         }
 
         .sidebar .nav.sub-menu .nav-item {
-            margin-bottom: 4px !important;
+            margin-bottom: 2px !important;
             background: transparent !important;
         }
 
         .sidebar .nav.sub-menu .nav-item .nav-link {
-            padding: 12px 16px 12px 20px !important;
-            line-height: 1.45 !important;
-            min-height: 44px !important;
+            padding: 7px 12px 7px 16px !important;
+            line-height: 1.35 !important;
+            min-height: 34px !important;
             display: flex !important;
             align-items: center !important;
-            border-radius: 10px !important;
+            border-radius: 0 !important;
             margin: 0 0 0 8px !important;
             white-space: normal !important;
             height: auto !important;
@@ -206,15 +238,19 @@
             color: #15bf86 !important;
         }
 
-        .sidebar .nav .nav-item:hover > .nav-link,
-        .sidebar .nav .nav-item.active > .nav-link,
-        .sidebar .nav.sub-menu .nav-item .nav-link:hover,
-        .sidebar .nav.sub-menu .nav-item .nav-link.active {
+        /* Main menu soft bg only */
+        .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link,
+        .sidebar .nav:not(.sub-menu) > .nav-item.active > .nav-link {
             background: rgba(21, 191, 134, 0.16) !important;
         }
 
-        /* Full-height sidebar — fully separate from content */
-        @media (min-width: 992px) {
+        .sidebar .nav.sub-menu .nav-item .nav-link:hover,
+        .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            background: transparent !important;
+        }
+
+        /* Full-height sidebar — desktop only (offcanvas below xl) */
+        @media (min-width: 1200px) {
             .navbar.fixed-top {
                 left: 255px;
                 right: 0;
@@ -242,6 +278,12 @@
                 border-right: 1px solid var(--ni-border, #e6ebef);
                 display: flex;
                 flex-direction: column;
+                transform: none !important;
+            }
+
+            .ni-sidebar-backdrop,
+            .ni-sidebar-close {
+                display: none !important;
             }
 
             .sidebar-fixed .sidebar .nav:not(.sub-menu) {
@@ -249,32 +291,33 @@
                 max-height: calc(100vh - 52px);
                 overflow-y: auto;
                 overflow-x: hidden;
-                margin-bottom: 0;
-                scrollbar-width: none;
+                margin-bottom: 0 !important;
+                padding-bottom: 8px !important;
+                scrollbar-gutter: stable;
+                scrollbar-width: thin;
                 scrollbar-color: transparent transparent;
             }
 
             .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar {
-                width: 0;
-                height: 0;
+                width: 4px;
+                height: 4px;
+            }
+
+            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-thumb {
+                background-color: transparent;
+                border-radius: 4px;
             }
 
             .sidebar-fixed .sidebar:hover .nav:not(.sub-menu) {
-                scrollbar-width: thin;
                 scrollbar-color: #6b7280 transparent;
-            }
-
-            .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar {
-                width: 4px;
-            }
-
-            .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-track {
-                background: transparent;
             }
 
             .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb {
                 background-color: #6b7280;
-                border-radius: 4px;
             }
 
             .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb:hover {
@@ -320,52 +363,14 @@
             }
         }
 
-        @media screen and (max-width: 1199px) {
-            .sidebar-offcanvas .nav:not(.sub-menu),
-            .sidebar-offcanvas {
-                scrollbar-width: none;
-            }
-
-            .sidebar-offcanvas .nav:not(.sub-menu)::-webkit-scrollbar,
-            .sidebar-offcanvas::-webkit-scrollbar {
-                width: 0;
-            }
-
-            .sidebar-offcanvas:hover .nav:not(.sub-menu),
-            .sidebar-offcanvas:hover {
-                scrollbar-width: thin;
-                scrollbar-color: #6b7280 transparent;
-            }
-
-            .sidebar-offcanvas:hover .nav:not(.sub-menu)::-webkit-scrollbar,
-            .sidebar-offcanvas:hover::-webkit-scrollbar {
-                width: 4px;
-            }
-
-            .sidebar-offcanvas:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb,
-            .sidebar-offcanvas:hover::-webkit-scrollbar-thumb {
-                background-color: #6b7280;
-                border-radius: 4px;
-            }
-        }
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=13">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=54">
 
 </head>
 
 <body class="sidebar-fixed @if (session()->has('language_direction_from_dropdown')) @if(session()->get('language_direction_from_dropdown') == 1) rtl-version @endif @elseif (isset($language)) @if ($language->direction == 1) rtl-version @endif  @endif">
-<!-- Preloader -->
-@if ($section_arr['preloader'] == 1)
-    <div id="preloader-area">
-        <div class="lds-ripple">
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-@endif
-<!-- Preloader -->
 
 <!-- ======================================
 ******* Main Page Wrapper **********
@@ -398,32 +403,35 @@
                     <i class="fas fa-search"></i>
                 </button>
                 <div class="ni-admin-search-wrap" id="niAdminSearchWrap" hidden>
-                    <input type="search" id="niAdminSearchInput" class="form-control form-control-sm" placeholder="Search menu..." autocomplete="off">
+                    <div class="ni-admin-search-field">
+                        <input type="search" id="niAdminSearchInput" class="form-control form-control-sm" placeholder="Search menu..." autocomplete="off">
+                        <button type="button" class="ni-admin-search-clear" id="niAdminSearchClear" hidden aria-label="Clear search">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="ni-admin-search-results" id="niAdminSearchResults" hidden></div>
                 </div>
                 <ul class="ni-quick-links" id="niQuickLinks">
                     @can('portfolio check')
-                        <li><a href="{{ url('admin/portfolio') }}" class="{{ request()->is('admin/portfolio*') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> {{ __('content.portfolios') }}</a></li>
+                        <li><a href="{{ url('admin/portfolio') }}" class="{{ request()->is('admin/portfolio*') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> <span>{{ __('content.portfolios') }}</span></a></li>
                     @endcan
                     @can('features check')
-                        <li><a href="{{ url('admin/feature/create') }}" class="{{ request()->is('admin/feature*') ? 'active' : '' }}"><i class="fas fa-star"></i> {{ __('content.features') }}</a></li>
+                        <li><a href="{{ url('admin/feature/create') }}" class="{{ request()->is('admin/feature*') ? 'active' : '' }}"><i class="fas fa-star"></i> <span>{{ __('content.features') }}</span></a></li>
                     @endcan
                     @can('services check')
-                        <li><a href="{{ url('admin/service') }}" class="{{ request()->is('admin/service*') ? 'active' : '' }}"><i class="fas fa-people-carry"></i> {{ __('content.services') }}</a></li>
+                        <li><a href="{{ url('admin/service') }}" class="{{ request()->is('admin/service*') ? 'active' : '' }}"><i class="fas fa-people-carry"></i> <span>{{ __('content.services') }}</span></a></li>
                     @endcan
                     @can('blogs check')
-                        <li><a href="{{ url('admin/blog') }}" class="{{ request()->is('admin/blog*') ? 'active' : '' }}"><i class="fab fa-blogger-b"></i> {{ __('content.blogs') }}</a></li>
+                        <li><a href="{{ url('admin/blog') }}" class="{{ request()->is('admin/blog*') ? 'active' : '' }}"><i class="fab fa-blogger-b"></i> <span>{{ __('content.blogs') }}</span></a></li>
                     @endcan
                     @can('testimonials check')
-                        <li><a href="{{ url('admin/testimonial/create') }}" class="{{ request()->is('admin/testimonial*') ? 'active' : '' }}"><i class="fas fa-quote-right"></i> {{ __('content.testimonials') }}</a></li>
+                        <li><a href="{{ url('admin/testimonial/create') }}" class="{{ request()->is('admin/testimonial*') ? 'active' : '' }}"><i class="fas fa-quote-right"></i> <span>{{ __('content.testimonials') }}</span></a></li>
                     @endcan
                     @can('contact check')
-                        <li><a href="{{ url('admin/message') }}" class="{{ request()->is('admin/message*') ? 'active' : '' }}"><i class="fas fa-inbox"></i> {{ __('content.messages') }}</a></li>
+                        <li><a href="{{ url('admin/message') }}" class="{{ request()->is('admin/message*') ? 'active' : '' }}"><i class="fas fa-inbox"></i> <span>{{ __('content.messages') }}</span></a></li>
                     @endcan
-                    <li><a href="{{ url('/') }}" target="_blank"><i class="fas fa-external-link-alt"></i> {{ __('content.site') }}</a></li>
+                    <li><a href="{{ url('/') }}" target="_blank"><i class="fas fa-external-link-alt"></i> <span>{{ __('content.site') }}</span></a></li>
                 </ul>
-                <button type="button" class="badge badge-primary d-none d-lg-inline-flex align-items-center ml-2 ni-data-lang-btn" data-toggle="modal" data-target="#processedLanguageModal" title="{{ __('content.data_language') }}">
-                    {{ $data_language->language_name }}
-                </button>
             </div>
             <ul class="top-navbar-area navbar-nav navbar-nav-right">
                 <li class="nav-item d-flex align-items-center">
@@ -434,73 +442,88 @@
                 </li>
 
                 @if (count($display_dropdowns) > 0)
-                    <li class="nav-item dropdown dropdown-animate">
-                        <a class="nav-link count-indicator dropdown-toggle" id="languageDropdown" href="#" data-toggle="dropdown">
-                            <i class="fas fa-globe"></i>
+                    @php
+                        $currentLangCode = session('language_code_from_dropdown', optional($language ?? null)->language_code);
+                        $langList = $display_dropdowns->values();
+                        $currentLangIndex = $langList->search(function ($lang) use ($currentLangCode) {
+                            return strcasecmp($lang->language_code, (string) $currentLangCode) === 0;
+                        });
+                        if ($currentLangIndex === false) {
+                            $currentLangIndex = 0;
+                        }
+                        $currentLang = $langList[$currentLangIndex];
+                        $nextLang = $langList[($currentLangIndex + 1) % $langList->count()];
+                        $langShort = strtoupper(substr($currentLang->language_code, 0, 2));
+                    @endphp
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="{{ url('language/set-locale/'.$nextLang->id) }}"
+                           class="ni-lang-toggle"
+                           title="{{ __('content.languages') }}: {{ $currentLang->language_name }} → {{ $nextLang->language_name }}"
+                           aria-label="Switch language to {{ $nextLang->language_name }}">
+                            <i class="fas fa-globe" aria-hidden="true"></i>
+                            <span class="ni-lang-toggle__code">{{ $langShort }}</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="languageDropdown">
-                            <p class="mb-0 font-weight-normal float-left dropdown-header">{{ __('content.languages') }}</p>
-
-                            @foreach ($display_dropdowns as $display_dropdown)
-                                <a href="{{ url('language/set-locale/'.$display_dropdown->id) }}" class="dropdown-item preview-item d-flex align-items-center">{{ $display_dropdown->language_name }}</a>
-                            @endforeach
-
-                        </div>
                     </li>
                 @endif
 
                 <li class="nav-item dropdown dropdown-animate">
                     <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-                        <i class="far fa-bell"></i>
-                        @if (count($general_unread_message_count) > 0 || count($general_unread_comment_count) > 0)
-                            <span class="count"></span>
+                        <i class="far fa-envelope"></i>
+                        @if (($general_unread_message_count ?? 0) > 0)
+                            <span class="count">{{ $general_unread_message_count > 99 ? '99+' : $general_unread_message_count }}</span>
                         @endif
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                        <p class="mb-0 font-weight-normal float-left dropdown-header">{{ __('content.notifications') }}</p>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list ni-notify-dropdown rounded-sm" aria-labelledby="notificationDropdown">
+                        <p class="mb-0 font-weight-normal dropdown-header ni-notify-header">{{ __('content.messages') }}</p>
+
+                        <div class="ni-notify-body">
+                            @can('contact check')
+                                @forelse (($general_recent_messages ?? collect()) as $notifyMessage)
+                                    <a href="{{ url('admin/message') }}" class="dropdown-item preview-item d-flex align-items-start ni-notify-item {{ (int) $notifyMessage->read === 0 ? 'is-unread' : '' }}">
+                                        <div class="notification-thumbnail">
+                                            <div class="preview-icon bg-primary">
+                                                <i class="fas fa-envelope mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="notification-item-content">
+                                            <h6>{{ $notifyMessage->name ?: $notifyMessage->email }}</h6>
+                                            <p class="mb-0">{{ \Illuminate\Support\Str::limit($notifyMessage->subject ?: $notifyMessage->message, 60) }}</p>
+                                        </div>
+                                    </a>
+                                @empty
+                                    <div class="dropdown-item ni-notify-empty">No messages</div>
+                                @endforelse
+                            @endcan
+                        </div>
 
                         @can('contact check')
-                        <a href="{{ url('admin/message') }}" class="dropdown-item preview-item d-flex align-items-center">
-                            <div class="notification-thumbnail">
-                                <div class="preview-icon bg-primary">
-                                    <i class="ti-info-alt mx-0"></i>
-                                </div>
+                            <div class="ni-notify-footer">
+                                <a href="{{ url('admin/message') }}" class="ni-notify-count">
+                                    {{ __('content.messages') }} ({{ $general_unread_message_count ?? 0 }})
+                                </a>
+                                @if (($general_unread_message_count ?? 0) > 0)
+                                    <form action="{{ route('message.mark_all_read_update') }}" method="POST" class="ni-notify-mark-form">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="ni-notify-mark-btn">
+                                            {{ __('content.mark_all_as_read') }}
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
-                            <div class="notification-item-content">
-                                <h6>{{ __('content.messages') }}</h6>
-                                <p class="mb-0">
-                                    {{ count($general_unread_message_count) }}
-                                </p>
-                            </div>
-                        </a>
                         @endcan
-
-                        @can('comments check')
-                        <a href="{{ url('admin/comment') }}" class="dropdown-item preview-item d-flex align-items-center">
-                            <div class="notification-thumbnail">
-                                <div class="preview-icon bg-success">
-                                    <i class="ti-info-alt mx-0"></i>
-                                </div>
-                            </div>
-                            <div class="notification-item-content">
-                                <h6>{{ __('content.comments') }}</h6>
-                                <p class="mb-0">
-                                    {{ count($general_unread_comment_count) }}
-                                </p>
-                            </div>
-                        </a>
-                            @endcan
-
                     </div>
                 </li>
 
                 <li class="nav-item nav-profile dropdown dropdown-animate">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                        @if(Auth::user()->profile_photo_path != null)
-                            <img src="{{ asset('uploads/img/profile/'.Auth::user()->profile_photo_path) }}" class="img-profile rounded-circle" alt="profile image">
-                        @else
-                            <img src="{{ asset('uploads/img/dummy/128x128.jpg') }}" class="img-profile rounded-circle" alt="profile image">
-                        @endif
+                        @php
+                            $defaultAvatar = asset('uploads/img/dummy/128x128.jpg');
+                            $profilePhoto = Auth::user()->profile_photo_path;
+                            $profilePath = $profilePhoto ? public_path('uploads/img/profile/'.$profilePhoto) : null;
+                            $profileSrc = ($profilePath && file_exists($profilePath)) ? asset('uploads/img/profile/'.$profilePhoto) : $defaultAvatar;
+                        @endphp
+                        <img src="{{ $profileSrc }}" class="img-profile rounded-circle" alt="profile image" onerror="this.onerror=null;this.src='{{ $defaultAvatar }}';">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown profile-top" aria-labelledby="profileDropdown">
                         <a href="{{ url('admin/profile/edit') }}" class="dropdown-item"><i class="fas fa-user profile-icon" aria-hidden="true"></i> {{ __('content.profile') }}</a>
@@ -510,7 +533,7 @@
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                            <i class="fas fa-link profile-icon" aria-hidden="true"></i>
+                            <i class="fas fa-sign-out-alt profile-icon" aria-hidden="true"></i>
                             {{ __('content.logout') }}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -519,95 +542,40 @@
 
                     </div>
                 </li>
+                <li class="nav-item align-items-center ni-menu-toggle-item">
+                    <button class="navbar-toggler navbar-toggler-right ni-menu-burger" type="button" data-toggle="offcanvas" aria-label="Open menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </li>
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-xl-none align-self-center" type="button" data-toggle="offcanvas">
-                <span class="ti-layout-grid2"></span>
-            </button>
         </div>
     </nav>
 
+    <div class="ni-sidebar-backdrop" id="niSidebarBackdrop" aria-hidden="true"></div>
     <div class="container-fluid page-body-wrapper">
         <!-- Side Menu area -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar" aria-label="Admin menu">
             <div class="ni-sidebar-brand" id="niSidebarBrand">
                 <a href="{{ url('dashboard') }}" title="Dashboard">
                     <img src="{{ $sidebarLogoSrc }}" class="admin-sidebar-logo" alt="Netigian IT" width="210" height="52"
                          onerror="this.closest('.ni-sidebar-brand').classList.add('is-fallback');">
                     <span class="ni-sidebar-brand-text">Netigian IT</span>
                 </a>
+                <button type="button" class="ni-sidebar-close d-xl-none" data-dismiss="offcanvas" aria-label="Close menu">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
             </div>
             <ul class="nav">
-                <li class="nav-item ni-nav-section">
-                    <span class="sidebar-menu-title">Overview</span>
-                </li>
                 <li class="nav-item {{ (request()->is('dashboard')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('dashboard') }}">
                         <i class="fas fa-home menu-icon"></i>
                         <span class="menu-title">{{ __('content.dashboard') }}</span>
                     </a>
                 </li>
-                <li class="nav-item ni-nav-section">
-                    <span class="sidebar-menu-title">Content</span>
-                </li>
-                @hasrole ('super-admin')
-                <li class="nav-item {{ (request()->is('admin/admin-role') ||
-                                        request()->is('admin/admin-role/create') ||
-                                        request()->is('admin/admin-role/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" data-toggle="collapse" href="#admin_roles" aria-expanded="false" aria-controls="admin_roles">
-                        <i class="fas fa-user-lock menu-icon"></i>
-                        <span class="menu-title">{{ __('content.admin_role_manage') }}</span>
-                        <i class="ti-angle-right"></i>
-                    </a>
-                    <div class="collapse {{ (request()->is('admin/admin-role') ||
-                                        request()->is('admin/admin-role/create') ||
-                                        request()->is('admin/admin-role/*/edit')) ? 'show' : '' }}" id="admin_roles">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role/create')) ? 'active' : '' }}" href="{{ url('admin/admin-role/create') }}">{{ __('content.add_admin_role') }}</a></li>
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role')) ? 'active' : '' }}" href="{{ url('admin/admin-role') }}">{{ __('content.admin_roles') }}</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item {{ (request()->is('admin/admin-user') ||
-                                        request()->is('admin/admin-user/create') ||
-                                        request()->is('admin/admin-user/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" data-toggle="collapse" href="#admins" aria-expanded="false" aria-controls="admins">
-                        <i class="fas fa-users menu-icon"></i>
-                        <span class="menu-title">{{ __('content.admin_manage') }}</span>
-                        <i class="ti-angle-right"></i>
-                    </a>
-                    <div class="collapse {{ (request()->is('admin/admin-user') ||
-                                        request()->is('admin/admin-user/create') ||
-                                        request()->is('admin/admin-user/*/edit')) ? 'show' : '' }}" id="admins">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user/create')) ? 'active' : '' }}" href="{{ url('admin/admin-user/create') }}">{{ __('content.add_admin_user') }}</a></li>
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user')) ? 'active' : '' }}" href="{{ url('admin/admin-user') }}">{{ __('content.all_admin') }}</a></li>
-                        </ul>
-                    </div>
-                </li>
-                @endhasrole
-                @can('uploads check')
-                    <li class="nav-item  {{ (request()->is('admin/photo/create') ||
-                                             request()->is('admin/photo/*/edit')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/photo/create') }}">
-                            <i class="fas fa-cloud-upload-alt menu-icon"></i>
-                            <span class="menu-title">{{ __('content.uploads') }}</span>
-                        </a>
-                    </li>
-                @endcan
-                @can('subscribe check')
-                    <li class="nav-item {{ (request()->is('admin/subscribe/create')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#subscribers" aria-expanded="false" aria-controls="subscribers">
-                            <i class="fas fa-at menu-icon"></i>
-                            <span class="menu-title">{{ __('content.subscribers') }}</span>
-                            <i class="ti-angle-right"></i>
-                        </a>
-                        <div class="collapse {{ (request()->is('admin/subscribe/create')) ? 'show' : '' }}" id="subscribers">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/subscribe/create')) ? 'active' : '' }}" href="{{ url('admin/subscribe/create') }}">{{ __('content.subscribers') }}</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                @endcan
                 @can('banner check')
                     <li class="nav-item {{ (request()->is('admin/fixed-content/create') ||
                                             request()->is('admin/slider/create') ||
@@ -615,7 +583,7 @@
                                             request()->is('admin/video/create') ||
                                             request()->is('admin/homepage-version/create')) ? 'active' : '' }}">
                         <a class="nav-link" data-toggle="collapse" href="#advanced" aria-expanded="false" aria-controls="advanced">
-                            <i class="fas fa-home menu-icon"></i>
+                            <i class="fas fa-desktop menu-icon"></i>
                             <span class="menu-title">{{ __('content.banner') }}</span>
                             <i class="ti-angle-right"></i>
                         </a>
@@ -632,41 +600,6 @@
                             </ul>
                         </div>
                     </li>
-                @endcan
-                @can('blogs check')
-                    <li class="nav-item {{ (request()->is('admin/blog') ||
-                                            request()->is('admin/blog/create') ||
-                                            request()->is('admin/blog/*/edit') ||
-                                            request()->is('admin/category/create') ||
-                                            request()->is('admin/category/*/edit') ||
-                                            request()->is('admin/blog-paginate/create')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#blogs" aria-expanded="false" aria-controls="blogs">
-                            <i class="fab fa-blogger-b menu-icon"></i>
-                            <span class="menu-title">{{ __('content.blogs') }}</span>
-                            <i class="ti-angle-right"></i>
-                        </a>
-                        <div class="collapse {{ (request()->is('admin/blog') ||
-                                                  request()->is('admin/blog/create') ||
-                                                  request()->is('admin/blog/*/edit') ||
-                                                  request()->is('admin/category/create') ||
-                                                  request()->is('admin/category/*/edit') ||
-                                                  request()->is('admin/blog-paginate/create')) ? 'show' : '' }}" id="blogs">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/category/create')) ? 'active' : '' }}" href="{{ url('admin/category/create') }}">{{ __('content.categories') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog/create')) ? 'active' : '' }}" href="{{ url('admin/blog/create') }}">{{ __('content.add_blog') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog')) ? 'active' : '' }}" href="{{ url('admin/blog') }}">{{ __('content.blogs') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog-paginate/create')) ? 'active' : '' }}" href="{{ url('admin/blog-paginate/create') }}">{{ __('content.blog_paginate') }}</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                @endcan
-                @can('external url check')
-                <li class="nav-item  {{ (request()->is('admin/external-url/create')) ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('admin/external-url/create') }}">
-                        <i class="fas fa-external-link-square-alt menu-icon"></i>
-                        <span class="menu-title">{{ __('content.external_url') }}</span>
-                    </a>
-                </li>
                 @endcan
                 @can('about us check')
                 <li class="nav-item  {{ (request()->is('admin/about/create') ||
@@ -695,7 +628,7 @@
                                             request()->is('admin/service-paginate/create') ||
                                             request()->is('admin/service-background-image/create')) ? 'active' : '' }}">
                         <a class="nav-link" data-toggle="collapse" href="#services" aria-expanded="false" aria-controls="services">
-                            <i class="fas fa-people-carry menu-icon"></i>
+                            <i class="fas fa-cogs menu-icon"></i>
                             <span class="menu-title">{{ __('content.services') }}</span>
                             <i class="ti-angle-right"></i>
                         </a>
@@ -777,7 +710,7 @@
                 <li class="nav-item  {{ (request()->is('admin/team/create') ||
                                          request()->is('admin/team/*/edit')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('admin/team/create') }}">
-                        <i class="fas fa-people-carry menu-icon"></i>
+                        <i class="fas fa-user-friends menu-icon"></i>
                         <span class="menu-title">{{ __('content.teams') }}</span>
                     </a>
                 </li>
@@ -791,14 +724,31 @@
                     </a>
                 </li>
                 @endcan
-                @can('pages check')
-                    <li class="nav-item {{ (request()->is('admin/page') ||
-                                            request()->is('admin/page/create') ||
-                                            request()->is('admin/page/*/edit')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/page') }}">
-                            <i class="fas fa-file-alt menu-icon"></i>
-                            <span class="menu-title">{{ __('content.pages') }}</span>
+                @can('blogs check')
+                    <li class="nav-item {{ (request()->is('admin/blog') ||
+                                            request()->is('admin/blog/create') ||
+                                            request()->is('admin/blog/*/edit') ||
+                                            request()->is('admin/category/create') ||
+                                            request()->is('admin/category/*/edit') ||
+                                            request()->is('admin/blog-paginate/create')) ? 'active' : '' }}">
+                        <a class="nav-link" data-toggle="collapse" href="#blogs" aria-expanded="false" aria-controls="blogs">
+                            <i class="fab fa-blogger-b menu-icon"></i>
+                            <span class="menu-title">{{ __('content.blogs') }}</span>
+                            <i class="ti-angle-right"></i>
                         </a>
+                        <div class="collapse {{ (request()->is('admin/blog') ||
+                                                  request()->is('admin/blog/create') ||
+                                                  request()->is('admin/blog/*/edit') ||
+                                                  request()->is('admin/category/create') ||
+                                                  request()->is('admin/category/*/edit') ||
+                                                  request()->is('admin/blog-paginate/create')) ? 'show' : '' }}" id="blogs">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/category/create')) ? 'active' : '' }}" href="{{ url('admin/category/create') }}">{{ __('content.categories') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog/create')) ? 'active' : '' }}" href="{{ url('admin/blog/create') }}">{{ __('content.add_blog') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog')) ? 'active' : '' }}" href="{{ url('admin/blog') }}">{{ __('content.blogs') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog-paginate/create')) ? 'active' : '' }}" href="{{ url('admin/blog-paginate/create') }}">{{ __('content.blog_paginate') }}</a></li>
+                            </ul>
+                        </div>
                     </li>
                 @endcan
                 @can('contact check')
@@ -830,6 +780,85 @@
                         </div>
                     </li>
                 @endcan
+
+                @can('pages check')
+                    <li class="nav-item {{ (request()->is('admin/page') ||
+                                            request()->is('admin/page/create') ||
+                                            request()->is('admin/page/*/edit')) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/page') }}">
+                            <i class="fas fa-file-alt menu-icon"></i>
+                            <span class="menu-title">{{ __('content.pages') }}</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('external url check')
+                <li class="nav-item  {{ (request()->is('admin/external-url/create')) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('admin/external-url/create') }}">
+                        <i class="fas fa-external-link-square-alt menu-icon"></i>
+                        <span class="menu-title">{{ __('content.external_url') }}</span>
+                    </a>
+                </li>
+                @endcan
+                @can('uploads check')
+                    <li class="nav-item  {{ (request()->is('admin/photo/create') ||
+                                             request()->is('admin/photo/*/edit')) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/photo/create') }}">
+                            <i class="fas fa-cloud-upload-alt menu-icon"></i>
+                            <span class="menu-title">{{ __('content.uploads') }}</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('subscribe check')
+                    <li class="nav-item {{ (request()->is('admin/subscribe/create')) ? 'active' : '' }}">
+                        <a class="nav-link" data-toggle="collapse" href="#subscribers" aria-expanded="false" aria-controls="subscribers">
+                            <i class="fas fa-at menu-icon"></i>
+                            <span class="menu-title">{{ __('content.subscribers') }}</span>
+                            <i class="ti-angle-right"></i>
+                        </a>
+                        <div class="collapse {{ (request()->is('admin/subscribe/create')) ? 'show' : '' }}" id="subscribers">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/subscribe/create')) ? 'active' : '' }}" href="{{ url('admin/subscribe/create') }}">{{ __('content.subscribers') }}</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
+
+                @hasrole ('super-admin')
+                <li class="nav-item {{ (request()->is('admin/admin-role') ||
+                                        request()->is('admin/admin-role/create') ||
+                                        request()->is('admin/admin-role/*/edit')) ? 'active' : '' }}">
+                    <a class="nav-link" data-toggle="collapse" href="#admin_roles" aria-expanded="false" aria-controls="admin_roles">
+                        <i class="fas fa-user-lock menu-icon"></i>
+                        <span class="menu-title">{{ __('content.admin_role_manage') }}</span>
+                        <i class="ti-angle-right"></i>
+                    </a>
+                    <div class="collapse {{ (request()->is('admin/admin-role') ||
+                                        request()->is('admin/admin-role/create') ||
+                                        request()->is('admin/admin-role/*/edit')) ? 'show' : '' }}" id="admin_roles">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role/create')) ? 'active' : '' }}" href="{{ url('admin/admin-role/create') }}">{{ __('content.add_admin_role') }}</a></li>
+                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role')) ? 'active' : '' }}" href="{{ url('admin/admin-role') }}">{{ __('content.admin_roles') }}</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item {{ (request()->is('admin/admin-user') ||
+                                        request()->is('admin/admin-user/create') ||
+                                        request()->is('admin/admin-user/*/edit')) ? 'active' : '' }}">
+                    <a class="nav-link" data-toggle="collapse" href="#admins" aria-expanded="false" aria-controls="admins">
+                        <i class="fas fa-users menu-icon"></i>
+                        <span class="menu-title">{{ __('content.admin_manage') }}</span>
+                        <i class="ti-angle-right"></i>
+                    </a>
+                    <div class="collapse {{ (request()->is('admin/admin-user') ||
+                                        request()->is('admin/admin-user/create') ||
+                                        request()->is('admin/admin-user/*/edit')) ? 'show' : '' }}" id="admins">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user/create')) ? 'active' : '' }}" href="{{ url('admin/admin-user/create') }}">{{ __('content.add_admin_user') }}</a></li>
+                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user')) ? 'active' : '' }}" href="{{ url('admin/admin-user') }}">{{ __('content.all_admin') }}</a></li>
+                        </ul>
+                    </div>
+                </li>
+                @endhasrole
                 @can('settings check')
                     <li class="nav-item {{ (request()->is('admin/site-info/create') ||
                                             request()->is('admin/site-image/create') ||
@@ -890,6 +919,11 @@
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="container-fluid">
+                    @unless(trim($__env->yieldContent('hide_page_title')))
+                        @include('admin.components.page-title', [
+                            'pageTitle' => trim($__env->yieldContent('page_title')),
+                        ])
+                    @endunless
                     @yield('content')
                 </div>
             </div>
@@ -937,6 +971,26 @@
 
 <!-- Plugins Js -->
 <script src="{{ asset('assets/admin/side_menu/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/admin/side_menu/vendor/toastr/toastr.min.js') }}"></script>
+<script>
+    if (typeof toastr !== 'undefined') {
+        toastr.options = {
+            closeButton: true,
+            newestOnTop: true,
+            progressBar: true,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            showDuration: 300,
+            hideDuration: 300,
+            timeOut: 4200,
+            extendedTimeOut: 1600,
+            showEasing: 'swing',
+            hideEasing: 'linear',
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut'
+        };
+    }
+</script>
 <script src="{{ asset('assets/admin/side_menu/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/admin/side_menu/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/admin/side_menu/js/bundle.js') }}"></script>
@@ -1002,7 +1056,11 @@
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
-        alert("{{ __('content.copied_text') }}" + ":" + copyText.value);
+        if (typeof toastr !== 'undefined') {
+            toastr.success("{{ __('content.copied_text') }}" + ": " + copyText.value);
+        } else {
+            alert("{{ __('content.copied_text') }}" + ":" + copyText.value);
+        }
     }
 
     function copyLink(id) {
@@ -1010,7 +1068,11 @@
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
-        alert("{{ __('content.copied_text') }}" + ":" + copyText.value);
+        if (typeof toastr !== 'undefined') {
+            toastr.success("{{ __('content.copied_text') }}" + ": " + copyText.value);
+        } else {
+            alert("{{ __('content.copied_text') }}" + ":" + copyText.value);
+        }
     }
 
     function showHideMetaTag() {
@@ -1064,54 +1126,121 @@
     var toggle = document.getElementById('niAdminSearchToggle');
     var wrap = document.getElementById('niAdminSearchWrap');
     var input = document.getElementById('niAdminSearchInput');
+    var clearBtn = document.getElementById('niAdminSearchClear');
+    var results = document.getElementById('niAdminSearchResults');
     var quickLinks = document.getElementById('niQuickLinks');
-    if (!toggle || !wrap || !input) return;
+    if (!toggle || !wrap || !input || !results) return;
+
+    var menuIndex = null;
+
+    function closeSearch() {
+        wrap.setAttribute('hidden', '');
+        toggle.removeAttribute('hidden');
+        if (quickLinks) quickLinks.style.display = '';
+        input.value = '';
+        syncClear();
+        hideResults();
+    }
+
+    function openSearch() {
+        wrap.removeAttribute('hidden');
+        toggle.setAttribute('hidden', '');
+        if (quickLinks) quickLinks.style.display = 'none';
+        input.focus();
+    }
+
+    function syncClear() {
+        if (!clearBtn) return;
+        if (input.value.trim()) {
+            clearBtn.removeAttribute('hidden');
+        } else {
+            clearBtn.setAttribute('hidden', '');
+        }
+    }
+
+    function hideResults() {
+        results.setAttribute('hidden', '');
+        results.innerHTML = '';
+    }
+
+    function getMenuItems() {
+        if (menuIndex) return menuIndex;
+        var seen = {};
+        var items = [];
+        document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
+            var href = (link.getAttribute('href') || '').trim();
+            if (!href || href === '#' || href.charAt(0) === '#') return;
+            if (seen[href]) return;
+            var text = (link.textContent || '').replace(/\s+/g, ' ').trim();
+            if (!text) return;
+            seen[href] = true;
+            var icon = link.querySelector('i');
+            items.push({
+                href: href,
+                text: text,
+                iconHtml: icon ? icon.outerHTML : '<i class="fas fa-link" aria-hidden="true"></i>'
+            });
+        });
+        menuIndex = items;
+        return items;
+    }
+
+    function renderResults(query) {
+        var q = (query || '').toLowerCase().trim();
+        syncClear();
+        if (!q) {
+            hideResults();
+            return;
+        }
+
+        var matches = getMenuItems().filter(function (item) {
+            return item.text.toLowerCase().indexOf(q) !== -1;
+        });
+
+        if (!matches.length) {
+            results.innerHTML = '<div class="ni-admin-search-empty">No results</div>';
+            results.removeAttribute('hidden');
+            return;
+        }
+
+        results.innerHTML = matches.map(function (item) {
+            return '<a href="' + item.href + '">' + item.iconHtml + '<span>' + item.text + '</span></a>';
+        }).join('');
+        results.removeAttribute('hidden');
+    }
 
     toggle.addEventListener('click', function () {
-        var opening = wrap.hasAttribute('hidden');
-        if (opening) {
-            wrap.removeAttribute('hidden');
-            if (quickLinks) quickLinks.style.display = 'none';
-            input.focus();
+        if (wrap.hasAttribute('hidden')) {
+            openSearch();
         } else {
-            wrap.setAttribute('hidden', '');
-            if (quickLinks) quickLinks.style.display = '';
-            input.value = '';
-            filterSidebar('');
+            closeSearch();
         }
     });
 
     input.addEventListener('input', function () {
-        filterSidebar(input.value);
+        renderResults(input.value);
     });
 
     input.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-            wrap.setAttribute('hidden', '');
-            if (quickLinks) quickLinks.style.display = '';
-            input.value = '';
-            filterSidebar('');
+            closeSearch();
         }
     });
 
-    function filterSidebar(query) {
-        var q = (query || '').toLowerCase().trim();
-        var items = document.querySelectorAll('#sidebar .nav > .nav-item');
-        items.forEach(function (item) {
-            if (item.classList.contains('ni-nav-section')) {
-                item.style.display = q ? 'none' : '';
-                return;
-            }
-            var title = item.querySelector('.menu-title');
-            var text = title ? title.textContent.toLowerCase() : '';
-            var sub = item.querySelectorAll('.sub-menu .nav-link');
-            var subMatch = false;
-            sub.forEach(function (link) {
-                if (link.textContent.toLowerCase().indexOf(q) !== -1) subMatch = true;
-            });
-            item.style.display = (!q || text.indexOf(q) !== -1 || subMatch) ? '' : 'none';
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+            input.value = '';
+            hideResults();
+            syncClear();
+            input.focus();
         });
     }
+
+    document.addEventListener('click', function (e) {
+        if (wrap.hasAttribute('hidden')) return;
+        if (wrap.contains(e.target) || toggle.contains(e.target)) return;
+        closeSearch();
+    });
 })();
 </script>
 

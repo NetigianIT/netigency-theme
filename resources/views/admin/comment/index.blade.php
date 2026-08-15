@@ -23,7 +23,7 @@
                     </div>
 
                     @if (count($comments) > 0)
-                        <table id="basic-datatable" class="table table-striped dt-responsive w-100">
+                        <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -31,7 +31,7 @@
                                 <th>{{ __('content.email') }}</th>
                                 <th>{{ __('content.comment') }}</th>
                                 <th>{{ __('content.approval_status') }}</th>
-                                <th>{{ __('content.action') }}</th>
+                                <th class="all text-center">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
 
@@ -40,9 +40,15 @@
                             @foreach ($comments as $comment)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td><a href="{{ url('blog/'.$comment->blog->slug) }}" target="_blank">{{ $comment->name }}</a></td>
-                                    <td>{{ $comment->email }}</td>
-                                    <td>{{ $comment->comment }}</td>
+                                    <td>
+                                        <a href="{{ url('blog/'.$comment->blog->slug) }}" target="_blank" class="d-inline-block text-truncate ni-comment-cell" title="{{ $comment->name }}">{{ $comment->name }}</a>
+                                    </td>
+                                    <td>
+                                        <span class="d-inline-block text-truncate ni-comment-cell" title="{{ $comment->email }}">{{ $comment->email }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="d-inline-block text-truncate ni-comment-cell" title="{{ $comment->comment }}">{{ $comment->comment }}</span>
+                                    </td>
                                     <td>
                                         @if ($comment->approval == 0)
                                             <span>{{ __('content.pending_approval') }}</span>
@@ -50,19 +56,19 @@
                                             <span>{{ __('content.approval') }}</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <div>
+                                    <td class="all text-nowrap text-center">
+                                        <div class="d-inline-flex align-items-center">
                                             @if ($comment->approval == 0)
                                                 <form class="d-inline" action="{{ route('comment-section.update', $comment->id) }}" method="POST">
                                                     @method('PUT')
                                                     @csrf
-                                                    <button type="submit" data-toggle="tooltip"  class="btn btn-primary mr-2 pt-2 pb-2 pr-3 pl-3" data-original-title="{{ __('content.mark') }}">
-                                                        <i class="fas fa-bookmark"></i>
+                                                    <button type="submit" data-toggle="tooltip" class="btn btn-link p-0 mr-2 ni-action-icon ni-action-approve" data-original-title="{{ __('content.mark') }}">
+                                                        <i class="fas fa-bookmark font-18"></i>
                                                     </button>
                                                 </form>
                                             @endif
-                                            <a href="#" data-toggle="modal" data-target="#deleteModal{{ $comment->id }}">
-                                                <i class="fa fa-trash text-danger font-18"></i>
+                                            <a href="#" class="ni-action-icon ni-action-delete" data-toggle="modal" data-target="#deleteModal{{ $comment->id }}" title="{{ __('content.delete') }}">
+                                                <i class="fa fa-trash font-18"></i>
                                             </a>
                                         </div>
                                     </td>

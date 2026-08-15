@@ -96,10 +96,13 @@ class HomeController extends Controller
             ->where('status', 1)
             ->get();
         $portfolio_section = PortfolioSection::where('language_id', $language->id)->first();
-        $portfolios = Portfolio::join("portfolio_categories", 'portfolio_categories.id', '=', 'portfolios.category_id')
-            ->where('portfolios.language_id', $language->id)
-            ->where('portfolio_categories.status', 1)
-            ->orderBy('portfolios.id', 'desc')
+        $portfolios = Portfolio::with('portfolio_category')
+            ->where('language_id', $language->id)
+            ->where('status', 1)
+            ->whereHas('portfolio_category', function ($query) {
+                $query->where('status', 1);
+            })
+            ->orderBy('order', 'asc')
             ->get();
 
         $team_section = TeamSection::where('language_id', $language->id)->first();

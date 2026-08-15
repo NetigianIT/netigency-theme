@@ -103,10 +103,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (Schema::hasTable('messages')) {
-            // Retrieve messages
-            $general_unread_messages = Message::where('read', 0)->orderBy('id', 'desc')->take(4)->get();
-            $general_unread_message_count = Message::where('read', 0)->get();
-            View::share('general_unread_messages', $general_unread_messages);
+            $general_recent_messages = Message::orderBy('id', 'desc')->take(10)->get();
+            $general_unread_message_count = Message::where('read', 0)->count();
+            View::share('general_recent_messages', $general_recent_messages);
             View::share('general_unread_message_count', $general_unread_message_count);
         }
 

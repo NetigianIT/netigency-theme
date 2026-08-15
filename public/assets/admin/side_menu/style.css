@@ -1374,14 +1374,8 @@ div.tagsinput span.tag a {
   display: flex !important; }
 
 .align-self-stretch,
-.navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-settings,
-.navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right {
+.navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-settings {
   align-self: stretch !important; }
-
-.align-items-stretch,
-.email-wrapper .message-body .attachments-sections ul li,
-.navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right {
-  align-items: stretch !important; }
 
 /* Sidebar */
 .sidebar {
@@ -3924,9 +3918,6 @@ div.tagsinput span.tag a {
     display: none; } }
 .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right {
   margin-left: auto; }
-
-.navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right {
-  align-self: stretch !important; }
 
 .navbar .navbar-menu-wrapper .navbar-nav {
   flex-direction: row !important; }

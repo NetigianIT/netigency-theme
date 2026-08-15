@@ -252,6 +252,8 @@ if (isset($panel_keywords)) {
         'value' => 'Value',
         'delete_selected' => 'Delete selected?',
         'comments' => 'Comments',
+        'comment' => 'Comment',
+        'approval_status' => 'Approval Status',
         'homepage_versions' => 'Homepage Versions',
         'choose_version' => 'Choose Version',
         'if_you_choose_no' => 'If you choose No, it will appear in the footer section.',

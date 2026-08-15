@@ -100,9 +100,16 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=23">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=43">
     <style>
         .hero-social-list{display:none!important}
+        .contact-form-wrap{
+            padding:32px 28px!important;
+            border-radius:12px!important;
+        }
+        @media (max-width:767.98px){
+            .contact-form-wrap{padding:24px 18px!important}
+        }
         .contact-form-wrap .contact-form-group .form-control,
         .contact-form-wrap .contact-form-group .form-control:focus{
             background:transparent!important;
@@ -111,15 +118,17 @@
             border:1px solid rgba(255,255,255,.18)!important;
             height:auto!important;
             min-height:56px!important;
-            padding:16px 24px!important;
+            padding:16px 18px!important;
             line-height:1.5!important;
             box-sizing:border-box!important;
+            border-radius:8px!important;
         }
         .contact-form-wrap .contact-form-group textarea.form-control,
         .contact-form-wrap .contact-form-group textarea.form-control:focus{
             min-height:160px!important;
-            padding:18px 24px!important;
+            padding:18px 18px!important;
             resize:vertical!important;
+            border-radius:8px!important;
         }
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control,
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control:focus{
@@ -135,13 +144,15 @@
             background-color:var(--ni-section-bg,#f4faf7)!important;
         }
         .counters-section-bg{display:none!important}
-        /* Compact nav; keep logo size */
+        /* Taller nav; single logo visible */
         .header,.header-shrink{padding:0!important}
-        .header .navbar{min-height:0!important;align-items:center!important;padding-top:4px!important;padding-bottom:4px!important}
-        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:8px 14px!important;line-height:24px!important}
+        .header .navbar{min-height:84px!important;align-items:center!important;padding-top:12px!important;padding-bottom:12px!important}
+        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:14px 16px!important;line-height:28px!important}
         .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important}
-        .header .navbar-brand img{height:84px!important;max-height:84px!important;width:auto!important;max-width:none!important}
-        @media (max-width:991.98px){.header .navbar-brand img{height:68px!important;max-height:68px!important}}
+        .header .navbar-brand img{height:64px!important;max-height:64px!important;width:auto!important;max-width:none!important}
+        @media (max-width:991.98px){.header .navbar{min-height:64px!important;padding-top:8px!important;padding-bottom:8px!important}.header .navbar-brand img{height:48px!important;max-height:48px!important}}
+        .header .navbar-brand img.logo-normal{display:none!important}
+        .header .navbar-brand img.logo-transparent{display:block!important}
     </style>
 
 @if (isset($google_analytic))
@@ -318,7 +329,7 @@
                                         <div class="hero-img">
                                             <div class="border-line-outer">
                                                 <div class="border-line-inner">
-                                                    <img src="{{ asset('uploads/img/dummy/354x354.jpg') }}" title="ajency image" class="img-fluid">
+                                                    <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="ajency image" class="img-fluid">
                                                 </div>
                                             </div>
                                         </div>
@@ -399,7 +410,7 @@
                                         <div class="hero-img">
                                             <div class="border-line-outer">
                                                 <div class="border-line-inner">
-                                                    <img src="{{ asset('uploads/img/dummy/354x354.jpg') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
+                                                    <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
                                                 </div>
                                             </div>
                                         </div>
@@ -615,7 +626,7 @@
                                     <div class="hero-img">
                                         <div class="border-line-outer">
                                             <div class="border-line-inner">
-                                                <img src="{{ asset('uploads/img/dummy/354x354.jpg') }}" title="ajency image" class="img-fluid">
+                                                <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="ajency image" class="img-fluid">
                                             </div>
                                         </div>
                                     </div>
@@ -697,7 +708,7 @@
                                     <div class="hero-img">
                                         <div class="border-line-outer">
                                             <div class="border-line-inner">
-                                                <img src="{{ asset('uploads/img/dummy/354x354.jpg') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
+                                                <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
                                             </div>
                                         </div>
                                     </div>
@@ -908,7 +919,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
-                                <img src="{{ asset('uploads/img/dummy/480x600.jpg') }}" alt="About image" title="About image" class="img-fluid">
+                                <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
                                 <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0"><i class="fa fa-play"></i></a>
                                 <div class="video-border-line"></div>
                             </div>
@@ -1425,7 +1436,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/328x328.jpg') }}" class="img-fluid" alt="How i work">
+                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="How i work">
                                 </div>
                                 <div class="text">
                                     <h5>Thinking</h5>
@@ -1439,7 +1450,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/328x328.jpg') }}" class="img-fluid" alt="How i work">
+                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="How i work">
                                 </div>
                                 <div class="text">
                                     <h5>Research</h5>
@@ -1453,7 +1464,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/328x328.jpg') }}" class="img-fluid" alt="How i work">
+                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="How i work">
                                 </div>
                                 <div class="text">
                                     <h5>Design</h5>
@@ -1517,7 +1528,7 @@
                     <div class="row">
                         <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-img">
-                                <img src="{{ asset('uploads/img/dummy/480x600.jpg') }}" alt="About image" title="About image" class="img-fluid">
+                                <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
                                 <span class="icon-check"><i class="fa fa-check"></i></span>
                                 <div class="icon-border-line"></div>
                             </div>
@@ -1630,25 +1641,6 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="call-to-action">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <div class="call-to-action-inner">
-                                    <h2>{{ __('frontend.do_you_need_a_new_project') }}</h2>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="call-to-action-btn">
-                                    <a href="#" data-scroll-nav="7" class="white-btn">
-                                        <span class="text">{{ __('frontend.get_in_touch') }}</span>
-                                        <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </section>
         @else
             <section class="section pb-0 bg-primary-light" id="porfolio" data-scroll-index="4">
@@ -1656,152 +1648,51 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="section-heading-left">
-                                <span>Works</span>
-                                <h2>Our Works</h2>
+                                <span>Portfolio</span>
+                                <h2>Selected Projects</h2>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="portfolio-filter">
                                 <a href="#" data-portfolio-filter="*" class="current">All</a>
-                                <a href="#" data-portfolio-filter=".mockup">Mockup</a>
-                                <a href="#" data-portfolio-filter=".ui">UI/UX</a>
+                                <a href="#" data-portfolio-filter=".ecommerce">Ecommerce</a>
+                                <a href="#" data-portfolio-filter=".web-app">Web App</a>
+                                <a href="#" data-portfolio-filter=".ui-ux">UI / UX</a>
                             </div>
                         </div>
                     </div>
                     <div class="row portfolio-grid" id="portfolio-masonry-wrap">
-                        <div class="col-md-6 col-lg-4 portfolio-item mockup">
-                            <div class="portfolio-item-inner">
-                                <div class="portfolio-item-img">
-                                    <img src="{{ asset('uploads/img/dummy/600x600.jpg') }}" alt="Portfolio image" class="img-fluid">
-                                    <a href="{{ asset('uploads/img/dummy/600x600.jpg') }}" class="portfolio-zoom-link">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                                <div class="body">
-                                    <div class="portfolio-details">
-                                        <span>Mockup</span>
-                                        <h5>Card Mockup</h5>
+                        @php
+                            $demoProjects = [
+                                ['slug' => 'ecommerce', 'cat' => 'Ecommerce', 'title' => 'Nova Commerce', 'img' => 'demo-nova-commerce.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Pulse Finance', 'img' => 'demo-pulse-finance.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Atlas Trails', 'img' => 'demo-atlas-trails.png'],
+                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Verdant Care', 'img' => 'demo-verdant-care.png'],
+                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Studio Arc', 'img' => 'demo-studio-arc.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Beacon LMS', 'img' => 'demo-beacon-lms.png'],
+                            ];
+                        @endphp
+                        @foreach ($demoProjects as $demo)
+                            <div class="col-md-6 col-lg-4 portfolio-item {{ $demo['slug'] }}">
+                                <div class="portfolio-item-inner">
+                                    <div class="portfolio-item-img">
+                                        <img src="{{ asset('uploads/img/portfolio/'.$demo['img']) }}" alt="{{ $demo['title'] }}" class="img-fluid">
+                                        <a href="{{ asset('uploads/img/portfolio/'.$demo['img']) }}" class="portfolio-zoom-link">
+                                            <i class="fas fa-search"></i>
+                                        </a>
                                     </div>
-                                    <a href="#" class="portfolio-link">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4 portfolio-item mockup">
-                            <div class="portfolio-item-inner">
-                                <div class="portfolio-item-img">
-                                    <img src="{{ asset('uploads/img/dummy/600x600.jpg') }}" alt="Portfolio image" class="img-fluid">
-                                    <a href="{{ asset('uploads/img/dummy/600x600.jpg') }}" class="portfolio-zoom-link">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                                <div class="body">
-                                    <div class="portfolio-details">
-                                        <span>Mockup</span>
-                                        <h5>Mockup Box</h5>
+                                    <div class="body">
+                                        <div class="portfolio-details">
+                                            <span>{{ $demo['cat'] }}</span>
+                                            <h5>{{ $demo['title'] }}</h5>
+                                        </div>
+                                        <a href="#" class="portfolio-link">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </a>
                                     </div>
-                                    <a href="#" class="portfolio-link">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4 portfolio-item mockup">
-                            <div class="portfolio-item-inner">
-                                <div class="portfolio-item-img">
-                                    <img src="{{ asset('uploads/img/dummy/600x600.jpg') }}" alt="Portfolio image" class="img-fluid">
-                                    <a href="{{ asset('uploads/img/dummy/600x600.jpg') }}" class="portfolio-zoom-link">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                                <div class="body">
-                                    <div class="portfolio-details">
-                                        <span>Mockup</span>
-                                        <h5>Coffee Mockup</h5>
-                                    </div>
-                                    <a href="#" class="portfolio-link">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4 portfolio-item mockup">
-                            <div class="portfolio-item-inner">
-                                <div class="portfolio-item-img">
-                                    <img src="{{ asset('uploads/img/dummy/600x600.jpg') }}" alt="Portfolio image" class="img-fluid">
-                                    <a href="{{ asset('uploads/img/dummy/600x600.jpg') }}" class="portfolio-zoom-link">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                                <div class="body">
-                                    <div class="portfolio-details">
-                                        <span>Mockup</span>
-                                        <h5>Square Box</h5>
-                                    </div>
-                                    <a href="#" class="portfolio-link">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4 portfolio-item ui">
-                            <div class="portfolio-item-inner">
-                                <div class="portfolio-item-img">
-                                    <img src="{{ asset('uploads/img/dummy/600x600.jpg') }}" alt="Portfolio image" class="img-fluid">
-                                    <a href="{{ asset('uploads/img/dummy/600x600.jpg') }}" class="portfolio-zoom-link">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                                <div class="body">
-                                    <div class="portfolio-details">
-                                        <span>Ui Design</span>
-                                        <h5>Paper Design</h5>
-                                    </div>
-                                    <a href="#" class="portfolio-link">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4 portfolio-item mockup">
-                            <div class="portfolio-item-inner">
-                                <div class="portfolio-item-img">
-                                    <img src="{{ asset('uploads/img/dummy/600x600.jpg') }}" alt="Portfolio image" class="img-fluid">
-                                    <a href="{{ asset('uploads/img/dummy/600x600.jpg') }}" class="portfolio-zoom-link">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                                <div class="body">
-                                    <div class="portfolio-details">
-                                        <span>Mockup</span>
-                                        <h5>Business Card</h5>
-                                    </div>
-                                    <a href="#" class="portfolio-link">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="call-to-action">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <div class="call-to-action-inner">
-                                    <h2>Dou you need a new project ?</h2>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="call-to-action-btn">
-                                    <a href="#" data-scroll-nav="7"  class="white-btn">
-                                        <span class="text">Contact Me</span>
-                                        <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </section>
@@ -1868,7 +1759,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.1s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/200x200.jpg') }}" alt="Team image">
+                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team image">
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1888,7 +1779,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.2s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/200x200.jpg') }}" alt="Team image">
+                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team image">
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1908,7 +1799,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/200x200.jpg') }}" alt="Team image">
+                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team image">
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1996,7 +1887,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/100x100.jpg') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
                                 </div>
                                 <div class="body">
                                     <h5>Jeff N. Hood</h5>
@@ -2021,7 +1912,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/100x100.jpg') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
                                 </div>
                                 <div class="body">
                                     <h5>James E. Nelson</h5>
@@ -2046,7 +1937,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/100x100.jpg') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
                                 </div>
                                 <div class="body">
                                     <h5>Wallace Chuck</h5>
@@ -2071,7 +1962,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/dummy/100x100.jpg') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
                                 </div>
                                 <div class="body">
                                     <h5>Nitin Khajotia</h5>
@@ -2470,16 +2361,28 @@
                             <div class="col-md-6 col-lg-4 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">{{ __('frontend.about_us') }}</h6>
-                                    @if (!empty($general_site_image->site_colored_logo_image))
-                                        <img src="{{ asset('uploads/img/general/'.$general_site_image->site_white_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-white">
-                                        <img src="{{ asset('uploads/img/general/'.$general_site_image->site_colored_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-colored">
-                                    @endif
-                                    @if (!empty($site_info->short_desc)) <p class="footer-desc">{{ $site_info->short_desc }}</p> @endif
                                     <div class="footer-social-links">
                                         @foreach ($socials as $social)
-                                                <a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif">
-                                                    <i class="{{ $social->social_media }}"></i>
-                                                </a>
+                                            @if ($social->social_media === 'fab fa-whatsapp')
+                                                @continue
+                                            @endif
+                                            @php
+                                                $socialLabels = [
+                                                    'fab fa-facebook-f' => 'Facebook',
+                                                    'fab fa-facebook' => 'Facebook',
+                                                    'fab fa-youtube' => 'YouTube',
+                                                    'fab fa-linkedin-in' => 'LinkedIn',
+                                                    'fab fa-linkedin' => 'LinkedIn',
+                                                    'fab fa-instagram' => 'Instagram',
+                                                    'fab fa-twitter' => 'Twitter',
+                                                    'fab fa-x-twitter' => 'X',
+                                                ];
+                                                $socialLabel = $socialLabels[$social->social_media] ?? ucwords(str_replace(['fab fa-', '-f', '-in'], '', $social->social_media));
+                                            @endphp
+                                            <a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif" target="_blank" rel="noopener noreferrer">
+                                                <i class="{{ $social->social_media }}"></i>
+                                                <span>{{ $socialLabel }}</span>
+                                            </a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -2489,8 +2392,14 @@
                                     <h6 class="footer-title">{{ __('frontend.customer_relationship') }}</h6>
                                     <ul class="footer-links">
                                         @foreach ($footer_pages as $footer_page)
+                                            @if (in_array($footer_page->page_slug, ['services', 'works', 'recent-works', 'case-studys', 'presentation', 'presentations']))
+                                                @continue
+                                            @endif
                                             <li>
-                                                <a href="{{ route('any-page.show', ['page_slug' => $footer_page->page_slug]) }}">{{ $footer_page->page_title }}</a>
+                                                <a href="{{ route('any-page.show', ['page_slug' => $footer_page->page_slug]) }}">
+                                                    <i class="fas fa-angle-right"></i>
+                                                    <span>{{ $footer_page->page_title }}</span>
+                                                </a>
                                             </li>
                                             @endforeach
                                     </ul>
@@ -2503,24 +2412,34 @@
                                         <ul class="footer-contact-info-list">
                                            @if (!empty($site_info->address))
                                                 <li>
-                                                    <h6>Address in Details</h6>
-                                                    <p>{{ $site_info->address }}</p>
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <div class="footer-contact-body">
+                                                        <h6>Address in Details</h6>
+                                                        <p>{{ $site_info->address }}</p>
+                                                    </div>
                                                 </li>
                                                @endif
-                                               @if (!empty($site_info->address_map_link))
-                                                   <li>
-                                                       <h6>Office Address</h6>
-                                                       <a href="{{ $site_info->address_map_link }}" target="_blank" class="text-white">Google Map Location</a>
-                                                   </li>
+                                           @if (!empty($site_info->phone))
+                                                <li>
+                                                    <i class="fab fa-whatsapp"></i>
+                                                    <div class="footer-contact-body">
+                                                        <h6>WhatsApp</h6>
+                                                        <p>
+                                                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $site_info->phone) }}" target="_blank" rel="noopener noreferrer" class="text-white">{{ $site_info->phone }}</a>
+                                                        </p>
+                                                    </div>
+                                                </li>
                                                @endif
-                                           @if (!empty($site_info->email) || !empty($site_info->phone))
-                                                   <li>
-                                                       <h6>{{ __('frontend.email_and_phone') }}</h6>
-                                                       <div class="text">
-                                                           @if (!empty($site_info->phone)) <p>{{ $site_info->phone }}</p> @endif
-                                                           @if (!empty($site_info->email)) <p>{{ $site_info->email }}</p> @endif
-                                                       </div>
-                                                   </li>
+                                           @if (!empty($site_info->email))
+                                                <li>
+                                                    <i class="fas fa-envelope"></i>
+                                                    <div class="footer-contact-body">
+                                                        <h6>Email</h6>
+                                                        <p>
+                                                            <a href="mailto:{{ $site_info->email }}" class="text-white">{{ $site_info->email }}</a>
+                                                        </p>
+                                                    </div>
+                                                </li>
                                                @endif
                                         </ul>
                                     </div>
@@ -2529,7 +2448,7 @@
                         </div>
                     </div>
                 </div>
-              @if (!empty($site_info->copyright))
+                @if (!empty($site_info->copyright))
                     <div class="copyright">
                         <div class="container">
                             <p class="copyright-text">{{ $site_info->copyright }}</p>
@@ -2545,23 +2464,22 @@
                             <div class="col-md-6 col-lg-4 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">About Us</h6>
-                                    <img src="{{ asset('uploads/img/dummy/white-logo.png') }}" alt="footer logo" class="img-fluid footer-logo">
-                                    <p class="footer-desc">
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content..
-                                    </p>
                                     <div class="footer-social-links">
                                         <a href="javascript:void(0)">
                                             <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                        <a href="javascript:void(0)">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                        <a href="javascript:void(0)">
-                                            <i class="fab fa-instagram"></i>
+                                            <span>Facebook</span>
                                         </a>
                                         <a href="javascript:void(0)">
                                             <i class="fab fa-youtube"></i>
+                                            <span>YouTube</span>
+                                        </a>
+                                        <a href="javascript:void(0)">
+                                            <i class="fab fa-instagram"></i>
+                                            <span>Instagram</span>
+                                        </a>
+                                        <a href="javascript:void(0)">
+                                            <i class="fab fa-twitter"></i>
+                                            <span>Twitter</span>
                                         </a>
                                     </div>
                                 </div>
@@ -2571,22 +2489,22 @@
                                     <h6 class="footer-title">Customer relationship</h6>
                                     <ul class="footer-links">
                                         <li>
-                                            <a href="javascript:void(0)">Delivery and Returns</a>
+                                            <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Product review</a>
+                                            <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Product review</span></a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">User agreement</a>
+                                            <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>User agreement</span></a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Privacy Policy</a>
+                                            <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Distance Selling Agreement</a>
+                                            <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Distance Selling Agreement</span></a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Frequently Asked Questions</a>
+                                            <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -2597,17 +2515,27 @@
                                     <div class="footer-contact-info-wrap">
                                         <ul class="footer-contact-info-list">
                                             <li>
-                                                <h6>Address:</h6>
-                                                <p>
-                                                    1395 Nixon Avenue Etowah, TN 37331
-                                                    <br>United States
-                                                </p>
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <div class="footer-contact-body">
+                                                    <h6>Address:</h6>
+                                                    <p>
+                                                        1395 Nixon Avenue Etowah, TN 37331
+                                                        <br>United States
+                                                    </p>
+                                                </div>
                                             </li>
                                             <li>
-                                                <h6>E-Mail & Phone:</h6>
-                                                <div class="text">
-                                                    <p>+1 422-200-5555</p>
-                                                    <p>contact@netigianit.com</p>
+                                                <i class="fab fa-whatsapp"></i>
+                                                <div class="footer-contact-body">
+                                                    <h6>WhatsApp</h6>
+                                                    <p><a href="javascript:void(0)" class="text-white">+1 422-200-5555</a></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <i class="fas fa-envelope"></i>
+                                                <div class="footer-contact-body">
+                                                    <h6>Email</h6>
+                                                    <p><a href="mailto:contact@netigianit.com" class="text-white">contact@netigianit.com</a></p>
                                                 </div>
                                             </li>
                                         </ul>
@@ -2629,64 +2557,11 @@
     </main>
     <!--// Main Area End //-->
 
-    @if (isset($quick_access_button))
-
-        @if ($quick_access_button->status == 1 && $quick_access_button->status_phone == 1)
-
-            @if ($quick_access_button->contact == "fas fa-envelope")
-                <a href="mailto:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @else
-                <a href="tel:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @endif
-            <!--// .scroll-phone-btn // -->
-
-            <a href="{{ $quick_access_button->link }}" class="scroll-facebook-btn">
-                <i class="{{ $quick_access_button->social_media }}"></i>
-            </a>
-                <!--// .scroll-facebook-btn // -->
-
-        @elseif ($quick_access_button->status == 1 && $quick_access_button->status_phone == 0)
-
-            <a href="{{ $quick_access_button->link }}" class="scroll-phone-btn">
-                <i class="{{ $quick_access_button->social_media }}"></i>
-            </a>
-            <!--// .scroll-phone-btn // -->
-
-        @elseif ($quick_access_button->status == 0 && $quick_access_button->status_phone == 1)
-
-            @if ($quick_access_button->contact == "fas fa-envelope")
-                <a href="mailto:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @else
-                <a href="tel:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @endif
-            <!--// .scroll-phone-btn // -->
-        @endif
-
+    @if (isset($quick_access_button) && $quick_access_button->status == 1)
+        <a href="{{ $quick_access_button->link }}" class="scroll-whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
     @endif
-
-    @if ($section_arr['scroll_top_btn'] == 1)
-    <a href="#" class="scroll-top-btn" data-scroll-goto="1">
-        <i class="fa fa-arrow-up"></i>
-    </a>
-    @endif
-    <!--// .scroll-top-btn // -->
-
-    @if ($section_arr['preloader'] == 1)
-    <div id="preloader-wrap">
-        <div class="preloader-inner">
-            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-        </div>
-    </div>
-    @endif
-    <!--// Preloader // -->
 
 </div>
 <!--// Page Wrapper End //-->

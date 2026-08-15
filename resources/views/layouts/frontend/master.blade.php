@@ -102,9 +102,16 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=23">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=43">
     <style>
         .hero-social-list{display:none!important}
+        .contact-form-wrap{
+            padding:32px 28px!important;
+            border-radius:12px!important;
+        }
+        @media (max-width:767.98px){
+            .contact-form-wrap{padding:24px 18px!important}
+        }
         .contact-form-wrap .contact-form-group .form-control,
         .contact-form-wrap .contact-form-group .form-control:focus{
             background:transparent!important;
@@ -113,15 +120,17 @@
             border:1px solid rgba(255,255,255,.18)!important;
             height:auto!important;
             min-height:56px!important;
-            padding:16px 24px!important;
+            padding:16px 18px!important;
             line-height:1.5!important;
             box-sizing:border-box!important;
+            border-radius:8px!important;
         }
         .contact-form-wrap .contact-form-group textarea.form-control,
         .contact-form-wrap .contact-form-group textarea.form-control:focus{
             min-height:160px!important;
-            padding:18px 24px!important;
+            padding:18px 18px!important;
             resize:vertical!important;
+            border-radius:8px!important;
         }
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control,
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control:focus{
@@ -137,13 +146,15 @@
             background-color:var(--ni-section-bg,#f4faf7)!important;
         }
         .counters-section-bg{display:none!important}
-        /* Compact nav; keep logo size */
+        /* Taller nav; single logo visible */
         .header,.header-shrink{padding:0!important}
-        .header .navbar{min-height:0!important;align-items:center!important;padding-top:4px!important;padding-bottom:4px!important}
-        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:8px 14px!important;line-height:24px!important}
+        .header .navbar{min-height:84px!important;align-items:center!important;padding-top:12px!important;padding-bottom:12px!important}
+        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:14px 16px!important;line-height:28px!important}
         .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important}
-        .header .navbar-brand img{height:84px!important;max-height:84px!important;width:auto!important;max-width:none!important}
-        @media (max-width:991.98px){.header .navbar-brand img{height:68px!important;max-height:68px!important}}
+        .header .navbar-brand img{height:64px!important;max-height:64px!important;width:auto!important;max-width:none!important}
+        @media (max-width:991.98px){.header .navbar{min-height:64px!important;padding-top:8px!important;padding-bottom:8px!important}.header .navbar-brand img{height:48px!important;max-height:48px!important}}
+        .header .navbar-brand img.logo-normal{display:none!important}
+        .header .navbar-brand img.logo-transparent{display:block!important}
     </style>
 
 @if (isset($google_analytic))
@@ -295,15 +306,27 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                 <div class="col-md-6 col-lg-4 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">{{ __('frontend.about_us') }}</h6>
-                                        @if (!empty($general_site_image->site_colored_logo_image))
-                                            <img src="{{ asset('uploads/img/general/'.$general_site_image->site_white_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-white">
-                                            <img src="{{ asset('uploads/img/general/'.$general_site_image->site_colored_logo_image) }}" alt="footer logo" class="img-fluid footer-logo footer-logo-colored">
-                                        @endif
-                                        @if (!empty($site_info->short_desc)) <p class="footer-desc">{{ $site_info->short_desc }}</p> @endif
                                         <div class="footer-social-links">
                                             @foreach ($socials as $social)
-                                                <a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif">
+                                                @if ($social->social_media === 'fab fa-whatsapp')
+                                                    @continue
+                                                @endif
+                                                @php
+                                                    $socialLabels = [
+                                                        'fab fa-facebook-f' => 'Facebook',
+                                                        'fab fa-facebook' => 'Facebook',
+                                                        'fab fa-youtube' => 'YouTube',
+                                                        'fab fa-linkedin-in' => 'LinkedIn',
+                                                        'fab fa-linkedin' => 'LinkedIn',
+                                                        'fab fa-instagram' => 'Instagram',
+                                                        'fab fa-twitter' => 'Twitter',
+                                                        'fab fa-x-twitter' => 'X',
+                                                    ];
+                                                    $socialLabel = $socialLabels[$social->social_media] ?? ucwords(str_replace(['fab fa-', '-f', '-in'], '', $social->social_media));
+                                                @endphp
+                                                <a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif" target="_blank" rel="noopener noreferrer">
                                                     <i class="{{ $social->social_media }}"></i>
+                                                    <span>{{ $socialLabel }}</span>
                                                 </a>
                                             @endforeach
                                         </div>
@@ -314,8 +337,14 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         <h6 class="footer-title">{{ __('frontend.customer_relationship') }}</h6>
                                         <ul class="footer-links">
                                             @foreach ($footer_pages as $footer_page)
+                                                @if (in_array($footer_page->page_slug, ['services', 'works', 'recent-works', 'case-studys', 'presentation', 'presentations']))
+                                                    @continue
+                                                @endif
                                                 <li>
-                                                    <a href="{{ route('any-page.show', ['page_slug' => $footer_page->page_slug]) }}">{{ $footer_page->page_title }}</a>
+                                                    <a href="{{ route('any-page.show', ['page_slug' => $footer_page->page_slug]) }}">
+                                                        <i class="fas fa-angle-right"></i>
+                                                        <span>{{ $footer_page->page_title }}</span>
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -328,22 +357,32 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                             <ul class="footer-contact-info-list">
                                                 @if (!empty($site_info->address))
                                                     <li>
-                                                        <h6>{{ __('frontend.address') }}</h6>
-                                                        <p>{{ $site_info->address }}</p>
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        <div class="footer-contact-body">
+                                                            <h6>{{ __('frontend.address') }}</h6>
+                                                            <p>{{ $site_info->address }}</p>
+                                                        </div>
                                                     </li>
                                                 @endif
-                                                @if (!empty($site_info->address_map_link))
+                                                @if (!empty($site_info->phone))
                                                     <li>
-                                                        <h6>{{ __('frontend.address_map_link') }}</h6>
-                                                        <a href="{{ $site_info->address_map_link }}" target="_blank" class="text-white">{{ __('frontend.address_map_link') }}</a>
+                                                        <i class="fab fa-whatsapp"></i>
+                                                        <div class="footer-contact-body">
+                                                            <h6>WhatsApp</h6>
+                                                            <p>
+                                                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $site_info->phone) }}" target="_blank" rel="noopener noreferrer" class="text-white">{{ $site_info->phone }}</a>
+                                                            </p>
+                                                        </div>
                                                     </li>
                                                 @endif
-                                                @if (!empty($site_info->email) || !empty($site_info->phone))
+                                                @if (!empty($site_info->email))
                                                     <li>
-                                                        <h6>{{ __('frontend.email_and_phone') }}</h6>
-                                                        <div class="text">
-                                                            @if (!empty($site_info->phone)) <p>{{ $site_info->phone }}</p> @endif
-                                                            @if (!empty($site_info->email)) <p>{{ $site_info->email }}</p> @endif
+                                                        <i class="fas fa-envelope"></i>
+                                                        <div class="footer-contact-body">
+                                                            <h6>Email</h6>
+                                                            <p>
+                                                                <a href="mailto:{{ $site_info->email }}" class="text-white">{{ $site_info->email }}</a>
+                                                            </p>
                                                         </div>
                                                     </li>
                                                 @endif
@@ -370,23 +409,22 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                 <div class="col-md-6 col-lg-4 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">About Us</h6>
-                                        <img src="{{ asset('uploads/img/dummy/white-logo.png') }}" alt="footer logo" class="img-fluid footer-logo">
-                                        <p class="footer-desc">
-                                            It is a long established fact that a reader will be
-                                            distracted by the readable content..
-                                        </p>
                                         <div class="footer-social-links">
                                             <a href="javascript:void(0)">
                                                 <i class="fab fa-facebook-f"></i>
-                                            </a>
-                                            <a href="javascript:void(0)">
-                                                <i class="fab fa-twitter"></i>
-                                            </a>
-                                            <a href="javascript:void(0)">
-                                                <i class="fab fa-instagram"></i>
+                                                <span>Facebook</span>
                                             </a>
                                             <a href="javascript:void(0)">
                                                 <i class="fab fa-youtube"></i>
+                                                <span>YouTube</span>
+                                            </a>
+                                            <a href="javascript:void(0)">
+                                                <i class="fab fa-instagram"></i>
+                                                <span>Instagram</span>
+                                            </a>
+                                            <a href="javascript:void(0)">
+                                                <i class="fab fa-twitter"></i>
+                                                <span>Twitter</span>
                                             </a>
                                         </div>
                                     </div>
@@ -396,22 +434,22 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         <h6 class="footer-title">Customer relationship</h6>
                                         <ul class="footer-links">
                                             <li>
-                                                <a href="javascript:void(0)">Delivery and Returns</a>
+                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)">Product review</a>
+                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Product review</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)">User agreement</a>
+                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>User agreement</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)">Privacy Policy</a>
+                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)">Distance Selling Agreement</a>
+                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Distance Selling Agreement</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)">Frequently Asked Questions</a>
+                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -422,17 +460,27 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         <div class="footer-contact-info-wrap">
                                             <ul class="footer-contact-info-list">
                                                 <li>
-                                                    <h6>Address:</h6>
-                                                    <p>
-                                                        1395 Nixon Avenue Etowah, TN 37331
-                                                        <br>United States
-                                                    </p>
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <div class="footer-contact-body">
+                                                        <h6>Address:</h6>
+                                                        <p>
+                                                            1395 Nixon Avenue Etowah, TN 37331
+                                                            <br>United States
+                                                        </p>
+                                                    </div>
                                                 </li>
                                                 <li>
-                                                    <h6>E-Mail & Phone:</h6>
-                                                    <div class="text">
-                                                        <p>+1 422-200-5555</p>
-                                                        <p>contact@netigianit.com</p>
+                                                    <i class="fab fa-whatsapp"></i>
+                                                    <div class="footer-contact-body">
+                                                        <h6>WhatsApp</h6>
+                                                        <p><a href="javascript:void(0)" class="text-white">+1 422-200-5555</a></p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <i class="fas fa-envelope"></i>
+                                                    <div class="footer-contact-body">
+                                                        <h6>Email</h6>
+                                                        <p><a href="mailto:contact@netigianit.com" class="text-white">contact@netigianit.com</a></p>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -454,64 +502,11 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
     </main>
     <!--// Main Area End //-->
 
-    @if (isset($quick_access_button))
-
-        @if ($quick_access_button->status == 1 && $quick_access_button->status_phone == 1)
-
-            @if ($quick_access_button->contact == "fas fa-envelope")
-                <a href="mailto:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @else
-                <a href="tel:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @endif
-        <!--// .scroll-phone-btn // -->
-
-            <a href="{{ $quick_access_button->link }}" class="scroll-facebook-btn">
-                <i class="{{ $quick_access_button->social_media }}"></i>
-            </a>
-            <!--// .scroll-facebook-btn // -->
-
-        @elseif ($quick_access_button->status == 1 && $quick_access_button->status_phone == 0)
-
-            <a href="{{ $quick_access_button->link }}" class="scroll-phone-btn">
-                <i class="{{ $quick_access_button->social_media }}"></i>
-            </a>
-            <!--// .scroll-phone-btn // -->
-
-        @elseif ($quick_access_button->status == 0 && $quick_access_button->status_phone == 1)
-
-            @if ($quick_access_button->contact == "fas fa-envelope")
-                <a href="mailto:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @else
-                <a href="tel:{{ $quick_access_button->email_or_phone }}" class="scroll-phone-btn">
-                    <i class="{{ $quick_access_button->contact }}"></i>
-                </a>
-            @endif
-        <!--// .scroll-phone-btn // -->
-        @endif
-
-    @endif
-
-    @if ($section_arr['scroll_top_btn'] == 1)
-        <a href="#" class="scroll-top-btn" data-scroll-goto="1">
-            <i class="fa fa-arrow-up"></i>
+    @if (isset($quick_access_button) && $quick_access_button->status == 1)
+        <a href="{{ $quick_access_button->link }}" class="scroll-whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
         </a>
     @endif
-<!--// .scroll-top-btn // -->
-
-    @if ($section_arr['preloader'] == 1)
-        <div id="preloader-wrap">
-            <div class="preloader-inner">
-                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-            </div>
-        </div>
-@endif
-<!--// Preloader // -->
 
     @if ($section_arr['color_option_sidebar'] == 1)
     <div id="colorOptionsSidebar">

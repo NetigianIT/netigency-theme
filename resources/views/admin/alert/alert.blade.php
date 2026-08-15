@@ -1,33 +1,50 @@
-<div class="row">
-    <div class="col-12">
-        @if($message = Session::get('success'))
-            <div id="alert_message" class="alert alert-success custom-alert alert-dismissible fade show" role="alert">
-                <span>{{ __($message) }}</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if ($message = Session::get('warning'))
-            <div id="alert_message" class="alert alert-warning custom-alert alert-dismissible fade show" role="alert">
-                <span>{{ __($message) }}</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if ($errors->any())
-            <div id="alert_message" class="alert alert-danger custom-alert alert-dismissible fade show" role="alert">
-                <strong>{{ __('Whoops!') }}</strong> {{ __('There were some problems with your input.') }}<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ __($error) }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-    </div>
-</div>
+@php
+    $toastrSuccess = Session::get('success');
+    $toastrWarning = Session::get('warning');
+    $toastrError = Session::get('error');
+    $toastrValidationErrors = ($errors ?? null) && $errors->any() ? $errors->all() : [];
+@endphp
+
+@if ($toastrSuccess || $toastrWarning || $toastrError || count($toastrValidationErrors))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof toastr === 'undefined') {
+                return;
+            }
+
+            toastr.options = {
+                closeButton: true,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: 'toast-top-right',
+                preventDuplicates: true,
+                showDuration: 300,
+                hideDuration: 300,
+                timeOut: 4200,
+                extendedTimeOut: 1600,
+                showEasing: 'swing',
+                hideEasing: 'linear',
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut'
+            };
+
+            @if ($toastrSuccess)
+                toastr.success(@json(__($toastrSuccess)));
+            @endif
+
+            @if ($toastrWarning)
+                toastr.warning(@json(__($toastrWarning)));
+            @endif
+
+            @if ($toastrError)
+                toastr.error(@json(__($toastrError)));
+            @endif
+
+            @if (count($toastrValidationErrors))
+                @foreach ($toastrValidationErrors as $validationError)
+                    toastr.error(@json(__($validationError)));
+                @endforeach
+            @endif
+        });
+    </script>
+@endif

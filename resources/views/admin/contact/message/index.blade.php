@@ -23,6 +23,7 @@
                     </div>
 
                     @if (count($messages) > 0)
+                        <div class="table-responsive ni-messages-table">
                         <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
@@ -41,10 +42,10 @@
                             @foreach ($messages as $message)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $message->name }}</td>
-                                    <td>{{ $message->email }}</td>
-                                    <td>{{ $message->subject }}</td>
-                                    <td>{{ $message->message }}</td>
+                                    <td title="{{ $message->name }}">{{ \Illuminate\Support\Str::limit($message->name, 36) }}</td>
+                                    <td title="{{ $message->email }}">{{ \Illuminate\Support\Str::limit($message->email, 40) }}</td>
+                                    <td title="{{ $message->subject }}">{{ \Illuminate\Support\Str::limit($message->subject, 48) }}</td>
+                                    <td title="{{ $message->message }}">{{ \Illuminate\Support\Str::limit($message->message, 60) }}</td>
                                     <td>
                                         @if($message->read === 0)
                                             <span>{{ __('content.unread') }}</span>
@@ -97,6 +98,7 @@
                             @endforeach
                             </tbody>
                         </table>
+                        </div>
                     @else
                         <span>{{ __('content.not_yet_created') }}</span>
                     @endif

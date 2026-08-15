@@ -508,7 +508,8 @@
 }
 
 .team-card .body .social ul li a i {
-  color: #15bf86;
+  color: #fff;
+  background: #15bf86;
 }
 
 .team-card:hover .body {
