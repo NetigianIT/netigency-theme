@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Dec 28, 2025 at 05:23 AM
--- Server version: 10.11.15-MariaDB
--- PHP Version: 8.4.16
+-- Host: 127.0.0.1
+-- Generation Time: Aug 15, 2026 at 12:42 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `netigia1_netigianit`
+-- Database: `netigency-theme`
 --
 
 -- --------------------------------------------------------
@@ -482,8 +482,8 @@ CREATE TABLE `fixed_contents` (
 --
 
 INSERT INTO `fixed_contents` (`id`, `language_id`, `title`, `desc`, `btn_name`, `btn_link`, `image_status`, `thumbnail_image`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Make your business Digital.', 'We value the user experience prior to offering our service. This moment presents to collaborate with us and elevate your brand to new heights. Let\'s seize this opportunity and propel your business forward together.', 'View Works', '#', 1, '1763829837-Untitled design (1).png', '2024-02-07 06:37:37', '2025-11-22 21:43:57'),
-(2, 4, 'আপনার ব্যবসা ডিজিটাল করুন', 'আমরা আমাদের পরিষেবা অফার করার আগে ব্যবহারকারীর অভিজ্ঞতাকে মূল্য দিই। এই মুহূর্তটি আমাদের সাথে সহযোগিতা করার এবং আপনার ব্র্যান্ডকে নতুন উচ্চতায় উন্নীত করার জন্য উপস্থাপন করে। আসুন এই সুযোগটি কাজে লাগাই এবং একসাথে আপনার ব্যবসাকে এগিয়ে নিয়ে যাই।', 'সর্বশেষ কাজ', '#', 1, '1730543657-1712116603-Untitled design (2) (1).png', '2024-11-02 10:34:17', '2024-11-02 10:34:17');
+(1, 1, 'Make your business Digital.', 'We value the user experience prior to offering our service. This moment presents to collaborate with us and elevate your brand to new heights. Let\'s seize this opportunity and propel your business forward together.', 'View Works', '#', 1, 'hero-demo-digital.png', '2024-02-07 06:37:37', '2026-07-30 04:05:15'),
+(2, 4, 'আপনার ব্যবসা ডিজিটাল করুন', 'আমরা আমাদের পরিষেবা অফার করার আগে ব্যবহারকারীর অভিজ্ঞতাকে মূল্য দিই। এই মুহূর্তটি আমাদের সাথে সহযোগিতা করার এবং আপনার ব্র্যান্ডকে নতুন উচ্চতায় উন্নীত করার জন্য উপস্থাপন করে। আসুন এই সুযোগটি কাজে লাগাই এবং একসাথে আপনার ব্যবসাকে এগিয়ে নিয়ে যাই।', 'সর্বশেষ কাজ', '#', 1, 'hero-demo-digital.png', '2024-11-02 10:34:17', '2026-07-30 04:05:15');
 
 -- --------------------------------------------------------
 
@@ -1543,8 +1543,7 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1),
-(4, 'App\\Models\\User', 8);
+(1, 'App\\Models\\User', 9);
 
 -- --------------------------------------------------------
 
@@ -2927,21 +2926,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('0urSXABEP4aOTo1QlPkpNzFUS5jPpfiXEjBhUQGJ', NULL, '165.22.219.20', 'Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOUUwOW03S1hNTEs3dWdSbnlyTWJFeU55OWFkRk5tVU9NNGQzMEtrTSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766907940),
-('1yCDavHJnBC0AQFgQgf4ll3y2GJqpxByAbJYD0ID', NULL, '149.57.191.248', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVnpMNnNKSnVzbU9OZ3drVkNXR2Q0YnlpOG8wRUljRE1zUUxKa1pIRyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHBzOi8vd3d3Lm5ldGlnaWFuaXQuY29tL3BhZ2UvdGVybXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766837060),
-('3KZtko5MJ6E76ewi1kFqEreDBtA2VQyZiyah54sd', NULL, '149.57.191.249', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibnpyWXpLRndlWDBJeDdndkdHVjE4ZGZsNm05Tnd1Wm9ZTVE0TTYxVyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHBzOi8vd3d3Lm5ldGlnaWFuaXQuY29tL3BhZ2UvcHJpdmFjeS1wb2xpY3kiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766836364),
-('76n1jCHpcWAFpmcAou5jbEedyo5uXM9FyLlGGaPj', NULL, '148.251.18.120', 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/122.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiR0pydkltS2hMbjYxNWkyUTBwdFM5QVdVT3JIanM2T0pxZmRUek9KVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20vcGFnZS9wcmVzZW50YXRpb24iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766868156),
-('EakJ80wUTBYaAFztGofIwjuGoZz29jSotdtOQG9g', NULL, '34.145.20.91', 'Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUGhmZVdxeU1JVUhSbWNzRjNZVmNwTFhaczlyY3RIb042M0lueXpEMSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20vdXBsb2RzL2ltZy9nZW5lcmFsLzE3MTA0MzU5MzUtRmF2aWNvbi0xMjhYMTI4LnBuZyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1766906648),
-('HPzA6ATtMwYdWwE00akZICho6IGB1kT808xhlyfG', NULL, '199.244.88.222', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTTZkekVoZjBlWmx2dVcyeTRRbjUzb1FkaExDSnltWENIT0dBR0hiQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20vdXBsb2RzL2ltZy9nZW5lcmFsLzE3MTA0MzU5MzUtRmF2aWNvbi0xMjhYMTI4LnBuZyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1766840804),
-('HRjEdsP01wrA1rFwjsDbKRjzeooRRnSdPsIW9vqS', NULL, '165.22.219.20', 'Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUER1SDJBUEVJdmtsMXpVVTRzNTRrYlRlR2dLY2p0cm43MXF4NHNXcCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20vdXBsb2RzL2ltZy9nZW5lcmFsLzE3MTA0MzU5MzUtRmF2aWNvbi0xMjhYMTI4LnBuZyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1766907945),
-('HVS16sPJl1u6PANjPKTN8HLayFgaSg1VX4jHbyK0', NULL, '40.77.167.156', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/116.0.1938.76 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQ0RnZk9kc04yVFN3MmRHRWxQdHZ3RGQ1bzZPSkc2c2pjQ0ZHY3pYWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vd3d3Lm5ldGlnaWFuaXQuY29tIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766862634),
-('ieiLusfDh0tvUml5JhEyoQ4yTitZdl7SO8MU14ck', NULL, '54.236.1.53', 'Mozilla/5.0 (compatible; Pinterestbot/1.0; +http://www.pinterest.com/bot.html)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiYmJKcU5IdXNHdWtHdEhXYzF4bWNqMjgwVzBWaTFjWW5xWlM2NzNMRCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vd3d3Lm5ldGlnaWFuaXQuY29tIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766856447),
-('K50zNgcszkWaenK3ws3cRRFBH5VZ2SNuHjjG70ij', NULL, '180.153.236.3', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0; 360Spider', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaUlkb1k1VzFPc0h4ODZVR2pmM3RwN3lZNlNLb24wbXQxdWN2cllDbiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766909531),
-('l5I2Cchg91tZe6JJzKIh7UokHSKovP1m5NNLzsvO', NULL, '146.174.164.77', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; hu; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 GTB7.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUjRUSERPaGNMa2RYZng2WUZpbkpscDhzYmh3N0c0emRISHJiblZhWSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766856533),
-('NCefrz8n6v5XlwIj2GEji8J3iyujnrubc9A7Iljh', NULL, '141.98.255.195', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTHRlbUlLOHJDY0FqTUJPcWtKQkNKV3k4ZkRndk5udkJjUWY4YUE0MCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766901843),
-('SWUg3hSCJ72cwkHK7SQFUs6plF155zas4xVhYCuA', NULL, '3.93.0.64', 'Mozilla/5.0 (X11; Linux x86_64; rv:2.2a1pre) Gecko/20100101 Firefox/4.2a1pre', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiclpwbFBMc2FYeUp6cHg0RHlxNTZyVEtyTkoyWFYzelhHdmlBcGN1ViI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjI6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766842710),
-('U1U1Ahpxb2IYJyZXaQV7ddTVrogAsuOgmBFsTWFY', NULL, '172.58.55.14', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVU5LdlVINlEwV1RSalMxdmIyYWpsbXFIRDdSWlBMc2xjd2k4aEx2eiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NjA6Imh0dHBzOi8vd3d3Lm5ldGlnaWFuaXQuY29tL3BvcnRmb2xpby95b3V0dWJlLXZpZGVvLW1hcmtldGluZyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1766846626),
-('wKKbjp3PlJs01SFbZ0Qk7ydWTCr4eMEjAMxjaMP7', NULL, '178.128.215.114', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiU3k4OG13S0tmc3A3NE9vV2ZUNkxLUW9pcHZubUI2cGkwTmxLenVDSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTE6Imh0dHBzOi8vbmV0aWdpYW5pdC5jb20vL3dwLWluY2x1ZGVzL0lEMy9saWNlbnNlLnR4dCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1766836129);
+('4KAeX6YwGeZRkqz816zMYZ1gNxgZ9RpjAAQIjALd', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36', 'YToxMDp7czo2OiJfdG9rZW4iO3M6NDA6Ikk2b0c1cVRBZ0tibHVVSTBsYTJCZnRyMlk4N29mdG9NU25qSGx0bEoiO3M6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjIxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiO3M6NToicm91dGUiO3M6ODoiaG9tZXBhZ2UiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo5O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjQ6ImI0MTQxOWVkYjA2OTI3ODE5MGRmNjZlNDdmYjhhZjljYmI3OGRhYTlkZWQ4M2JhOGRmNDc2ZTY4OGFmNTQ3NDgiO3M6MjU6Imxhbmd1YWdlX2lkX2Zyb21fZHJvcGRvd24iO3M6MToiNCI7czoyNzoibGFuZ3VhZ2VfbmFtZV9mcm9tX2Ryb3Bkb3duIjtzOjc6IkJlbmdhbGkiO3M6Mjc6Imxhbmd1YWdlX2NvZGVfZnJvbV9kcm9wZG93biI7czo1OiJibi1CRCI7czozMjoibGFuZ3VhZ2VfZGlyZWN0aW9uX2Zyb21fZHJvcGRvd24iO2k6MDt9', 1786303631),
+('NyxRBlFz8hZScoFQiS5jwuWMpOHVoa0uUo0uIshX', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiSWVBUjY2dXBkOXI4dkZ5MnFtdG5lS3JkTkJINW9mbHd1cjR6OW5BcSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1786296921);
 
 -- --------------------------------------------------------
 
@@ -3303,8 +3289,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `current_team_id`, `profile_photo_path`, `type`, `created_at`, `updated_at`) VALUES
-(1, 'Netigian IT', 'netigianit@gmail.com', '2021-05-02 13:14:53', '$2y$10$f00CqrTvEBqOnajPM9anJ.nnTgya/8jahWw9gW8fofxMqo/PqEpUq', NULL, NULL, 'rDxYtu68JQeqhPNHCeaNORzEZYhQj1pV6PGjt9USfsy09fEvmQvBa7txY5ic', NULL, '1710839009-BG-White-2000X2000.jpg', 0, '2021-05-02 13:14:53', '2024-03-19 09:03:29'),
-(8, 'Md Shakil Islam', 'upshakilislam@gmail.com', '2025-10-06 10:49:16', '$2y$10$Cj84cgjv9j/miyRk6/U97OZPjHjah50G9gO.JLmrT8dsvZ0.QKTsW', NULL, NULL, '2l08ToRWPkxhu5YQmuNucGuVRVZLMYO3wBo1auqDjI0DcmSdtv4U47CMZUbs', NULL, NULL, 0, '2025-10-06 10:49:16', '2025-10-06 10:49:16');
+(9, 'Admin', 'admin@netigency.com', NULL, '$2y$10$TwW3UfMI/JEnjUjcz6FE9uIA0NZWG0MfsrpASf7e2mIzvP3JSOc8y', NULL, NULL, NULL, NULL, '1786302415-photo_2025-12-31_16-47-05.jpg', 0, '2026-07-30 02:59:40', '2026-08-09 13:06:55');
 
 -- --------------------------------------------------------
 
@@ -4154,7 +4139,7 @@ ALTER TABLE `testimonial_sections`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `videos`
