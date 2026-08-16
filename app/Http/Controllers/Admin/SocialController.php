@@ -9,16 +9,25 @@ use Illuminate\Http\Request;
 class SocialController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $socials = Social::all();
+
+        return view('admin.contact.social.index', compact('socials'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        // Retrieving models
-        $socials = Social::all();
-
-        return view('admin.contact.social.create', compact('socials'));
+        return view('admin.contact.social.create');
     }
 
     /**
@@ -29,25 +38,21 @@ class SocialController extends Controller
      */
     public function store(Request $request)
     {
-        // Form validation
         $request->validate([
             'social_media' => 'required|max:255',
             'link' => 'max:255',
             'status' => 'integer|in:0,1',
         ]);
 
-        // Get All Request
         $input = $request->all();
 
-
-        // Record to database
         Social::firstOrCreate([
             'social_media' => $input['social_media'],
             'link' => $input['link'],
             'status' => $input['status']
         ]);
 
-        return redirect()->route('social.create')
+        return redirect()->route('social.index')
             ->with('success', 'content.created_successfully');
     }
 
@@ -59,7 +64,6 @@ class SocialController extends Controller
      */
     public function edit($id)
     {
-        // Retrieve a model
         $social = Social::findOrFail($id);
 
         return view('admin.contact.social.edit', compact('social'));
@@ -74,20 +78,17 @@ class SocialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Form validation
         $request->validate([
             'social_media' => 'required|max:255',
             'link' => 'max:255',
             'status' => 'integer|in:0,1',
         ]);
 
-        // Get All Request
         $input = $request->all();
 
-        // Update to database
         Social::find($id)->update($input);
 
-        return redirect()->route('social.create')
+        return redirect()->route('social.index')
             ->with('success', 'content.updated_successfully');
     }
 
@@ -99,7 +100,6 @@ class SocialController extends Controller
      */
     public function update_status($id)
     {
-        //Find a model
         $social = Social::find($id);
 
         if ($social->status == 1) {
@@ -108,10 +108,9 @@ class SocialController extends Controller
             $status = 1;
         }
 
-        // Update to database
         Social::find($id)->update(['status' => $status]);
 
-        return redirect()->route('social.create')
+        return redirect()->route('social.index')
             ->with('success', 'content.updated_successfully');
     }
 
@@ -123,13 +122,36 @@ class SocialController extends Controller
      */
     public function destroy($id)
     {
-        // Retrieve a model
         $social = Social::find($id);
 
-        // Delete record
         $social->delete();
 
-        return redirect()->route('social.create')
+        return redirect()->route('social.index')
+            ->with('success', 'content.deleted_successfully');
+    }
+
+    /**
+     * Remove the checked resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_checked(Request $request)
+    {
+        $input = $request->input('checked_lists');
+        $arr_checked_lists = explode(",", $input);
+
+        if (array_filter($arr_checked_lists) == []) {
+            return redirect()->route('social.index')
+                ->with('warning', 'content.please_choose');
+        }
+
+        foreach ($arr_checked_lists as $id) {
+            $social = Social::findOrFail($id);
+            $social->delete();
+        }
+
+        return redirect()->route('social.index')
             ->with('success', 'content.deleted_successfully');
     }
 

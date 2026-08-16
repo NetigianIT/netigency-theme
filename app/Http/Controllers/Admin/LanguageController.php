@@ -339,4 +339,50 @@ class LanguageController extends Controller
         return redirect()->route('language.create')
             ->with('success', 'content.deleted_successfully');
     }
+
+    /**
+     * Remove the checked resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_checked(Request $request)
+    {
+        $input = $request->input('checked_lists');
+        $arr_checked_lists = explode(",", $input);
+
+        if (array_filter($arr_checked_lists) == []) {
+            return redirect()->route('language.create')
+                ->with('warning', 'content.please_choose');
+        }
+
+        foreach ($arr_checked_lists as $id) {
+            if ($id == 1) {
+                continue;
+            }
+
+            $language = Language::findOrFail($id);
+
+            if (session()->has('language_id_from_dropdown')) {
+                $session_language_id = session()->get('language_id_from_dropdown');
+                $session_language = Language::find($session_language_id);
+
+                if ($language->id == $session_language->id) {
+                    session()->forget('language_id_from_dropdown');
+                    session()->forget('language_name_from_dropdown');
+                    session()->forget('language_code_from_dropdown');
+                    session()->forget('language_direction_from_dropdown');
+                }
+            }
+
+            if ($language->default_site_language == 1 || $language->status == 1) {
+                Language::find(1)->update(['default_site_language' => 1, 'status' => 1]);
+            }
+
+            $language->delete();
+        }
+
+        return redirect()->route('language.create')
+            ->with('success', 'content.deleted_successfully');
+    }
 }

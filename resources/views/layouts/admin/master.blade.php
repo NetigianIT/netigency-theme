@@ -366,7 +366,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=54">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=67">
 
 </head>
 
@@ -756,6 +756,7 @@
                                             request()->is('admin/contact/*/edit') ||
                                             request()->is('admin/message') ||
                                             request()->is('admin/quick-access/create') ||
+                                            request()->is('admin/social') ||
                                             request()->is('admin/social/create') ||
                                             request()->is('admin/social/*/edit')) ? 'active' : '' }}">
                         <a class="nav-link" data-toggle="collapse" href="#contact" aria-expanded="false" aria-controls="contact">
@@ -767,13 +768,15 @@
                                                  request()->is('admin/contact/*/edit') ||
                                                  request()->is('admin/quick-access/create') ||
                                                  request()->is('admin/message') ||
+                                                 request()->is('admin/social') ||
                                                  request()->is('admin/social/create') ||
                                                  request()->is('admin/social/*/edit')) ? 'show' : '' }}" id="contact">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/contact/create') ||
                                                                              request()->is('admin/contact/*/edit')) ? 'active' : '' }}" href="{{ url('admin/contact/create') }}">{{ __('content.contact_info') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/social/create') ||
-                                                                             request()->is('admin/social/*/edit')) ? 'active' : '' }}" href="{{ url('admin/social/create') }}">{{ __('content.socials') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/social') ||
+                                                                             request()->is('admin/social/create') ||
+                                                                             request()->is('admin/social/*/edit')) ? 'active' : '' }}" href="{{ url('admin/social') }}">{{ __('content.socials') }}</a></li>
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/quick-access/create')) ? 'active' : '' }}" href="{{ url('admin/quick-access/create') }}">{{ __('content.quick_access_buttons') }}</a></li>
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/message')) ? 'active' : '' }}" href="{{ url('admin/message') }}">{{ __('content.messages') }}</a></li>
                             </ul>
@@ -922,6 +925,7 @@
                     @unless(trim($__env->yieldContent('hide_page_title')))
                         @include('admin.components.page-title', [
                             'pageTitle' => trim($__env->yieldContent('page_title')),
+                            'pageActions' => trim($__env->yieldContent('page_actions')),
                         ])
                     @endunless
                     @yield('content')
@@ -1014,7 +1018,7 @@
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=2" defer></script>
 
 <!-- Datepicker JS -->
 <script src="{{ asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js') }}"></script>
@@ -1246,6 +1250,8 @@
 
 <!-- Icon Picker JS -->
 <script src="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js') }}"> </script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1"></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=2"></script>
 
 </body>
 

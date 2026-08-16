@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">+ {{ __('content.add_slider') }}</button>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,13 +13,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-md-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.sliders') }}</h6>
-                        <div>
-                            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#detailModal">+ {{ __('content.add_slider') }}</button>
-                        </div>
-                    </div>
-
                     @if (count($portfolio_sliders) > 0)
                         <div>
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
@@ -62,7 +59,7 @@
                                 <th scope="col">#</th>
                                 <th>{{ __('content.title') }}</th>
                                 <th>{{ __('content.order') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
 

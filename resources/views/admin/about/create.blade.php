@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.about') }}</h4>
                 @if (isset($about))
                     <form action="{{ route('about.update', $about->id) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
@@ -206,7 +205,7 @@
                                     <th scope="col">#</th>
                                     <th>{{ __('content.description') }}</th>
                                     <th>{{ __('content.order') }}</th>
-                                    <th class="custom-width-action">{{ __('content.action') }}</th>
+                                    <th class="all custom-width-action">{{ __('content.action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>

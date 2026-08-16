@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#languageModal">+ {{ __('content.add_language') }}</button>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,9 +13,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.languages') }}</h6>
-                    </div>
                 @if ($demo_mode == "on")
                     <!-- Include Alert Blade -->
                         @include('admin.demo_mode.demo-mode')
@@ -50,14 +51,43 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.languages') }}</h6>
-                        <div>
-                            <button type="button" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target="#languageModal">+ {{ __('content.add_language') }}</button>
-                        </div>
-                    </div>
-
                     @if (count($languages) > 0)
+                        <div>
+                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
+                            <label for="check_all">{{ __('content.all') }}</label>
+                            <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
+                                <i class="fa fa-trash text-danger font-18"></i>
+                            </a>
+                        </div>
+                        @if ($demo_mode == "on")
+                            @include('admin.demo_mode.demo-mode')
+                        @else
+                            <form onsubmit="return btnCheckListGet()" action="{{ route('language.destroy_checked') }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                        @endif
+                            <input type="hidden" id="checked_lists" name="checked_lists" value="">
+
+                            <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteCheckedModalCenterTitle">{{ __('content.delete') }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            {{ __('content.delete_selected') }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
+                                            <button onclick="btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
@@ -67,15 +97,20 @@
                                 <th>{{ __('content.direction') }}</th>
                                 <th>{{ __('content.keywords') }}</th>
                                 <th>{{ __('content.display_dropdown') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @php $i = 1; @endphp
+                            @php $desc = count($languages); $asc = 0; @endphp
                             @foreach ($languages as $language)
                                 <tr>
-                                    <td>{{ $i++ }}</td>
+                                    <td>
+                                        @if ($language->id != 1)
+                                            <input name="check_list[]" type="checkbox" value="{{ $language->id }}" onclick="showHideDeleteButton2(this)">
+                                        @endif
+                                        <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                    </td>
                                     <td>{{ $language->language_name }}</td>
                                     <td>{{ $language->language_code }}</td>
                                     <td>
@@ -110,7 +145,7 @@
                                             @endif
                                         </form>
                                     </td>
-                                    <td>
+                                    <td class="all text-nowrap text-center">
                                         <div>
                                             <a href="{{ route('language.edit', $language->id) }}" class="mr-2">
                                                 <i class="fa fa-edit text-info font-18"></i>

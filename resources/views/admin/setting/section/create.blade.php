@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.sections') }}</h4>
 
                     <div class="row">
                         @foreach ($sections as $section)

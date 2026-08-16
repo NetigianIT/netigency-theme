@@ -108,4 +108,29 @@ class ContactController extends Controller
         return redirect()->route('contact.create')
             ->with('success', 'content.deleted_successfully');
     }
+
+    /**
+     * Remove the checked resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_checked(Request $request)
+    {
+        $input = $request->input('checked_lists');
+        $arr_checked_lists = explode(",", $input);
+
+        if (array_filter($arr_checked_lists) == []) {
+            return redirect()->route('contact.create')
+                ->with('warning', 'content.please_choose');
+        }
+
+        foreach ($arr_checked_lists as $id) {
+            $contact = Contact::findOrFail($id);
+            $contact->delete();
+        }
+
+        return redirect()->route('contact.create')
+            ->with('success', 'content.deleted_successfully');
+    }
 }

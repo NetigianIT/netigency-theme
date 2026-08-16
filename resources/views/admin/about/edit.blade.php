@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <a href="{{ url()->previous() }}" class="btn btn-primary"><i class="fas fa-angle-left"></i> {{ __('content.back') }}</a>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,12 +13,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <div class="d-md-flex justify-content-between align-items-center mb-20">
-                    <h4 class="card-title">{{ __('content.edit_info') }}</h4>
-                    <div>
-                        <a href="{{ url()->previous() }}"  class="btn btn-primary"><i class="fas fa-angle-left"></i> {{ __('content.back') }}</a>
-                    </div>
-                </div>
                     <form action="{{ route('about.update_info_list', $info_list->id) }}" method="POST">
                         @method('PUT')
                         @csrf

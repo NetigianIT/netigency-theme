@@ -107,14 +107,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="icon" class="d-block">{{ __('content.icon') }}</label>
-                                            <div class="btn-group">
-                                                <input type="hidden" name="icon" class="form-control" id="icon">
-                                                <button type="button" class="btn btn-primary iconpicker-component"><i id="icon-value" class="iconpicker-component"></i></button>
-                                                <button type="button" id="iconPickerBtn" class="icp icp-dd btn btn-primary dropdown-toggle iconpicker-component" data-selected="fa-car" data-toggle="dropdown">
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <div class="dropdown-menu"></div>
-                                            </div>
+                                            @include('admin.components.icon-picker')
                                         </div>
                                     </div>
                                     <div class="col-xl-12">

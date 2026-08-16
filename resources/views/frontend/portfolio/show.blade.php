@@ -28,29 +28,33 @@
     <!--// Breadcrumb Section end //-->
 
     <!--// Portfolio Single Section Start //-->
-    <section class="section" id="portfolio-single-page">
+    <section class="section portfolio-single-section" id="portfolio-single-page">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    @if (count($sliders) > 0)
-                        <div class="owl-carousel owl-theme" id="portfolioCarousel">
-                           @foreach ($sliders as $slider)
-                                <div class="item">
-                                    <img src="{{ asset('uploads/img/portfolio/slider/'.$slider->portfolio_image) }}" alt="image" class="img-fluid">
-                                </div>
-                               @endforeach
+            <div class="row portfolio-single-row align-items-start">
+                <div class="col-lg-8 portfolio-single-main">
+                    <div class="portfolio-single-card">
+                        @if (count($sliders) > 0)
+                            <div class="owl-carousel owl-theme portfolio-single-media" id="portfolioCarousel">
+                               @foreach ($sliders as $slider)
+                                    <div class="item">
+                                        <img src="{{ asset('uploads/img/portfolio/slider/'.$slider->portfolio_image) }}" alt="image" class="img-fluid">
+                                    </div>
+                                   @endforeach
+                            </div>
+                            @endif
+                        <div class="portfolio-single-inner">
+                            <h4>{{ $portfolio->title }}</h4>
+                            <div class="author-meta">
+                                <a href="#"><span class="far fa-calendar-alt"></span>{{ Carbon\Carbon::parse($portfolio->created_at)->isoFormat('DD') }} {{ Carbon\Carbon::parse($portfolio->created_at)->isoFormat('MMMM') }} {{ Carbon\Carbon::parse($portfolio->created_at)->isoFormat('GGGG') }}</a>
+                                <a href="#"><span class="far fa-bookmark"></span>{{ $portfolio->category_name }}</a>
+                            </div>
+                            <div class="portfolio-single-desc">
+                                <p>@php echo html_entity_decode($portfolio->desc); @endphp</p>
+                            </div>
                         </div>
-                        @endif
-                    <div class="portfolio-single-inner">
-                        <h4>{{ $portfolio->title }}</h4>
-                        <div class="author-meta">
-                            <a href="#"><span class="far fa-calendar-alt"></span>{{ Carbon\Carbon::parse($portfolio->created_at)->isoFormat('DD') }} {{ Carbon\Carbon::parse($portfolio->created_at)->isoFormat('MMMM') }} {{ Carbon\Carbon::parse($portfolio->created_at)->isoFormat('GGGG') }}</a>
-                            <a href="#"><span class="far fa-bookmark"></span>{{ $portfolio->category_name }}</a>
-                        </div>
-                        <p>@php echo html_entity_decode($portfolio->desc); @endphp</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-12">
+                <div class="col-lg-4 col-md-12 portfolio-single-aside">
                     <div class="widget-sidebar">
                        @if (count($details) > 0)
                             <div class="sidebar-widgets">

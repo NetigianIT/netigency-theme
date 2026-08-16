@@ -102,7 +102,7 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=43">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=53">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -603,6 +603,8 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M2WBM4S3"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+<script src="{{ asset('assets/frontend/js/ni-select.js') }}?v=1"></script>
 
 </body>
 </html>

@@ -1,5 +1,10 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#featureSectionModal">{{ __('content.section_title_and_desc') }}</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#featureModal">+ {{ __('content.add_feature') }}</button>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,13 +14,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-md-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.features') }}</h6>
-                        <div>
-                            <button type="button" class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#featureSectionModal">{{ __('content.section_title_and_desc') }}</button>
-                            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#featureModal">+ {{ __('content.add_feature') }}</button>
-                        </div>
-                    </div>
                     @if (count($features) > 0)
                         <div class="mr-3">
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
@@ -64,7 +62,7 @@
                                 <th>{{ __('content.title') }}</th>
                                 <th>{{ __('content.description') }}</th>
                                 <th>{{ __('content.order') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -251,14 +249,7 @@
                             <div class="col-md-12" id="icon-type">
                                 <div class="form-group">
                                     <label for="icon" class="d-block">{{ __('content.icon') }}</label>
-                                    <div class="btn-group">
-                                        <input type="hidden" name="icon" class="form-control" id="icon">
-                                        <button type="button" class="btn btn-primary  iconpicker-component"><i id="icon-value" class="iconpicker-component"></i></button>
-                                        <button type="button" id="iconPickerBtn" class="icp icp-dd btn btn-primary dropdown-toggle iconpicker-component" data-selected="fa-car" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                        </button>
-                                        <div class="dropdown-menu"></div>
-                                    </div>
+                                    @include('admin.components.icon-picker')
                                 </div>
                             </div>
                             <div class="col-md-12" id="image-type" style="display: none;">

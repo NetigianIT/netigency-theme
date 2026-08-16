@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.site_images') }}</h4>
                 @if (isset($site_image))
                     @if ($demo_mode == "on")
                         <!-- Include Alert Blade -->

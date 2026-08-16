@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.skill') }}</h4>
                 @if (isset($skill))
                     @if ($demo_mode == "on")
                         <!-- Include Alert Blade -->
@@ -179,7 +178,7 @@
                                     <th>{{ __('content.title') }}</th>
                                     <th>{{ __('content.percent_rate') }}</th>
                                     <th>{{ __('content.order') }}</th>
-                                    <th class="custom-width-action">{{ __('content.action') }}</th>
+                                    <th class="all custom-width-action">{{ __('content.action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>

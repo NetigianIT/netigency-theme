@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.blog_paginate') }}</h4>
                 @if (isset($blog_paginate))
                     @if ($demo_mode == "on")
                         <!-- Include Alert Blade -->

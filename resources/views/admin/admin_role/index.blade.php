@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <a href="{{ url('admin/admin-role/create') }}" class="btn btn-primary">+ {{ __('content.add_admin_role') }}</a>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,29 +13,64 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.admin_manage') }}</h6>
-                        <div>
-                            <a href="{{ url('admin/admin-role/create') }}" class="btn btn-primary float-right mb-3">+ {{ __('content.add_admin_role') }}</a>
-                        </div>
-                    </div>
-
                     @if (count($roles) > 0)
+                        <div>
+                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
+                            <label for="check_all">{{ __('content.all') }}</label>
+                            <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
+                                <i class="fa fa-trash text-danger font-18"></i>
+                            </a>
+                        </div>
+                        @if ($demo_mode == "on")
+                            @include('admin.demo_mode.demo-mode')
+                        @else
+                            <form onsubmit="return btnCheckListGet()" action="{{ route('admin-role.destroy_checked') }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                        @endif
+                            <input type="hidden" id="checked_lists" name="checked_lists" value="">
+
+                            <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteCheckedModalCenterTitle">{{ __('content.delete') }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            {{ __('content.delete_selected') }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
+                                            <button onclick="btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
                         <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th>{{ __('content.role_name') }}</th>
                                 <th>{{ __('content.permissions') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @php $i = 1; @endphp
+                            @php $desc = count($roles); $asc = 0; @endphp
                             @foreach ($roles as $role)
                                 <tr>
-                                    <td>{{ $i++ }}</td>
+                                    <td>
+                                        @if ($role->name != 'super-admin')
+                                            <input name="check_list[]" type="checkbox" value="{{ $role->id }}" onclick="showHideDeleteButton2(this)">
+                                        @endif
+                                        <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                    </td>
                                     <td>{{ $role->name }}</td>
                                     <td>
                                         @php  $role_permissions = $role->getAllPermissions(); @endphp
@@ -43,7 +82,7 @@
                                             @endforeach
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="all text-nowrap text-center">
                                         <div>
                                            @if ($role->name != 'super-admin')
                                                 <a href="{{ route('admin-role.edit', $role->id) }}" class="mr-2">
@@ -72,7 +111,6 @@
                                             </div>
                                             <div class="modal-footer">
                                             @if ($demo_mode == "on")
-                                                <!-- Include Alert Blade -->
                                                     @include('admin.demo_mode.demo-mode')
                                                 @else
                                                     <form class="d-inline-block" action="{{ route('admin-role.destroy', $role->id) }}" method="POST">

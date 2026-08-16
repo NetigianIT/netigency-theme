@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryModal">+ {{ __('content.add_category') }}</button>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,12 +13,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.categories') }}</h6>
-                        <div>
-                           <button type="button" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target="#categoryModal">+ {{ __('content.add_category') }}</button>
-                        </div>
-                        </div>
                     @if (count($categories) > 0)
                         <div>
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
@@ -62,7 +60,7 @@
                                 <th>{{ __('content.category_name') }}</th>
                                 <th>{{ __('content.order') }}</th>
                                 <th>{{ __('content.status') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>

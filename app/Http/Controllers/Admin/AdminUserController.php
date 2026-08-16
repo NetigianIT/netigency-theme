@@ -237,4 +237,38 @@ class AdminUserController extends Controller
         return redirect()->route('admin-user.index')
             ->with('success', 'content.deleted_successfully');
     }
+
+    /**
+     * Remove the checked resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_checked(Request $request)
+    {
+        $input = $request->input('checked_lists');
+        $arr_checked_lists = explode(",", $input);
+
+        if (array_filter($arr_checked_lists) == []) {
+            return redirect()->route('admin-user.index')
+                ->with('warning', 'content.please_choose');
+        }
+
+        $folder = 'uploads/img/profile/admin/';
+
+        foreach ($arr_checked_lists as $id) {
+            $admin_user = User::findOrFail($id);
+
+            if ($admin_user->getRoleNames()->first() == 'super-admin') {
+                continue;
+            }
+
+            File::delete(public_path($folder.$admin_user->profile_photo_path));
+            $admin_user->removeRole($admin_user->getRoleNames()->first());
+            $admin_user->delete();
+        }
+
+        return redirect()->route('admin-user.index')
+            ->with('success', 'content.deleted_successfully');
+    }
 }

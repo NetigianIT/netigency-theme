@@ -1,7 +1,7 @@
 @extends('layouts.admin.master')
 
 @section('page_actions')
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">+ {{ __('content.add_detail') }}</button>
+    <a href="{{ url('admin/social/create') }}" class="btn btn-primary">+ {{ __('content.add_social') }}</a>
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    @if (count($service_details) > 0)
+                    @if (count($socials) > 0)
                         <div>
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
                             <label for="check_all">{{ __('content.all') }}</label>
@@ -22,17 +22,14 @@
                             </a>
                         </div>
                         @if ($demo_mode == "on")
-                        <!-- Include Alert Blade -->
                             @include('admin.demo_mode.demo-mode')
                         @else
-                            <form onsubmit="return btnCheckListGet()" action="{{ route('service-detail.destroy_checked', $id) }}" method="POST">
+                            <form onsubmit="return btnCheckListGet()" action="{{ route('social.destroy_checked') }}" method="POST">
                                 @method('DELETE')
                                 @csrf
-                                @endif
-
+                        @endif
                             <input type="hidden" id="checked_lists" name="checked_lists" value="">
 
-                            <!-- Modal -->
                             <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                     <div class="modal-content">
@@ -57,29 +54,44 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th>{{ __('content.title') }}</th>
-                                <th>{{ __('content.description') }}</th>
-                                <th>{{ __('content.order') }}</th>
+                                <th>{{ __('content.socials') }}</th>
+                                <th>{{ __('content.link') }}</th>
+                                <th>{{ __('content.status') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            @php $desc = count($service_details); $asc=0; @endphp
-                            @foreach ($service_details as $service_detail)
+                            @php $desc = count($socials); $asc = 0; @endphp
+                            @foreach ($socials as $social)
                                 <tr>
                                     <td>
-                                        <input  name="check_list[]" type="checkbox" value="{{ $service_detail->id }}" onclick="showHideDeleteButton2(this)"> <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                        <input name="check_list[]" type="checkbox" value="{{ $social->id }}" onclick="showHideDeleteButton2(this)">
+                                        <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
                                     </td>
-                                    <td>{{ $service_detail->title }}</td>
-                                    <td>{{ $service_detail->desc }}</td>
-                                    <td>{{ $service_detail->order }}</td>
+                                    <td><i class="{{ $social->social_media }}"></i></td>
+                                    <td>{{ $social->link }}</td>
                                     <td>
+                                        <form action="{{ route('social.update_status', $social->id) }}" method="POST">
+                                            @method('PATCH')
+                                            @csrf
+                                            @if ($social->status == 1)
+                                                <button type="submit" class="btn btn-danger">
+                                                    {{ __('content.disable') }}
+                                                </button>
+                                            @else
+                                                <button type="submit" class="btn btn-success">
+                                                    {{ __('content.enable') }}
+                                                </button>
+                                            @endif
+                                        </form>
+                                    </td>
+                                    <td class="all text-nowrap text-center">
                                         <div>
-                                            <a href="{{ url('admin/service-detail/'. $id.'/'.$service_detail->id. '/edit') }}" class="mr-2">
+                                            <a href="{{ route('social.edit', $social->id) }}" class="mr-2">
                                                 <i class="fa fa-edit text-info font-18"></i>
                                             </a>
-                                            <a href="#" data-toggle="modal" data-target="#deleteModel{{ $service_detail->id }}">
+                                            <a href="#" data-toggle="modal" data-target="#deleteModel{{ $social->id }}">
                                                 <i class="fa fa-trash text-danger font-18"></i>
                                             </a>
                                         </div>
@@ -87,7 +99,7 @@
                                 </tr>
 
                                 <!-- Modal -->
-                                    <div class="modal fade" id="deleteModel{{ $service_detail->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal fade" id="deleteModel{{ $social->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -101,15 +113,14 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                 @if ($demo_mode == "on")
-                                                    <!-- Include Alert Blade -->
                                                         @include('admin.demo_mode.demo-mode')
                                                     @else
-                                                        <form class="d-inline-block" action="{{ route('service-detail.destroy', $service_detail->id) }}" method="POST">
+                                                        <form class="d-inline-block" action="{{ route('social.destroy', $social->id) }}" method="POST">
                                                             @method('DELETE')
                                                             @csrf
                                                             @endif
 
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
                                                     <button type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
                                                     </form>
                                                 </div>
@@ -127,53 +138,4 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div><!-- end row-->
-    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-modal="false">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0 font-16" id="detailModalLabel">{{ __('content.add_new') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                @if ($demo_mode == "on")
-                    <!-- Include Alert Blade -->
-                        @include('admin.demo_mode.demo-mode')
-                    @else
-                        <form action="{{ route('service-detail.store', $id) }}" method="POST">
-                            @csrf
-                            @endif
-
-                        <input name="service_id" type="hidden" value="{{ $id }}">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="title" class="form-control" id="title" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="desc">{{ __('content.description') }} <span class="text-red">*</span></label>
-                                    <textarea name="desc" class="form-control" id="desc" required></textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="order">{{ __('content.order') }}</label>
-                                    <input type="number" name="order" class="form-control" id="order" value="0" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 @endsection

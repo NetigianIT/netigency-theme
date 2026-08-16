@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <a href="{{ url('admin/page/create') }}" class="btn btn-primary">+ {{ __('content.add_page') }}</a>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,13 +13,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.pages') }}</h6>
-                        <div>
-                            <a href="{{ url('admin/page/create') }}" class="btn btn-primary float-right mb-3">+ {{ __('content.add_page') }}</a>
-                        </div>
-                    </div>
-
                     @if (count($pages) > 0)
                         <div>
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
@@ -64,7 +61,7 @@
                                 <th>{{ __('content.order') }}</th>
                                 <th>{{ __('content.status') }}</th>
                                 <th>{{ __('content.display_header_menu') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
 

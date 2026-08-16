@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.quick_access_buttons') }}</h4>
                 @if (isset($quick_access))
                     @if ($demo_mode == "on")
                         <!-- Include Alert Blade -->
@@ -24,42 +23,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="social_media">{{ __('content.icon') }} <span class="text-red">*</span></label>
-                                    <select class="form-control" name="social_media" id="social_media" required>
-                                        <option value="" disabled selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="fab fa-facebook-f" {{ $quick_access->social_media === "fab fa-facebook-f" ? 'selected' : '' }}>Facebook</option>
-                                        <option value="fab fa-twitter" {{ $quick_access->social_media === "fab fa-twitter" ? 'selected' : '' }}>Twitter</option>
-                                        <option value="fab fa-google-plus-g" {{ $quick_access->social_media === "fab fa-google-plus-g" ? 'selected' : '' }}>Google Plus</option>
-                                        <option value="fab fa-youtube" {{ $quick_access->social_media === "fab fa-youtube" ? 'selected' : '' }}>Youtube</option>
-                                        <option value="fab fa-instagram" {{ $quick_access->social_media === "fab fa-instagram" ? 'selected' : '' }}>Instagram</option>
-                                        <option value="fab fa-vk" {{ $quick_access->social_media === "fab fa-vk" ? 'selected' : '' }}>VK</option>
-                                        <option value="fab fa-weibo" {{ $quick_access->social_media === "fab fa-weibo" ? 'selected' : '' }}>Weibo</option>
-                                        <option value="fab fa-weixin" {{ $quick_access->social_media === "fab fa-weixin" ? 'selected' : '' }}>WeChat</option>
-                                        <option value="fab fa-meetup" {{ $quick_access->social_media === "fab fa-meetup" ? 'selected' : '' }}>Meetup</option>
-                                        <option value="fab fa-wikipedia-w" {{ $quick_access->social_media === "fab fa-wikipedia-w" ? 'selected' : '' }}>Wikipedia</option>
-                                        <option value="fab fa-quora" {{ $quick_access->social_media === "fab fa-quora" ? 'selected' : '' }}>Quora</option>
-                                        <option value="fab fa-pinterest" {{ $quick_access->social_media === "fab fa-pinterest" ? 'selected' : '' }}>Pinterest</option>
-                                        <option value="fab fa-dribbble" {{ $quick_access->social_media === "fab fa-dribbble" ? 'selected' : '' }}>Dribbble</option>
-                                        <option value="fab fa-linkedin-in" {{ $quick_access->social_media === "fab fa-linkedin-in" ? 'selected' : '' }}>Linkedin</option>
-                                        <option value="fab fa-behance-square" {{ $quick_access->social_media === "fab fa-behance-square" ? 'selected' : '' }}>Behance</option>
-                                        <option value="fab fa-wordpress" {{ $quick_access->social_media === "fab fa-wordpress" ? 'selected' : '' }}>WordPress</option>
-                                        <option value="fab fa-blogger-b" {{ $quick_access->social_media === "fab fa-blogger-b" ? 'selected' : '' }}>Blogger</option>
-                                        <option value="fab fa-whatsapp" {{ $quick_access->social_media === "fab fa-whatsapp" ? 'selected' : '' }}>Whatsapp</option>
-                                        <option value="fab fa-telegram" {{ $quick_access->social_media === "fab fa-telegram" ? 'selected' : '' }}>Telegram</option>
-                                        <option value="fab fa-skype" {{ $quick_access->social_media === "fab fa-skype" ? 'selected' : '' }}>Skype</option>
-                                        <option value="fab fa-amazon" {{ $quick_access->social_media === "fab fa-amazon" ? 'selected' : '' }}>Amazon</option>
-                                        <option value="fab fa-stack-overflow" {{ $quick_access->social_media === "fab fa-stack-overflow" ? 'selected' : '' }}>Stack Overflow</option>
-                                        <option value="fab fa-stack-exchange" {{ $quick_access->social_media === "fab fa-stack-exchange" ? 'selected' : '' }}>Stack Exchange</option>
-                                        <option value="fab fa-github" {{ $quick_access->social_media === "fab fa-github" ? 'selected' : '' }}>Github</option>
-                                        <option value="fab fa-android" {{ $quick_access->social_media === "fab fa-android" ? 'selected' : '' }}>Android</option>
-                                        <option value="fab fa-vimeo-v" {{ $quick_access->social_media === "fab fa-vimeo-v" ? 'selected' : '' }}>Vimeo</option>
-                                        <option value="fab fa-tumblr" {{ $quick_access->social_media === "fab fa-tumblr" ? 'selected' : '' }}>Tumblr</option>
-                                        <option value="fab fa-vine" {{ $quick_access->social_media === "fab fa-vine" ? 'selected' : '' }}>Vine</option>
-                                        <option value="fab fa-twitch" {{ $quick_access->social_media === "fab fa-twitch" ? 'selected' : '' }}>Twitch</option>
-                                        <option value="fab fa-flickr" {{ $quick_access->social_media === "fab fa-flickr" ? 'selected' : '' }}>Flickr</option>
-                                        <option value="fab fa-yahoo" {{ $quick_access->social_media === "fab fa-yahoo" ? 'selected' : '' }}>Yahoo</option>
-                                        <option value="fab fa-reddit" {{ $quick_access->social_media === "fab fa-reddit" ? 'selected' : '' }}>Reddit</option>
-                                        <option value="fas fa-rss" {{ $quick_access->social_media === "fas fa-rs" ? 'selected' : '' }}>Rss</option>
-                                    </select>
+                                    @include('admin.components.icon-select', [
+                                        'name' => 'social_media',
+                                        'id' => 'social_media',
+                                        'value' => $quick_access->social_media,
+                                        'required' => true,
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -81,11 +50,16 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="contact">{{ __('content.icon') }} <span class="text-red">*</span></label>
-                                    <select class="form-control" name="contact" id="contact" required>
-                                        <option value="" disabled selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="fas fa-envelope" {{ $quick_access->contact === "fas fa-envelope" ? 'selected' : '' }}>Email</option>
-                                        <option value="fas fa-phone" {{ $quick_access->contact === "fas fa-phone" ? 'selected' : '' }}>Phone</option>
-                                    </select>
+                                    @include('admin.components.icon-select', [
+                                        'name' => 'contact',
+                                        'id' => 'contact',
+                                        'value' => $quick_access->contact,
+                                        'required' => true,
+                                        'icons' => [
+                                            'fas fa-envelope' => 'Email',
+                                            'fas fa-phone' => 'Phone',
+                                        ],
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -122,42 +96,11 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="social_media">{{ __('content.icon') }} <span class="text-red">*</span></label>
-                                    <select class="form-control" name="social_media" id="social_media" required>
-                                        <option value="" disabled selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="fab fa-facebook-f">Facebook</option>
-                                        <option value="fab fa-twitter">Twitter</option>
-                                        <option value="fab fa-google-plus-g">Google Plus</option>
-                                        <option value="fab fa-youtube">Youtube</option>
-                                        <option value="fab fa-instagram">Instagram</option>
-                                        <option value="fab fa-vk">VK</option>
-                                        <option value="fab fa-weibo">Weibo</option>
-                                        <option value="fab fa-weixin">WeChat</option>
-                                        <option value="fab fa-meetup">Meetup</option>
-                                        <option value="fab fa-wikipedia-w">Wikipedia</option>
-                                        <option value="fab fa-quora">Quora</option>
-                                        <option value="fab fa-pinterest">Pinterest</option>
-                                        <option value="fab fa-dribbble">Dribbble</option>
-                                        <option value="fab fa-linkedin-in">Linkedin</option>
-                                        <option value="fab fa-behance-square">Behance</option>
-                                        <option value="fab fa-wordpress">WordPress</option>
-                                        <option value="fab fa-blogger-b">Blogger</option>
-                                        <option value="fab fa-whatsapp">Whatsapp</option>
-                                        <option value="fab fa-telegram">Telegram</option>
-                                        <option value="fab fa-skype">Skype</option>
-                                        <option value="fab fa-amazon">Amazon</option>
-                                        <option value="fab fa-stack-overflow">Stack Overflow</option>
-                                        <option value="fab fa-stack-exchange">Stack Exchange</option>
-                                        <option value="fab fa-github">Github</option>
-                                        <option value="fab fa-android">Android</option>
-                                        <option value="fab fa-vimeo-v">Vimeo</option>
-                                        <option value="fab fa-tumblr">Tumblr</option>
-                                        <option value="fab fa-vine">Vine</option>
-                                        <option value="fab fa-twitch">Twitch</option>
-                                        <option value="fab fa-flickr">Flickr</option>
-                                        <option value="fab fa-yahoo">Yahoo</option>
-                                        <option value="fab fa-reddit">Reddit</option>
-                                        <option value="fas fa-rss">Rss</option>
-                                    </select>
+                                    @include('admin.components.icon-select', [
+                                        'name' => 'social_media',
+                                        'id' => 'social_media_create',
+                                        'required' => true,
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -179,11 +122,15 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="contact">{{ __('content.icon') }} <span class="text-red">*</span></label>
-                                    <select class="form-control" name="contact" id="contact" required>
-                                        <option value="" disabled selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="fas fa-envelope">Email</option>
-                                        <option value="fas fa-phone">Phone</option>
-                                    </select>
+                                    @include('admin.components.icon-select', [
+                                        'name' => 'contact',
+                                        'id' => 'contact_create',
+                                        'required' => true,
+                                        'icons' => [
+                                            'fas fa-envelope' => 'Email',
+                                            'fas fa-phone' => 'Phone',
+                                        ],
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-4">

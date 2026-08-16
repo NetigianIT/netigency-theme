@@ -866,67 +866,56 @@
         <!--// About Section Start //-->
         @if ($section_arr['about_us_section'] == 1)
         @if (isset($about))
-            <section class="section" id="about" data-scroll-index="2">
+            <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
+                    <div class="row about-row align-items-stretch">
+                        <div class="col-lg-6 about-media-col">
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="{{ asset('uploads/img/about/'.$about->about_image) }}" alt="About image" title="About image" class="img-fluid">
                                 @if (!empty($about->video_link))
-                                    <a class="about-video-btn" href="{{ $about->video_link }}"><i class="fa fa-play"></i></a>
+                                    <a class="about-video-btn" href="{{ $about->video_link }}" aria-label="Play about video"><i class="fa fa-play"></i></a>
                                     <div class="video-border-line"></div>
                                     @endif
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                                <h6>{{ $about->section_title }}</h6>
                                 <h2>{{ $about->title }}</h2>
                                 <p>{{ $about->desc }}</p>
-                                <div class="row">
+                                <div class="row about-info-grid">
                                     @foreach ($info_lists->chunk(3) as $info_list)
-
-                                        @foreach ($info_list as $item)
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="mb-resp-15">
-                                                    <li>
+                                        <div class="col-md-6 col-sm-6">
+                                            <ul class="mb-resp-15">
+                                                @foreach ($info_list as $item)
+                                                    <li class="about-info-item">
                                                         <div class="text">
                                                             <h5>{{ $item->title }}</h5>
                                                             <p>{{ $item->desc }}</p>
                                                         </div>
                                                     </li>
-                                                </ul>
-                                            </div>
-                                        @endforeach
+                                                @endforeach
+                                            </ul>
+                                        </div>
                                     @endforeach
-
                                 </div>
-
-                                @if (!empty($about->cv_file))
-                                    <a href="{{  asset('uploads/img/about/'.$about->cv_file) }}" class="primary-btn" download>
-                                        <span class="text">Presentation</span>
-                                        <span class="icon"><i class="fa fa-download"></i></span>
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
         @else
-            <section class="section" id="about" data-scroll-index="2">
+            <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
+                    <div class="row about-row align-items-stretch">
+                        <div class="col-lg-6 about-media-col">
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
-                                <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0"><i class="fa fa-play"></i></a>
+                                <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0" aria-label="Play about video"><i class="fa fa-play"></i></a>
                                 <div class="video-border-line"></div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                                <h6>About Us</h6>
                                 <h2>We are here with 10 years of user experience</h2>
                                 <p>
                                     We prevent loss of time and indecision in our works.
@@ -934,22 +923,22 @@
                                     Most of our customers and brands express their satisfaction.
                                     By working with us, we can appeal to a large audience and grow your business.
                                 </p>
-                                <div class="row">
+                                <div class="row about-info-grid">
                                     <div class="col-md-6 col-sm-6">
                                         <ul class="mb-resp-15">
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Company Name :</h5>
                                                     <p>Netigian IT</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Country :</h5>
                                                     <p>United States</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Freelance :</h5>
                                                     <p>Available</p>
@@ -959,19 +948,19 @@
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <ul>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Technologies :</h5>
                                                     <p>Java, Php, C#, Python, Flutter</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Languages :</h5>
                                                     <p>English, Deutch, Arabic</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Address :</h5>
                                                     <p>Etowah, TN 37331 United States</p>
@@ -980,10 +969,6 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <a href="javascript:void(0)" class="primary-btn">
-                                    <span class="text">Download Cv</span>
-                                    <span class="icon"><i class="fa fa-download"></i></span>
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -1481,26 +1466,23 @@
         <!--// Skills Section Start //-->
         @if ($section_arr['skill_section'] == 1)
         @if (isset($skill) || count($skill_info_lists) > 0)
-            <section class="section">
+            <section class="section skills-section">
                 <div class="container">
-                    <div class="row">
+                    <div class="row skills-row align-items-stretch">
                       @isset ($skill)
-                            <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                            <div class="col-lg-6 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                                 <div class="skills-img">
                                     <img src="{{ asset('uploads/img/skill/'.$skill->skill_image) }}" alt="About image" title="About image" class="img-fluid">
-                                    <span class="icon-check"><i class="fa fa-check"></i></span>
-                                    <div class="icon-border-line"></div>
                                 </div>
                             </div>
                           @endisset
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                        <div class="col-lg-6 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-inner">
                                @isset ($skill)
-                                    <h6>{{ $skill->section_title }}</h6>
                                     <h2>{{ $skill->title }}</h2>
                                     @if (!empty($skill->desc)) <p>{{ $skill->desc }}</p> @endif
                                    @endisset
-                                <div class="row">
+                                <div class="row skills-cards">
                                   @foreach ($skill_info_lists as $skill_info_list)
                                         <div class="col-md-6 col-sm-6 skills-item-resp">
                                             <div class="skills-item">
@@ -1523,19 +1505,16 @@
                 </div>
             </section>
         @else
-            <section class="section">
+            <section class="section skills-section">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                    <div class="row skills-row align-items-stretch">
+                        <div class="col-lg-6 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-img">
                                 <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
-                                <span class="icon-check"><i class="fa fa-check"></i></span>
-                                <div class="icon-border-line"></div>
                             </div>
                         </div>
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                        <div class="col-lg-6 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-inner">
-                                <h6>Skills</h6>
                                 <h2>Our specialize in frameworks UI for years</h2>
                                 <p>
                                     A front end library is being released every day and it is requested
@@ -1543,21 +1522,7 @@
                                     follow the updates of new frontend frameworks and programming frameworks.
                                     It is easier for me to keep up with new technologies in projects
                                 </p>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <ul class="mb-resp-15">
-                                            <li>Full Responsive Design</li>
-                                            <li>Modern Browser Compatible</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6  col-sm-6">
-                                        <ul>
-                                            <li>Clean & Quality Code</li>
-                                            <li>7/24 Customer Support</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row">
+                                <div class="row skills-cards">
                                     <div class="col-md-6 col-sm-6 skills-item-resp">
                                         <div class="skills-item">
                                             <div class="skills-item-text">

@@ -1,5 +1,10 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#workProcessSectionModal">{{ __('content.section_title_and_desc') }}</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#workProcessModal">+ {{ __('content.add_work_process') }}</button>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,13 +14,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-md-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.work_processes') }}</h6>
-                        <div>
-                            <button type="button" class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#workProcessSectionModal">{{ __('content.section_title_and_desc') }}</button>
-                            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#workProcessModal">+ {{ __('content.add_work_process') }}</button>
-                        </div>
-                    </div>
                     @if (count($work_processes) > 0)
                         <div class="mr-3">
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
@@ -63,7 +61,7 @@
                                 <th>{{ __('content.image') }}</th>
                                 <th>{{ __('content.title') }}</th>
                                 <th>{{ __('content.order') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>

@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#subscriberModal">+ {{ __('content.add_subscriber') }}</button>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,19 +13,45 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-md-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.subscribers') }}</h6>
-                        <div>
-                            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#subscriberModal">+ {{ __('content.add_subscriber') }}</button>
-                        </div>
-                    </div>
                     @if (count($subscribers) > 0)
+                        <div>
+                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
+                            <label for="check_all">{{ __('content.all') }}</label>
+                            <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
+                                <i class="fa fa-trash text-danger font-18"></i>
+                            </a>
+                        </div>
+                        <form onsubmit="return btnCheckListGet()" action="{{ route('subscribe.destroy_checked') }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <input type="hidden" id="checked_lists" name="checked_lists" value="">
+
+                            <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteCheckedModalCenterTitle">{{ __('content.delete') }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            {{ __('content.delete_selected') }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
+                                            <button onclick="btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                        <table id="basic-datatable" class="basic-datatable table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th>{{ __('content.email') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
 
@@ -30,11 +60,12 @@
                             @foreach ($subscribers as $subscriber)
                                 <tr>
                                     <td>
+                                         <input name="check_list[]" type="checkbox" value="{{ $subscriber->id }}" onclick="showHideDeleteButton2(this)">
                                          <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
                                     </td>
 
                                     <td><a href="mailto:{{ $subscriber->email }}">{{ $subscriber->email }}</a></td>
-                                    <td>
+                                    <td class="all text-nowrap text-center">
                                         <div>
                                             <a href="#" data-toggle="modal" data-target="#deleteModal{{ $subscriber->id }}">
                                                 <i class="fa fa-trash text-danger font-18"></i>

@@ -1,5 +1,10 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#sectionModal">{{ __('content.section_title_and_desc') }}</button>
+    <a href="{{ url('admin/service/create') }}" class="btn btn-primary">+ {{ __('content.add_service') }}</a>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,14 +14,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-md-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.services') }}</h6>
-                        <div>
-                            <button type="button" class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#sectionModal">{{ __('content.section_title_and_desc') }}</button>
-                            <a href="{{ url('admin/service/create') }}" class="btn btn-primary float-right mb-3">+ {{ __('content.add_service') }}</a>
-                        </div>
-                        </div>
-
                     @if (count($services) > 0)
                         <div>
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
@@ -68,7 +65,7 @@
                                 <th>{{ __('content.short_desc') }}</th>
                                 <th>{{ __('content.order') }}</th>
                                 <th>{{ __('content.status') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>

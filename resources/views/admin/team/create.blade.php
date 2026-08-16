@@ -1,5 +1,10 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#teamSectionModal">{{ __('content.section_title_and_desc') }}</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#teamModal">+ {{ __('content.add_team') }}</button>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -9,13 +14,6 @@
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-md-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.teams') }}</h6>
-                        <div>
-                            <button type="button" class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#teamSectionModal">{{ __('content.section_title_and_desc') }}</button>
-                            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#teamModal">+ {{ __('content.add_team') }}</button>
-                        </div>
-                    </div>
                     @if (count($teams) > 0)
                         <div>
                             <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
@@ -64,7 +62,7 @@
                                 <th>{{ __('content.name') }}</th>
                                 <th>{{ __('content.job') }}</th>
                                 <th>{{ __('content.order') }}</th>
-                                <th class="custom-width-action">{{ __('content.action') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>

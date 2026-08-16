@@ -114,6 +114,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'role:super-admin'])->pref
     Route::get('admin-role/{id}/edit', [AdminRoleController::class, 'edit'])->name('admin-role.edit');
     Route::put('admin-role/{id}', [AdminRoleController::class, 'update'])->name('admin-role.update');
     Route::delete('admin-role/{id}', [AdminRoleController::class, 'destroy'])->name('admin-role.destroy');
+    Route::delete('admin-role-checked', [AdminRoleController::class, 'destroy_checked'])->name('admin-role.destroy_checked');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'role:super-admin'])->prefix('admin')->group(function () {
@@ -123,6 +124,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'role:super-admin'])->pref
     Route::get('admin-user/{id}/edit', [AdminUserController::class, 'edit'])->name('admin-user.edit');
     Route::put('admin-user/{id}', [AdminUserController::class, 'update'])->name('admin-user.update');
     Route::delete('admin-user/{id}', [AdminUserController::class, 'destroy'])->name('admin-user.destroy');
+    Route::delete('admin-user-checked', [AdminUserController::class, 'destroy_checked'])->name('admin-user.destroy_checked');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:uploads check'])->prefix('admin')->group(function () {
@@ -137,6 +139,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:subscribe chec
     Route::get('subscribe/create', [SubscribeController::class, 'create'])->name('subscribe.create');
     Route::post('subscribe', [SubscribeController::class, 'store'])->name('subscribe.store');
     Route::delete('subscribe/{id}', [SubscribeController::class, 'destroy'])->name('subscribe.destroy');
+    Route::delete('subscribe-checked', [SubscribeController::class, 'destroy_checked'])->name('subscribe.destroy_checked');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:banner check'])->prefix('admin')->group(function () {
@@ -390,18 +393,21 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:contact check'
     Route::get('contact/{id}/edit', [ContactController::class, 'edit'])->name('contact.edit');
     Route::put('contact/{id}', [ContactController::class, 'update'])->name('contact.update');
     Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
+    Route::delete('contact-checked', [ContactController::class, 'destroy_checked'])->name('contact.destroy_checked');
 
     Route::post('contact-section', [ContactSectionController::class, 'store'])->name('contact-section.store');
     Route::put('contact-section/{id}', [ContactSectionController::class, 'update'])->name('contact-section.update');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:contact check'])->prefix('admin')->group(function () {
+    Route::get('social', [SocialController::class, 'index'])->name('social.index');
     Route::get('social/create', [SocialController::class, 'create'])->name('social.create');
     Route::post('social', [SocialController::class, 'store'])->name('social.store');
     Route::get('social/{id}/edit', [SocialController::class, 'edit'])->name('social.edit');
     Route::put('social/{id}', [SocialController::class, 'update'])->name('social.update');
     Route::patch('social/update_status/{id}', [SocialController::class, 'update_status'])->name('social.update_status');
     Route::delete('social/{id}', [SocialController::class, 'destroy'])->name('social.destroy');
+    Route::delete('social-checked', [SocialController::class, 'destroy_checked'])->name('social.destroy_checked');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:contact check'])->prefix('admin')->group(function () {
@@ -415,6 +421,7 @@ Route::middleware(['auth:sanctum', 'verified', 'permission:contact check'])->pre
     Route::put('message/{id}', [MessageController::class, 'update'])->name('message.update');
     Route::patch('message/mark_all', [MessageController::class, 'mark_all_read_update'])->name('message.mark_all_read_update');
     Route::delete('message/{id}', [MessageController::class, 'destroy'])->name('message.destroy');
+    Route::delete('message-checked', [MessageController::class, 'destroy_checked'])->name('message.destroy_checked');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:pages check'])->prefix('admin')->group(function () {
@@ -432,6 +439,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:comments check
     Route::put('comment/{id}', [CommentSectionController::class, 'update'])->name('comment-section.update');
     Route::patch('comment/mark_all', [CommentSectionController::class, 'mark_all_approval_update'])->name('comment-section.mark_all_approval_update');
     Route::delete('comment/{id}', [CommentSectionController::class, 'destroy'])->name('comment-section.destroy');
+    Route::delete('comment-checked', [CommentSectionController::class, 'destroy_checked'])->name('comment-section.destroy_checked');
 });
 
 
@@ -459,6 +467,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:language check
     Route::put('language/{id}', [LanguageController::class, 'update'])->name('language.update');
     Route::patch('language/update_display_dropdown/{id}', [LanguageController::class, 'update_display_dropdown'])->name('language.update_display_dropdown');
     Route::delete('language/{id}', [LanguageController::class, 'destroy'])->name('language.destroy');
+    Route::delete('language-checked', [LanguageController::class, 'destroy_checked'])->name('language.destroy_checked');
 });
 
 Route::get('language/set-locale/{language_id}', [LanguageController::class, 'set_locale'])

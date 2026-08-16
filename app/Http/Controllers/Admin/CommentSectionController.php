@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Frontend\Comment;
+use Illuminate\Http\Request;
 
 class CommentSectionController extends Controller
 {
@@ -67,6 +68,31 @@ class CommentSectionController extends Controller
 
         // Delete record
         $comment->delete();
+
+        return redirect()->route('comment-section.index')
+            ->with('success', 'content.deleted_successfully');
+    }
+
+    /**
+     * Remove the checked resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_checked(Request $request)
+    {
+        $input = $request->input('checked_lists');
+        $arr_checked_lists = explode(",", $input);
+
+        if (array_filter($arr_checked_lists) == []) {
+            return redirect()->route('comment-section.index')
+                ->with('warning', 'content.please_choose');
+        }
+
+        foreach ($arr_checked_lists as $id) {
+            $comment = Comment::findOrFail($id);
+            $comment->delete();
+        }
 
         return redirect()->route('comment-section.index')
             ->with('success', 'content.deleted_successfully');

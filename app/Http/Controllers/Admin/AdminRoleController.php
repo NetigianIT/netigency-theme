@@ -207,4 +207,34 @@ class AdminRoleController extends Controller
         }
 
     }
+
+    /**
+     * Remove the checked resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_checked(Request $request)
+    {
+        $input = $request->input('checked_lists');
+        $arr_checked_lists = explode(",", $input);
+
+        if (array_filter($arr_checked_lists) == []) {
+            return redirect()->route('admin-role.index')
+                ->with('warning', 'content.please_choose');
+        }
+
+        foreach ($arr_checked_lists as $id) {
+            $role = Role::findOrFail($id);
+
+            if ($role->name == 'super-admin') {
+                continue;
+            }
+
+            $role->delete();
+        }
+
+        return redirect()->route('admin-role.index')
+            ->with('success', 'content.deleted_successfully');
+    }
 }

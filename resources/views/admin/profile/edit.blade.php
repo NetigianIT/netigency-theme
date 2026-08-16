@@ -10,7 +10,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.profile') }}</h4>
             @if ($demo_mode == "on")
                 <!-- Include Alert Blade -->
                     @include('admin.demo_mode.demo-mode')

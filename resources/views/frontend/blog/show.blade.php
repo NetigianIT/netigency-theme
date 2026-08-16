@@ -2,37 +2,12 @@
 
 @section('content')
 
-    <!--// Breadcrumb Section Start //-->
-    <section class="breadcrumb-section section" data-scroll-index="1" @if ($blog->breadcrumb_status == 1 && !empty($blog->custom_breadcrumb_image))  data-bg-image-path = "{{ asset('uploads/img/blogs/breadcrumb/'.$blog->custom_breadcrumb_image) }}"
-             @elseif (isset($breadcrumb)) data-bg-image-path = "{{ asset('uploads/img/general/'.$breadcrumb->breadcrumb_image) }}"
-             @else data-bg-image-path="{{ asset('uploads/img/dummy/1920x350.jpg') }}"
-            @endif>
+    <!--// Blog Details Section Start //-->
+    <section class="section page-content-offset blog-details-section" id="blog-sidebar-page">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="breadcrumb-inner">
-                        <h1>{{ $blog->title }}</h1>
-                        <ul class="breadcrumb-links">
-                            <li>
-                                <a href="{{ url('/') }}">{{ __('frontend.home') }}</a>
-                            </li>
-                            <li class="active">
-                                {{ $blog->title }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--// Breadcrumb Section end //-->
-
-    <!--// Blog Sidebar Section Start //-->
-    <section class="section padding-minus-90" id="blog-sidebar-page">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="blog-post-single">
+            <div class="row blog-details-row align-items-start">
+                <div class="col-lg-8 blog-details-main">
+                    <div class="blog-post-single blog-details-card">
                        @if ($blog->image_status == 1 && !empty($blog->blog_image))
                             <div class="blog-post-img">
                                 <img src="{{ asset('uploads/img/blogs/'.$blog->blog_image) }}" alt="Image" class="img-fluid">
@@ -44,7 +19,9 @@
                                 <a href="#"><span class="far fa-user"></span>@if ($blog->type == "with_this_account") {{ $blog->author_name }} @else {{ __('frontend.anonymous') }} @endif</a>
                                 <a href="#"><span class="far fa-calendar-alt"></span>{{ Carbon\Carbon::parse($blog->created_at)->isoFormat('DD') }} {{ Carbon\Carbon::parse($blog->created_at)->isoFormat('MMMM') }} {{ Carbon\Carbon::parse($blog->created_at)->isoFormat('GGGG') }}</a>
                             </div>
-                            <p>@php echo html_entity_decode($blog->desc); @endphp</p>
+                            <div class="blog-details-content">
+                                @php echo html_entity_decode($blog->desc); @endphp
+                            </div>
                             <div class="comments-wrap">
                                 @if (count($comments) > 0)
                                     <h5 class="inner-header-title">{{ __('frontend.comments') }}({{ count($comments) }})</h5>
@@ -97,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 blog-details-aside">
                     <div class="widget-sidebar">
                         <div class="sidebar-widgets">
                             <h5 class="inner-header-title">{{ __('frontend.search') }}</h5>
@@ -174,9 +151,11 @@
                                 @endphp
                                 <ul class="sidebar-tags clearfix">
                                     @foreach ($array_tags as $tag)
-                                        <li>
-                                            <a href="#">{{ $tag }}</a>
-                                        </li>
+                                        @if (trim($tag) !== '')
+                                            <li>
+                                                <a href="#">{{ trim($tag) }}</a>
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -186,7 +165,6 @@
             </div>
         </div>
     </section>
-    <!--// Blog Grid Sidebar End //-->
-
+    <!--// Blog Details Section End //-->
 
 @endsection

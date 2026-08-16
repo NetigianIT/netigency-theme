@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Message;
+use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
@@ -65,6 +66,31 @@ class MessageController extends Controller
 
         // Delete record
         $message->delete();
+
+        return redirect()->route('message.index')
+            ->with('success', 'content.deleted_successfully');
+    }
+
+    /**
+     * Remove the checked resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_checked(Request $request)
+    {
+        $input = $request->input('checked_lists');
+        $arr_checked_lists = explode(",", $input);
+
+        if (array_filter($arr_checked_lists) == []) {
+            return redirect()->route('message.index')
+                ->with('warning', 'content.please_choose');
+        }
+
+        foreach ($arr_checked_lists as $id) {
+            $message = Message::findOrFail($id);
+            $message->delete();
+        }
 
         return redirect()->route('message.index')
             ->with('success', 'content.deleted_successfully');
