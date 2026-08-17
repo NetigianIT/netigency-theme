@@ -102,7 +102,7 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=53">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=78">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -146,13 +146,13 @@
             background-color:var(--ni-section-bg,#f4faf7)!important;
         }
         .counters-section-bg{display:none!important}
-        /* Taller nav; single logo visible */
+        /* Compact nav; bigger logo inside the same bar height */
         .header,.header-shrink{padding:0!important}
-        .header .navbar{min-height:84px!important;align-items:center!important;padding-top:12px!important;padding-bottom:12px!important}
-        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:14px 16px!important;line-height:28px!important}
-        .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important}
-        .header .navbar-brand img{height:64px!important;max-height:64px!important;width:auto!important;max-width:none!important}
-        @media (max-width:991.98px){.header .navbar{min-height:64px!important;padding-top:8px!important;padding-bottom:8px!important}.header .navbar-brand img{height:48px!important;max-height:48px!important}}
+        .header .navbar{min-height:68px!important;height:68px!important;align-items:center!important;padding-top:4px!important;padding-bottom:4px!important}
+        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:8px 10px!important;line-height:24px!important}
+        .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important;display:flex!important;align-items:center!important}
+        .header .navbar-brand img{height:60px!important;max-height:60px!important;width:auto!important;max-width:none!important;object-fit:contain}
+        @media (max-width:991.98px){.header .navbar{min-height:56px!important;height:56px!important;padding-top:4px!important;padding-bottom:4px!important}.header .navbar-brand img{height:48px!important;max-height:48px!important}}
         .header .navbar-brand img.logo-normal{display:none!important}
         .header .navbar-brand img.logo-transparent{display:block!important}
     </style>
@@ -232,9 +232,19 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="{{ url('/') }}">{{ __('frontend.home') }}</a>
                             </li>
+                            @if (($section_arr['about_us_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="{{ url('/#about') }}">{{ __('frontend.about_us') }}</a>
+                            </li>
+                            @endif
                             @if (($section_arr['service_section'] ?? 0) == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="{{ url('/#services') }}">{{ __('frontend.services') }}</a>
+                            </li>
+                            @endif
+                            @if (($section_arr['skill_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="{{ url('/#technology') }}">{{ __('frontend.technology') }}</a>
                             </li>
                             @endif
                             @if (($section_arr['portfolio_section'] ?? 0) == 1)
@@ -245,6 +255,11 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             @if (($section_arr['blog_section'] ?? 0) == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{ request()->is('blogs*') ? 'active' : '' }}" href="{{ route('blog-page.index') }}">{{ __('frontend.blogs') }}</a>
+                            </li>
+                            @endif
+                            @if (($section_arr['contact_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="{{ url('/#contact') }}">{{ __('frontend.contact') }}</a>
                             </li>
                             @endif
                             @if (($section_arr['page_menu'] ?? 0) == 1)
@@ -605,6 +620,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <script src="{{ asset('assets/frontend/js/ni-select.js') }}?v=1"></script>
+<script src="{{ asset('assets/frontend/js/ni-spa-nav.js') }}?v=1"></script>
 
 </body>
 </html>

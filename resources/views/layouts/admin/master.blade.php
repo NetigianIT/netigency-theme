@@ -84,9 +84,6 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/datatables.bootstrap4.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/responsive.bootstrap4.css') }}">
 
-    <!-- Summer note Css -->
-    <link href="{{ asset('assets/admin/side_menu/css/summernote-bs4.min.css') }}" rel="stylesheet">
-
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css') }}">
@@ -299,8 +296,8 @@
             }
 
             .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar {
-                width: 4px;
-                height: 4px;
+                width: 6px;
+                height: 6px;
             }
 
             .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-track {
@@ -309,25 +306,26 @@
 
             .sidebar-fixed .sidebar .nav:not(.sub-menu)::-webkit-scrollbar-thumb {
                 background-color: transparent;
-                border-radius: 4px;
+                border-radius: 8px;
             }
 
             .sidebar-fixed .sidebar:hover .nav:not(.sub-menu) {
-                scrollbar-color: #6b7280 transparent;
+                scrollbar-color: rgba(107, 114, 128, 0.45) transparent;
             }
 
             .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb {
-                background-color: #6b7280;
+                background-color: rgba(107, 114, 128, 0.45);
             }
 
             .sidebar-fixed .sidebar:hover .nav:not(.sub-menu)::-webkit-scrollbar-thumb:hover {
-                background-color: #9ca3af;
+                background-color: rgba(107, 114, 128, 0.7);
             }
 
             .sidebar-fixed .sidebar .ps__rail-y {
                 opacity: 0 !important;
-                width: 4px !important;
+                width: 6px !important;
                 background: transparent !important;
+                transition: opacity 0.2s ease;
             }
 
             .sidebar-fixed .sidebar:hover .ps__rail-y,
@@ -336,9 +334,14 @@
             }
 
             .sidebar-fixed .sidebar .ps__thumb-y {
-                background-color: #6b7280 !important;
-                width: 4px !important;
-                border-radius: 4px !important;
+                background-color: rgba(107, 114, 128, 0.45) !important;
+                width: 6px !important;
+                border-radius: 8px !important;
+            }
+
+            .sidebar-fixed .sidebar .ps__rail-y:hover > .ps__thumb-y,
+            .sidebar-fixed .sidebar .ps__thumb-y:hover {
+                background-color: rgba(107, 114, 128, 0.7) !important;
             }
 
             .sidebar-fixed .main-panel {
@@ -366,7 +369,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=67">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=88">
 
 </head>
 
@@ -582,23 +585,10 @@
                                             request()->is('admin/slider/*/edit') ||
                                             request()->is('admin/video/create') ||
                                             request()->is('admin/homepage-version/create')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#advanced" aria-expanded="false" aria-controls="advanced">
-                            <i class="fas fa-desktop menu-icon"></i>
-                            <span class="menu-title">{{ __('content.banner') }}</span>
-                            <i class="ti-angle-right"></i>
+                        <a class="nav-link" href="{{ url('admin/fixed-content/create') }}">
+                            <i class="fas fa-image menu-icon"></i>
+                            <span class="menu-title">{{ __('content.hero_section') }}</span>
                         </a>
-                        <div class="collapse {{ (request()->is('admin/fixed-content/create') ||
-                                                 request()->is('admin/slider/create') ||
-                                                 request()->is('admin/slider/*/edit') ||
-                                                 request()->is('admin/video/create') ||
-                                            request()->is('admin/homepage-version/create')) ? 'show' : '' }}" id="advanced">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/fixed-content/create')) ? 'active' : '' }}" href="{{ url('admin/fixed-content/create') }}">{{ __('content.fixed_content') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/slider/create') || request()->is('admin/slider/*/edit')) ? 'active' : '' }}" href="{{ url('admin/slider/create') }}">{{ __('content.sliders') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/video/create')) ? 'active' : '' }}" href="{{ url('admin/video/create') }}">{{ __('content.video') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/homepage-version/create')) ? 'active' : '' }}" href="{{ url('admin/homepage-version/create') }}">{{ __('content.homepage_versions') }}</a></li>
-                            </ul>
-                        </div>
                     </li>
                 @endcan
                 @can('about us check')
@@ -641,7 +631,7 @@
                                                   request()->is('admin/service-background-image/create')) ? 'show' : '' }}" id="services">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/service/create')) ? 'active' : '' }}" href="{{ url('admin/service/create') }}">{{ __('content.add_service') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/service')) ? 'active' : '' }}" href="{{ url('admin/service') }}">{{ __('content.services') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/service') || request()->is('admin/service/*/edit') || request()->is('admin/service-detail*')) ? 'active' : '' }}" href="{{ url('admin/service') }}">{{ __('content.services') }}</a></li>
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/service-paginate/create')) ? 'active' : '' }}" href="{{ url('admin/service-paginate/create') }}">{{ __('content.service_paginate') }}</a></li>
                             </ul>
                         </div>
@@ -699,9 +689,9 @@
                                                   request()->is('admin/portfolio-detail/*/create') ||
                                                   request()->is('admin/portfolio-detail/*/*/edit')) ? 'show' : '' }}" id="portfolios">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio-category/create')) ? 'active' : '' }}" href="{{ url('admin/portfolio-category/create') }}">{{ __('content.categories') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio-category/create') || request()->is('admin/portfolio-category/*/edit')) ? 'active' : '' }}" href="{{ url('admin/portfolio-category/create') }}">{{ __('content.categories') }}</a></li>
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio/create')) ? 'active' : '' }}" href="{{ url('admin/portfolio/create') }}">{{ __('content.add_portfolio') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio')) ? 'active' : '' }}" href="{{ url('admin/portfolio') }}">{{ __('content.portfolios') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio') || request()->is('admin/portfolio/*/edit') || request()->is('admin/portfolio-slider*') || request()->is('admin/portfolio-detail*')) ? 'active' : '' }}" href="{{ url('admin/portfolio') }}">{{ __('content.portfolios') }}</a></li>
                             </ul>
                         </div>
                     </li>
@@ -743,9 +733,9 @@
                                                   request()->is('admin/category/*/edit') ||
                                                   request()->is('admin/blog-paginate/create')) ? 'show' : '' }}" id="blogs">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/category/create')) ? 'active' : '' }}" href="{{ url('admin/category/create') }}">{{ __('content.categories') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/category/create') || request()->is('admin/category/*/edit')) ? 'active' : '' }}" href="{{ url('admin/category/create') }}">{{ __('content.categories') }}</a></li>
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog/create')) ? 'active' : '' }}" href="{{ url('admin/blog/create') }}">{{ __('content.add_blog') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog')) ? 'active' : '' }}" href="{{ url('admin/blog') }}">{{ __('content.blogs') }}</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog') || request()->is('admin/blog/*/edit')) ? 'active' : '' }}" href="{{ url('admin/blog') }}">{{ __('content.blogs') }}</a></li>
                                 <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog-paginate/create')) ? 'active' : '' }}" href="{{ url('admin/blog-paginate/create') }}">{{ __('content.blog_paginate') }}</a></li>
                             </ul>
                         </div>
@@ -840,7 +830,7 @@
                                         request()->is('admin/admin-role/*/edit')) ? 'show' : '' }}" id="admin_roles">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role/create')) ? 'active' : '' }}" href="{{ url('admin/admin-role/create') }}">{{ __('content.add_admin_role') }}</a></li>
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role')) ? 'active' : '' }}" href="{{ url('admin/admin-role') }}">{{ __('content.admin_roles') }}</a></li>
+                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role') || request()->is('admin/admin-role/*/edit')) ? 'active' : '' }}" href="{{ url('admin/admin-role') }}">{{ __('content.admin_roles') }}</a></li>
                         </ul>
                     </div>
                 </li>
@@ -857,7 +847,7 @@
                                         request()->is('admin/admin-user/*/edit')) ? 'show' : '' }}" id="admins">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user/create')) ? 'active' : '' }}" href="{{ url('admin/admin-user/create') }}">{{ __('content.add_admin_user') }}</a></li>
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user')) ? 'active' : '' }}" href="{{ url('admin/admin-user') }}">{{ __('content.all_admin') }}</a></li>
+                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user') || request()->is('admin/admin-user/*/edit')) ? 'active' : '' }}" href="{{ url('admin/admin-user') }}">{{ __('content.all_admin') }}</a></li>
                         </ul>
                     </div>
                 </li>
@@ -908,7 +898,7 @@
                 @endcan
                 @can('clear cache check')
                     <li class="nav-item {{ (request()->is('admin/clear-cache')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/clear-cache') }}">
+                        <a class="nav-link" href="{{ url('admin/clear-cache') }}" data-no-spa>
                             <i class="fab fa-cloudscale menu-icon"></i>
                             <span class="menu-title">{{ __('content.optimizer') }}</span>
                         </a>
@@ -998,6 +988,19 @@
 <script src="{{ asset('assets/admin/side_menu/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/admin/side_menu/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/admin/side_menu/js/bundle.js') }}"></script>
+<script>
+    // Modals live inside .main-panel (position:fixed). Bootstrap puts the
+    // backdrop on <body>, so the dialog ends up under the overlay and looks
+    // "disabled". Always move the dialog to <body> before it shows.
+    (function ($) {
+        if (!$) return;
+        $(document).on('show.bs.modal', '.modal', function () {
+            if (this.parentNode !== document.body) {
+                document.body.appendChild(this);
+            }
+        });
+    })(window.jQuery);
+</script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/fullscreen.js') }}"></script>
 
 <!-- Active JS -->
@@ -1018,7 +1021,7 @@
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=2" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=8" defer></script>
 
 <!-- Datepicker JS -->
 <script src="{{ asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js') }}"></script>
@@ -1028,24 +1031,13 @@
 
 
 
-<!-- Summer note scripts -->
-<script src="{{ asset('assets/admin/side_menu/js/summernote-bs4.min.js') }}"></script>
+<!-- Editor -->
 <script>
-    $('#summernote').summernote({
-        placeholder: '{{ __('content.description') }}',
-        tabsize: 2,
-        height: 100
-    });
-
-    // Summernote code view saving
-    $('.note-codable').on('blur', function() {
-        var codeviewHtml        = $(this).val();
-        var $summernoteTextarea = $(this).closest('.note-editor').siblings('textarea');
-
-        $summernoteTextarea.val(codeviewHtml);
-    });
-
-    // For type selection. enum('type', ['icon', 'image'])
+    window.NI_EDITOR_UPLOAD_URL = "{{ route('admin.editor.upload') }}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/tinymce@7.6.1/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-editor.js') }}?v=3"></script>
+<script>
     function showHideTypeDiv() {
         var optionsRadios1 = document.getElementById("optionsRadios1");
         var optionsRadios2 = document.getElementById("optionsRadios2");
@@ -1085,18 +1077,40 @@
     }
 
     // Delete checked list.
-    function showHideDeleteButton(source) {
-        var check_all = document.getElementById("check_all");
-        deleteChecked.style.display = check_all.checked ? "inline" : "none";
+    function syncBulkDeleteButton() {
+        var btn = document.getElementById("deleteChecked");
+        if (!btn) return;
 
-        checkboxes = document.getElementsByName('check_list[]');
+        var checkboxes = document.getElementsByName("check_list[]");
+        var anyChecked = false;
+        var allChecked = checkboxes.length > 0;
         for (var i = 0, n = checkboxes.length; i < n; i++) {
-            checkboxes[i].checked = source.checked;
+            if (checkboxes[i].checked) {
+                anyChecked = true;
+            } else {
+                allChecked = false;
+            }
+        }
+
+        btn.classList.toggle("is-visible", anyChecked);
+        btn.style.display = anyChecked ? "inline-flex" : "none";
+
+        var checkAll = document.getElementById("check_all");
+        if (checkAll) {
+            checkAll.checked = allChecked;
         }
     }
 
+    function showHideDeleteButton(source) {
+        var checkboxes = document.getElementsByName("check_list[]");
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+        syncBulkDeleteButton();
+    }
+
     function showHideDeleteButton2(source) {
-        deleteChecked.style.display = source.checked ? "inline": "inline";
+        syncBulkDeleteButton();
     }
 
     // Get checkbox list
@@ -1105,7 +1119,7 @@
         var selected = new Array();
 
         //Reference the CheckBoxes and insert the checked CheckBox value in Array.
-        $("#basic-datatable input[type=checkbox]:checked").each(function () {
+        $("#basic-datatable input[name='check_list[]']:checked").each(function () {
             selected.push(this.value);
         });
 
@@ -1122,7 +1136,7 @@
 </script>
 
 <!-- Custom JS -->
-<script src="{{ asset('assets/admin/side_menu/js/custom.js') }}"></script>
+<script src="{{ asset('assets/admin/side_menu/js/custom.js') }}?v=3"></script>
 <!-- Dark / Light Mode -->
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 <script>
@@ -1250,8 +1264,11 @@
 
 <!-- Icon Picker JS -->
 <script src="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js') }}"> </script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-image-input.js') }}?v=1"></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-number-input.js') }}?v=1"></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1"></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=2"></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=4"></script>
 
 </body>
 

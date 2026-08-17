@@ -34,7 +34,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="summernote">{{ __('content.description') }}</label>
-                                            <textarea type="text" name="desc" class="form-control" id="summernote">{{ $service->desc }}</textarea>
+                                            <textarea type="text" name="desc" class="form-control" id="summernote">@php echo html_entity_decode($service->desc); @endphp</textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12 height-card box-margin">

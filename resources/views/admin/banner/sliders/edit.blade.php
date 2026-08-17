@@ -1,6 +1,7 @@
 @extends('layouts.admin.master')
 
 @section('page_actions')
+    @include('admin.banner.partials.tabs')
     <a href="{{ url()->previous() }}" class="btn btn-primary"><i class="fas fa-angle-left"></i> {{ __('content.back') }}</a>
 @endsection
 

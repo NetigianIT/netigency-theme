@@ -100,57 +100,76 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=43">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=77">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
-            padding:32px 28px!important;
-            border-radius:12px!important;
+            padding:0!important;
+            border-radius:0!important;
+            background:transparent!important;
+            box-shadow:none!important;
         }
         @media (max-width:767.98px){
-            .contact-form-wrap{padding:24px 18px!important}
+            .contact-form-wrap{padding:0!important}
         }
         .contact-form-wrap .contact-form-group .form-control,
         .contact-form-wrap .contact-form-group .form-control:focus{
-            background:transparent!important;
+            background:var(--ni-glass)!important;
             background-color:transparent!important;
-            box-shadow:none!important;
-            border:1px solid rgba(255,255,255,.18)!important;
+            border:1px solid var(--ni-glass-border, rgba(21,191,134,.28))!important;
+            box-shadow:var(--ni-glass-shadow)!important;
+            backdrop-filter:blur(18px) saturate(140%);
+            -webkit-backdrop-filter:blur(18px) saturate(140%);
             height:auto!important;
-            min-height:56px!important;
-            padding:16px 18px!important;
+            min-height:58px!important;
+            padding:16px 20px!important;
             line-height:1.5!important;
             box-sizing:border-box!important;
-            border-radius:8px!important;
+            border-radius:20px!important;
+            color:var(--ni-text,#f3f4f6)!important;
+        }
+        .contact-form-wrap .contact-form-group .form-control:focus{
+            border-color:rgba(21,191,134,.5)!important;
         }
         .contact-form-wrap .contact-form-group textarea.form-control,
         .contact-form-wrap .contact-form-group textarea.form-control:focus{
-            min-height:160px!important;
-            padding:18px 18px!important;
+            min-height:156px!important;
+            padding:18px 20px!important;
             resize:vertical!important;
-            border-radius:8px!important;
+            border-radius:20px!important;
         }
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control,
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control:focus{
-            border-color:rgba(0,0,0,.12)!important;
+            color:var(--ni-text,#111827)!important;
+            border-color:var(--ni-glass-border, rgba(21,191,134,.28))!important;
         }
-        #counters.counters-section,
-        .counters-section{
-            background-color:var(--ni-page-bg,#0b0f0d)!important;
-            background-image:none!important;
+        .contact-section .contact-btn-left{
+            width:100%!important;
+            text-align:left!important;
         }
-        html[data-theme="light"] #counters.counters-section,
-        html[data-theme="light"] .counters-section{
-            background-color:var(--ni-section-bg,#f4faf7)!important;
+        .contact-section .contact-btn-left .primary-btn{
+            width:100%!important;
+            display:flex!important;
+            justify-content:space-between!important;
+            border-radius:10px!important;
+            background:var(--ni-glass)!important;
+            border:1px solid var(--ni-glass-border, rgba(21,191,134,.28))!important;
+            box-shadow:var(--ni-glass-shadow)!important;
+            backdrop-filter:blur(18px) saturate(140%);
+            -webkit-backdrop-filter:blur(18px) saturate(140%);
+        }
+        .contact-section .contact-btn-left .primary-btn:hover{
+            background:var(--ni-glass-hover)!important;
+            transform:none!important;
         }
         .counters-section-bg{display:none!important}
-        /* Taller nav; single logo visible */
+        /* Taller nav; bigger logo inside the same bar height */
         .header,.header-shrink{padding:0!important}
-        .header .navbar{min-height:84px!important;align-items:center!important;padding-top:12px!important;padding-bottom:12px!important}
-        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:14px 16px!important;line-height:28px!important}
-        .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important}
-        .header .navbar-brand img{height:64px!important;max-height:64px!important;width:auto!important;max-width:none!important}
-        @media (max-width:991.98px){.header .navbar{min-height:64px!important;padding-top:8px!important;padding-bottom:8px!important}.header .navbar-brand img{height:48px!important;max-height:48px!important}}
+        .header .navbar{min-height:84px!important;height:84px!important;align-items:center!important;padding-top:4px!important;padding-bottom:4px!important}
+        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:10px 10px!important;line-height:28px!important;white-space:nowrap}
+        .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important;display:flex!important;align-items:center!important}
+        .header .navbar-brand img{height:76px!important;max-height:76px!important;width:auto!important;max-width:none!important;object-fit:contain}
+        @media (max-width:991.98px){.header .navbar{min-height:64px!important;height:64px!important;padding-top:4px!important;padding-bottom:4px!important}.header .navbar-brand img{height:56px!important;max-height:56px!important}}
         .header .navbar-brand img.logo-normal{display:none!important}
         .header .navbar-brand img.logo-transparent{display:block!important}
     </style>
@@ -202,9 +221,19 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="1"><?php echo e(__('frontend.home')); ?></a>
                             </li>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['about_us_section'] == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#" data-scroll-nav="2"><?php echo e(__('frontend.about_us')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['service_section'] == 1): ?>
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="3"><?php echo e(__('frontend.services')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['skill_section'] == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#" data-scroll-nav="5"><?php echo e(__('frontend.technology')); ?></a>
                             </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['portfolio_section'] == 1): ?>
@@ -215,6 +244,11 @@
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['blog_section'] == 1): ?>
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="<?php echo e(route('blog-page.index')); ?>"><?php echo e(__('frontend.blogs')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['contact_section'] == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#" data-scroll-nav="7"><?php echo e(__('frontend.contact')); ?></a>
                             </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['page_menu'] == 1): ?>
@@ -866,67 +900,62 @@
         <!--// About Section Start //-->
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['about_us_section'] == 1): ?>
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($about)): ?>
-            <section class="section" id="about" data-scroll-index="2">
+            <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
+                    <div class="row about-row align-items-stretch">
+                        <div class="col-lg-7 about-media-col">
+                            <div class="section-heading-left about-section-heading">
+                                <h2><?php echo e($about->section_title ?: __('frontend.about_us')); ?></h2>
+                            </div>
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="<?php echo e(asset('uploads/img/about/'.$about->about_image)); ?>" alt="About image" title="About image" class="img-fluid">
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($about->video_link)): ?>
-                                    <a class="about-video-btn" href="<?php echo e($about->video_link); ?>"><i class="fa fa-play"></i></a>
+                                    <a class="about-video-btn" href="<?php echo e($about->video_link); ?>" aria-label="Play about video"><i class="fa fa-play"></i></a>
                                     <div class="video-border-line"></div>
                                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-5 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                                <h6><?php echo e($about->section_title); ?></h6>
                                 <h2><?php echo e($about->title); ?></h2>
                                 <p><?php echo e($about->desc); ?></p>
-                                <div class="row">
-                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $info_lists->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $info_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $info_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="mb-resp-15">
-                                                    <li>
+                                <div class="row about-info-grid">
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $info_lists->chunk((int) max(1, ceil($info_lists->count() / 2))); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $info_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="col-md-6 col-sm-6">
+                                            <ul class="mb-resp-15">
+                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $info_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li class="about-info-item">
                                                         <div class="text">
                                                             <h5><?php echo e($item->title); ?></h5>
                                                             <p><?php echo e($item->desc); ?></p>
                                                         </div>
                                                     </li>
-                                                </ul>
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                            </ul>
+                                        </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
                                 </div>
-
-                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($about->cv_file)): ?>
-                                    <a href="<?php echo e(asset('uploads/img/about/'.$about->cv_file)); ?>" class="primary-btn" download>
-                                        <span class="text">Presentation</span>
-                                        <span class="icon"><i class="fa fa-download"></i></span>
-                                    </a>
-                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
         <?php else: ?>
-            <section class="section" id="about" data-scroll-index="2">
+            <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
+                    <div class="row about-row align-items-stretch">
+                        <div class="col-lg-7 about-media-col">
+                            <div class="section-heading-left about-section-heading">
+                                <h2><?php echo e(__('frontend.about_us')); ?></h2>
+                            </div>
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="<?php echo e(asset('uploads/img/about/demo-about.png')); ?>" alt="About image" title="About image" class="img-fluid">
-                                <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0"><i class="fa fa-play"></i></a>
+                                <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0" aria-label="Play about video"><i class="fa fa-play"></i></a>
                                 <div class="video-border-line"></div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-5 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                                <h6>About Us</h6>
                                 <h2>We are here with 10 years of user experience</h2>
                                 <p>
                                     We prevent loss of time and indecision in our works.
@@ -934,44 +963,50 @@
                                     Most of our customers and brands express their satisfaction.
                                     By working with us, we can appeal to a large audience and grow your business.
                                 </p>
-                                <div class="row">
+                                <div class="row about-info-grid">
                                     <div class="col-md-6 col-sm-6">
                                         <ul class="mb-resp-15">
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Company Name :</h5>
                                                     <p>Netigian IT</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Country :</h5>
                                                     <p>United States</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Freelance :</h5>
                                                     <p>Available</p>
+                                                </div>
+                                            </li>
+                                            <li class="about-info-item">
+                                                <div class="text">
+                                                    <h5>Email :</h5>
+                                                    <p>contact@netigianit.com</p>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <ul>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Technologies :</h5>
                                                     <p>Java, Php, C#, Python, Flutter</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Languages :</h5>
                                                     <p>English, Deutch, Arabic</p>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="about-info-item">
                                                 <div class="text">
                                                     <h5>Address :</h5>
                                                     <p>Etowah, TN 37331 United States</p>
@@ -980,10 +1015,6 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <a href="javascript:void(0)" class="primary-btn">
-                                    <span class="text">Download Cv</span>
-                                    <span class="icon"><i class="fa fa-download"></i></span>
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -1325,10 +1356,28 @@
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <div class="row justify-content-center counters-grid">
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $counters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $counter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php
+                                $counterTitle = strtolower($counter->title ?? '');
+                                $counterIcon = 'fas fa-chart-line';
+                                if (str_contains($counterTitle, 'client') || str_contains($counterTitle, 'customer')) {
+                                    $counterIcon = 'fas fa-users';
+                                } elseif (str_contains($counterTitle, 'project')) {
+                                    $counterIcon = 'fas fa-check-circle';
+                                } elseif (str_contains($counterTitle, 'coffee')) {
+                                    $counterIcon = 'fas fa-mug-hot';
+                                } elseif (str_contains($counterTitle, 'award') || str_contains($counterTitle, 'win')) {
+                                    $counterIcon = 'fas fa-trophy';
+                                } elseif (str_contains($counterTitle, 'year') || str_contains($counterTitle, 'experience')) {
+                                    $counterIcon = 'fas fa-briefcase';
+                                }
+                            ?>
                             <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.<?php echo e($loop->index + 1); ?>s">
                                 <div class="counter-item">
-                                    <span class="counter-item-index"><?php echo e(str_pad($loop->iteration, 2, '0', STR_PAD_LEFT)); ?></span>
-                                    <h3 class="counter"><?php echo e($counter->timer); ?></h3>
+                                    <div class="counter-item-icon"><i class="<?php echo e($counterIcon); ?>" aria-hidden="true"></i></div>
+                                    <div class="counter-item-value">
+                                        <h3 class="counter"><?php echo e($counter->timer); ?></h3>
+                                        <span class="counter-suffix">+</span>
+                                    </div>
                                     <p><?php echo e($counter->title); ?></p>
                                 </div>
                             </div>
@@ -1350,22 +1399,31 @@
                     <div class="row justify-content-center counters-grid">
                         <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.1s">
                             <div class="counter-item">
-                                <span class="counter-item-index">01</span>
-                                <h3 class="counter">5,700</h3>
-                                <p>Happy Customer</p>
+                                <div class="counter-item-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
+                                <div class="counter-item-value">
+                                    <h3 class="counter">36</h3>
+                                    <span class="counter-suffix">+</span>
+                                </div>
+                                <p>Happy Clients</p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="counter-item">
-                                <span class="counter-item-index">02</span>
-                                <h3 class="counter">500</h3>
-                                <p>Project Complete</p>
+                                <div class="counter-item-icon"><i class="fas fa-check-circle" aria-hidden="true"></i></div>
+                                <div class="counter-item-value">
+                                    <h3 class="counter">48</h3>
+                                    <span class="counter-suffix">+</span>
+                                </div>
+                                <p>Project Completed</p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
                             <div class="counter-item">
-                                <span class="counter-item-index">03</span>
-                                <h3 class="counter">1,250</h3>
+                                <div class="counter-item-icon"><i class="fas fa-mug-hot" aria-hidden="true"></i></div>
+                                <div class="counter-item-value">
+                                    <h3 class="counter">21</h3>
+                                    <span class="counter-suffix">+</span>
+                                </div>
                                 <p>Cups Of Coffee</p>
                             </div>
                         </div>
@@ -1393,7 +1451,7 @@
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         <?php $i = 1; $t = 1; ?>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $work_processes->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $work_process): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="row">
+                            <div class="row ni-work-process-row">
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $work_process; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="col-md-4 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.<?php echo e($i++); ?>s">
                                             <div class="how-i-work-item">
@@ -1428,7 +1486,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row ni-work-process-row">
                         <div class="col-md-4 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.2s">
                             <div class="how-i-work-item">
                                 <div class="number">
@@ -1481,26 +1539,23 @@
         <!--// Skills Section Start //-->
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['skill_section'] == 1): ?>
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($skill) || count($skill_info_lists) > 0): ?>
-            <section class="section">
+            <section class="section skills-section" id="technology" data-scroll-index="5">
                 <div class="container">
-                    <div class="row">
+                    <div class="row skills-row align-items-stretch">
                       <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($skill)): ?>
-                            <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                            <div class="col-lg-6 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                                 <div class="skills-img">
-                                    <img src="<?php echo e(asset('uploads/img/skill/'.$skill->skill_image)); ?>" alt="About image" title="About image" class="img-fluid">
-                                    <span class="icon-check"><i class="fa fa-check"></i></span>
-                                    <div class="icon-border-line"></div>
+                                    <img src="<?php echo e(asset('uploads/img/skill/'.$skill->skill_image)); ?>" alt="Software technology" title="Software technology" class="img-fluid">
                                 </div>
                             </div>
                           <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                        <div class="col-lg-6 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-inner">
                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($skill)): ?>
-                                    <h6><?php echo e($skill->section_title); ?></h6>
                                     <h2><?php echo e($skill->title); ?></h2>
                                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($skill->desc)): ?> <p><?php echo e($skill->desc); ?></p> <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                <div class="row">
+                                <div class="row skills-cards">
                                   <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $skill_info_lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $skill_info_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="col-md-6 col-sm-6 skills-item-resp">
                                             <div class="skills-item">
@@ -1523,19 +1578,16 @@
                 </div>
             </section>
         <?php else: ?>
-            <section class="section">
+            <section class="section skills-section" id="technology" data-scroll-index="5">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                    <div class="row skills-row align-items-stretch">
+                        <div class="col-lg-6 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-img">
-                                <img src="<?php echo e(asset('uploads/img/about/demo-about.png')); ?>" alt="About image" title="About image" class="img-fluid">
-                                <span class="icon-check"><i class="fa fa-check"></i></span>
-                                <div class="icon-border-line"></div>
+                                <img src="<?php echo e(asset('uploads/img/skill/demo-skill.png')); ?>" alt="Software technology" title="Software technology" class="img-fluid">
                             </div>
                         </div>
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                        <div class="col-lg-6 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-inner">
-                                <h6>Skills</h6>
                                 <h2>Our specialize in frameworks UI for years</h2>
                                 <p>
                                     A front end library is being released every day and it is requested
@@ -1543,21 +1595,7 @@
                                     follow the updates of new frontend frameworks and programming frameworks.
                                     It is easier for me to keep up with new technologies in projects
                                 </p>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <ul class="mb-resp-15">
-                                            <li>Full Responsive Design</li>
-                                            <li>Modern Browser Compatible</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6  col-sm-6">
-                                        <ul>
-                                            <li>Clean & Quality Code</li>
-                                            <li>7/24 Customer Support</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row">
+                                <div class="row skills-cards">
                                     <div class="col-md-6 col-sm-6 skills-item-resp">
                                         <div class="skills-item">
                                             <div class="skills-item-text">
@@ -2174,11 +2212,11 @@
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['contact_section'] == 1): ?>
         <!--// Contact Section Start //-->
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($contact_section) || count($contacts) > 0): ?>
-            <section class="section bg-primary-light" id="contact" data-scroll-index="7">
+            <section class="section contact-section" id="contact" data-scroll-index="7">
                 <div class="container">
                   <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($contact_section)): ?>
                         <div class="row justify-content-center">
-                            <div class="col-lg-6">
+                            <div class="col-lg-7">
                                 <div class="section-heading">
                                     <span><?php echo e($contact_section->section_title); ?></span>
                                     <h2><?php echo e($contact_section->title); ?></h2>
@@ -2186,27 +2224,53 @@
                             </div>
                         </div>
                       <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                    <div class="row">
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="col-lg-6">
-                                <div class="contact-info-item">
-                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($contact->icon)): ?>
-                                        <div class="icon">
-                                            <span class="<?php echo e($contact->icon); ?>"></span>
-                                        </div>
+                    <div class="row contact-layout align-items-stretch">
+                        <div class="col-lg-5">
+                            <div class="contact-info-list">
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="contact-info-item">
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($contact->icon)): ?>
+                                            <div class="icon">
+                                                <span class="<?php echo e($contact->icon); ?>"></span>
+                                            </div>
                                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                    <div class="body">
-                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($contact->title)): ?> <h5><?php echo e($contact->title); ?></h5> <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($contact->desc)): ?> <p><?php echo e($contact->desc); ?></p> <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                        <div class="body">
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($contact->title)): ?> <h5><?php echo e($contact->title); ?></h5> <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($contact->desc)): ?> <p><?php echo e($contact->desc); ?></p> <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                <?php
+                                    $contactHasPhone = collect($contacts)->contains(function ($item) {
+                                        $blob = strtolower(($item->icon ?? '').' '.($item->title ?? '').' '.($item->desc ?? ''));
+                                        return str_contains($blob, 'phone') || str_contains($blob, 'whatsapp') || str_contains($blob, 'fa-phone');
+                                    });
+                                    $phoneText = !empty(optional($site_info ?? null)->phone) ? $site_info->phone : '+880 1700-000000';
+                                ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(! $contactHasPhone): ?>
+                                    <div class="contact-info-item">
+                                        <div class="icon">
+                                            <span class="fa fa-phone"></span>
+                                        </div>
+                                        <div class="body">
+                                            <h5><?php echo e(__('frontend.phone')); ?></h5>
+                                            <p>
+                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty(optional($site_info ?? null)->phone)): ?>
+                                                    <a href="https://wa.me/<?php echo e(preg_replace('/[^0-9]/', '', $site_info->phone)); ?>" target="_blank" rel="noopener noreferrer"><?php echo e($phoneText); ?></a>
+                                                <?php else: ?>
+                                                    <?php echo e($phoneText); ?>
+
+                                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="contact-form-card">
                             <div class="contact-form-wrap">
-                                    <form action="<?php echo e(route('message.store')); ?>" method="POST">
+                                    <form class="js-contact-form" action="<?php echo e(route('message.store')); ?>" method="POST">
                                         <?php echo csrf_field(); ?>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -2226,10 +2290,10 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="contact-form-group">
-                                                <textarea name="message" class="form-control" cols="20" rows="8" placeholder="Your Message" required></textarea>
+                                                <textarea name="message" class="form-control" cols="20" rows="6" placeholder="Your Message" required></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 text-center">
+                                        <div class="col-md-12">
                                             <div class="contact-btn-left">
                                                 <button type="submit" class="primary-btn">
                                                     <span class="text"><?php echo e(__('frontend.send_message')); ?></span>
@@ -2240,75 +2304,81 @@
                                     </div>
                                 </form>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         <?php else: ?>
-            <section class="section bg-primary-light" id="contact" data-scroll-index="7">
+            <section class="section contact-section" id="contact" data-scroll-index="7">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <div class="section-heading">
                                 <span>Contact Me</span>
                                 <h2>Contact Us</h2>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
+                    <div class="row contact-layout align-items-stretch">
+                        <div class="col-lg-5">
+                            <div class="contact-info-list">
                             <div class="contact-info-item">
                                 <div class="icon">
                                     <span class="fa fa-map-marker-alt"></span>
                                 </div>
                                 <div class="body">
                                     <h5>Address</h5>
-                                    <p>1395 Nixon Avenue Etowah, TN 37331
-                                        <br>
-                                        United States
-                                    </p>
+                                    <p>Sonadanga, Khulna, Bangladesh</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
                             <div class="contact-info-item">
                                 <div class="icon">
                                     <span class="fas fa-envelope-open-text"></span>
                                 </div>
                                 <div class="body">
-                                    <h5>E-Mail Phone:</h5>
+                                    <h5>Email</h5>
                                     <p>contact@netigianit.com</p>
-                                    <p>+1 422-200-5555</p>
                                 </div>
                             </div>
+                            <div class="contact-info-item">
+                                <div class="icon">
+                                    <span class="fa fa-phone"></span>
+                                </div>
+                                <div class="body">
+                                    <h5><?php echo e(__('frontend.phone')); ?></h5>
+                                    <p><?php echo e(!empty(optional($site_info ?? null)->phone) ? $site_info->phone : '+880 1700-000000'); ?></p>
+                                </div>
+                            </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
+                        <div class="col-lg-7">
+                            <div class="contact-form-card">
                             <div class="contact-form-wrap">
-                                <form>
+                                <form class="js-contact-form" action="<?php echo e(route('message.store')); ?>" method="POST">
+                                    <?php echo csrf_field(); ?>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="contact-form-group">
-                                                <input type="text" class="form-control" name="contact_name" id="contactName" placeholder="Your Name *">
+                                                <input type="text" class="form-control" name="name" id="contactName" placeholder="Your Name *" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="contact-form-group">
-                                                <input type="text" class="form-control" name="subject" id="contactPhone" placeholder="Subject">
+                                                <input type="email" class="form-control" name="email" id="contactEmail" placeholder="Your Email *" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="contact-form-group">
-                                                <input type="text" class="form-control" name="contact_email" id="contactEmail" placeholder="Your Email *">
+                                                <input type="text" class="form-control" name="subject" id="contactPhone" placeholder="Subject" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="contact-form-group">
-                                                <textarea name="contact_message" id="contactMessage" class="form-control"  placeholder="Your Message *" cols="20" rows="8"></textarea>
+                                                <textarea name="message" id="contactMessage" class="form-control"  placeholder="Your Message *" cols="20" rows="6" required></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 text-center">
+                                        <div class="col-md-12">
                                             <div class="contact-btn-left">
                                                 <button type="submit" id="contactBtn" class="primary-btn">
                                                     <span class="text">Send Message</span>
@@ -2318,6 +2388,7 @@
                                         </div>
                                     </div>
                                 </form>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -2649,6 +2720,7 @@
 
 <!--// Main Js //-->
 <script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/frontend/js/ni-contact-form.js')); ?>?v=2"></script>
 <!--// Dark / Light Mode //-->
 <script src="<?php echo e(asset('assets/frontend/js/theme-mode.js')); ?>"></script>
 

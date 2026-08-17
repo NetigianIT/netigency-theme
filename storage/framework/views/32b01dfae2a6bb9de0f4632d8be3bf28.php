@@ -159,7 +159,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-xl-3">
-            <a href="<?php echo e(url('admin/social/create')); ?>" class="ni-stat-card card box-margin">
+            <a href="<?php echo e(url('admin/social')); ?>" class="ni-stat-card card box-margin">
                 <div class="card-body">
                     <div class="ni-stat-card__icon"><i class="fas fa-share-alt"></i></div>
                     <h6 class="ni-stat-card__label"><?php echo e(__('content.socials')); ?></h6>

@@ -35,6 +35,13 @@ class MessageController extends Controller
             'message' => $input['message'],
         ]);
 
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'message sent successfully',
+            ]);
+        }
+
         return redirect()->to('/'.'#contact')
             ->with('success', 'frontend.your_message_has_been_delivered');
     }

@@ -204,7 +204,12 @@ class PanelKeywordSeeder extends Seeder
             [
                 'language_id' => 1,
                 'key' => 'banner',
-                'value' => 'Banner',
+                'value' => 'Hero Section',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'hero_section',
+                'value' => 'Hero Section',
             ],
             [
                 'language_id' => 1,

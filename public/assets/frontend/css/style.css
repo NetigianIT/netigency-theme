@@ -58,12 +58,12 @@ body {
 
 ::-moz-selection {
   color: #fff;
-  background: #171718;
+  background: #15bf86;
 }
 
 ::selection {
   color: #fff;
-  background: #171718;
+  background: #15bf86;
 }
 
 a:link, a:hover, a:active, a:visited {

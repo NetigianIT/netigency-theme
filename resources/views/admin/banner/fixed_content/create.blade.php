@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_actions')
+    @include('admin.banner.partials.tabs')
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -60,26 +64,16 @@
                                     <input type="file" name="thumbnail_image" class="form-control-file" id="thumbnail_image">
                                     <small id="thumbnail_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
                                 </div>
-                                <div class="height-card box-margin">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="avatar-area text-center">
-                                                <div class="media">
-                                                    @if(!empty($fixed_content->thumbnail_image))
-                                                        <a  class="d-block mx-auto" href="#" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('content.current_image') }}">
-                                                            <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="banner image" class="rounded w-50">
-                                                        </a>
-                                                    @else
-                                                        <a class="d-block mx-auto" href="#" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('content.not_yet_created') }}">
-                                                            <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="no image" class="rounded w-25">
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <!--end card-body-->
-                                        </div>
-                                    </div>
-                                    <!--end card-->
+                                <div class="avatar-area text-center mt-2">
+                                    @if(!empty($fixed_content->thumbnail_image))
+                                        <a class="d-block" href="#" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('content.current_image') }}">
+                                            <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="banner image" class="rounded ni-image-preview">
+                                        </a>
+                                    @else
+                                        <a class="d-block" href="#" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('content.not_yet_created') }}">
+                                            <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="no image" class="rounded ni-image-preview">
+                                        </a>
+                                    @endif
                                 </div>
                                 <!--end col-->
                             </div>

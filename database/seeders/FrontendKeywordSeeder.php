@@ -48,6 +48,11 @@ class FrontendKeywordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
+                'key' => 'technology',
+                'value' => 'Technology',
+            ],
+            [
+                'language_id' => 1,
                 'key' => 'pages',
                 'value' => 'Pages',
             ],

@@ -16,8 +16,6 @@
                 <div class="card-body">
                     @if (count($work_processes) > 0)
                         <div class="mr-3">
-                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
-                            <label for="check_all">{{ __('content.all') }}</label>
                             <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
@@ -57,7 +55,9 @@
                         <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                </th>
                                 <th>{{ __('content.image') }}</th>
                                 <th>{{ __('content.title') }}</th>
                                 <th>{{ __('content.order') }}</th>
@@ -69,7 +69,7 @@
                             @foreach ($work_processes as $work_process)
                                 <tr>
                                     <td>
-                                        <input  name="check_list[]" type="checkbox" value="{{ $work_process->id }}" onclick="showHideDeleteButton2(this)"> <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                        <input  name="check_list[]" type="checkbox" value="{{ $work_process->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>
                                             @if (!empty($work_process->work_process_image))

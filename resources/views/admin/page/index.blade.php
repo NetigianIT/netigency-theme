@@ -15,8 +15,6 @@
                 <div class="card-body">
                     @if (count($pages) > 0)
                         <div>
-                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
-                            <label for="check_all">{{ __('content.all') }}</label>
                             <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
@@ -56,7 +54,9 @@
                         <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                </th>
                                 <th>{{ __('content.title') }}</th>
                                 <th>{{ __('content.order') }}</th>
                                 <th>{{ __('content.status') }}</th>
@@ -70,7 +70,7 @@
                             @foreach ($pages as $page)
                                 <tr>
                                     <td>
-                                        <input  name="check_list[]" type="checkbox" value="{{ $page->id }}" onclick="showHideDeleteButton2(this)"> <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                        <input  name="check_list[]" type="checkbox" value="{{ $page->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>{{ $page->page_title }}</td>
                                     <td>{{ $page->order }}</td>

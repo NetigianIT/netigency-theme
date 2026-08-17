@@ -167,8 +167,6 @@
                     <div class="table-responsive order-stats">
                         @if (count($info_lists) > 0)
                             <div>
-                                <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
-                                <label for="check_all">{{ __('content.all') }}</label>
                                 <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
                                     <i class="fa fa-trash text-danger font-18"></i>
                                 </a>
@@ -202,7 +200,9 @@
                             <table id="basic-datatable"  class="table table-striped dt-responsive w-100">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">
+                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                </th>
                                     <th>{{ __('content.description') }}</th>
                                     <th>{{ __('content.order') }}</th>
                                     <th class="all custom-width-action">{{ __('content.action') }}</th>
@@ -213,7 +213,7 @@
                                 @foreach ($info_lists as $info_list)
                                     <tr>
                                         <td>
-                                            <input  name="check_list[]" type="checkbox" value="{{ $info_list->id }}" onclick="showHideDeleteButton2(this)"> <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                            <input  name="check_list[]" type="checkbox" value="{{ $info_list->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                         </td>
                                         <td>{{ $info_list->desc }}</td>
                                         <td>{{ $info_list->order }}</td>

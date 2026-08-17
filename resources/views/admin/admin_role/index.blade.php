@@ -15,8 +15,6 @@
                 <div class="card-body">
                     @if (count($roles) > 0)
                         <div>
-                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
-                            <label for="check_all">{{ __('content.all') }}</label>
                             <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
@@ -54,7 +52,9 @@
                         <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                </th>
                                 <th>{{ __('content.role_name') }}</th>
                                 <th>{{ __('content.permissions') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
@@ -69,7 +69,7 @@
                                         @if ($role->name != 'super-admin')
                                             <input name="check_list[]" type="checkbox" value="{{ $role->id }}" onclick="showHideDeleteButton2(this)">
                                         @endif
-                                        <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                        <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>{{ $role->name }}</td>
                                     <td>

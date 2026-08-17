@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ContactSectionController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\CounterSectionController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EditorUploadController;
 use App\Http\Controllers\Admin\ErrorPageController;
 use App\Http\Controllers\Admin\ExternalUrlController;
 use App\Http\Controllers\Admin\FeatureController;
@@ -52,6 +53,7 @@ use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\WorkProcessController;
 use App\Http\Controllers\Admin\WorkProcessSectionController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Support\SiteCache;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -73,7 +75,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('homepage')->middleware('XSS');
 
 Route::post('subscribe', [\App\Http\Controllers\Frontend\SubscribeController::class, 'store'])
-    ->name('subscribe-section.store')->middleware('XSS');
+    ->name('subscribe-section.store')->middleware(['throttle:public-forms', 'XSS']);
 
 Route::middleware(['XSS'])->group(function () {
     Route::get('services', [\App\Http\Controllers\Frontend\ServiceController::class, 'index'])
@@ -90,20 +92,21 @@ Route::middleware(['XSS'])->group(function () {
 });
 
 Route::post('message', [App\Http\Controllers\Frontend\MessageController::class, 'store'])
-    ->name('message.store')->middleware('XSS');
+    ->name('message.store')->middleware(['throttle:contact', 'XSS']);
 
 Route::middleware(['XSS'])->group(function () {
     Route::get('blogs', [\App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog-page.index');
     Route::get('blog/{slug}', [App\Http\Controllers\Frontend\BlogController::class, 'show'])->name('blog-page.show');
     Route::get('blog/category/{category_name}', [App\Http\Controllers\Frontend\BlogController::class, 'category_show'])->name('blog-category.show');
-    Route::post('blog/search', [App\Http\Controllers\Frontend\BlogController::class, 'search'])->name('blog-page.search');
+    Route::post('blog/search', [App\Http\Controllers\Frontend\BlogController::class, 'search'])
+        ->name('blog-page.search')->middleware('throttle:public-forms');
 });
 
 Route::get('page/{page_slug}', [App\Http\Controllers\Frontend\PageController::class, 'show'])
     ->name('any-page.show')->middleware('XSS');
 
 Route::post('comment', [App\Http\Controllers\Frontend\CommentController::class, 'store'])
-    ->name('comment.store')->middleware('XSS');
+    ->name('comment.store')->middleware(['throttle:public-forms', 'XSS']);
 // End Site Frontend Route
 
 // Start Site Admin Route
@@ -452,6 +455,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS'])->prefix('admin')->group(function () {
+    Route::post('editor/upload', [EditorUploadController::class, 'store'])->name('admin.editor.upload');
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('profile/change-password', [ProfileController::class, 'change_password_edit'])->name('profile.change_password_edit');
@@ -494,13 +498,25 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:language check
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:clear cache check'])->prefix('admin')->group(function () {
-    Route::get('clear-cache', function() {
+    Route::get('clear-cache', function () {
+        SiteCache::flushAll();
+
         Artisan::call('cache:clear');
         Artisan::call('route:clear');
         Artisan::call('config:clear');
         Artisan::call('view:clear');
+
         return redirect()->route('dashboard')
-            ->with('success','content.created_successfully');
+            ->with('success', 'content.created_successfully');
+    });
+
+    Route::get('optimize', function () {
+        Artisan::call('config:cache');
+        Artisan::call('route:cache');
+        Artisan::call('view:cache');
+
+        return redirect()->route('dashboard')
+            ->with('success', 'content.created_successfully');
     });
 });
 

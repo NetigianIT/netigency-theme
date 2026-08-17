@@ -21,8 +21,6 @@
                 <div class="card-body">
                     @if (count($comments) > 0)
                         <div>
-                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
-                            <label for="check_all">{{ __('content.all') }}</label>
                             <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
@@ -55,7 +53,9 @@
                         <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                </th>
                                 <th>{{ __('content.name') }}</th>
                                 <th>{{ __('content.email') }}</th>
                                 <th>{{ __('content.comment') }}</th>
@@ -70,7 +70,7 @@
                                 <tr>
                                     <td>
                                         <input name="check_list[]" type="checkbox" value="{{ $comment->id }}" onclick="showHideDeleteButton2(this)">
-                                        <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                        <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>
                                         <a href="{{ url('blog/'.$comment->blog->slug) }}" target="_blank" class="d-inline-block text-truncate ni-comment-cell" title="{{ $comment->name }}">{{ $comment->name }}</a>

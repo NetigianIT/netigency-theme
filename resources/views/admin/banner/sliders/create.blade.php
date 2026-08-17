@@ -1,6 +1,7 @@
 @extends('layouts.admin.master')
 
 @section('page_actions')
+    @include('admin.banner.partials.tabs')
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sliderModal">+ {{ __('content.add_slider') }}</button>
 @endsection
 
@@ -15,8 +16,6 @@
                 <div class="card-body">
                     @if (count($sliders) > 0)
                         <div class="mr-3">
-                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
-                            <label for="check_all">{{ __('content.all') }}</label>
                             <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
@@ -56,7 +55,9 @@
                         <table id="basic-datatable" class="basic-datatable table table-striped dt-responsive w-100">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                </th>
                                 <th>{{ __('content.image') }}</th>
                                 <th>{{ __('content.order') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
@@ -68,7 +69,7 @@
                             @foreach ($sliders as $slider)
                                 <tr>
                                     <td>
-                                        <input  name="check_list[]" type="checkbox" value="{{ $slider->id }}" onclick="showHideDeleteButton2(this)"> <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                        <input  name="check_list[]" type="checkbox" value="{{ $slider->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>
                                         <img class="image-size img-fluid" src="{{ asset('uploads/img/sliders/'.$slider->slider_image) }}" alt="slider image">

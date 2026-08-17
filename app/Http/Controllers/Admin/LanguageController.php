@@ -13,23 +13,24 @@ class LanguageController extends Controller
 {
 
     // Set session for language
-    public function set_locale($language_id){
+    public function set_locale($language_id)
+    {
+        $language = Language::find($language_id);
 
+        if (! $language) {
+            return redirect()->back();
+        }
 
-        // Via the global helper...
-        session(['language_id_from_dropdown' => $language_id]);
+        session([
+            'language_id_from_dropdown' => $language->id,
+            'language_name_from_dropdown' => $language->language_name,
+            'language_code_from_dropdown' => $language->language_code,
+            'language_direction_from_dropdown' => $language->direction,
+        ]);
 
-        $language_id_from_dropdown = session()->get('language_id_from_dropdown');
-
-        $language = Language::find($language_id_from_dropdown);
-
-        session(['language_name_from_dropdown' => $language->language_name]);
-        session(['language_code_from_dropdown' => $language->language_code]);
-        session(['language_direction_from_dropdown' => $language->direction]);
-
+        app()->forgetInstance('translator');
 
         return redirect()->back();
-
     }
 
     /**

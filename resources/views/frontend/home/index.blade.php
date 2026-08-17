@@ -100,57 +100,76 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=43">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=78">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
-            padding:32px 28px!important;
-            border-radius:12px!important;
+            padding:0!important;
+            border-radius:0!important;
+            background:transparent!important;
+            box-shadow:none!important;
         }
         @media (max-width:767.98px){
-            .contact-form-wrap{padding:24px 18px!important}
+            .contact-form-wrap{padding:0!important}
         }
         .contact-form-wrap .contact-form-group .form-control,
         .contact-form-wrap .contact-form-group .form-control:focus{
-            background:transparent!important;
+            background:var(--ni-glass)!important;
             background-color:transparent!important;
-            box-shadow:none!important;
-            border:1px solid rgba(255,255,255,.18)!important;
+            border:1px solid var(--ni-glass-border, rgba(21,191,134,.28))!important;
+            box-shadow:var(--ni-glass-shadow)!important;
+            backdrop-filter:blur(18px) saturate(140%);
+            -webkit-backdrop-filter:blur(18px) saturate(140%);
             height:auto!important;
-            min-height:56px!important;
-            padding:16px 18px!important;
+            min-height:58px!important;
+            padding:16px 20px!important;
             line-height:1.5!important;
             box-sizing:border-box!important;
-            border-radius:8px!important;
+            border-radius:20px!important;
+            color:var(--ni-text,#f3f4f6)!important;
+        }
+        .contact-form-wrap .contact-form-group .form-control:focus{
+            border-color:rgba(21,191,134,.5)!important;
         }
         .contact-form-wrap .contact-form-group textarea.form-control,
         .contact-form-wrap .contact-form-group textarea.form-control:focus{
-            min-height:160px!important;
-            padding:18px 18px!important;
+            min-height:156px!important;
+            padding:18px 20px!important;
             resize:vertical!important;
-            border-radius:8px!important;
+            border-radius:20px!important;
         }
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control,
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control:focus{
-            border-color:rgba(0,0,0,.12)!important;
+            color:var(--ni-text,#111827)!important;
+            border-color:var(--ni-glass-border, rgba(21,191,134,.28))!important;
         }
-        #counters.counters-section,
-        .counters-section{
-            background-color:var(--ni-page-bg,#0b0f0d)!important;
-            background-image:none!important;
+        .contact-section .contact-btn-left{
+            width:100%!important;
+            text-align:left!important;
         }
-        html[data-theme="light"] #counters.counters-section,
-        html[data-theme="light"] .counters-section{
-            background-color:var(--ni-section-bg,#f4faf7)!important;
+        .contact-section .contact-btn-left .primary-btn{
+            width:100%!important;
+            display:flex!important;
+            justify-content:space-between!important;
+            border-radius:10px!important;
+            background:var(--ni-glass)!important;
+            border:1px solid var(--ni-glass-border, rgba(21,191,134,.28))!important;
+            box-shadow:var(--ni-glass-shadow)!important;
+            backdrop-filter:blur(18px) saturate(140%);
+            -webkit-backdrop-filter:blur(18px) saturate(140%);
+        }
+        .contact-section .contact-btn-left .primary-btn:hover{
+            background:var(--ni-glass-hover)!important;
+            transform:none!important;
         }
         .counters-section-bg{display:none!important}
-        /* Taller nav; single logo visible */
+        /* Taller nav; bigger logo inside the same bar height */
         .header,.header-shrink{padding:0!important}
-        .header .navbar{min-height:84px!important;align-items:center!important;padding-top:12px!important;padding-bottom:12px!important}
-        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:14px 16px!important;line-height:28px!important}
-        .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important}
-        .header .navbar-brand img{height:64px!important;max-height:64px!important;width:auto!important;max-width:none!important}
-        @media (max-width:991.98px){.header .navbar{min-height:64px!important;padding-top:8px!important;padding-bottom:8px!important}.header .navbar-brand img{height:48px!important;max-height:48px!important}}
+        .header .navbar{min-height:84px!important;height:84px!important;align-items:center!important;padding-top:4px!important;padding-bottom:4px!important}
+        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:10px 10px!important;line-height:28px!important;white-space:nowrap}
+        .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important;display:flex!important;align-items:center!important}
+        .header .navbar-brand img{height:76px!important;max-height:76px!important;width:auto!important;max-width:none!important;object-fit:contain}
+        @media (max-width:991.98px){.header .navbar{min-height:64px!important;height:64px!important;padding-top:4px!important;padding-bottom:4px!important}.header .navbar-brand img{height:56px!important;max-height:56px!important}}
         .header .navbar-brand img.logo-normal{display:none!important}
         .header .navbar-brand img.logo-transparent{display:block!important}
     </style>
@@ -202,9 +221,19 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="1">{{ __('frontend.home') }}</a>
                             </li>
+                            @if ($section_arr['about_us_section'] == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#" data-scroll-nav="2">{{ __('frontend.about_us') }}</a>
+                            </li>
+                            @endif
                             @if ($section_arr['service_section'] == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="3">{{ __('frontend.services') }}</a>
+                            </li>
+                            @endif
+                            @if ($section_arr['skill_section'] == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#" data-scroll-nav="5">{{ __('frontend.technology') }}</a>
                             </li>
                             @endif
                             @if ($section_arr['portfolio_section'] == 1)
@@ -215,6 +244,11 @@
                             @if ($section_arr['blog_section'] == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="{{ route('blog-page.index') }}">{{ __('frontend.blogs') }}</a>
+                            </li>
+                            @endif
+                            @if ($section_arr['contact_section'] == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="#" data-scroll-nav="7">{{ __('frontend.contact') }}</a>
                             </li>
                             @endif
                             @if ($section_arr['page_menu'] == 1)
@@ -869,7 +903,10 @@
             <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
                     <div class="row about-row align-items-stretch">
-                        <div class="col-lg-6 about-media-col">
+                        <div class="col-lg-7 about-media-col">
+                            <div class="section-heading-left about-section-heading">
+                                <h2>{{ $about->section_title ?: __('frontend.about_us') }}</h2>
+                            </div>
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="{{ asset('uploads/img/about/'.$about->about_image) }}" alt="About image" title="About image" class="img-fluid">
                                 @if (!empty($about->video_link))
@@ -878,12 +915,12 @@
                                     @endif
                             </div>
                         </div>
-                        <div class="col-lg-6 about-content-col">
+                        <div class="col-lg-5 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
                                 <h2>{{ $about->title }}</h2>
                                 <p>{{ $about->desc }}</p>
                                 <div class="row about-info-grid">
-                                    @foreach ($info_lists->chunk(3) as $info_list)
+                                    @foreach ($info_lists->chunk((int) max(1, ceil($info_lists->count() / 2))) as $info_list)
                                         <div class="col-md-6 col-sm-6">
                                             <ul class="mb-resp-15">
                                                 @foreach ($info_list as $item)
@@ -907,14 +944,17 @@
             <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
                     <div class="row about-row align-items-stretch">
-                        <div class="col-lg-6 about-media-col">
+                        <div class="col-lg-7 about-media-col">
+                            <div class="section-heading-left about-section-heading">
+                                <h2>{{ __('frontend.about_us') }}</h2>
+                            </div>
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
                                 <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0" aria-label="Play about video"><i class="fa fa-play"></i></a>
                                 <div class="video-border-line"></div>
                             </div>
                         </div>
-                        <div class="col-lg-6 about-content-col">
+                        <div class="col-lg-5 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
                                 <h2>We are here with 10 years of user experience</h2>
                                 <p>
@@ -942,6 +982,12 @@
                                                 <div class="text">
                                                     <h5>Freelance :</h5>
                                                     <p>Available</p>
+                                                </div>
+                                            </li>
+                                            <li class="about-info-item">
+                                                <div class="text">
+                                                    <h5>Email :</h5>
+                                                    <p>contact@netigianit.com</p>
                                                 </div>
                                             </li>
                                         </ul>
@@ -1310,10 +1356,28 @@
                     @endisset
                     <div class="row justify-content-center counters-grid">
                         @foreach ($counters as $counter)
+                            @php
+                                $counterTitle = strtolower($counter->title ?? '');
+                                $counterIcon = 'fas fa-chart-line';
+                                if (str_contains($counterTitle, 'client') || str_contains($counterTitle, 'customer')) {
+                                    $counterIcon = 'fas fa-users';
+                                } elseif (str_contains($counterTitle, 'project')) {
+                                    $counterIcon = 'fas fa-check-circle';
+                                } elseif (str_contains($counterTitle, 'coffee')) {
+                                    $counterIcon = 'fas fa-mug-hot';
+                                } elseif (str_contains($counterTitle, 'award') || str_contains($counterTitle, 'win')) {
+                                    $counterIcon = 'fas fa-trophy';
+                                } elseif (str_contains($counterTitle, 'year') || str_contains($counterTitle, 'experience')) {
+                                    $counterIcon = 'fas fa-briefcase';
+                                }
+                            @endphp
                             <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.{{ $loop->index + 1 }}s">
                                 <div class="counter-item">
-                                    <span class="counter-item-index">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                    <h3 class="counter">{{ $counter->timer }}</h3>
+                                    <div class="counter-item-icon"><i class="{{ $counterIcon }}" aria-hidden="true"></i></div>
+                                    <div class="counter-item-value">
+                                        <h3 class="counter">{{ $counter->timer }}</h3>
+                                        <span class="counter-suffix">+</span>
+                                    </div>
                                     <p>{{ $counter->title }}</p>
                                 </div>
                             </div>
@@ -1335,22 +1399,31 @@
                     <div class="row justify-content-center counters-grid">
                         <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.1s">
                             <div class="counter-item">
-                                <span class="counter-item-index">01</span>
-                                <h3 class="counter">5,700</h3>
-                                <p>Happy Customer</p>
+                                <div class="counter-item-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
+                                <div class="counter-item-value">
+                                    <h3 class="counter">36</h3>
+                                    <span class="counter-suffix">+</span>
+                                </div>
+                                <p>Happy Clients</p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="counter-item">
-                                <span class="counter-item-index">02</span>
-                                <h3 class="counter">500</h3>
-                                <p>Project Complete</p>
+                                <div class="counter-item-icon"><i class="fas fa-check-circle" aria-hidden="true"></i></div>
+                                <div class="counter-item-value">
+                                    <h3 class="counter">48</h3>
+                                    <span class="counter-suffix">+</span>
+                                </div>
+                                <p>Project Completed</p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
                             <div class="counter-item">
-                                <span class="counter-item-index">03</span>
-                                <h3 class="counter">1,250</h3>
+                                <div class="counter-item-icon"><i class="fas fa-mug-hot" aria-hidden="true"></i></div>
+                                <div class="counter-item-value">
+                                    <h3 class="counter">21</h3>
+                                    <span class="counter-suffix">+</span>
+                                </div>
                                 <p>Cups Of Coffee</p>
                             </div>
                         </div>
@@ -1378,7 +1451,7 @@
                         @endisset
                         @php $i = 1; $t = 1; @endphp
                         @foreach ($work_processes->chunk(3) as $work_process)
-                            <div class="row">
+                            <div class="row ni-work-process-row">
                             @foreach ($work_process as $item)
                                         <div class="col-md-4 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.{{ $i++ }}s">
                                             <div class="how-i-work-item">
@@ -1413,7 +1486,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row ni-work-process-row">
                         <div class="col-md-4 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.2s">
                             <div class="how-i-work-item">
                                 <div class="number">
@@ -1466,17 +1539,17 @@
         <!--// Skills Section Start //-->
         @if ($section_arr['skill_section'] == 1)
         @if (isset($skill) || count($skill_info_lists) > 0)
-            <section class="section skills-section">
+            <section class="section skills-section" id="technology" data-scroll-index="5">
                 <div class="container">
                     <div class="row skills-row align-items-stretch">
                       @isset ($skill)
-                            <div class="col-lg-6 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                            <div class="col-lg-5 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                                 <div class="skills-img">
-                                    <img src="{{ asset('uploads/img/skill/'.$skill->skill_image) }}" alt="About image" title="About image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/skill/'.$skill->skill_image) }}" alt="Software technology" title="Software technology" class="img-fluid">
                                 </div>
                             </div>
                           @endisset
-                        <div class="col-lg-6 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                        <div class="col-lg-7 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-inner">
                                @isset ($skill)
                                     <h2>{{ $skill->title }}</h2>
@@ -1505,15 +1578,15 @@
                 </div>
             </section>
         @else
-            <section class="section skills-section">
+            <section class="section skills-section" id="technology" data-scroll-index="5">
                 <div class="container">
                     <div class="row skills-row align-items-stretch">
-                        <div class="col-lg-6 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                        <div class="col-lg-5 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-img">
-                                <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
+                                <img src="{{ asset('uploads/img/skill/demo-skill.png') }}" alt="Software technology" title="Software technology" class="img-fluid">
                             </div>
                         </div>
-                        <div class="col-lg-6 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                        <div class="col-lg-7 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-inner">
                                 <h2>Our specialize in frameworks UI for years</h2>
                                 <p>
@@ -2138,11 +2211,11 @@
         @if ($section_arr['contact_section'] == 1)
         <!--// Contact Section Start //-->
         @if (isset($contact_section) || count($contacts) > 0)
-            <section class="section bg-primary-light" id="contact" data-scroll-index="7">
+            <section class="section contact-section" id="contact" data-scroll-index="7">
                 <div class="container">
                   @isset ($contact_section)
                         <div class="row justify-content-center">
-                            <div class="col-lg-6">
+                            <div class="col-lg-7">
                                 <div class="section-heading">
                                     <span>{{ $contact_section->section_title }}</span>
                                     <h2>{{ $contact_section->title }}</h2>
@@ -2150,27 +2223,52 @@
                             </div>
                         </div>
                       @endisset
-                    <div class="row">
-                    @foreach ($contacts as $contact)
-                            <div class="col-lg-6">
-                                <div class="contact-info-item">
-                                    @if (!empty($contact->icon))
-                                        <div class="icon">
-                                            <span class="{{ $contact->icon }}"></span>
-                                        </div>
+                    <div class="row contact-layout align-items-stretch">
+                        <div class="col-lg-5">
+                            <div class="contact-info-list">
+                                @foreach ($contacts as $contact)
+                                    <div class="contact-info-item">
+                                        @if (!empty($contact->icon))
+                                            <div class="icon">
+                                                <span class="{{ $contact->icon }}"></span>
+                                            </div>
                                         @endif
-                                    <div class="body">
-                                        @if (!empty($contact->title)) <h5>{{ $contact->title }}</h5> @endif
-                                        @if (!empty($contact->desc)) <p>{{ $contact->desc }}</p> @endif
+                                        <div class="body">
+                                            @if (!empty($contact->title)) <h5>{{ $contact->title }}</h5> @endif
+                                            @if (!empty($contact->desc)) <p>{{ $contact->desc }}</p> @endif
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
+                                @php
+                                    $contactHasPhone = collect($contacts)->contains(function ($item) {
+                                        $blob = strtolower(($item->icon ?? '').' '.($item->title ?? '').' '.($item->desc ?? ''));
+                                        return str_contains($blob, 'phone') || str_contains($blob, 'whatsapp') || str_contains($blob, 'fa-phone');
+                                    });
+                                    $phoneText = !empty(optional($site_info ?? null)->phone) ? $site_info->phone : '+880 1700-000000';
+                                @endphp
+                                @if (! $contactHasPhone)
+                                    <div class="contact-info-item">
+                                        <div class="icon">
+                                            <span class="fa fa-phone"></span>
+                                        </div>
+                                        <div class="body">
+                                            <h5>{{ __('frontend.phone') }}</h5>
+                                            <p>
+                                                @if (!empty(optional($site_info ?? null)->phone))
+                                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $site_info->phone) }}" target="_blank" rel="noopener noreferrer">{{ $phoneText }}</a>
+                                                @else
+                                                    {{ $phoneText }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                        @endforeach
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="contact-form-card">
                             <div class="contact-form-wrap">
-                                    <form action="{{ route('message.store') }}" method="POST">
+                                    <form class="js-contact-form" action="{{ route('message.store') }}" method="POST">
                                         @csrf
                                     <div class="row">
                                         <div class="col-md-6">
@@ -2190,10 +2288,10 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="contact-form-group">
-                                                <textarea name="message" class="form-control" cols="20" rows="8" placeholder="Your Message" required></textarea>
+                                                <textarea name="message" class="form-control" cols="20" rows="6" placeholder="Your Message" required></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 text-center">
+                                        <div class="col-md-12">
                                             <div class="contact-btn-left">
                                                 <button type="submit" class="primary-btn">
                                                     <span class="text">{{ __('frontend.send_message') }}</span>
@@ -2204,75 +2302,81 @@
                                     </div>
                                 </form>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         @else
-            <section class="section bg-primary-light" id="contact" data-scroll-index="7">
+            <section class="section contact-section" id="contact" data-scroll-index="7">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <div class="section-heading">
                                 <span>Contact Me</span>
                                 <h2>Contact Us</h2>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6">
+                    <div class="row contact-layout align-items-stretch">
+                        <div class="col-lg-5">
+                            <div class="contact-info-list">
                             <div class="contact-info-item">
                                 <div class="icon">
                                     <span class="fa fa-map-marker-alt"></span>
                                 </div>
                                 <div class="body">
                                     <h5>Address</h5>
-                                    <p>1395 Nixon Avenue Etowah, TN 37331
-                                        <br>
-                                        United States
-                                    </p>
+                                    <p>Sonadanga, Khulna, Bangladesh</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
                             <div class="contact-info-item">
                                 <div class="icon">
                                     <span class="fas fa-envelope-open-text"></span>
                                 </div>
                                 <div class="body">
-                                    <h5>E-Mail Phone:</h5>
+                                    <h5>Email</h5>
                                     <p>contact@netigianit.com</p>
-                                    <p>+1 422-200-5555</p>
                                 </div>
                             </div>
+                            <div class="contact-info-item">
+                                <div class="icon">
+                                    <span class="fa fa-phone"></span>
+                                </div>
+                                <div class="body">
+                                    <h5>{{ __('frontend.phone') }}</h5>
+                                    <p>{{ !empty(optional($site_info ?? null)->phone) ? $site_info->phone : '+880 1700-000000' }}</p>
+                                </div>
+                            </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
+                        <div class="col-lg-7">
+                            <div class="contact-form-card">
                             <div class="contact-form-wrap">
-                                <form>
+                                <form class="js-contact-form" action="{{ route('message.store') }}" method="POST">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="contact-form-group">
-                                                <input type="text" class="form-control" name="contact_name" id="contactName" placeholder="Your Name *">
+                                                <input type="text" class="form-control" name="name" id="contactName" placeholder="Your Name *" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="contact-form-group">
-                                                <input type="text" class="form-control" name="subject" id="contactPhone" placeholder="Subject">
+                                                <input type="email" class="form-control" name="email" id="contactEmail" placeholder="Your Email *" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="contact-form-group">
-                                                <input type="text" class="form-control" name="contact_email" id="contactEmail" placeholder="Your Email *">
+                                                <input type="text" class="form-control" name="subject" id="contactPhone" placeholder="Subject" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="contact-form-group">
-                                                <textarea name="contact_message" id="contactMessage" class="form-control"  placeholder="Your Message *" cols="20" rows="8"></textarea>
+                                                <textarea name="message" id="contactMessage" class="form-control"  placeholder="Your Message *" cols="20" rows="6" required></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 text-center">
+                                        <div class="col-md-12">
                                             <div class="contact-btn-left">
                                                 <button type="submit" id="contactBtn" class="primary-btn">
                                                     <span class="text">Send Message</span>
@@ -2282,6 +2386,7 @@
                                         </div>
                                     </div>
                                 </form>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -2613,6 +2718,7 @@
 
 <!--// Main Js //-->
 <script src="{{ asset('assets/frontend/js/main.js') }}"></script>
+<script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=2"></script>
 <!--// Dark / Light Mode //-->
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 

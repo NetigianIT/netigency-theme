@@ -15,8 +15,6 @@
                 <div class="card-body">
                     @if (count($categories) > 0)
                         <div>
-                            <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)">
-                            <label for="check_all">{{ __('content.all') }}</label>
                             <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
@@ -56,7 +54,9 @@
                         <table id="basic-datatable" class="table table-striped dt-responsive nowrap w-100">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                </th>
                                 <th>{{ __('content.category_name') }}</th>
                                 <th>{{ __('content.order') }}</th>
                                 <th>{{ __('content.status') }}</th>
@@ -68,7 +68,7 @@
                             @foreach ($categories as $category)
                                 <tr>
                                     <td>
-                                        <input  name="check_list[]" type="checkbox" value="{{ $category->id }}" onclick="showHideDeleteButton2(this)"> <span class="d-none">{{ $asc++ }}{{ $desc-- }}</span>
+                                        <input  name="check_list[]" type="checkbox" value="{{ $category->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>{{ $category->category_name }}</td>
                                     <td>{{ $category->order }}</td>
