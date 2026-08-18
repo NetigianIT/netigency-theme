@@ -15,7 +15,7 @@
             toastr.options = {
                 closeButton: true,
                 newestOnTop: true,
-                progressBar: true,
+                progressBar: false,
                 positionClass: 'toast-top-right',
                 preventDuplicates: true,
                 showDuration: 300,
@@ -29,20 +29,20 @@
             };
 
             <?php if($toastrSuccess): ?>
-                toastr.success(<?php echo json_encode(__($toastrSuccess), 15, 512) ?>);
+                toastr.success(<?php echo json_encode(__($toastrSuccess), 15, 512) ?>, <?php echo json_encode(__('Success'), 15, 512) ?>);
             <?php endif; ?>
 
             <?php if($toastrWarning): ?>
-                toastr.warning(<?php echo json_encode(__($toastrWarning), 15, 512) ?>);
+                toastr.warning(<?php echo json_encode(__($toastrWarning), 15, 512) ?>, <?php echo json_encode(__('Warning'), 15, 512) ?>);
             <?php endif; ?>
 
             <?php if($toastrError): ?>
-                toastr.error(<?php echo json_encode(__($toastrError), 15, 512) ?>);
+                toastr.error(<?php echo json_encode(__($toastrError), 15, 512) ?>, <?php echo json_encode(__('Error'), 15, 512) ?>);
             <?php endif; ?>
 
             <?php if(count($toastrValidationErrors)): ?>
                 <?php $__currentLoopData = $toastrValidationErrors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $validationError): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    toastr.error(<?php echo json_encode(__($validationError), 15, 512) ?>);
+                    toastr.error(<?php echo json_encode(__($validationError), 15, 512) ?>, <?php echo json_encode(__('Error'), 15, 512) ?>);
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php endif; ?>
         });

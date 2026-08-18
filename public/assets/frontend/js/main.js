@@ -30,6 +30,8 @@ $( document ).ready( function() {
     Filaous_MyWorks();
     Filaous_BgVideo();
     Filaous_Color_Options();
+    Filaous_ClickSplash();
+    Filaous_MouseTrail();
 });
 
 /* -------------------------------------------------------------------
@@ -68,8 +70,6 @@ function Filaous_Header() {
     let $dropdownMenu   = $( '.dropdown-menu' );
     let showClass       = 'show';
 
-    $('body').scrollspy({ target: '#fixedNavbar' });
-    
     $( '.menu-link' ).on( 'click', function(){
         $( '#fixedNavbar' ).collapse( 'hide' );
     });
@@ -318,15 +318,91 @@ function Filaous_WowJs(){
 function Filaous_ScrollIt() {
     "use-strict";
 
-    $.scrollIt({
-        upKey: 38,             // key code to navigate to the next section
-        downKey: 40,           // key code to navigate to the previous section
-        easing: 'linear',      // the easing function for animation
-        scrollTime: 600,       // how long (in ms) the animation takes
-        activeClass: 'active', // class given to the active nav element
-        onPageChange: null,    // function(pageIndex) that is called when page is changed
-        topOffset: 0           // offste (in px) for fixed top navigation
+    var spyLocked = false;
+    var spyTimer = null;
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function headerOffset() {
+        var header = document.querySelector('.header');
+        return header ? Math.round(header.getBoundingClientRect().height) + 12 : 96;
+    }
+
+    function setActiveNav(index) {
+        document.querySelectorAll('[data-scroll-nav]').forEach(function (link) {
+            link.classList.toggle('active', String(link.getAttribute('data-scroll-nav')) === String(index));
+        });
+    }
+
+    function sectionByIndex(index) {
+        return document.querySelector('[data-scroll-index="' + index + '"]');
+    }
+
+    function scrollToIndex(index) {
+        var section = sectionByIndex(index);
+        if (!section) {
+            return;
+        }
+
+        if (window.jQuery) {
+            window.jQuery('html, body').stop(true, false);
+        }
+
+        spyLocked = true;
+        setActiveNav(index);
+
+        var top = section.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+        if (top < 0) {
+            top = 0;
+        }
+
+        window.scrollTo({
+            top: top,
+            behavior: prefersReduced ? 'auto' : 'smooth'
+        });
+
+        window.clearTimeout(spyTimer);
+        spyTimer = window.setTimeout(function () {
+            spyLocked = false;
+        }, 900);
+    }
+
+    document.addEventListener('click', function (event) {
+        var trigger = event.target.closest('[data-scroll-nav], [data-scroll-goto]');
+        if (!trigger) {
+            return;
+        }
+
+        event.preventDefault();
+        var index = trigger.getAttribute('data-scroll-nav') || trigger.getAttribute('data-scroll-goto');
+        scrollToIndex(index);
     });
+
+    window.addEventListener('scrollend', function () {
+        spyLocked = false;
+    });
+
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+        if (spyLocked || ticking) {
+            return;
+        }
+
+        ticking = true;
+        window.requestAnimationFrame(function () {
+            ticking = false;
+            var offset = headerOffset();
+            var current = null;
+            document.querySelectorAll('[data-scroll-index]').forEach(function (section) {
+                var rect = section.getBoundingClientRect();
+                if (rect.top <= offset && rect.bottom > offset) {
+                    current = section.getAttribute('data-scroll-index');
+                }
+            });
+            if (current !== null) {
+                setActiveNav(current);
+            }
+        });
+    }, { passive: true });
 }
 
 /* -------------------------------------------------------------------
@@ -457,4 +533,181 @@ function Filaous_Color_Options(){
             $('body').removeClass("rtl-mode");
         }
     });
+}
+
+/* -------------------------------------------------------------------
+ * Click splash / glass-shatter
+------------------------------------------------------------------- */
+function Filaous_ClickSplash() {
+    "use strict";
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    var skipTags = {
+        INPUT: 1,
+        TEXTAREA: 1,
+        SELECT: 1,
+        OPTION: 1
+    };
+    var colors = ['#15bf86', '#23e0a3', '#8ef0d0', '#ffffff', '#0d8f63'];
+    var burstCount = 0;
+
+    document.addEventListener('pointerdown', function (event) {
+        if (event.pointerType === 'mouse' && event.button !== 0) {
+            return;
+        }
+        if (skipTags[event.target.tagName]) {
+            return;
+        }
+
+        spawnBurst(event.clientX, event.clientY);
+    }, { passive: true });
+
+    function spawnBurst(x, y) {
+        if (burstCount > 5) {
+            return;
+        }
+        burstCount += 1;
+
+        var wrap = document.createElement('div');
+        wrap.className = 'ni-click-fx';
+        wrap.style.left = x + 'px';
+        wrap.style.top = y + 'px';
+
+        [1, 2, 3].forEach(function (i) {
+            var ring = document.createElement('span');
+            ring.className = 'ni-click-fx__ring ni-click-fx__ring--' + i;
+            ring.style.setProperty('--ring-scale', String(6 + i * 2.4));
+            wrap.appendChild(ring);
+        });
+
+        var count = 22 + Math.floor(Math.random() * 8);
+        for (var i = 0; i < count; i += 1) {
+            var dot = document.createElement('span');
+            var isShard = i % 3 === 0;
+            var angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+            var dist = 48 + Math.random() * 96;
+            var dx = Math.cos(angle) * dist;
+            var dy = Math.sin(angle) * dist + 36 + Math.random() * 58;
+            var size = isShard ? 5 + Math.random() * 7 : 3 + Math.random() * 6;
+
+            dot.className = 'ni-click-fx__dot' + (isShard ? ' is-shard' : '');
+            dot.style.setProperty('--dx', dx.toFixed(1) + 'px');
+            dot.style.setProperty('--dy', dy.toFixed(1) + 'px');
+            dot.style.setProperty('--rot', (Math.random() * 520 - 260).toFixed(0) + 'deg');
+            dot.style.setProperty('--size', size.toFixed(1) + 'px');
+            dot.style.setProperty('--life', (620 + Math.random() * 280) + 'ms');
+            dot.style.setProperty('--dot-color', colors[i % colors.length]);
+            wrap.appendChild(dot);
+        }
+
+        document.body.appendChild(wrap);
+
+        window.setTimeout(function () {
+            wrap.remove();
+            burstCount = Math.max(0, burstCount - 1);
+        }, 980);
+    }
+}
+
+/* -------------------------------------------------------------------
+ * Mouse trail — tiny particles follow cursor
+------------------------------------------------------------------- */
+function Filaous_MouseTrail() {
+    "use strict";
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    if (window.matchMedia && !window.matchMedia('(pointer: fine)').matches) {
+        return;
+    }
+
+    var colors = ['#15bf86', '#23e0a3', '#8ef0d0', '#ffffff', '#0d8f63'];
+    var lastX = -9999;
+    var lastY = -9999;
+    var active = 0;
+    var maxActive = 36;
+    var minDist = 12;
+    var pending = false;
+    var lastEvent = null;
+
+    document.addEventListener('pointermove', function (event) {
+        if (event.pointerType !== 'mouse') {
+            return;
+        }
+
+        lastEvent = event;
+
+        if (pending) {
+            return;
+        }
+
+        pending = true;
+        window.requestAnimationFrame(function () {
+            pending = false;
+            if (!lastEvent) {
+                return;
+            }
+
+            var x = lastEvent.clientX;
+            var y = lastEvent.clientY;
+            var dx = x - lastX;
+            var dy = y - lastY;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < minDist) {
+                return;
+            }
+
+            lastX = x;
+            lastY = y;
+            spawnTrail(x, y, dx, dy, dist);
+        });
+    }, { passive: true });
+
+    function spawnTrail(x, y, dx, dy, dist) {
+        if (active >= maxActive) {
+            return;
+        }
+
+        var count = dist > 28 ? 2 : 1;
+
+        for (var i = 0; i < count; i += 1) {
+            if (active >= maxActive) {
+                break;
+            }
+
+            active += 1;
+
+            var dot = document.createElement('span');
+            var size = 2 + Math.random() * 4;
+            var spread = 10;
+            var offsetX = (Math.random() - 0.5) * spread;
+            var offsetY = (Math.random() - 0.5) * spread;
+            var speed = dist || 1;
+            var driftX = (dx / speed) * (6 + Math.random() * 16) + (Math.random() - 0.5) * 6;
+            var driftY = (dy / speed) * (6 + Math.random() * 16) + (Math.random() - 0.5) * 6;
+            var life = 420 + Math.random() * 380;
+
+            dot.className = 'ni-cursor-trail';
+            dot.style.left = (x + offsetX) + 'px';
+            dot.style.top = (y + offsetY) + 'px';
+            dot.style.setProperty('--size', size.toFixed(1) + 'px');
+            dot.style.setProperty('--drift-x', driftX.toFixed(1) + 'px');
+            dot.style.setProperty('--drift-y', driftY.toFixed(1) + 'px');
+            dot.style.setProperty('--life', life.toFixed(0) + 'ms');
+            dot.style.setProperty('--dot-color', colors[Math.floor(Math.random() * colors.length)]);
+
+            document.body.appendChild(dot);
+
+            window.setTimeout(function () {
+                dot.remove();
+                active = Math.max(0, active - 1);
+            }, life + 40);
+        }
+    }
 }

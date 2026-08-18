@@ -22,5 +22,6 @@ class Feature extends Model
         'title',
         'desc',
         'order',
+        'stack',
     ];
 }

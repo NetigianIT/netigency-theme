@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Page;
-use Mews\Purifier\Facades\Purifier;
+use App\Support\HtmlCleaner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
@@ -60,7 +60,7 @@ class PageController extends Controller
             [
                 'language_id' => getLanguage()->id,
                 'page_title' => $input['page_title'],
-                'desc' => Purifier::clean($input['desc']),
+                'desc' => HtmlCleaner::clean($input['desc']),
                 'status' => $input['status'],
                 'display_header_menu' => $input['display_header_menu'],
                 'order' => $input['order']
@@ -110,7 +110,7 @@ class PageController extends Controller
         $input = $request->all();
 
         // XSSCleaner Cleaner
-        $input['desc'] = Purifier::clean($input['desc']);
+        $input['desc'] = HtmlCleaner::clean($input['desc']);
 
         // Update to database
         Page::find($id)->update($input);

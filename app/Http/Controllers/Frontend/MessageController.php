@@ -3,38 +3,21 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreContactMessageRequest;
 use App\Models\Admin\Message;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreContactMessageRequest $request)
     {
-        // Form validation
-        $request->validate([
-            'name'   =>  'required|max:255',
-            'email'   =>  'required|max:255',
-            'subject'   =>  'required|max:255',
-            'message'   =>  'required|max:500',
-        ]);
+        Message::create($request->validatedPayload());
 
-        // Get All Request
-        $input = $request->all();
+        return $this->successResponse($request);
+    }
 
-        // Record to database
-        Message::firstOrCreate([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'subject' => $input['subject'],
-            'message' => $input['message'],
-        ]);
-
+    protected function successResponse(Request $request)
+    {
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'success' => true,
@@ -42,8 +25,7 @@ class MessageController extends Controller
             ]);
         }
 
-        return redirect()->to('/'.'#contact')
+        return redirect()->to('/#contact')
             ->with('success', 'frontend.your_message_has_been_delivered');
     }
-
 }

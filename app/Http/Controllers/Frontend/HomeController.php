@@ -69,7 +69,13 @@ class HomeController extends Controller
             $about = About::where('language_id', $language->id)->first();
             $info_lists = InfoList::where('language_id', $language->id)->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
             $feature_section = FeatureSection::where('language_id', $language->id)->first();
-            $features = Feature::where('language_id', $language->id)->orderBy('order', 'asc')->get();
+            $allFeatures = Feature::where('language_id', $language->id)->orderBy('order', 'asc')->get();
+            $main_features = $allFeatures->where('stack', 'main')->values();
+            $sub_features = $allFeatures->where('stack', 'supporting')->values();
+            if ($main_features->isEmpty() && $sub_features->isEmpty() && $allFeatures->isNotEmpty()) {
+                $main_features = $allFeatures;
+            }
+            $features = $main_features;
             $service_section = ServiceSection::where('language_id', $language->id)->first();
             $service_paginate = ServicePaginate::first();
 
@@ -79,7 +85,7 @@ class HomeController extends Controller
 
             $services = Service::where('language_id', $language->id)
                 ->where('status', 1)
-                ->orderBy('id', 'desc')
+                ->orderBy('order', 'asc')
                 ->take($service_limit)
                 ->get();
 
@@ -140,7 +146,7 @@ class HomeController extends Controller
 
             return compact(
                 'site_info', 'google_analytic', 'socials', 'color_option',
-                'homepage_version', 'fixed_content', 'about', 'info_lists', 'feature_section', 'features',
+                'homepage_version', 'fixed_content', 'about', 'info_lists', 'feature_section', 'features', 'main_features', 'sub_features',
                 'service_section', 'services', 'counter_section', 'counters', 'work_process_section', 'work_processes',
                 'skill', 'skill_info_lists', 'portfolio_categories', 'portfolio_section', 'portfolios',
                 'team_section', 'teams', 'testimonial_section', 'testimonials', 'blog_section',

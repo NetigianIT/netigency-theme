@@ -6,6 +6,7 @@
     }
 
     $pageActions = $pageActions ?? '';
+    $pageTabs = $pageTabs ?? '';
 @endphp
 
 <div class="ni-page-title card box-margin">
@@ -14,6 +15,11 @@
         @if (strlen(trim(strip_tags($pageActions))) > 0)
             <div class="ni-page-title__actions">
                 {!! $pageActions !!}
+            </div>
+        @endif
+        @if (strlen(trim(strip_tags($pageTabs))) > 0)
+            <div class="ni-page-title__tabs">
+                {!! $pageTabs !!}
             </div>
         @endif
     </div>

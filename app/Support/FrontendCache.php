@@ -82,14 +82,39 @@ class FrontendCache
         $data = static::layout($languageId);
 
         $pageData = SiteCache::frontendRemember('portfolio', $languageId, $slug, SiteCache::TTL_MEDIUM, function () use ($languageId, $slug) {
-            $portfolio = Portfolio::where('portfolios.portfolio_slug', $slug)->firstOrFail();
-            $details = PortfolioDetail::where('portfolio_id', $portfolio->id)->get();
-            $sliders = PortfolioSlider::where('portfolio_id', $portfolio->id)->get();
+            $portfolio = Portfolio::query()
+                ->select([
+                    'id',
+                    'language_id',
+                    'category_id',
+                    'category_name',
+                    'title',
+                    'desc',
+                    'thumbnail_image',
+                    'portfolio_slug',
+                    'meta_desc',
+                    'meta_keyword',
+                    'breadcrumb_status',
+                    'custom_breadcrumb_image',
+                    'created_at',
+                ])
+                ->where('language_id', $languageId)
+                ->where('status', 1)
+                ->where('portfolio_slug', $slug)
+                ->firstOrFail();
+            $details = PortfolioDetail::where('portfolio_id', $portfolio->id)
+                ->select(['id', 'portfolio_id', 'title', 'desc'])
+                ->get();
+            $sliders = PortfolioSlider::where('portfolio_id', $portfolio->id)
+                ->select(['id', 'portfolio_id', 'portfolio_image'])
+                ->get();
             $recent_posts = static::recentPosts($languageId, 3);
-            $portfolio_count_categories = Portfolio::select(DB::raw('count(*) as category_count, category_id'))
+            $portfolio_count_categories = Portfolio::query()
+                ->select(DB::raw('count(*) as category_count, category_id'))
                 ->where('language_id', $languageId)
                 ->where('portfolios.status', 1)
                 ->groupBy('category_id')
+                ->with(['portfolio_category:id,category_name,portfolio_category_slug'])
                 ->get();
 
             return compact('portfolio', 'details', 'sliders', 'recent_posts', 'portfolio_count_categories');
@@ -103,20 +128,35 @@ class FrontendCache
         $data = static::layout($languageId);
 
         $pageData = SiteCache::frontendRemember('portfolio_category', $languageId, "{$categorySlug}.p{$page}", SiteCache::TTL_MEDIUM, function () use ($languageId, $categorySlug) {
-            $portfolios = Portfolio::join('portfolio_categories', 'portfolio_categories.id', '=', 'portfolios.category_id')
-                ->where('portfolio_categories.language_id', $languageId)
-                ->where('portfolio_categories.portfolio_category_slug', $categorySlug)
-                ->where('portfolios.status', 1)
-                ->orderBy('portfolios.id', 'desc')
+            $category = PortfolioCategory::query()
+                ->select(['id', 'language_id', 'category_name', 'portfolio_category_slug'])
+                ->where('language_id', $languageId)
+                ->where('portfolio_category_slug', $categorySlug)
+                ->first();
+
+            if (! $category) {
+                abort(404);
+            }
+
+            $portfolios = Portfolio::query()
+                ->select([
+                    'id',
+                    'category_id',
+                    'category_name',
+                    'title',
+                    'thumbnail_image',
+                    'portfolio_slug',
+                ])
+                ->with(['portfolio_category:id,category_name,portfolio_category_slug'])
+                ->where('language_id', $languageId)
+                ->where('category_id', $category->id)
+                ->where('status', 1)
+                ->orderByDesc('id')
                 ->paginate(9);
 
             if ($portfolios->isEmpty()) {
                 abort(404);
             }
-
-            $category = PortfolioCategory::where('language_id', $languageId)
-                ->where('portfolio_category_slug', $categorySlug)
-                ->first();
 
             return compact('portfolios', 'category');
         });
@@ -131,11 +171,24 @@ class FrontendCache
         $pageData = SiteCache::frontendRemember('blogs', $languageId, "p{$page}", SiteCache::TTL_MEDIUM, function () use ($languageId) {
             $limit = optional(BlogPaginate::first())->grid_view_paginate ?? 9;
 
-            $blogs = Blog::join('categories', 'categories.id', '=', 'blogs.category_id')
+            $blogs = Blog::query()
+                ->select([
+                    'blogs.id',
+                    'blogs.category_id',
+                    'blogs.category_name',
+                    'blogs.author_name',
+                    'blogs.title',
+                    'blogs.short_desc',
+                    'blogs.blog_image',
+                    'blogs.type',
+                    'blogs.slug',
+                ])
+                ->join('categories', 'categories.id', '=', 'blogs.category_id')
+                ->where('blogs.language_id', $languageId)
                 ->where('categories.language_id', $languageId)
                 ->where('categories.status', 1)
                 ->where('blogs.status', 1)
-                ->orderBy('blogs.id', 'desc')
+                ->orderByDesc('blogs.id')
                 ->paginate($limit);
 
             return compact('blogs');
@@ -149,12 +202,38 @@ class FrontendCache
         $data = static::layout($languageId);
 
         $pageData = SiteCache::frontendRemember('blog', $languageId, $slug, SiteCache::TTL_MEDIUM, function () use ($languageId, $slug) {
-            $blog = Blog::where('blogs.slug', $slug)->firstOrFail();
+            $blog = Blog::query()
+                ->select([
+                    'id',
+                    'language_id',
+                    'category_id',
+                    'category_name',
+                    'author_name',
+                    'title',
+                    'desc',
+                    'blog_image',
+                    'type',
+                    'slug',
+                    'view',
+                    'tag',
+                    'meta_desc',
+                    'meta_keyword',
+                    'image_status',
+                    'breadcrumb_status',
+                    'custom_breadcrumb_image',
+                    'created_at',
+                ])
+                ->where('language_id', $languageId)
+                ->where('status', 1)
+                ->where('slug', $slug)
+                ->firstOrFail();
             $recent_posts = static::recentPosts($languageId, 3);
-            $blog_count_categories = Blog::select(DB::raw('count(*) as category_count, category_id'))
+            $blog_count_categories = Blog::query()
+                ->select(DB::raw('count(*) as category_count, category_id'))
                 ->where('language_id', $languageId)
                 ->where('blogs.status', 1)
                 ->groupBy('category_id')
+                ->with(['category:id,category_name,category_slug'])
                 ->get();
 
             return compact('blog', 'recent_posts', 'blog_count_categories');
@@ -168,20 +247,37 @@ class FrontendCache
         $data = static::layout($languageId);
 
         $pageData = SiteCache::frontendRemember('blog_category', $languageId, "{$categorySlug}.p{$page}", SiteCache::TTL_MEDIUM, function () use ($languageId, $categorySlug) {
-            $blogs = Blog::join('categories', 'categories.id', '=', 'blogs.category_id')
-                ->where('categories.language_id', $languageId)
-                ->where('categories.category_slug', $categorySlug)
+            $category = Category::query()
+                ->select(['id', 'language_id', 'category_name', 'category_slug'])
+                ->where('language_id', $languageId)
+                ->where('category_slug', $categorySlug)
+                ->first();
+
+            if (! $category) {
+                abort(404);
+            }
+
+            $blogs = Blog::query()
+                ->select([
+                    'blogs.id',
+                    'blogs.category_id',
+                    'blogs.category_name',
+                    'blogs.author_name',
+                    'blogs.title',
+                    'blogs.short_desc',
+                    'blogs.blog_image',
+                    'blogs.type',
+                    'blogs.slug',
+                ])
+                ->where('blogs.language_id', $languageId)
+                ->where('blogs.category_id', $category->id)
                 ->where('blogs.status', 1)
-                ->orderBy('blogs.id', 'desc')
+                ->orderByDesc('blogs.id')
                 ->paginate(6);
 
             if ($blogs->isEmpty()) {
                 abort(404);
             }
-
-            $category = Category::where('language_id', $languageId)
-                ->where('category_slug', $categorySlug)
-                ->first();
 
             return compact('blogs', 'category');
         });
@@ -204,12 +300,35 @@ class FrontendCache
 
     protected static function recentPosts(int $languageId, int $limit)
     {
-        return Blog::join('categories', 'categories.id', '=', 'blogs.category_id')
+        return Blog::query()
+            ->select([
+                'blogs.id',
+                'blogs.title',
+                'blogs.slug',
+                'blogs.blog_image',
+                'blogs.created_at',
+            ])
+            ->join('categories', 'categories.id', '=', 'blogs.category_id')
+            ->where('blogs.language_id', $languageId)
             ->where('categories.language_id', $languageId)
             ->where('categories.status', 1)
             ->where('blogs.status', 1)
-            ->orderBy('blogs.id', 'desc')
+            ->orderByDesc('blogs.id')
             ->take($limit)
             ->get();
+    }
+
+    public static function blogComments(int $languageId, int $blogId): array
+    {
+        return SiteCache::frontendRemember('blog', $languageId, "comments.{$blogId}", SiteCache::TTL_SHORT, function () use ($blogId) {
+            return [
+                'comments' => \App\Models\Frontend\Comment::query()
+                    ->select(['id', 'blog_id', 'name', 'comment', 'created_at'])
+                    ->where('blog_id', $blogId)
+                    ->where('approval', 1)
+                    ->orderBy('id')
+                    ->get(),
+            ];
+        });
     }
 }

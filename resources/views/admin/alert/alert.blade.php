@@ -15,7 +15,7 @@
             toastr.options = {
                 closeButton: true,
                 newestOnTop: true,
-                progressBar: true,
+                progressBar: false,
                 positionClass: 'toast-top-right',
                 preventDuplicates: true,
                 showDuration: 300,
@@ -29,20 +29,20 @@
             };
 
             @if ($toastrSuccess)
-                toastr.success(@json(__($toastrSuccess)));
+                toastr.success(@json(__($toastrSuccess)), @json(__('Success')));
             @endif
 
             @if ($toastrWarning)
-                toastr.warning(@json(__($toastrWarning)));
+                toastr.warning(@json(__($toastrWarning)), @json(__('Warning')));
             @endif
 
             @if ($toastrError)
-                toastr.error(@json(__($toastrError)));
+                toastr.error(@json(__($toastrError)), @json(__('Error')));
             @endif
 
             @if (count($toastrValidationErrors))
                 @foreach ($toastrValidationErrors as $validationError)
-                    toastr.error(@json(__($validationError)));
+                    toastr.error(@json(__($validationError)), @json(__('Error')));
                 @endforeach
             @endif
         });

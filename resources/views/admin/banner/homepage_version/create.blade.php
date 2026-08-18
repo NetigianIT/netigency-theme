@@ -1,7 +1,10 @@
 @extends('layouts.admin.master')
 
-@section('page_actions')
+@section('page_tabs')
     @include('admin.banner.partials.tabs')
+@endsection
+
+@section('page_actions')
 @endsection
 
 @section('content')

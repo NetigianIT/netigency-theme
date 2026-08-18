@@ -92,7 +92,7 @@ Route::middleware(['XSS'])->group(function () {
 });
 
 Route::post('message', [App\Http\Controllers\Frontend\MessageController::class, 'store'])
-    ->name('message.store')->middleware(['throttle:contact', 'XSS']);
+    ->name('message.store')->middleware(['contact.guard', 'throttle:contact']);
 
 Route::middleware(['XSS'])->group(function () {
     Route::get('blogs', [\App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog-page.index');

@@ -55,8 +55,6 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/vendor/css/magnific.popup.min.css') }}">
     <!--// Animate Css //-->
     <link rel="stylesheet" href="{{ asset('assets/frontend/vendor/css/animate.min.css') }}">
-    <!--// Vegas Slider Css //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/vendor/css/vegas.slider.min.css') }}">
     <!--// Owl Carousel //-->
     <link rel="stylesheet" href="{{ asset('assets/frontend/vendor/css/owl.carousel.min.css') }}">
     <!--// Owl Carousel Default //-->
@@ -100,7 +98,7 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=78">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=103">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -143,6 +141,30 @@
             color:var(--ni-text,#111827)!important;
             border-color:var(--ni-glass-border, rgba(21,191,134,.28))!important;
         }
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill,
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:hover,
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:focus,
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:active,
+        .contact-form-wrap .contact-form-group input.form-control:autofill{
+            -webkit-text-fill-color:var(--ni-text,#f3f4f6)!important;
+            caret-color:var(--ni-text,#f3f4f6);
+            border:1px solid var(--ni-glass-border, rgba(21,191,134,.28))!important;
+            transition:background-color 99999s ease-in-out 0s,color 99999s ease-in-out 0s;
+            -webkit-box-shadow:0 0 0 1000px rgba(7,12,10,.28) inset!important;
+            box-shadow:0 0 0 1000px rgba(7,12,10,.28) inset!important;
+            background:var(--ni-glass)!important;
+            background-color:transparent!important;
+        }
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:hover,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:focus,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:active,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:autofill{
+            -webkit-text-fill-color:var(--ni-text,#111827)!important;
+            caret-color:var(--ni-text,#111827);
+            -webkit-box-shadow:0 0 0 1000px rgba(255,255,255,.08) inset!important;
+            box-shadow:0 0 0 1000px rgba(255,255,255,.08) inset!important;
+        }
         .contact-section .contact-btn-left{
             width:100%!important;
             text-align:left!important;
@@ -151,17 +173,105 @@
             width:100%!important;
             display:flex!important;
             justify-content:space-between!important;
-            border-radius:10px!important;
+            border-radius:20px!important;
             background:var(--ni-glass)!important;
             border:1px solid var(--ni-glass-border, rgba(21,191,134,.28))!important;
             box-shadow:var(--ni-glass-shadow)!important;
             backdrop-filter:blur(18px) saturate(140%);
             -webkit-backdrop-filter:blur(18px) saturate(140%);
         }
+        .contact-section .contact-btn-left .primary-btn .text{
+            padding-left:24px!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .icon{
+            padding:4px 16px 4px 20px!important;
+            border:none!important;
+            background:transparent!important;
+            box-shadow:none!important;
+            position:relative!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .icon::before{
+            content:"";
+            position:absolute;
+            left:0;
+            top:10px;
+            bottom:10px;
+            width:1px;
+            background:linear-gradient(180deg, transparent 0%, rgba(21,191,134,.85) 50%, transparent 100%);
+        }
+        .contact-section .contact-btn-left .primary-btn .icon i{
+            width:42px!important;
+            height:42px!important;
+            border-radius:0!important;
+            font-size:0!important;
+            background:linear-gradient(135deg, rgba(35,224,163,.12) 0%, #15bf86 52%, rgba(142,240,208,.9) 100%)!important;
+            -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat;
+            mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat;
+            -webkit-background-clip:unset!important;
+            background-clip:unset!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .icon i::before,
+        .contact-section .contact-btn-left .primary-btn .icon i::after{
+            display:none!important;
+        }
         .contact-section .contact-btn-left .primary-btn:hover{
             background:var(--ni-glass-hover)!important;
             transform:none!important;
         }
+        .contact-section .contact-btn-left .primary-btn:hover .icon{
+            background:transparent!important;
+        }
+        .contact-section .contact-btn-left .primary-btn:hover .icon i{
+            background:linear-gradient(135deg, rgba(35,224,163,.28) 0%, #23e0a3 50%, #ffffff 100%)!important;
+        }
+        .contact-section .contact-btn-left .primary-btn,
+        .contact-section .contact-btn-left .primary-btn:hover,
+        .contact-section .contact-btn-left .primary-btn:disabled,
+        .contact-section .contact-btn-left .primary-btn .icon,
+        .contact-section .contact-btn-left .primary-btn .text{
+            cursor:pointer!important;
+        }
+        .contact-section .contact-btn-left .primary-btn.is-loading .icon i{
+            display:none!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .contact-btn-spinner{
+            width:22px;
+            height:22px;
+            border:2px solid rgba(21,191,134,.25);
+            border-top-color:#15bf86;
+            border-radius:50%;
+            display:none;
+            animation:ni-contact-spin .7s linear infinite;
+            flex-shrink:0;
+        }
+        .contact-section .contact-btn-left .primary-btn.is-loading .contact-btn-spinner{
+            display:block;
+        }
+        @keyframes ni-contact-spin{
+            to{transform:rotate(360deg)}
+        }
+        .contact-field-error{
+            display:none;
+            margin-top:8px;
+            padding:0 4px;
+            font-size:13px;
+            line-height:1.4;
+            color:#ff6b6b;
+        }
+        .contact-field-error.is-visible{display:block}
+        .contact-form-group .form-control.is-invalid,
+        .contact-form-group .form-control.is-invalid:focus{
+            border-color:rgba(255,107,107,.7)!important;
+        }
+        .contact-form-status{
+            display:none;
+            margin-top:12px;
+            font-size:14px;
+            line-height:1.4;
+        }
+        .contact-form-status.is-visible{display:block}
+        .contact-form-status.is-success{color:#15bf86}
+        .contact-form-status.is-error{color:#ff6b6b}
         .counters-section-bg{display:none!important}
         /* Taller nav; bigger logo inside the same bar height */
         .header,.header-shrink{padding:0!important}
@@ -243,7 +353,7 @@
                             @endif
                             @if ($section_arr['blog_section'] == 1)
                             <li class="nav-item">
-                                <a class="nav-link menu-link" href="{{ route('blog-page.index') }}">{{ __('frontend.blogs') }}</a>
+                                <a class="nav-link menu-link" href="#" data-scroll-nav="6">{{ __('frontend.blogs') }}</a>
                             </li>
                             @endif
                             @if ($section_arr['contact_section'] == 1)
@@ -299,602 +409,84 @@
     <main class="main-area">
 
         <!--// Hero Section Start //-->
-        @if (session()->has('choose_version'))
-                @if (session()->get('choose_version') == 0)
-                    @isset ($fixed_content)
-                        <section class="hero-banner mt-5" data-scroll-index="1">
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            <h1>{{ $fixed_content->title }}</h1>
-                                            <h2>{{ $fixed_content->desc }}</h2>
-                                            @if (!empty($fixed_content->btn_name))
-                                                <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                    <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                    <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @if ($fixed_content->image_status == 1 && !empty($fixed_content->thumbnail_image))
-                                        <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                            <div class="hero-img">
-                                                <div class="border-line-outer">
-                                                    <div class="border-line-inner">
-                                                        <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="image" class="img-fluid">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                            @if (count($socials) > 0)
-                                <ul class="hero-social-list">
-                                    @foreach ($socials as $social)
-                                        <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                        </section>
-                    @else
-                        <section class="hero-banner mt-5" data-scroll-index="1">
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            <h1>
-                                                Introduce Our
-                                                Creative Agency.
-                                            </h1>
-                                            <h2>
-                                                Always new beginnings can move the business forward.A user experience is
-                                                required before service.Now is a great opportunity to work with our and move
-                                                your brand forward.
-                                            </h2>
-                                            <a href="#" class="white-btn">
-                                                <span class="text">View Works</span>
-                                                <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                        <div class="hero-img">
-                                            <div class="border-line-outer">
-                                                <div class="border-line-inner">
-                                                    <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="ajency image" class="img-fluid">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <ul class="hero-social-list">
-                                <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                        </section>
-                    @endisset
-                @elseif (session()->get('choose_version') == 1)
-                    @isset ($fixed_content)
-                        <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                            <div id="heroparticles"></div>
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            <h1>{{ $fixed_content->title }}</h1>
-                                            <h2>{{ $fixed_content->desc }}</h2>
-                                            @if (!empty($fixed_content->btn_name))
-                                                <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                    <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                    <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @if ($fixed_content->image_status == 1 && !empty($fixed_content->thumbnail_image))
-                                        <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                            <div class="hero-img">
-                                                <div class="border-line-outer">
-                                                    <div class="border-line-inner">
-                                                        <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="image" class="img-fluid">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                            @if (count($socials) > 0)
-                                <ul class="hero-social-list">
-                                    @foreach ($socials as $social)
-                                        <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
-                        </section>
-                    @else
-                        <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                            <div id="heroparticles"></div>
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            <h1>
-                                                Introduce Our
-                                                Creative Agency.
-                                            </h1>
-                                            <h2>
-                                                Always new beginnings can move the business forward.A user experience is
-                                                required before service.Now is a great opportunity to work with our and move
-                                                your brand forward.
-                                            </h2>
-                                            <a href="#" class="white-btn">
-                                                <span class="text">View Works</span>
-                                                <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                        <div class="hero-img">
-                                            <div class="border-line-outer">
-                                                <div class="border-line-inner">
-                                                    <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <ul class="hero-social-list">
-                                <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
-                        </section>
-                    @endisset
-                @elseif (session()->get('choose_version') == 2)
-                    @if (isset($fixed_content) || count($sliders) > 0)
-                        <section class="hero-banner" id="heroSliderContainer" data-scroll-index="1">
-                            <div class="container h-100">
-                                <div class="row h-100 align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            @isset ($fixed_content)
-                                                <h1>{{ $fixed_content->title }}</h1>
-                                                <h2>{{ $fixed_content->desc }}</h2>
-                                                @if (!empty($fixed_content->btn_name))
-                                                    <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                        <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                        <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                                    </a>
-                                                @endif
-                                            @endisset
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @if (count($socials) > 0)
-                                <ul class="hero-social-list">
-                                    @foreach ($socials as $social)
-                                        <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
-                        </section>
-                    @else
-                        <section class="hero-banner" id="heroSliderContainer" data-scroll-index="1">
-                            <div class="container h-100">
-                                <div class="row h-100 align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            <h1>
-                                                Introduce Our
-                                                Creative Agency.
-                                            </h1>
-                                            <h2>
-                                                Always new beginnings can move the business forward.A user experience is
-                                                required before service.Now is a great opportunity to work with our and move
-                                                your brand forward.
-                                            </h2>
-                                            <a href="#" class="white-btn">
-                                                <span class="text">View Works</span>
-                                                <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <ul class="hero-social-list">
-                                <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
-                        </section>
-                    @endif
-                @else
-                    @if (isset($fixed_content) || isset($video))
-                        <section class="hero-banner" id="hero_video" data-scroll-index="1">
-                            @isset ($video->video_link)
-                                <div id="video-background" data-video-bg="true" class="player bg-overlay"
-                                     data-property="{videoURL:'{{ $video->video_link }}',containment:'#hero_video',showControls:false, autoPlay:true, loop:true, mute:true, startAt:0, opacity:1, quality:'default'}">
-                                </div>
-                            @endisset
-                            <div class="hero-overlay"></div>
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            @isset ($fixed_content)
-                                                <h1>{{ $fixed_content->title }}</h1>
-                                                <h2>{{ $fixed_content->desc }}</h2>
-                                                @if (!empty($fixed_content->btn_name))
-                                                    <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                        <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                        <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                                    </a>
-                                                @endif
-                                            @endisset
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @if (count($socials) > 0)
-                                <ul class="hero-social-list">
-                                    @foreach ($socials as $social)
-                                        <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
-                        </section>
-                    @else
-                        <section class="hero-banner" id="hero_video" data-scroll-index="1">
-                            <div id="video-background" data-video-bg="true" class="player bg-overlay"
-                                 data-property="{videoURL:'https://www.youtube.com/watch?v=yI7UHzq_4XY',containment:'#hero_video',showControls:false, autoPlay:true, loop:true, mute:true, startAt:0, opacity:1, quality:'default'}">
-                            </div>
-                            <div class="hero-overlay"></div>
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                        <div class="hero-inner">
-                                            <h1>
-                                                Introduce Our
-                                                Creative Agency.
-                                            </h1>
-                                            <h2>
-                                                Always new beginnings can move the business forward.A user experience is
-                                                required before service.Now is a great opportunity to work with our and move
-                                                your brand forward.
-                                            </h2>
-                                            <a href="#" class="white-btn">
-                                                <span class="text">View Works</span>
-                                                <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <ul class="hero-social-list">
-                                <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                            <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
-                        </section>
-                    @endif
-                @endif
-            @else
-            @if ($homepage_version->choose_version == 0)
-                @isset ($fixed_content)
-                    <section class="hero-banner" data-scroll-index="1">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        <h1>{{ $fixed_content->title }}</h1>
-                                        <h2>{{ $fixed_content->desc }}</h2>
-                                        @if (!empty($fixed_content->btn_name))
-                                            <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                                @if ($fixed_content->image_status == 1 && !empty($fixed_content->thumbnail_image))
-                                    <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                        <div class="hero-img">
-                                            <div class="border-line-outer">
-                                                <div class="border-line-inner">
-                                                    <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="image" class="img-fluid">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+        @isset ($fixed_content)
+            <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
+                <div id="heroparticles"></div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
+                            <div class="hero-inner">
+                                <h1>{{ $fixed_content->title }}</h1>
+                                <h2>{{ $fixed_content->desc }}</h2>
+                                @if (!empty($fixed_content->btn_name))
+                                    <a href="#porfolio" data-scroll-nav="4" class="white-btn">
+                                        <span class="text">{{ $fixed_content->btn_name }}</span>
+                                        <span class="icon"><i class="fa fa-arrow-right"></i></span>
+                                    </a>
                                 @endif
                             </div>
                         </div>
-                        @if (count($socials) > 0)
-                            <ul class="hero-social-list">
-                                @foreach ($socials as $social)
-                                    <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                @endforeach
-                            </ul>
-                        @endif
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
-                    </section>
-                @else
-                    <section class="hero-banner" data-scroll-index="1">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        <h1>
-                                            Introduce Our
-                                            Creative Agency.
-                                        </h1>
-                                        <h2>
-                                            Always new beginnings can move the business forward.A user experience is
-                                            required before service.Now is a great opportunity to work with our and move
-                                            your brand forward.
-                                        </h2>
-                                        <a href="#" class="white-btn">
-                                            <span class="text">View Works</span>
-                                            <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                    <div class="hero-img">
-                                        <div class="border-line-outer">
-                                            <div class="border-line-inner">
-                                                <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="ajency image" class="img-fluid">
-                                            </div>
+                        @if ($fixed_content->image_status == 1 && !empty($fixed_content->thumbnail_image))
+                            <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
+                                <div class="hero-img">
+                                    <div class="border-line-outer">
+                                        <div class="border-line-inner">
+                                            <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="image" class="img-fluid">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <ul class="hero-social-list">
-                            <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                        </ul>
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
-                    </section>
-                @endisset
-            @elseif ($homepage_version->choose_version == 1)
-                @isset ($fixed_content)
-                    <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                        <div id="heroparticles"></div>
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        <h1>{{ $fixed_content->title }}</h1>
-                                        <h2>{{ $fixed_content->desc }}</h2>
-                                        @if (!empty($fixed_content->btn_name))
-                                            <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                                @if ($fixed_content->image_status == 1 && !empty($fixed_content->thumbnail_image))
-                                    <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                        <div class="hero-img">
-                                            <div class="border-line-outer">
-                                                <div class="border-line-inner">
-                                                    <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="image" class="img-fluid">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        @if (count($socials) > 0)
-                            <ul class="hero-social-list">
-                                @foreach ($socials as $social)
-                                    <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                @endforeach
-                            </ul>
                         @endif
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
-                    </section>
-                @else
-                    <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                        <div id="heroparticles"></div>
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        <h1>
-                                            Introduce Our
-                                            Creative Agency.
-                                        </h1>
-                                        <h2>
-                                            Always new beginnings can move the business forward.A user experience is
-                                            required before service.Now is a great opportunity to work with our and move
-                                            your brand forward.
-                                        </h2>
-                                        <a href="#" class="white-btn">
-                                            <span class="text">View Works</span>
-                                            <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
-                                    <div class="hero-img">
-                                        <div class="border-line-outer">
-                                            <div class="border-line-inner">
-                                                <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="hero-social-list">
-                            <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                        </ul>
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
-                    </section>
-                @endisset
-            @elseif ($homepage_version->choose_version == 2)
-                @if (isset($fixed_content) || count($sliders) > 0)
-                    <section class="hero-banner" id="heroSliderContainer" data-scroll-index="1">
-                        <div class="container h-100">
-                            <div class="row h-100 align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        @isset ($fixed_content)
-                                            <h1>{{ $fixed_content->title }}</h1>
-                                            <h2>{{ $fixed_content->desc }}</h2>
-                                            @if (!empty($fixed_content->btn_name))
-                                                <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                    <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                    <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                                </a>
-                                            @endif
-                                        @endisset
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @if (count($socials) > 0)
-                            <ul class="hero-social-list">
-                                @foreach ($socials as $social)
-                                    <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                @endforeach
-                            </ul>
-                        @endif
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
-                    </section>
-                @else
-                    <section class="hero-banner" id="heroSliderContainer" data-scroll-index="1">
-                        <div class="container h-100">
-                            <div class="row h-100 align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        <h1>
-                                            Introduce Our
-                                            Creative Agency.
-                                        </h1>
-                                        <h2>
-                                            Always new beginnings can move the business forward.A user experience is
-                                            required before service.Now is a great opportunity to work with our and move
-                                            your brand forward.
-                                        </h2>
-                                        <a href="#" class="white-btn">
-                                            <span class="text">View Works</span>
-                                            <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="hero-social-list">
-                            <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                        </ul>
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
-                    </section>
+                    </div>
+                </div>
+                @if (count($socials) > 0)
+                    <ul class="hero-social-list">
+                        @foreach ($socials as $social)
+                            <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
+                        @endforeach
+                    </ul>
                 @endif
-            @else
-                @if (isset($fixed_content) || isset($video))
-                    <section class="hero-banner" id="hero_video" data-scroll-index="1">
-                        @isset ($video->video_link)
-                            <div id="video-background" data-video-bg="true" class="player bg-overlay"
-                                 data-property="{videoURL:'{{ $video->video_link }}',containment:'#hero_video',showControls:false, autoPlay:true, loop:true, mute:true, startAt:0, opacity:1, quality:'default'}">
+                <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
+            </section>
+        @else
+            <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
+                <div id="heroparticles"></div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
+                            <div class="hero-inner">
+                                <h1>
+                                    We Build Modern Web Products.
+                                </h1>
+                                <h2>
+                                    Custom websites, ecommerce platforms, CRM, HRM, POS, and business software — engineered with Laravel, Vue.js, PHP, Node.js, and React.
+                                </h2>
+                                <a href="#porfolio" data-scroll-nav="4" class="white-btn">
+                                    <span class="text">View Works</span>
+                                    <span class="icon"><i class="fa fa-arrow-right"></i></span>
+                                </a>
                             </div>
-                        @endisset
-                        <div class="hero-overlay"></div>
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        @isset ($fixed_content)
-                                            <h1>{{ $fixed_content->title }}</h1>
-                                            <h2>{{ $fixed_content->desc }}</h2>
-                                            @if (!empty($fixed_content->btn_name))
-                                                <a href="@if (!empty($fixed_content->btn_link)) {{ $fixed_content->btn_link }} @else # @endif" class="white-btn">
-                                                    <span class="text">{{ $fixed_content->btn_name }}</span>
-                                                    <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                                </a>
-                                            @endif
-                                        @endisset
+                        </div>
+                        <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
+                            <div class="hero-img">
+                                <div class="border-line-outer">
+                                    <div class="border-line-inner">
+                                        <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @if (count($socials) > 0)
-                            <ul class="hero-social-list">
-                                @foreach ($socials as $social)
-                                    <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
-                                @endforeach
-                            </ul>
-                        @endif
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">{{ __('frontend.scroll_down') }}</a>
-                    </section>
-                @else
-                    <section class="hero-banner" id="hero_video" data-scroll-index="1">
-                        <div id="video-background" data-video-bg="true" class="player bg-overlay"
-                             data-property="{videoURL:'https://www.youtube.com/watch?v=yI7UHzq_4XY',containment:'#hero_video',showControls:false, autoPlay:true, loop:true, mute:true, startAt:0, opacity:1, quality:'default'}">
-                        </div>
-                        <div class="hero-overlay"></div>
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
-                                    <div class="hero-inner">
-                                        <h1>
-                                            Introduce Our
-                                            Creative Agency.
-                                        </h1>
-                                        <h2>
-                                            Always new beginnings can move the business forward.A user experience is
-                                            required before service.Now is a great opportunity to work with our and move
-                                            your brand forward.
-                                        </h2>
-                                        <a href="#" class="white-btn">
-                                            <span class="text">View Works</span>
-                                            <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="hero-social-list">
-                            <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-                        </ul>
-                        <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
-                    </section>
-                @endif
-            @endif
-        @endif
-
+                    </div>
+                </div>
+                <ul class="hero-social-list">
+                    <li><a href="javascript:void(0)"><i class="fab fa-github"></i></a></li>
+                    <li><a href="javascript:void(0)"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+                <a href="#" data-scroll-nav="2" class="scroll-down-btn">Scroll Down</a>
+            </section>
+        @endisset
         <!--// Hero Section End //-->
 
         <!--// About Section Start //-->
@@ -902,20 +494,24 @@
         @if (isset($about))
             <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
+                    <x-frontend.section-title
+                        :title="$about->section_title ?: __('frontend.about_us')"
+                        col-class="col-12"
+                        heading-class="about-section-heading"
+                        :dots="true" />
                     <div class="row about-row align-items-stretch">
-                        <div class="col-lg-7 about-media-col">
-                            <div class="section-heading-left about-section-heading">
-                                <h2>{{ $about->section_title ?: __('frontend.about_us') }}</h2>
-                            </div>
+                        <div class="col-lg-6 about-media-col">
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="{{ asset('uploads/img/about/'.$about->about_image) }}" alt="About image" title="About image" class="img-fluid">
                                 @if (!empty($about->video_link))
-                                    <a class="about-video-btn" href="{{ $about->video_link }}" aria-label="Play about video"><i class="fa fa-play"></i></a>
-                                    <div class="video-border-line"></div>
-                                    @endif
+                                    <a class="about-video-btn" href="{{ $about->video_link }}" aria-label="Play demo video">
+                                        <span class="about-video-btn__ring" aria-hidden="true"></span>
+                                        <span class="about-video-btn__icon" aria-hidden="true"></span>
+                                    </a>
+                                @endif
                             </div>
                         </div>
-                        <div class="col-lg-5 about-content-col">
+                        <div class="col-lg-6 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
                                 <h2>{{ $about->title }}</h2>
                                 <p>{{ $about->desc }}</p>
@@ -943,25 +539,26 @@
         @else
             <section class="section about-section" id="about" data-scroll-index="2">
                 <div class="container">
+                    <x-frontend.section-title
+                        :title="__('frontend.about_us')"
+                        col-class="col-12"
+                        heading-class="about-section-heading"
+                        :dots="true" />
                     <div class="row about-row align-items-stretch">
-                        <div class="col-lg-7 about-media-col">
-                            <div class="section-heading-left about-section-heading">
-                                <h2>{{ __('frontend.about_us') }}</h2>
-                            </div>
+                        <div class="col-lg-6 about-media-col">
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
-                                <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0" aria-label="Play about video"><i class="fa fa-play"></i></a>
-                                <div class="video-border-line"></div>
+                                <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0" aria-label="Play demo video">
+                                    <span class="about-video-btn__ring" aria-hidden="true"></span>
+                                    <span class="about-video-btn__icon" aria-hidden="true"></span>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-lg-5 about-content-col">
+                        <div class="col-lg-6 about-content-col">
                             <div class="about-inner wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                                <h2>We are here with 10 years of user experience</h2>
+                                <h2>We craft scalable web solutions with 5+ years of experience</h2>
                                 <p>
-                                    We prevent loss of time and indecision in our works.
-                                    We offer the best solution to the projects we take and do.
-                                    Most of our customers and brands express their satisfaction.
-                                    By working with us, we can appeal to a large audience and grow your business.
+                                    We design and develop custom websites, ecommerce stores, CRM, HRM, POS, and business platforms with clean code, modern UI, and reliable performance.
                                 </p>
                                 <div class="row about-info-grid">
                                     <div class="col-md-6 col-sm-6">
@@ -996,8 +593,8 @@
                                         <ul>
                                             <li class="about-info-item">
                                                 <div class="text">
-                                                    <h5>Technologies :</h5>
-                                                    <p>Java, Php, C#, Python, Flutter</p>
+                                                    <h5>Services :</h5>
+                                                    <p>Ecommerce, Portfolio, Agency, CRM, HRM, POS</p>
                                                 </div>
                                             </li>
                                             <li class="about-info-item">
@@ -1030,31 +627,22 @@
             <section class="section pb-minus-76 bg-primary-light" id="myresume">
                 <div class="container">
                    @isset ($feature_section)
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="section-heading-left">
-                                    <span>{{ $feature_section->section_title }}</span>
-                                    <h2>{{ $feature_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$feature_section->title"
+                            :subtitle="$feature_section->section_title"
+                            :dots="true" />
                        @endisset
-                    <div class="row">
-                        @foreach ($features as $feature)
-                            <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.{{ $loop->index }}s">
-                                <div class="resume-item">
+                    <div class="row tech-grid tech-grid--main">
+                        @foreach (($main_features ?? $features) as $feature)
+                            <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.{{ $loop->index }}s">
+                                <div class="resume-item resume-item--main">
                                     <div class="body">
-                                        @if ($feature->type == "icon")
-                                           @if (!empty($feature->icon))
-                                                <div class="icon-outer-line">
-                                                    <div class="icon-inner-line">
-                                                        <span class="{{ $feature->icon }}"></span>
-                                                    </div>
-                                                </div>
-                                               @endif
-                                            @else
-                                            <img src="{{ asset('uploads/img/features/'.$feature->feature_image) }}" class="mr-2 ml-2 img-fluid">
-                                            @endif
+                                        <x-frontend.tech-icon
+                                            :title="$feature->title"
+                                            :type="$feature->type"
+                                            :icon="$feature->icon"
+                                            :feature-image="$feature->feature_image"
+                                            size="main" />
                                         <div class="text">
                                             <h5>{{ $feature->title }}</h5>
                                             @if (!empty($feature->desc)) <span>{{ $feature->desc }}</span> @endif
@@ -1064,109 +652,135 @@
                             </div>
                         @endforeach
                     </div>
+                    @if (isset($sub_features) && count($sub_features) > 0)
+                        <div class="tech-sub-stack">
+                            <p class="tech-sub-stack__label">Supporting Stack</p>
+                            <div class="row tech-grid tech-grid--sub">
+                                @foreach ($sub_features as $feature)
+                                    <div class="tech-sub-col wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.{{ min($loop->index, 5) }}s">
+                                        <div class="resume-item resume-item--sub">
+                                            <div class="body">
+                                                <x-frontend.tech-icon
+                                                    :title="$feature->title"
+                                                    :type="$feature->type"
+                                                    :icon="$feature->icon"
+                                                    :feature-image="$feature->feature_image"
+                                                    size="sub" />
+                                                <div class="text">
+                                                    <h5>{{ $feature->title }}</h5>
+                                                    @if (!empty($feature->desc)) <span>{{ $feature->desc }}</span> @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </section>
         @else
             <section class="section pb-minus-76 bg-primary-light" id="myresume">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="section-heading-left">
-                                <span>Features</span>
-                                <h2>Our Features</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                    <x-frontend.section-title
+                        title="Our Features"
+                        subtitle="Features"
+                        :dots="true" />
+                    <div class="row tech-grid tech-grid--main">
                         <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                            <div class="resume-item">
+                            <div class="resume-item resume-item--main">
                                 <div class="body">
-                                    <div class="icon-outer-line">
-                                        <div class="icon-inner-line">
-                                            <span class="fab fa-google"></span>
-                                        </div>
-                                    </div>
+                                    <x-frontend.tech-icon title="Laravel" type="icon" size="main" />
                                     <div class="text">
-                                        <h5>Business Stratagy</h5>
-                                        <span>A clear vision and solid determination are required for a strategy to not just stay in theory, but to put into practice.</span>
+                                        <h5>Laravel</h5>
+                                        <span>Secure Laravel backends, admin panels, and business web apps built for scalability and maintainability.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.2s">
-                            <div class="resume-item">
+                            <div class="resume-item resume-item--main">
                                 <div class="body">
-                                    <div class="icon-outer-line">
-                                        <div class="icon-inner-line">
-                                            <span class="fab fa-wordpress"></span>
-                                        </div>
-                                    </div>
+                                    <x-frontend.tech-icon title="Vue.js" type="icon" size="main" />
                                     <div class="text">
-                                        <h5>Website Development</h5>
-                                        <span>Web developers, or 'devs', do this by using a variety of coding languages.</span>
+                                        <h5>Vue.js</h5>
+                                        <span>Fast Vue.js frontends with reusable components, smooth interactions, and clean interface architecture.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.3s">
-                            <div class="resume-item">
+                            <div class="resume-item resume-item--main">
                                 <div class="body">
-                                    <div class="icon-outer-line">
-                                        <div class="icon-inner-line">
-                                            <span class="fab fa-dribbble"></span>
-                                        </div>
-                                    </div>
+                                    <x-frontend.tech-icon title="PHP" type="icon" size="main" />
                                     <div class="text">
-                                        <h5>Marketing & Reporting</h5>
-                                        <span>Marketing reporting is the process of measuring progress, showing value, and identifying actionable steps to improve marketing performance and meet your goals.</span>
+                                        <h5>PHP</h5>
+                                        <span>Custom PHP development for websites, APIs, and server-side logic with stable, production-ready code.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.4s">
-                            <div class="resume-item">
+                            <div class="resume-item resume-item--main">
                                 <div class="body">
-                                    <div class="icon-outer-line">
-                                        <div class="icon-inner-line">
-                                            <span class="fas fa-mobile-alt"></span>
-                                        </div>
-                                    </div>
+                                    <x-frontend.tech-icon title="Node.js" type="icon" size="main" />
                                     <div class="text">
-                                        <h5>Mobile App Development</h5>
-                                        <span>Mobile app development is the act or process by which a mobile app is developed for mobile devices, such as personal digital assistants, enterprise digital assistants or mobile phones.</span>
+                                        <h5>Node.js</h5>
+                                        <span>Node.js APIs and real-time services for modern full-stack web products and integrations.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.5s">
-                            <div class="resume-item">
+                            <div class="resume-item resume-item--main">
                                 <div class="body">
-                                    <div class="icon-outer-line">
-                                        <div class="icon-inner-line">
-                                            <span class="fab fa-amazon"></span>
-                                        </div>
-                                    </div>
+                                    <x-frontend.tech-icon title="MySQL" type="icon" size="main" />
                                     <div class="text">
-                                        <h5>Sales Manager</h5>
-                                        <span>A sales manager is someone who is responsible for leading and guiding a team of sales people in an organization.</span>
+                                        <h5>MySQL</h5>
+                                        <span>Optimized MySQL database design for secure storage, efficient queries, and scalable web applications.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.6s">
-                            <div class="resume-item">
+                            <div class="resume-item resume-item--main">
                                 <div class="body">
-                                    <div class="icon-outer-line">
-                                        <div class="icon-inner-line">
-                                            <span class="fab fa-behance"></span>
-                                        </div>
-                                    </div>
+                                    <x-frontend.tech-icon title="React.js" type="icon" size="main" />
                                     <div class="text">
-                                        <h5>Graphic Designer</h5>
-                                        <span>Graphic design is a craft where professionals create visual content to communicate messages.</span>
+                                        <h5>React.js</h5>
+                                        <span>React.js dashboards and web interfaces with modular components, responsive layouts, and smooth user flows.</span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="tech-sub-stack">
+                        <p class="tech-sub-stack__label">Supporting Stack</p>
+                        <div class="row tech-grid tech-grid--sub">
+                            @php
+                                $demoSubFeatures = [
+                                    ['title' => 'Redis', 'desc' => 'In-memory caching and queues for faster APIs and real-time performance.'],
+                                    ['title' => 'CI/CD', 'desc' => 'Automated testing and deployment pipelines for stable releases.'],
+                                    ['title' => 'Deploy', 'desc' => 'Cloud and VPS deployment with Docker and zero-downtime strategy.'],
+                                    ['title' => 'Cursor', 'desc' => 'AI-assisted development workflow for faster coding and debugging.'],
+                                    ['title' => 'PrimeVue', 'desc' => 'Vue UI component library for dashboards, forms, and rich admin interfaces.'],
+                                    ['title' => 'PrimeReact', 'desc' => 'React UI component library for production-ready dashboards and app layouts.'],
+                                    ['title' => 'Next.js', 'desc' => 'React framework for SSR, routing, and scalable production frontends.'],
+                                    ['title' => 'Zustand', 'desc' => 'Lightweight React state management with a simple, scalable store API.'],
+                                    ['title' => 'Redux', 'desc' => 'Predictable React state container for complex application data flows.'],
+                                    ['title' => 'Pinia', 'desc' => 'Modern Vue store for typed, modular, and maintainable state.'],
+                                ];
+                            @endphp
+                            @foreach ($demoSubFeatures as $demoFeature)
+                                <div class="tech-sub-col wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.{{ min($loop->index, 5) }}s">
+                                    <div class="resume-item resume-item--sub">
+                                        <div class="body">
+                                            <x-frontend.tech-icon :title="$demoFeature['title']" type="icon" size="sub" />
+                                            <div class="text"><h5>{{ $demoFeature['title'] }}</h5><span>{{ $demoFeature['desc'] }}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -1181,31 +795,28 @@
             <section class="section pb-minus-70" id="services" data-scroll-index="3">
                 <div class="container">
                    @isset ($service_section)
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="section-heading">
-                                    <span>{{ $service_section->section_title }}</span>
-                                    <h2>{{ $service_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$service_section->title"
+                            :subtitle="$service_section->section_title"
+                            align="center"
+                            :dots="true" />
                        @endisset
-                    <div class="row">
+                    <div class="row services-grid">
                         @foreach ($services as $service)
                             <div class="col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.{{ $loop->index }}s">
                                 <div class="services-item">
+                                    <div class="services-item-media">
+                                        <x-frontend.service-card-icon
+                                            :title="$service->title"
+                                            :icon="$service->icon"
+                                            :image="$service->service_image"
+                                            :use-image="$service->image_status === 'enable'" />
+                                    </div>
                                     <div class="body">
-                                        <h4>0{{$loop->index + 1 }} </h4>
                                         <h5>{{ $service->title }}</h5>
                                         @if (!empty($service->short_desc)) <p>{{ $service->short_desc }}</p> @endif
                                         <a href="{{ route('service-page.show', ['service_slug' => $service->service_slug]) }}">{{ __('frontend.read_more') }} <i class="fa fa-arrow-right"></i></a>
                                     </div>
-                                    @if (!empty($service->icon))
-                                        <div class="icon">
-                                            <span class="{{ $service->icon }}"></span>
-                                        </div>
-                                        <div class="icon-border"></div>
-                                        @endif
                                 </div>
                             </div>
                         @endforeach
@@ -1215,121 +826,82 @@
         @else
             <section class="section pb-minus-70" id="services" data-scroll-index="3">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-6">
-                            <div class="section-heading">
-                                <span>Services</span>
-                                <h2>Our Services</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                    <x-frontend.section-title
+                        title="Our Services"
+                        subtitle="Services"
+                        align="center"
+                        :dots="true" />
+                    <div class="row services-grid">
                         <div class="col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.1s">
                             <div class="services-item">
+                                <div class="services-item-media">
+                                    <x-frontend.service-card-icon title="Ecommerce" icon="fas fa-shopping-cart" image="demo-service-01.png" :use-image="true" />
+                                </div>
                                 <div class="body">
-                                    <h4>01</h4>
-                                    <h5>Web Design</h5>
-                                    <p>
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content of a page when
-                                        looking at its layout.
-                                    </p>
+                                    <h5>Ecommerce</h5>
+                                    <p>Scalable online stores with product management, secure checkout, and conversion-focused shopping experiences.</p>
                                     <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <span class="fa fa-tablet"></span>
-                                </div>
-                                <div class="icon-border"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                             <div class="services-item">
+                                <div class="services-item-media">
+                                    <x-frontend.service-card-icon title="Portfolio" icon="fas fa-briefcase" image="demo-service-02.png" :use-image="true" />
+                                </div>
                                 <div class="body">
-                                    <h4>02</h4>
-                                    <h5>Graphic Design</h5>
-                                    <p>
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content of a page when
-                                        looking at its layout.
-                                    </p>
+                                    <h5>Portfolio</h5>
+                                    <p>Modern portfolio websites designed to showcase your projects, skills, and personal brand beautifully.</p>
                                     <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <span class="fa fa-adjust"></span>
-                                </div>
-                                <div class="icon-border"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 wow fadeInRight" data-wow-duration="0.5s" data-wow-delay="0.1s">
                             <div class="services-item">
+                                <div class="services-item-media">
+                                    <x-frontend.service-card-icon title="Agency" icon="fas fa-building" image="demo-service-03.png" :use-image="true" />
+                                </div>
                                 <div class="body">
-                                    <h4>03</h4>
-                                    <h5>UI/UX Design</h5>
-                                    <p>
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content of a page when
-                                        looking at its layout.
-                                    </p>
+                                    <h5>Agency</h5>
+                                    <p>Professional agency websites that present your services, team, and case studies with a strong digital presence.</p>
                                     <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <span class="fab fa-uikit"></span>
-                                </div>
-                                <div class="icon-border"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.1s">
                             <div class="services-item">
+                                <div class="services-item-media">
+                                    <x-frontend.service-card-icon title="CRM" icon="fas fa-users" image="demo-service-04.png" :use-image="true" />
+                                </div>
                                 <div class="body">
-                                    <h4>04</h4>
-                                    <h5>Content Writing</h5>
-                                    <p>
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content of a page when
-                                        looking at its layout.
-                                    </p>
+                                    <h5>CRM</h5>
+                                    <p>Custom CRM systems to manage leads, customers, sales pipelines, and business relationships in one place.</p>
                                     <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <span class="fa fa-blog"></span>
-                                </div>
-                                <div class="icon-border"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                             <div class="services-item">
+                                <div class="services-item-media">
+                                    <x-frontend.service-card-icon title="HRM" icon="fas fa-user-tie" image="demo-service-05.png" :use-image="true" />
+                                </div>
                                 <div class="body">
-                                    <h4>05</h4>
-                                    <h5>Scripts & Plugin</h5>
-                                    <p>
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content of a page when
-                                        looking at its layout.
-                                    </p>
+                                    <h5>HRM</h5>
+                                    <p>HRM platforms for attendance, payroll, recruitment, and employee management with streamlined workflows.</p>
                                     <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <span class="fa fa-code"></span>
-                                </div>
-                                <div class="icon-border"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 wow fadeInRight" data-wow-duration="0.5s" data-wow-delay="0.1s">
                             <div class="services-item">
+                                <div class="services-item-media">
+                                    <x-frontend.service-card-icon title="POS" icon="fas fa-cash-register" image="demo-service-06.png" :use-image="true" />
+                                </div>
                                 <div class="body">
-                                    <h4>06</h4>
-                                    <h5>Digital Marketing</h5>
-                                    <p>
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content of a page when
-                                        looking at its layout.
-                                    </p>
+                                    <h5>POS</h5>
+                                    <p>Point of sale systems for billing, inventory, sales tracking, and smooth in-store or retail operations.</p>
                                     <a href="#">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <span class="fa fa-bullhorn"></span>
-                                </div>
-                                <div class="icon-border"></div>
                             </div>
                         </div>
                     </div>
@@ -1346,13 +918,13 @@
                 <div class="counters-section-bg" aria-hidden="true"></div>
                 <div class="container">
                     @isset ($counter_section)
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="section-heading light counters-heading">
-                                    <h2>{{ $counter_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$counter_section->title"
+                            align="center"
+                            light="true"
+                            col-class="col-lg-8"
+                            heading-class="counters-heading"
+                            :dots="true" />
                     @endisset
                     <div class="row justify-content-center counters-grid">
                         @foreach ($counters as $counter)
@@ -1389,13 +961,13 @@
             <section class="section counters-section pb-minus-70" id="counters">
                 <div class="counters-section-bg" aria-hidden="true"></div>
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="section-heading light counters-heading">
-                                <h2>More than 10,000 customers trusted me</h2>
-                            </div>
-                        </div>
-                    </div>
+                    <x-frontend.section-title
+                        title="More than 10,000 customers trusted me"
+                        align="center"
+                        light="true"
+                        col-class="col-lg-8"
+                        heading-class="counters-heading"
+                        :dots="true" />
                     <div class="row justify-content-center counters-grid">
                         <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.1s">
                             <div class="counter-item">
@@ -1440,14 +1012,11 @@
             <section class="section bg-dark-blue pb-30">
                 <div class="container">
                     @isset ($work_process_section)
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="section-heading">
-                                    <span>{{ $work_process_section->section_title }}</span>
-                                    <h2>{{ $work_process_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$work_process_section->title"
+                            :subtitle="$work_process_section->section_title"
+                            align="center"
+                            :dots="true" />
                         @endisset
                         @php $i = 1; $t = 1; @endphp
                         @foreach ($work_processes->chunk(3) as $work_process)
@@ -1478,14 +1047,11 @@
          @else
             <section class="section bg-dark-blue pb-30">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-6">
-                            <div class="section-heading">
-                                <span>How Our Work</span>
-                                <h2>Our prepare your projects in 3 stages</h2>
-                            </div>
-                        </div>
-                    </div>
+                    <x-frontend.section-title
+                        title="Our prepare your projects in 3 stages"
+                        subtitle="How Our Work"
+                        align="center"
+                        :dots="true" />
                     <div class="row ni-work-process-row">
                         <div class="col-md-4 wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.2s">
                             <div class="how-i-work-item">
@@ -1744,14 +1310,11 @@
             <section class="section" id="team">
                 <div class="container">
                     @isset ($team_section)
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="section-heading">
-                                    <span>{{ $team_section->section_title }}</span>
-                                    <h2>{{ $team_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$team_section->title"
+                            :subtitle="$team_section->section_title"
+                            align="center"
+                            :dots="true" />
                         @endisset
                     <div class="row">
                         @foreach ($teams as $team)
@@ -1785,14 +1348,11 @@
         @else
             <section class="section" id="team">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-6">
-                            <div class="section-heading">
-                                <span>Team</span>
-                                <h2>Our Team</h2>
-                            </div>
-                        </div>
-                    </div>
+                    <x-frontend.section-title
+                        title="Team Member"
+                        subtitle="Our Team"
+                        align="center"
+                        :dots="true" />
                     <div class="row">
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.1s">
                             <div class="team-card">
@@ -1867,14 +1427,10 @@
             <section class="section pb-minus-76 bg-primary-light">
                 <div class="container">
                     @isset ($testimonial_section)
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="section-heading-left">
-                                    <span>{{ $testimonial_section->section_title }}</span>
-                                    <h2>{{ $testimonial_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$testimonial_section->title"
+                            :subtitle="$testimonial_section->section_title"
+                            col-class="col-md-6" />
                         @endisset
                     <div class="owl-carousel owl-theme" id="testimonialCarousel">
                         @foreach ($testimonials as $testimonial)
@@ -2032,17 +1588,13 @@
         <!--// Blog Section Start //-->
         @if ($section_arr['blog_section'] == 1)
         @if (isset($blog_section) || count($recent_posts) > 0)
-            <section class="section pb-minus-76" id="blog">
+            <section class="section pb-minus-76" id="blog" data-scroll-index="6">
                 <div class="container">
                    @isset ($blog_section)
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="section-heading-left">
-                                    <span>{{ $blog_section->section_title }}</span>
-                                    <h2>{{ $blog_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$blog_section->title"
+                            :subtitle="$blog_section->section_title"
+                            col-class="col-md-6" />
                        @endisset
                     <div class="owl-carousel owl-theme" id="blogCarousel">
                         @foreach ($recent_posts as $recent_post)
@@ -2082,7 +1634,7 @@
                 </div>
             </section>
         @else
-        <section class="section pb-minus-76" id="blog">
+        <section class="section pb-minus-76" id="blog" data-scroll-index="6">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -2214,14 +1766,12 @@
             <section class="section contact-section" id="contact" data-scroll-index="7">
                 <div class="container">
                   @isset ($contact_section)
-                        <div class="row justify-content-center">
-                            <div class="col-lg-7">
-                                <div class="section-heading">
-                                    <span>{{ $contact_section->section_title }}</span>
-                                    <h2>{{ $contact_section->title }}</h2>
-                                </div>
-                            </div>
-                        </div>
+                        <x-frontend.section-title
+                            :title="$contact_section->title"
+                            :subtitle="$contact_section->section_title"
+                            align="center"
+                            col-class="col-lg-7"
+                            :dots="true" />
                       @endisset
                     <div class="row contact-layout align-items-stretch">
                         <div class="col-lg-5">
@@ -2268,8 +1818,9 @@
                         <div class="col-lg-7">
                             <div class="contact-form-card">
                             <div class="contact-form-wrap">
-                                    <form class="js-contact-form" action="{{ route('message.store') }}" method="POST">
+                                    <form class="js-contact-form" action="{{ route('message.store') }}" method="POST" novalidate>
                                         @csrf
+                                        <x-frontend.contact-form-guard />
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="contact-form-group">
@@ -2310,14 +1861,12 @@
         @else
             <section class="section contact-section" id="contact" data-scroll-index="7">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7">
-                            <div class="section-heading">
-                                <span>Contact Me</span>
-                                <h2>Contact Us</h2>
-                            </div>
-                        </div>
-                    </div>
+                    <x-frontend.section-title
+                        title="Contact Us"
+                        subtitle="Contact Me"
+                        align="center"
+                        col-class="col-lg-7"
+                        :dots="true" />
                     <div class="row contact-layout align-items-stretch">
                         <div class="col-lg-5">
                             <div class="contact-info-list">
@@ -2353,8 +1902,9 @@
                         <div class="col-lg-7">
                             <div class="contact-form-card">
                             <div class="contact-form-wrap">
-                                <form class="js-contact-form" action="{{ route('message.store') }}" method="POST">
+                                <form class="js-contact-form" action="{{ route('message.store') }}" method="POST" novalidate>
                                     @csrf
+                                    <x-frontend.contact-form-guard />
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="contact-form-group">
@@ -2699,26 +2249,12 @@
 <script src="{{ asset('assets/frontend/vendor/js/isotope.min.js') }}"></script>
 
 
-@if ($homepage_version->choose_version == 1 || session()->get('choose_version') == 1)
-    <!--// Particles Js //-->
-    <script src="{{ asset('assets/frontend/vendor/js/particles.js') }}"></script>
-@endif
-
-@if ($homepage_version->choose_version == 2 || session()->get('choose_version') == 2)
-    <!--// Zepto //-->
-    <script src="{{ asset('assets/frontend/vendor/js/zepto.min.js') }}"></script>
-    <!--// Vegas Slider //-->
-    <script src="{{ asset('assets/frontend/vendor/js/vegas.slider.min.js') }}"></script>
-    @endif
-
-@if ($homepage_version->choose_version == 3 || session()->get('choose_version') == 3)
-    <!--// MB Youtube Player //-->
-    <script src="{{ asset('assets/frontend/vendor/js/jquery.mb-ytb.min.js') }}"></script>
-    @endif
+<!--// Particles Js //-->
+<script src="{{ asset('assets/frontend/vendor/js/particles.js') }}"></script>
 
 <!--// Main Js //-->
-<script src="{{ asset('assets/frontend/js/main.js') }}"></script>
-<script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=2"></script>
+<script src="{{ asset('assets/frontend/js/main.js') }}?v=82"></script>
+<script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=3"></script>
 <!--// Dark / Light Mode //-->
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 
@@ -2741,66 +2277,6 @@
 
     @endif
 
-@endif
-
-<!-- Vegas Slider  -->
-@if ($homepage_version->choose_version == 2 || session()->get('choose_version') == 2)
-@if (count($sliders) > 0)
-
-    <script>
-        jQuery(document).ready(function() {
-            jQuery("#heroSliderContainer").vegas({
-                slides: [
-                        @foreach ($sliders as $slider)
-
-                        @if (count($sliders) == 1)
-
-                    {
-                        src: "{{ asset('uploads/img/sliders/'.$slider->slider_image) }}"
-                    },
-                    {
-                        src: "{{ asset('uploads/img/sliders/'.$slider->slider_image) }}"
-                    },
-
-                        @endif
-
-                    {
-                        src: "{{ asset('uploads/img/sliders/'.$slider->slider_image) }}"
-                    },
-
-                    @endforeach
-                ],
-                overlay: true,
-                transition: 'fade2',
-                animation: 'kenburnsUpLeft'
-            });
-        });
-    </script>
-
-@else
-
-    <script>
-        jQuery(document).ready(function() {
-            jQuery("#heroSliderContainer").vegas({
-                slides: [
-
-                    {
-                        src: "{{ asset('uploads/img/dummy/1920x1080.jpg') }}"
-                    },
-
-                    {
-                        src: "{{ asset('uploads/img/dummy/1920x1080.jpg') }}"
-                    },
-
-                ],
-                overlay: true,
-                transition: 'fade2',
-                animation: 'kenburnsUpLeft'
-            });
-        });
-    </script>
-
-@endif
 @endif
 
 

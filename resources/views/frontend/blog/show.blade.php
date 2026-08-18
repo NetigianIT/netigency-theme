@@ -10,7 +10,7 @@
                     <div class="blog-post-single blog-details-card">
                        @if ($blog->image_status == 1 && !empty($blog->blog_image))
                             <div class="blog-post-img">
-                                <img src="{{ asset('uploads/img/blogs/'.$blog->blog_image) }}" alt="Image" class="img-fluid">
+                                <img src="{{ asset('uploads/img/blogs/'.$blog->blog_image) }}" alt="Image" class="img-fluid" fetchpriority="high" decoding="async">
                             </div>
                            @endif
                         <div class="blog-text">
@@ -106,9 +106,9 @@
                                         <div class="recent-post-img mr-3">
                                             <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
                                                 @if (!empty($recent_post->blog_image))
-                                                    <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" class="img-fluid image-size-100" alt="blog image">
+                                                    <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" class="img-fluid image-size-100" alt="blog image" loading="lazy" decoding="async">
                                                 @else
-                                                    <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" class="img-fluid image-size-100"  alt="blog image">
+                                                    <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" class="img-fluid image-size-100"  alt="blog image" loading="lazy" decoding="async">
                                                 @endif
                                             </a>
                                         </div>

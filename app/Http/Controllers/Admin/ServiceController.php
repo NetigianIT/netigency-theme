@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Service;
 use App\Models\Admin\ServicePaginate;
 use App\Models\Admin\ServiceSection;
-use Mews\Purifier\Facades\Purifier;
+use App\Support\HtmlCleaner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -108,7 +108,7 @@ class ServiceController extends Controller
         Service::create([
             'language_id' => getLanguage()->id,
             'title' => $input['title'],
-            'desc' => Purifier::clean($input['desc']),
+            'desc' => HtmlCleaner::clean($input['desc']),
             'short_desc' => $input['short_desc'],
             'icon' => $input['icon'],
             'image_status' => $input['image_status'],
@@ -207,7 +207,7 @@ class ServiceController extends Controller
         }
 
         // XSS Purifier
-        $input['desc'] = Purifier::clean($input['desc']);
+        $input['desc'] = HtmlCleaner::clean($input['desc']);
 
         // Record to database
         Service::find($id)->update($input);

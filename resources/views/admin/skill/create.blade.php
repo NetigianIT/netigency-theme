@@ -123,94 +123,94 @@
     <!-- end row -->
 
     <div class="row">
-        <div class="col-12">
-            <div class="card mb-30">
+        <div class="col-12 box-margin">
+            <div class="card">
                 <div class="card-body pb-0">
-                    <div class="d-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.information_list') }}</h6>
-                        <button type="button" class="btn btn-primary waves-effect waves-light float-right mb-3" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">+ {{ __('content.add_info') }}</button>
-                    </div>
-                    <div class="table-responsive order-stats">
-                        @if (count($info_lists) > 0)
-                            <div>
-                                <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
-                                    <i class="fa fa-trash text-danger font-18"></i>
-                                </a>
-                            </div>
-                            @if ($demo_mode == "on")
-                            <!-- Include Alert Blade -->
-                                @include('admin.demo_mode.demo-mode')
-                            @else
-                                <form onsubmit="return btnCheckListGet()" action="{{ route('skill.destroy_checked') }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    @endif
+                    <x-admin.global-table
+                        :title="__('content.information_list')"
+                        table-id="skill-info-datatable"
+                        :has-records="count($info_lists) > 0"
+                    >
+                        <x-slot:add>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">+ {{ __('content.add_info') }}</button>
+                        </x-slot:add>
 
-                                <input type="hidden" id="checked_lists" name="checked_lists" value="">
+                        <div>
+                            <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
+                                <i class="fa fa-trash text-danger font-18"></i>
+                            </a>
+                        </div>
+                        @if ($demo_mode == "on")
+                            @include('admin.demo_mode.demo-mode')
+                        @else
+                            <form onsubmit="return btnCheckListGet()" action="{{ route('skill.destroy_checked') }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                        @endif
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteCheckedModalCenterTitle">{{ __('content.delete') }}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body text-center">
-                                                {{ __('content.delete_selected') }}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
-                                                <button onclick="btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
-                                            </div>
-                                        </div>
+                        <input type="hidden" id="checked_lists" name="checked_lists" value="">
+
+                        <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteCheckedModalCenterTitle">{{ __('content.delete') }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        {{ __('content.delete_selected') }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
+                                        <button onclick="btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
                                     </div>
                                 </div>
-                            </form>
-                            <table id="basic-datatable"  class="table table-striped dt-responsive w-100">
-                                <thead>
-                                <tr>
-                                    <th scope="col">
+                            </div>
+                        </div>
+                        </form>
+
+                        <table id="skill-info-datatable" class="table table-striped dt-responsive nowrap w-100">
+                            <thead>
+                            <tr>
+                                <th scope="col">
                                     <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
                                 </th>
-                                    <th>{{ __('content.title') }}</th>
-                                    <th>{{ __('content.percent_rate') }}</th>
-                                    <th>{{ __('content.order') }}</th>
-                                    <th class="all custom-width-action">{{ __('content.action') }}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @php $desc = count($info_lists); $asc=0; @endphp
-                                @foreach ($info_lists as $info_list)
-                                    <tr>
-                                        <td>
-                                            <input  name="check_list[]" type="checkbox" value="{{ $info_list->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
-                                        </td>
-                                        <td>{{ $info_list->desc }}</td>
-                                        <td>{{ $info_list->percent_rate }}</td>
-                                        <td>{{ $info_list->order }}</td>
-                                        <td>
-                                            <div>
-                                                <a href="{{ route('skill.edit_info_list', $info_list->id) }}" class="mr-2">
-                                                    <i class="fa fa-edit text-info font-18"></i>
-                                                </a>
+                                <th>{{ __('content.title') }}</th>
+                                <th>{{ __('content.percent_rate') }}</th>
+                                <th>{{ __('content.order') }}</th>
+                                <th class="all custom-width-action">{{ __('content.action') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @php $desc = count($info_lists); $asc=0; @endphp
+                            @foreach ($info_lists as $info_list)
+                                <tr>
+                                    <td>
+                                        <input name="check_list[]" type="checkbox" value="{{ $info_list->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
+                                    </td>
+                                    <td>{{ $info_list->desc }}</td>
+                                    <td>{{ $info_list->percent_rate }}</td>
+                                    <td>{{ $info_list->order }}</td>
+                                    <td>
+                                        <div>
+                                            <a href="{{ route('skill.edit_info_list', $info_list->id) }}" class="mr-2">
+                                                <i class="fa fa-edit text-info font-18"></i>
+                                            </a>
                                             @if ($demo_mode == "on")
-                                                <!-- Include Alert Blade -->
-                                                    @include('admin.demo_mode.demo-mode')
-                                                @else
-                                                    <form class="d-inline-block" action="{{ route('skill.destroy_info_list', $info_list->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        @endif
+                                                @include('admin.demo_mode.demo-mode')
+                                            @else
+                                                <form class="d-inline-block" action="{{ route('skill.destroy_info_list', $info_list->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                            @endif
 
                                                     <span data-toggle="modal" data-target="#deleteModel{{ $info_list->id }}">
-                                                            <a type="button">
+                                                        <a type="button">
                                                             <i class="fa fa-trash text-danger font-18"></i>
                                                         </a>
-                                                       </span>
-                                                    <!-- Modal -->
+                                                    </span>
                                                     <div class="modal fade" id="deleteModel{{ $info_list->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                                             <div class="modal-content">
@@ -231,16 +231,13 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        @else
-                            <p>{{ __('content.not_yet_created') }}</p>
-                        @endif
-                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </x-admin.global-table>
                 </div>
             </div>
         </div>

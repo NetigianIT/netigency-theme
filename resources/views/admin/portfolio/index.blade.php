@@ -1,8 +1,11 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.portfolio.partials.tabs')
+@endsection
+
 @section('page_actions')
     <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#portfolioSectionModal">{{ __('content.section_title_and_desc') }}</button>
-    <a href="{{ url('admin/portfolio/create') }}" class="btn btn-primary">+ {{ __('content.add_portfolio') }}</a>
 @endsection
 
 @section('content')

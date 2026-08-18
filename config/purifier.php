@@ -40,7 +40,7 @@ return [
         ],
         'custom_definition' => [
             'id'  => 'html5-definitions',
-            'rev' => 1,
+            'rev' => 3,
             'debug' => false,
             'elements' => [
                 // http://developers.whatwg.org/sections.html
@@ -69,6 +69,15 @@ return [
                     'preload' => 'Enum#auto,metadata,none',
                     'controls' => 'Bool',
                 ]],
+                ['audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', [
+                    'src' => 'URI',
+                    'type' => 'Text',
+                    'preload' => 'Enum#auto,metadata,none',
+                    'controls' => 'Bool',
+                    'autoplay' => 'Bool',
+                    'loop' => 'Bool',
+                    'muted' => 'Bool',
+                ]],
                 ['source', 'Block', 'Flow', 'Common', [
                     'src' => 'URI',
                     'type' => 'Text',
@@ -87,7 +96,12 @@ return [
                 ['del', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']],
             ],
             'attributes' => [
+                ['iframe', 'allow', 'Text'],
                 ['iframe', 'allowfullscreen', 'Bool'],
+                ['iframe', 'frameborder', 'Text'],
+                ['iframe', 'loading', 'Enum#lazy,eager'],
+                ['iframe', 'referrerpolicy', 'Text'],
+                ['iframe', 'sandbox', 'Text'],
                 ['table', 'height', 'Text'],
                 ['td', 'border', 'Text'],
                 ['th', 'border', 'Text'],

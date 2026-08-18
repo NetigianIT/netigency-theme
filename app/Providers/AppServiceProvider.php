@@ -49,13 +49,13 @@ class AppServiceProvider extends ServiceProvider
             $email = strtolower(trim((string) $request->input('email')));
 
             $limits = [
-                Limit::perMinute(3)->by('contact-ip:'.$ip),
-                Limit::perHour(10)->by('contact-ip-hour:'.$ip),
-                Limit::perMinute(30)->by('contact-global'),
+                Limit::perMinute(2)->by('contact-ip:'.$ip),
+                Limit::perHour(6)->by('contact-ip-hour:'.$ip),
+                Limit::perMinute(20)->by('contact-global'),
             ];
 
             if ($email !== '') {
-                $limits[] = Limit::perHour(5)->by('contact-email:'.$email);
+                $limits[] = Limit::perHour(3)->by('contact-email:'.$email);
             }
 
             return $limits;

@@ -1,7 +1,10 @@
 @extends('layouts.admin.master')
 
-@section('page_actions')
+@section('page_tabs')
     @include('admin.banner.partials.tabs')
+@endsection
+
+@section('page_actions')
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sliderModal">+ {{ __('content.add_slider') }}</button>
 @endsection
 

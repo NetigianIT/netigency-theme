@@ -16,11 +16,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        // Retrieving a model
-        $language = getLanguage();
-        $sliders = Slider::where('language_id', $language->id)->orderBy('id', 'desc')->get();
-
-        return view('admin.banner.sliders.create', compact('sliders'));
+        return redirect()->route('fixed-content.create');
     }
 
     /**
@@ -78,10 +74,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        // Retrieving a model
-        $slider = Slider::findOrFail($id);
-
-        return view('admin.banner.sliders.edit', compact( 'slider'));
+        return redirect()->route('fixed-content.create');
     }
 
     /**

@@ -12,7 +12,6 @@ use App\Models\Admin\Page;
 use App\Models\Admin\QuickAccessButton;
 use App\Models\Admin\SiteInfo;
 use App\Models\Admin\Social;
-use App\Models\Frontend\Comment;
 use App\Support\FrontendCache;
 use Illuminate\Http\Request;
 
@@ -21,7 +20,7 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -36,8 +35,8 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  string  $slug
+     * @return \Illuminate\Contracts\View\View
      */
     public function show($slug)
     {
@@ -48,9 +47,7 @@ class BlogController extends Controller
         Blog::where('id', $data['blog']->id)->increment('view');
         $data['blog']->view = ($data['blog']->view ?? 0) + 1;
 
-        $data['comments'] = Comment::where('blog_id', $data['blog']->id)
-            ->where('approval', 1)
-            ->get();
+        $data = array_merge($data, FrontendCache::blogComments($language->id, $data['blog']->id));
 
         return view('frontend.blog.show', $data);
     }
@@ -59,7 +56,7 @@ class BlogController extends Controller
      * Display the specified resource.
      *
      * @param  string  $category_name
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function category_show($category_name)
     {
@@ -74,7 +71,7 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function search(Request $request)
     {

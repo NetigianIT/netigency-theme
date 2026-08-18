@@ -86,7 +86,7 @@
 
     <!-- Toastr -->
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/vendor/toastr/toastr.min.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css')); ?>?v=2">
 
     <style>
         /* Always keep admin sidebar expanded (no icon-only collapse) */
@@ -369,7 +369,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/theme-mode.css')); ?>?v=88">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/theme-mode.css')); ?>?v=96">
 
 </head>
 
@@ -416,7 +416,7 @@
                 </div>
                 <ul class="ni-quick-links" id="niQuickLinks">
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('portfolio check')): ?>
-                        <li><a href="<?php echo e(url('admin/portfolio')); ?>" class="<?php echo e(request()->is('admin/portfolio*') ? 'active' : ''); ?>"><i class="fas fa-briefcase"></i> <span><?php echo e(__('content.portfolios')); ?></span></a></li>
+                        <li><a href="<?php echo e(url('admin/portfolio')); ?>" class="<?php echo e(request()->is('admin/portfolio*') || request()->is('admin/portfolio-category*') ? 'active' : ''); ?>"><i class="fas fa-briefcase"></i> <span><?php echo e(__('content.portfolios')); ?></span></a></li>
                     <?php endif; ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('features check')): ?>
                         <li><a href="<?php echo e(url('admin/feature/create')); ?>" class="<?php echo e(request()->is('admin/feature*') ? 'active' : ''); ?>"><i class="fas fa-star"></i> <span><?php echo e(__('content.features')); ?></span></a></li>
@@ -425,7 +425,7 @@
                         <li><a href="<?php echo e(url('admin/service')); ?>" class="<?php echo e(request()->is('admin/service*') ? 'active' : ''); ?>"><i class="fas fa-people-carry"></i> <span><?php echo e(__('content.services')); ?></span></a></li>
                     <?php endif; ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('blogs check')): ?>
-                        <li><a href="<?php echo e(url('admin/blog')); ?>" class="<?php echo e(request()->is('admin/blog*') ? 'active' : ''); ?>"><i class="fab fa-blogger-b"></i> <span><?php echo e(__('content.blogs')); ?></span></a></li>
+                        <li><a href="<?php echo e(url('admin/blog')); ?>" class="<?php echo e(request()->is('admin/blog*') || request()->is('admin/category*') || request()->is('admin/blog-paginate*') ? 'active' : ''); ?>"><i class="fab fa-blogger-b"></i> <span><?php echo e(__('content.blogs')); ?></span></a></li>
                     <?php endif; ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('testimonials check')): ?>
                         <li><a href="<?php echo e(url('admin/testimonial/create')); ?>" class="<?php echo e(request()->is('admin/testimonial*') ? 'active' : ''); ?>"><i class="fas fa-quote-right"></i> <span><?php echo e(__('content.testimonials')); ?></span></a></li>
@@ -582,11 +582,7 @@
                     </a>
                 </li>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('banner check')): ?>
-                    <li class="nav-item <?php echo e((request()->is('admin/fixed-content/create') ||
-                                            request()->is('admin/slider/create') ||
-                                            request()->is('admin/slider/*/edit') ||
-                                            request()->is('admin/video/create') ||
-                                            request()->is('admin/homepage-version/create')) ? 'active' : ''); ?>">
+                    <li class="nav-item <?php echo e((request()->is('admin/fixed-content/create')) ? 'active' : ''); ?>">
                         <a class="nav-link" href="<?php echo e(url('admin/fixed-content/create')); ?>">
                             <i class="fas fa-image menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.hero_section')); ?></span>
@@ -612,31 +608,11 @@
                 </li>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('services check')): ?>
-                    <li class="nav-item <?php echo e((request()->is('admin/service') ||
-                                            request()->is('admin/service/create') ||
-                                            request()->is('admin/service/*/edit') ||
-                                             request()->is('admin/service-detail/*/create') ||
-                                            request()->is('admin/service-detail/*/*/edit') ||
-                                            request()->is('admin/service-paginate/create') ||
-                                            request()->is('admin/service-background-image/create')) ? 'active' : ''); ?>">
-                        <a class="nav-link" data-toggle="collapse" href="#services" aria-expanded="false" aria-controls="services">
+                    <li class="nav-item <?php echo e((request()->is('admin/service*') || request()->is('admin/service-detail*') || request()->is('admin/service-paginate*')) ? 'active' : ''); ?>">
+                        <a class="nav-link" href="<?php echo e(url('admin/service')); ?>">
                             <i class="fas fa-cogs menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.services')); ?></span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse <?php echo e((request()->is('admin/service') ||
-                                                  request()->is('admin/service/create') ||
-                                                  request()->is('admin/service/*/edit') ||
-                                                   request()->is('admin/service-detail/*/create') ||
-                                            request()->is('admin/service-detail/*/*/edit') ||
-                                                  request()->is('admin/service-paginate/create') ||
-                                                  request()->is('admin/service-background-image/create')) ? 'show' : ''); ?>" id="services">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/service/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/service/create')); ?>"><?php echo e(__('content.add_service')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/service') || request()->is('admin/service/*/edit') || request()->is('admin/service-detail*')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/service')); ?>"><?php echo e(__('content.services')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/service-paginate/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/service-paginate/create')); ?>"><?php echo e(__('content.service_paginate')); ?></a></li>
-                            </ul>
-                        </div>
                     </li>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('counters check')): ?>
@@ -667,35 +643,11 @@
                 </li>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('portfolio check')): ?>
-                    <li class="nav-item <?php echo e((request()->is('admin/portfolio') ||
-                                            request()->is('admin/portfolio/create') ||
-                                            request()->is('admin/portfolio/*/edit') ||
-                                            request()->is('admin/portfolio-category/create') ||
-                                            request()->is('admin/portfolio-category/*/edit') ||
-                                                  request()->is('admin/portfolio-slider/*/create') ||
-                                                  request()->is('admin/portfolio-slider/*/*/edit') ||
-                                                  request()->is('admin/portfolio-detail/*/create') ||
-                                                  request()->is('admin/portfolio-detail/*/*/edit')) ? 'active' : ''); ?>">
-                        <a class="nav-link" data-toggle="collapse" href="#portfolios" aria-expanded="false" aria-controls="portfolios">
+                    <li class="nav-item <?php echo e((request()->is('admin/portfolio*') || request()->is('admin/portfolio-category*')) ? 'active' : ''); ?>">
+                        <a class="nav-link" href="<?php echo e(url('admin/portfolio')); ?>">
                             <i class="fas fa-briefcase menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.portfolios')); ?></span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse <?php echo e((request()->is('admin/portfolio') ||
-                                                  request()->is('admin/portfolio/create') ||
-                                                  request()->is('admin/portfolio/*/edit') ||
-                                                  request()->is('admin/portfolio-category/create') ||
-                                                  request()->is('admin/portfolio-category/*/edit') ||
-                                                  request()->is('admin/portfolio-slider/*/create') ||
-                                                  request()->is('admin/portfolio-slider/*/*/edit') ||
-                                                  request()->is('admin/portfolio-detail/*/create') ||
-                                                  request()->is('admin/portfolio-detail/*/*/edit')) ? 'show' : ''); ?>" id="portfolios">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/portfolio-category/create') || request()->is('admin/portfolio-category/*/edit')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/portfolio-category/create')); ?>"><?php echo e(__('content.categories')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/portfolio/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/portfolio/create')); ?>"><?php echo e(__('content.add_portfolio')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/portfolio') || request()->is('admin/portfolio/*/edit') || request()->is('admin/portfolio-slider*') || request()->is('admin/portfolio-detail*')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/portfolio')); ?>"><?php echo e(__('content.portfolios')); ?></a></li>
-                            </ul>
-                        </div>
                     </li>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('teams check')): ?>
@@ -717,30 +669,11 @@
                 </li>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('blogs check')): ?>
-                    <li class="nav-item <?php echo e((request()->is('admin/blog') ||
-                                            request()->is('admin/blog/create') ||
-                                            request()->is('admin/blog/*/edit') ||
-                                            request()->is('admin/category/create') ||
-                                            request()->is('admin/category/*/edit') ||
-                                            request()->is('admin/blog-paginate/create')) ? 'active' : ''); ?>">
-                        <a class="nav-link" data-toggle="collapse" href="#blogs" aria-expanded="false" aria-controls="blogs">
+                    <li class="nav-item <?php echo e((request()->is('admin/blog*') || request()->is('admin/category*') || request()->is('admin/blog-paginate*')) ? 'active' : ''); ?>">
+                        <a class="nav-link" href="<?php echo e(url('admin/blog')); ?>">
                             <i class="fab fa-blogger-b menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.blogs')); ?></span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse <?php echo e((request()->is('admin/blog') ||
-                                                  request()->is('admin/blog/create') ||
-                                                  request()->is('admin/blog/*/edit') ||
-                                                  request()->is('admin/category/create') ||
-                                                  request()->is('admin/category/*/edit') ||
-                                                  request()->is('admin/blog-paginate/create')) ? 'show' : ''); ?>" id="blogs">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/category/create') || request()->is('admin/category/*/edit')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/category/create')); ?>"><?php echo e(__('content.categories')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/blog/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/blog/create')); ?>"><?php echo e(__('content.add_blog')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/blog') || request()->is('admin/blog/*/edit')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/blog')); ?>"><?php echo e(__('content.blogs')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/blog-paginate/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/blog-paginate/create')); ?>"><?php echo e(__('content.blog_paginate')); ?></a></li>
-                            </ul>
-                        </div>
                     </li>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('contact check')): ?>
@@ -917,6 +850,7 @@
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if (! (trim($__env->yieldContent('hide_page_title')))): ?>
                         <?php echo $__env->make('admin.components.page-title', [
                             'pageTitle' => trim($__env->yieldContent('page_title')),
+                            'pageTabs' => trim($__env->yieldContent('page_tabs')),
                             'pageActions' => trim($__env->yieldContent('page_actions')),
                         ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -974,7 +908,7 @@
         toastr.options = {
             closeButton: true,
             newestOnTop: true,
-            progressBar: true,
+            progressBar: false,
             positionClass: 'toast-top-right',
             preventDuplicates: true,
             showDuration: 300,
@@ -1024,7 +958,7 @@
 <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js')); ?>" defer></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js')); ?>?v=8" defer></script>
+<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js')); ?>?v=12" defer></script>
 
 <!-- Datepicker JS -->
 <script src="<?php echo e(asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js')); ?>"></script>
@@ -1056,7 +990,7 @@
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
         if (typeof toastr !== 'undefined') {
-            toastr.success("<?php echo e(__('content.copied_text')); ?>" + ": " + copyText.value);
+            toastr.success("<?php echo e(__('content.copied_text')); ?>" + ": " + copyText.value, "<?php echo e(__('Success')); ?>");
         } else {
             alert("<?php echo e(__('content.copied_text')); ?>" + ":" + copyText.value);
         }
@@ -1068,7 +1002,7 @@
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
         if (typeof toastr !== 'undefined') {
-            toastr.success("<?php echo e(__('content.copied_text')); ?>" + ": " + copyText.value);
+            toastr.success("<?php echo e(__('content.copied_text')); ?>" + ": " + copyText.value, "<?php echo e(__('Success')); ?>");
         } else {
             alert("<?php echo e(__('content.copied_text')); ?>" + ":" + copyText.value);
         }

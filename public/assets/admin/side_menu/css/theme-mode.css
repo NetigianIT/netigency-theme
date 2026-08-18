@@ -1253,6 +1253,68 @@ div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"]:not(:
   white-space: nowrap;
 }
 
+.card-body > * + .ni-global-table {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ni-border);
+}
+
+.ni-global-table__add-source {
+  display: none;
+}
+
+.ni-global-table__row,
+.ni-embedded-table__row {
+  justify-content: space-between !important;
+}
+
+.ni-global-table__title,
+.ni-embedded-table__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ni-text);
+  white-space: nowrap;
+}
+
+.ni-global-table__controls,
+.ni-embedded-table__controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-left: auto;
+  flex: 0 1 auto;
+}
+
+.ni-global-table__toolbar--static,
+.ni-embedded-table__toolbar--static {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--ni-border);
+  border-radius: 0.2rem;
+  background-color: var(--ni-surface-2, transparent);
+}
+
+.ni-global-table__row .dataTables_filter,
+.ni-embedded-table__row .dataTables_filter {
+  margin: 0 !important;
+}
+
+.ni-global-table__row .dataTables_filter label,
+.ni-embedded-table__row .dataTables_filter label {
+  margin-bottom: 0 !important;
+}
+
+.ni-global-table__empty {
+  padding: 0.75rem 0.9rem 1rem;
+  color: var(--ni-muted);
+}
+
 /* Scroll only the row that contains the table — full width like search/pagination */
 div.dataTables_wrapper > div.row:has(table.dataTable),
 div.dataTables_wrapper .dataTables_scroll,
@@ -1608,6 +1670,19 @@ table.dataTable td.all:last-child > div {
   color: #ef4444 !important;
 }
 
+.ni-action-view,
+.ni-action-view i,
+.table .fa-eye,
+.table .far.fa-eye,
+.table .fas.fa-eye {
+  color: var(--ni-primary) !important;
+}
+
+.table a:hover .fa-eye,
+.ni-action-view:hover i {
+  color: var(--ni-primary-hover) !important;
+}
+
 .table .fa-edit,
 .table .fas.fa-edit,
 .table .far.fa-edit,
@@ -1888,6 +1963,21 @@ html[data-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_butto
   background-color: var(--ni-primary) !important;
 }
 
+@media (max-width: 991.98px) {
+  .ni-page-title__body:has(.ni-page-title__tabs) {
+    grid-template-columns: 1fr;
+  }
+
+  .ni-page-title__body:has(.ni-page-title__tabs) .ni-page-title__actions {
+    justify-content: flex-start;
+  }
+
+  .ni-page-title__tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+}
+
 /* ---------- Page title (all admin pages) + dashboard stats ---------- */
 .ni-page-title,
 .ni-dash-welcome {
@@ -1901,12 +1991,54 @@ html[data-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_butto
   padding: 1.15rem 1.5rem !important;
 }
 
-.ni-page-title__body {
+.ni-page-title__body:has(.ni-page-title__tabs) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   gap: 0.85rem 1rem;
+  width: 100%;
+}
+
+.ni-page-title__body:has(.ni-page-title__tabs) .ni-page-title__title {
+  flex: 0 0 auto;
+}
+
+.ni-page-title__body:has(.ni-page-title__tabs) .ni-page-title__actions {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.ni-page-title__body:has(.ni-page-title__tabs) .ni-page-title__actions.is-empty {
+  display: none !important;
+}
+
+.ni-page-title__body:has(.ni-page-title__tabs) .ni-page-title__tabs {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.ni-page-title__body:not(:has(.ni-page-title__tabs)):has(.ni-page-title__actions) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.85rem 1rem;
+}
+
+.ni-page-title__body:not(:has(.ni-page-title__tabs)):has(.ni-page-title__actions) .ni-page-title__actions {
+  margin-left: 0;
+  justify-content: center;
+}
+
+.ni-page-title__tabs {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.ni-page-title__body:has(.ni-page-title__tabs) .ni-page-title__actions {
+  justify-content: center;
 }
 
 .ni-page-title__title,
@@ -1926,7 +2058,7 @@ html[data-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_butto
   align-items: center;
   justify-content: flex-end;
   gap: 0.5rem;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .ni-page-title__actions .btn {

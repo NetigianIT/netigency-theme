@@ -7,7 +7,7 @@ use App\Models\Admin\Blog;
 use App\Models\Admin\BlogPaginate;
 use App\Models\Admin\BlogSection;
 use App\Models\Admin\Category;
-use Mews\Purifier\Facades\Purifier;
+use App\Support\HtmlCleaner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -157,7 +157,7 @@ class BlogController extends Controller
             'author_name' => $author_name,
             'user_id' => $user_id,
             'title' => $input['title'],
-            'desc' => Purifier::clean($input['desc']),
+            'desc' => HtmlCleaner::clean($input['desc']),
             'short_desc' => $input['short_desc'],
             'image_status' => $input['image_status'],
             'blog_image' => $input['blog_image'],
@@ -275,7 +275,7 @@ class BlogController extends Controller
         $input['category_name'] = $category->category_name;
 
         // XSS Purifier
-        $input['desc'] = Purifier::clean($input['desc']);
+        $input['desc'] = HtmlCleaner::clean($input['desc']);
 
         // Update to database
         Blog::find($id)->update($input);

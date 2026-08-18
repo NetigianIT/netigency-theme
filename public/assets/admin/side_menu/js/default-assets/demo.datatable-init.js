@@ -148,6 +148,105 @@
     wrap.appendChild(input);
   }
 
+  function enhanceGlobalTableToolbar(container) {
+    var wrap = container.closest(".ni-global-table");
+    if (!wrap) return;
+
+    var topRow = container.querySelector("div.row:has(.dataTables_filter)");
+    if (!topRow || topRow.getAttribute("data-ni-global-ready") === "1") return;
+    topRow.setAttribute("data-ni-global-ready", "1");
+    topRow.classList.add("ni-global-table__row");
+
+    var titleText = wrap.getAttribute("data-table-title") || "";
+    if (titleText) {
+      var titleEl = document.createElement("div");
+      titleEl.className = "ni-global-table__title";
+      titleEl.textContent = titleText;
+      topRow.insertBefore(titleEl, topRow.firstChild);
+    }
+
+    var controls = document.createElement("div");
+    controls.className = "ni-global-table__controls";
+
+    var filter = topRow.querySelector(".dataTables_filter");
+    if (filter) {
+      controls.appendChild(filter);
+    }
+
+    var addBtn = wrap.querySelector(".ni-global-table__add-source .btn, .ni-global-table__add-source a.btn");
+    if (addBtn) {
+      addBtn.classList.add("ni-dt-add");
+      controls.appendChild(addBtn);
+    }
+
+    topRow.appendChild(controls);
+
+    Array.prototype.forEach.call(topRow.querySelectorAll('[class*="col-"]'), function (col) {
+      if (!col.querySelector(".dataTables_filter, #deleteChecked")) {
+        col.style.display = "none";
+      }
+    });
+  }
+
+  function enhanceEmbeddedTableToolbar(container) {
+    enhanceGlobalTableToolbar(container);
+  }
+
+  function bindBulkDeleteToToolbar(container) {
+    var $del = window.jQuery("#deleteChecked");
+    if (!$del.length) return;
+
+    var $top = window.jQuery(container).find(".dataTables_filter").first().closest(".row");
+    if (!$top.length) {
+      $top = window.jQuery(container).find("div.row").first();
+    }
+    if (!$top.length) return;
+
+    var $parent = $del.parent();
+    $del.addClass("ni-bulk-delete");
+    $top.append($del);
+    if (typeof window.syncBulkDeleteButton === "function") {
+      window.syncBulkDeleteButton();
+    } else {
+      $del.removeClass("is-visible").css("display", "none");
+    }
+
+    if ($parent.length && window.jQuery.trim($parent.html()) === "") {
+      $parent.remove();
+    }
+  }
+
+  function getStandardDatatableOptions(onReady) {
+    return {
+      keys: true,
+      autoWidth: false,
+      columnDefs: [
+        { targets: 0, orderable: false, className: "all" },
+        { targets: -1, orderable: false, className: "all text-nowrap" }
+      ],
+      language: {
+        search: "",
+        searchPlaceholder: "Search...",
+        lengthMenu: "_MENU_",
+        paginate: {
+          previous: "<i class='arrow_carrot-left'>",
+          next: "<i class='arrow_carrot-right'>"
+        }
+      },
+      initComplete: function () {
+        var container = this.api().table().container();
+        enhanceDataTableControls(container);
+        if (typeof onReady === "function") {
+          onReady(container);
+        }
+        bindBulkDeleteToToolbar(container);
+      },
+      drawCallback: function () {
+        window.jQuery(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+      }
+    };
+  }
+
   function enhanceDataTableControls(container) {
     if (!container) return;
     container.querySelectorAll(".dataTables_length select").forEach(enhanceLengthSelect);
@@ -187,7 +286,8 @@
     });
 
     document.querySelectorAll(".ni-page-title__actions").forEach(function (wrap) {
-      if (!wrap.querySelector(".btn, a.btn, .ni-hero-tabs__track, nav")) {
+      if (!wrap.querySelector(".btn, a.btn")) {
+        wrap.classList.add("is-empty");
         wrap.style.display = "none";
       }
     });
@@ -233,55 +333,18 @@
       return;
     }
 
-    if (!window.jQuery("#basic-datatable").length) {
-      return;
+    if (window.jQuery("#basic-datatable").length) {
+      window.jQuery("#basic-datatable").DataTable(getStandardDatatableOptions());
     }
 
-    window.jQuery("#basic-datatable").DataTable({
-      keys: true,
-      autoWidth: false,
-      columnDefs: [
-        { targets: 0, orderable: false, className: "all" },
-        { targets: -1, orderable: false, className: "all text-nowrap" }
-      ],
-      language: {
-        search: "",
-        searchPlaceholder: "Search...",
-        lengthMenu: "_MENU_",
-        paginate: {
-          previous: "<i class='arrow_carrot-left'>",
-          next: "<i class='arrow_carrot-right'>"
-        }
-      },
-      initComplete: function () {
-        var container = this.api().table().container();
-        enhanceDataTableControls(container);
+    document.querySelectorAll(".ni-global-table[data-table-id]").forEach(function (wrap) {
+      var tableId = wrap.getAttribute("data-table-id");
+      if (!tableId || !window.jQuery("#" + tableId).length) return;
+      if (window.jQuery.fn.DataTable.isDataTable("#" + tableId)) return;
 
-        var $del = window.jQuery("#deleteChecked");
-        if (!$del.length) return;
-
-        var $top = window.jQuery(container).find(".dataTables_filter").first().closest(".row");
-        if (!$top.length) {
-          $top = window.jQuery(container).find("div.row").first();
-        }
-        if (!$top.length) return;
-
-        var $parent = $del.parent();
-        $del.addClass("ni-bulk-delete");
-        $top.append($del);
-        if (typeof window.syncBulkDeleteButton === "function") {
-          window.syncBulkDeleteButton();
-        } else {
-          $del.removeClass("is-visible").css("display", "none");
-        }
-
-        if ($parent.length && window.jQuery.trim($parent.html()) === "") {
-          $parent.remove();
-        }
-      },
-      drawCallback: function () {
-        window.jQuery(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-      }
+      window.jQuery("#" + tableId).DataTable(getStandardDatatableOptions(function (container) {
+        enhanceGlobalTableToolbar(container);
+      }));
     });
 
     if (window.jQuery("#datatable-buttons").length) {

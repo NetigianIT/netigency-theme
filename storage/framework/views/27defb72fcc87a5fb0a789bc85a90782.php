@@ -102,7 +102,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=72">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=101">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -136,6 +136,85 @@
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control:focus{
             border-color:rgba(0,0,0,.12)!important;
         }
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill,
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:hover,
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:focus,
+        .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:active,
+        .contact-form-wrap .contact-form-group input.form-control:autofill{
+            -webkit-text-fill-color:var(--ni-text,#f3f4f6)!important;
+            caret-color:var(--ni-text,#f3f4f6);
+            transition:background-color 99999s ease-in-out 0s,color 99999s ease-in-out 0s;
+            -webkit-box-shadow:0 0 0 1000px rgba(7,12,10,.28) inset!important;
+            box-shadow:0 0 0 1000px rgba(7,12,10,.28) inset!important;
+            background:transparent!important;
+            background-color:transparent!important;
+        }
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:hover,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:focus,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:active,
+        html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:autofill{
+            -webkit-text-fill-color:var(--ni-text,#111827)!important;
+            caret-color:var(--ni-text,#111827);
+            -webkit-box-shadow:0 0 0 1000px rgba(255,255,255,.08) inset!important;
+            box-shadow:0 0 0 1000px rgba(255,255,255,.08) inset!important;
+        }
+        .contact-section .contact-btn-left .primary-btn{
+            border-radius:20px!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .text{
+            padding-left:24px!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .icon{
+            padding:4px 16px 4px 20px!important;
+            border:none!important;
+            background:transparent!important;
+            box-shadow:none!important;
+            position:relative!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .icon::before{
+            content:"";
+            position:absolute;
+            left:0;
+            top:10px;
+            bottom:10px;
+            width:1px;
+            background:linear-gradient(180deg, transparent 0%, rgba(21,191,134,.85) 50%, transparent 100%);
+        }
+        .contact-section .contact-btn-left .primary-btn .icon i{
+            width:42px!important;
+            height:42px!important;
+            border-radius:0!important;
+            font-size:0!important;
+            background:linear-gradient(135deg, rgba(35,224,163,.12) 0%, #15bf86 52%, rgba(142,240,208,.9) 100%)!important;
+            -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat;
+            mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat;
+            -webkit-background-clip:unset!important;
+            background-clip:unset!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .icon i::before,
+        .contact-section .contact-btn-left .primary-btn .icon i::after{
+            display:none!important;
+        }
+        .contact-section .contact-btn-left .primary-btn:hover .icon{
+            background:transparent!important;
+        }
+        .contact-section .contact-btn-left .primary-btn:hover .icon i{
+            background:linear-gradient(135deg, rgba(35,224,163,.28) 0%, #23e0a3 50%, #ffffff 100%)!important;
+        }
+        .contact-section .contact-btn-left .primary-btn,
+        .contact-section .contact-btn-left .primary-btn:hover,
+        .contact-section .contact-btn-left .primary-btn:disabled{
+            cursor:pointer!important;
+        }
+        .contact-section .contact-btn-left .primary-btn.is-loading .icon i{
+            display:none!important;
+        }
+        .contact-section .contact-btn-left .primary-btn .contact-btn-spinner{
+            width:22px;height:22px;border:2px solid rgba(21,191,134,.25);border-top-color:#15bf86;border-radius:50%;display:none;animation:ni-contact-spin .7s linear infinite;flex-shrink:0;
+        }
+        .contact-section .contact-btn-left .primary-btn.is-loading .contact-btn-spinner{display:block}
+        @keyframes ni-contact-spin{to{transform:rotate(360deg)}}
         #counters.counters-section,
         .counters-section{
             background-color:var(--ni-page-bg,#0b0f0d)!important;
@@ -149,7 +228,7 @@
         /* Compact nav; bigger logo inside the same bar height */
         .header,.header-shrink{padding:0!important}
         .header .navbar{min-height:68px!important;height:68px!important;align-items:center!important;padding-top:4px!important;padding-bottom:4px!important}
-        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:8px 16px!important;line-height:24px!important}
+        .header .nav-item .nav-link,.header-shrink .nav-item .nav-link{padding:8px 10px!important;line-height:24px!important}
         .header .navbar-brand{padding:0!important;margin:0!important;line-height:1!important;display:flex!important;align-items:center!important}
         .header .navbar-brand img{height:60px!important;max-height:60px!important;width:auto!important;max-width:none!important;object-fit:contain}
         @media (max-width:991.98px){.header .navbar{min-height:56px!important;height:56px!important;padding-top:4px!important;padding-bottom:4px!important}.header .navbar-brand img{height:48px!important;max-height:48px!important}}
@@ -232,9 +311,19 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="<?php echo e(url('/')); ?>"><?php echo e(__('frontend.home')); ?></a>
                             </li>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['about_us_section'] ?? 0) == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="<?php echo e(url('/#about')); ?>"><?php echo e(__('frontend.about_us')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['service_section'] ?? 0) == 1): ?>
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="<?php echo e(url('/#services')); ?>"><?php echo e(__('frontend.services')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['skill_section'] ?? 0) == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="<?php echo e(url('/#technology')); ?>"><?php echo e(__('frontend.technology')); ?></a>
                             </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['portfolio_section'] ?? 0) == 1): ?>
@@ -245,6 +334,11 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['blog_section'] ?? 0) == 1): ?>
                             <li class="nav-item">
                                 <a class="nav-link menu-link <?php echo e(request()->is('blogs*') ? 'active' : ''); ?>" href="<?php echo e(route('blog-page.index')); ?>"><?php echo e(__('frontend.blogs')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['contact_section'] ?? 0) == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="<?php echo e(url('/#contact')); ?>"><?php echo e(__('frontend.contact')); ?></a>
                             </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['page_menu'] ?? 0) == 1): ?>
@@ -573,7 +667,8 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 <!--// Isotope Js //-->
 <script src="<?php echo e(asset('assets/frontend/vendor/js/isotope.min.js')); ?>"></script>
 <!--// Main Js //-->
-<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=81"></script>
+<script src="<?php echo e(asset('assets/frontend/js/ni-contact-form.js')); ?>?v=3"></script>
 <!--// Dark / Light Mode //-->
 <script src="<?php echo e(asset('assets/frontend/js/theme-mode.js')); ?>"></script>
 

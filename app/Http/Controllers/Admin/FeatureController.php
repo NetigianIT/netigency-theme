@@ -19,7 +19,11 @@ class FeatureController extends Controller
     {
         // Retrieving a model
         $language = getLanguage();
-        $features = Feature::where('language_id', $language->id)->orderBy('id', 'desc')->get();
+        $features = Feature::where('language_id', $language->id)
+            ->orderByRaw("CASE WHEN stack = 'main' THEN 0 ELSE 1 END")
+            ->orderBy('order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         $feature_section = FeatureSection::where('language_id', $language->id)->first();
 
         return view('admin.feature.create', compact('features', 'feature_section'));
@@ -37,6 +41,7 @@ class FeatureController extends Controller
         $request->validate([
             'type' => 'in:icon,image',
             'title' => 'required',
+            'stack' => 'required|in:main,supporting',
             'order' => 'required|integer',
             'feature_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ]);
@@ -74,7 +79,8 @@ class FeatureController extends Controller
             'feature_image' => $input['feature_image'],
             'title' => $input['title'],
             'desc' => $input['desc'],
-            'order' => $input['order']
+            'order' => $input['order'],
+            'stack' => $input['stack'] ?? 'supporting',
         ]);
 
         return redirect()->route('feature.create')
@@ -108,6 +114,7 @@ class FeatureController extends Controller
         $request->validate([
             'type' => 'in:icon,image',
             'title' => 'required',
+            'stack' => 'required|in:main,supporting',
             'order' => 'required|integer',
             'feature_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ]);

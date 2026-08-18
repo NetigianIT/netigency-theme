@@ -15,10 +15,7 @@ class VideoController extends Controller
      */
     public function create()
     {
-        // Retrieving a model
-        $video = Video::first();
-
-        return view('admin.banner.video.create', compact('video'));
+        return redirect()->route('fixed-content.create');
     }
 
     /**

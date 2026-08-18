@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Portfolio;
 use App\Models\Admin\PortfolioCategory;
 use App\Models\Admin\PortfolioSection;
-use Mews\Purifier\Facades\Purifier;
+use App\Support\HtmlCleaner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -138,7 +138,7 @@ class PortfolioController extends Controller
             'category_name' => $category->category_name,
             'category_id' => $input['category_id'],
             'title' => $input['title'],
-            'desc' => Purifier::clean($input['desc']),
+            'desc' => HtmlCleaner::clean($input['desc']),
             'image_status' => $input['image_status'],
             'thumbnail_image' => $input['thumbnail_image'],
             'status' => $input['status'],
@@ -245,7 +245,7 @@ class PortfolioController extends Controller
         $input['category_name'] = $category->category_name;
 
         // XSS Purifier
-        $input['desc'] = Purifier::clean($input['desc']);
+        $input['desc'] = HtmlCleaner::clean($input['desc']);
 
         // Record to database
         Portfolio::find($id)->update($input);

@@ -35,7 +35,7 @@
                         <div class="col-md-6 col-lg-4 portfolio-item {{ $portfolio->portfolio_category->portfolio_category_slug }}">
                             <div class="portfolio-item-inner">
                                     <div class="portfolio-item-img">
-                                        <img src="{{ portfolio_image_url($portfolio->thumbnail_image) }}" alt="Portfolio image" class="img-fluid">
+                                        <img src="{{ portfolio_image_url($portfolio->thumbnail_image) }}" alt="Portfolio image" class="img-fluid" loading="lazy" decoding="async">
                                         <a href="{{ portfolio_image_url($portfolio->thumbnail_image) }}" class="portfolio-zoom-link">
                                             <i class="fas fa-search"></i>
                                         </a>

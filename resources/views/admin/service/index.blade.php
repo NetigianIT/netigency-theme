@@ -58,13 +58,9 @@
                                 <th scope="col">
                                     <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
                                 </th>
-                                <th>{{ __('content.additional_features') }}</th>
                                 <th>{{ __('content.image') }}</th>
-                                <th>{{ __('content.icon') }}</th>
                                 <th>{{ __('content.title') }}</th>
-                                <th>{{ __('content.short_desc') }}</th>
-                                <th>{{ __('content.order') }}</th>
-                                <th>{{ __('content.status') }}</th>
+                                <th class="all">{{ __('content.status') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
@@ -76,42 +72,30 @@
                                         <input  name="check_list[]" type="checkbox" value="{{ $service->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ __('content.select') }}</button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item"  href="{{ route('service-detail.create', $service->id) }}">{{ __('content.details') }}</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
                                         @if (!empty($service->service_image))
                                             <img class="image-size img-fluid" src="{{ asset('uploads/img/service/'.$service->service_image) }}" alt="service image">
                                         @else
                                             <img class="image-size img-fluid" src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="no image">
                                         @endif
                                     </td>
-                                    <td>
-                                        @if (!empty($service->icon))
-                                            <i class="{{ $service->icon }}"></i> {{ $service->icon }}
-                                        @endif
-                                    </td>
                                     <td>{{ $service->title }}</td>
-                                    <td>{{ $service->short_desc }}</td>
-                                    <td>{{ $service->order }}</td>
                                     <td>
                                         @if ($service->status == 1)
                                             <span class="badge badge-success">{{ __('content.published') }}</span>
-                                            @else
+                                        @else
                                             <span class="badge badge-danger">{{ __('content.draft') }}</span>
                                         @endif
                                     </td>
                                     <td>
                                         <div>
-                                            <a href="{{ route('service.edit', $service->id) }}" class="mr-2">
-                                                <i class="fa fa-edit text-info font-18"></i>
+                                            <a href="{{ route('service-detail.create', $service->id) }}" class="ni-action-icon ni-action-view mr-2" title="{{ __('content.details') }}">
+                                                <i class="far fa-eye font-18" aria-hidden="true"></i>
                                             </a>
-                                            <a href="#" data-toggle="modal" data-target="#deleteModel{{ $service->id }}">
-                                                <i class="fa fa-trash text-danger font-18"></i>
+                                            <a href="{{ route('service.edit', $service->id) }}" class="ni-action-icon mr-2" title="{{ __('content.edit') }}">
+                                                <i class="fa fa-edit text-info font-18" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="#" class="ni-action-icon ni-action-delete" data-toggle="modal" data-target="#deleteModel{{ $service->id }}" title="{{ __('content.delete') }}">
+                                                <i class="fa fa-trash text-danger font-18" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </td>

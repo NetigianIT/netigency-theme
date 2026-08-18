@@ -60,6 +60,7 @@
                                 </th>
                                 <th>{{ __('content.image') }}</th>
                                 <th>{{ __('content.title') }}</th>
+                                <th>{{ __('content.stack') }}</th>
                                 <th>{{ __('content.description') }}</th>
                                 <th>{{ __('content.order') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
@@ -84,6 +85,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $feature->title }}</td>
+                                    <td>{{ ($feature->stack ?? 'supporting') === 'main' ? __('content.main_stack') : __('content.supporting_stack') }}</td>
                                     <td>{{ $feature->desc }}</td>
                                     <td>{{ $feature->order }}</td>
                                     <td>
@@ -263,6 +265,15 @@
                                 <div class="form-group">
                                     <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
                                     <input type="text" name="title" class="form-control" id="title" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="stack">{{ __('content.stack') }} <span class="text-red">*</span></label>
+                                    <select name="stack" class="form-control" id="stack" required>
+                                        <option value="main">{{ __('content.main_stack') }}</option>
+                                        <option value="supporting" selected>{{ __('content.supporting_stack') }}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-12">

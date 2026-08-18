@@ -38,13 +38,13 @@
                                     @if (!empty($blog->blog_image))
                                         <div class="blog-img">
                                             <a href="{{ route('blog-page.show', ['slug' => $blog->slug]) }}">
-                                                <img src="{{ asset('uploads/img/blogs/'.$blog->blog_image) }}" alt="Blog image" class="img-fluid">
+                                                <img src="{{ asset('uploads/img/blogs/'.$blog->blog_image) }}" alt="Blog image" class="img-fluid" loading="lazy" decoding="async">
                                             </a>
                                         </div>
                                     @else
                                         <div class="blog-img">
                                             <a href="{{ route('blog-page.show', ['slug' => $blog->slug]) }}">
-                                                <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="Blog image" class="img-fluid">
+                                                <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="Blog image" class="img-fluid" loading="lazy" decoding="async">
                                             </a>
                                         </div>
                                     @endif

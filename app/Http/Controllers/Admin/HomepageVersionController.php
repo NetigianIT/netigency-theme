@@ -15,10 +15,7 @@ class HomepageVersionController extends Controller
      */
     public function create()
     {
-        // Retrieving models
-        $homepage_version = HomepageVersion::first();
-
-        return view('admin.banner.homepage_version.create', compact('homepage_version'));
+        return redirect()->route('fixed-content.create');
     }
 
     /**
@@ -30,21 +27,14 @@ class HomepageVersionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Form validation
-        $request->validate([
-            'choose_version' => 'required|in:0,1,2,3',
+        HomepageVersion::find($id)->update([
+            'choose_version' => 1,
         ]);
-
-        // Get All Request
-        $input = $request->all();
-
-        // Update user
-        HomepageVersion::find($id)->update($input);
 
         // Forget a single key...
         session()->forget('choose_version');
 
-        return redirect()->route('homepage-version.create')
+        return redirect()->route('fixed-content.create')
             ->with('success', 'content.updated_successfully');
     }
 

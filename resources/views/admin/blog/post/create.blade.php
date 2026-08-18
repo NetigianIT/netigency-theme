@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.blog.partials.tabs')
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->

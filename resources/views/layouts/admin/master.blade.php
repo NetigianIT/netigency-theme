@@ -86,7 +86,7 @@
 
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css') }}?v=2">
 
     <style>
         /* Always keep admin sidebar expanded (no icon-only collapse) */
@@ -369,7 +369,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=88">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=96">
 
 </head>
 
@@ -416,7 +416,7 @@
                 </div>
                 <ul class="ni-quick-links" id="niQuickLinks">
                     @can('portfolio check')
-                        <li><a href="{{ url('admin/portfolio') }}" class="{{ request()->is('admin/portfolio*') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> <span>{{ __('content.portfolios') }}</span></a></li>
+                        <li><a href="{{ url('admin/portfolio') }}" class="{{ request()->is('admin/portfolio*') || request()->is('admin/portfolio-category*') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> <span>{{ __('content.portfolios') }}</span></a></li>
                     @endcan
                     @can('features check')
                         <li><a href="{{ url('admin/feature/create') }}" class="{{ request()->is('admin/feature*') ? 'active' : '' }}"><i class="fas fa-star"></i> <span>{{ __('content.features') }}</span></a></li>
@@ -425,7 +425,7 @@
                         <li><a href="{{ url('admin/service') }}" class="{{ request()->is('admin/service*') ? 'active' : '' }}"><i class="fas fa-people-carry"></i> <span>{{ __('content.services') }}</span></a></li>
                     @endcan
                     @can('blogs check')
-                        <li><a href="{{ url('admin/blog') }}" class="{{ request()->is('admin/blog*') ? 'active' : '' }}"><i class="fab fa-blogger-b"></i> <span>{{ __('content.blogs') }}</span></a></li>
+                        <li><a href="{{ url('admin/blog') }}" class="{{ request()->is('admin/blog*') || request()->is('admin/category*') || request()->is('admin/blog-paginate*') ? 'active' : '' }}"><i class="fab fa-blogger-b"></i> <span>{{ __('content.blogs') }}</span></a></li>
                     @endcan
                     @can('testimonials check')
                         <li><a href="{{ url('admin/testimonial/create') }}" class="{{ request()->is('admin/testimonial*') ? 'active' : '' }}"><i class="fas fa-quote-right"></i> <span>{{ __('content.testimonials') }}</span></a></li>
@@ -580,11 +580,7 @@
                     </a>
                 </li>
                 @can('banner check')
-                    <li class="nav-item {{ (request()->is('admin/fixed-content/create') ||
-                                            request()->is('admin/slider/create') ||
-                                            request()->is('admin/slider/*/edit') ||
-                                            request()->is('admin/video/create') ||
-                                            request()->is('admin/homepage-version/create')) ? 'active' : '' }}">
+                    <li class="nav-item {{ (request()->is('admin/fixed-content/create')) ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('admin/fixed-content/create') }}">
                             <i class="fas fa-image menu-icon"></i>
                             <span class="menu-title">{{ __('content.hero_section') }}</span>
@@ -610,31 +606,11 @@
                 </li>
                 @endcan
                 @can('services check')
-                    <li class="nav-item {{ (request()->is('admin/service') ||
-                                            request()->is('admin/service/create') ||
-                                            request()->is('admin/service/*/edit') ||
-                                             request()->is('admin/service-detail/*/create') ||
-                                            request()->is('admin/service-detail/*/*/edit') ||
-                                            request()->is('admin/service-paginate/create') ||
-                                            request()->is('admin/service-background-image/create')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#services" aria-expanded="false" aria-controls="services">
+                    <li class="nav-item {{ (request()->is('admin/service*') || request()->is('admin/service-detail*') || request()->is('admin/service-paginate*')) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/service') }}">
                             <i class="fas fa-cogs menu-icon"></i>
                             <span class="menu-title">{{ __('content.services') }}</span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse {{ (request()->is('admin/service') ||
-                                                  request()->is('admin/service/create') ||
-                                                  request()->is('admin/service/*/edit') ||
-                                                   request()->is('admin/service-detail/*/create') ||
-                                            request()->is('admin/service-detail/*/*/edit') ||
-                                                  request()->is('admin/service-paginate/create') ||
-                                                  request()->is('admin/service-background-image/create')) ? 'show' : '' }}" id="services">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/service/create')) ? 'active' : '' }}" href="{{ url('admin/service/create') }}">{{ __('content.add_service') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/service') || request()->is('admin/service/*/edit') || request()->is('admin/service-detail*')) ? 'active' : '' }}" href="{{ url('admin/service') }}">{{ __('content.services') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/service-paginate/create')) ? 'active' : '' }}" href="{{ url('admin/service-paginate/create') }}">{{ __('content.service_paginate') }}</a></li>
-                            </ul>
-                        </div>
                     </li>
                 @endcan
                 @can('counters check')
@@ -665,35 +641,11 @@
                 </li>
                 @endcan
                 @can('portfolio check')
-                    <li class="nav-item {{ (request()->is('admin/portfolio') ||
-                                            request()->is('admin/portfolio/create') ||
-                                            request()->is('admin/portfolio/*/edit') ||
-                                            request()->is('admin/portfolio-category/create') ||
-                                            request()->is('admin/portfolio-category/*/edit') ||
-                                                  request()->is('admin/portfolio-slider/*/create') ||
-                                                  request()->is('admin/portfolio-slider/*/*/edit') ||
-                                                  request()->is('admin/portfolio-detail/*/create') ||
-                                                  request()->is('admin/portfolio-detail/*/*/edit')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#portfolios" aria-expanded="false" aria-controls="portfolios">
+                    <li class="nav-item {{ (request()->is('admin/portfolio*') || request()->is('admin/portfolio-category*')) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/portfolio') }}">
                             <i class="fas fa-briefcase menu-icon"></i>
                             <span class="menu-title">{{ __('content.portfolios') }}</span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse {{ (request()->is('admin/portfolio') ||
-                                                  request()->is('admin/portfolio/create') ||
-                                                  request()->is('admin/portfolio/*/edit') ||
-                                                  request()->is('admin/portfolio-category/create') ||
-                                                  request()->is('admin/portfolio-category/*/edit') ||
-                                                  request()->is('admin/portfolio-slider/*/create') ||
-                                                  request()->is('admin/portfolio-slider/*/*/edit') ||
-                                                  request()->is('admin/portfolio-detail/*/create') ||
-                                                  request()->is('admin/portfolio-detail/*/*/edit')) ? 'show' : '' }}" id="portfolios">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio-category/create') || request()->is('admin/portfolio-category/*/edit')) ? 'active' : '' }}" href="{{ url('admin/portfolio-category/create') }}">{{ __('content.categories') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio/create')) ? 'active' : '' }}" href="{{ url('admin/portfolio/create') }}">{{ __('content.add_portfolio') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/portfolio') || request()->is('admin/portfolio/*/edit') || request()->is('admin/portfolio-slider*') || request()->is('admin/portfolio-detail*')) ? 'active' : '' }}" href="{{ url('admin/portfolio') }}">{{ __('content.portfolios') }}</a></li>
-                            </ul>
-                        </div>
                     </li>
                 @endcan
                 @can('teams check')
@@ -715,30 +667,11 @@
                 </li>
                 @endcan
                 @can('blogs check')
-                    <li class="nav-item {{ (request()->is('admin/blog') ||
-                                            request()->is('admin/blog/create') ||
-                                            request()->is('admin/blog/*/edit') ||
-                                            request()->is('admin/category/create') ||
-                                            request()->is('admin/category/*/edit') ||
-                                            request()->is('admin/blog-paginate/create')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#blogs" aria-expanded="false" aria-controls="blogs">
+                    <li class="nav-item {{ (request()->is('admin/blog*') || request()->is('admin/category*') || request()->is('admin/blog-paginate*')) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/blog') }}">
                             <i class="fab fa-blogger-b menu-icon"></i>
                             <span class="menu-title">{{ __('content.blogs') }}</span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse {{ (request()->is('admin/blog') ||
-                                                  request()->is('admin/blog/create') ||
-                                                  request()->is('admin/blog/*/edit') ||
-                                                  request()->is('admin/category/create') ||
-                                                  request()->is('admin/category/*/edit') ||
-                                                  request()->is('admin/blog-paginate/create')) ? 'show' : '' }}" id="blogs">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/category/create') || request()->is('admin/category/*/edit')) ? 'active' : '' }}" href="{{ url('admin/category/create') }}">{{ __('content.categories') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog/create')) ? 'active' : '' }}" href="{{ url('admin/blog/create') }}">{{ __('content.add_blog') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog') || request()->is('admin/blog/*/edit')) ? 'active' : '' }}" href="{{ url('admin/blog') }}">{{ __('content.blogs') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/blog-paginate/create')) ? 'active' : '' }}" href="{{ url('admin/blog-paginate/create') }}">{{ __('content.blog_paginate') }}</a></li>
-                            </ul>
-                        </div>
                     </li>
                 @endcan
                 @can('contact check')
@@ -915,6 +848,7 @@
                     @unless(trim($__env->yieldContent('hide_page_title')))
                         @include('admin.components.page-title', [
                             'pageTitle' => trim($__env->yieldContent('page_title')),
+                            'pageTabs' => trim($__env->yieldContent('page_tabs')),
                             'pageActions' => trim($__env->yieldContent('page_actions')),
                         ])
                     @endunless
@@ -971,7 +905,7 @@
         toastr.options = {
             closeButton: true,
             newestOnTop: true,
-            progressBar: true,
+            progressBar: false,
             positionClass: 'toast-top-right',
             preventDuplicates: true,
             showDuration: 300,
@@ -1021,7 +955,7 @@
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=8" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=12" defer></script>
 
 <!-- Datepicker JS -->
 <script src="{{ asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js') }}"></script>
@@ -1053,7 +987,7 @@
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
         if (typeof toastr !== 'undefined') {
-            toastr.success("{{ __('content.copied_text') }}" + ": " + copyText.value);
+            toastr.success("{{ __('content.copied_text') }}" + ": " + copyText.value, "{{ __('Success') }}");
         } else {
             alert("{{ __('content.copied_text') }}" + ":" + copyText.value);
         }
@@ -1065,7 +999,7 @@
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
         if (typeof toastr !== 'undefined') {
-            toastr.success("{{ __('content.copied_text') }}" + ": " + copyText.value);
+            toastr.success("{{ __('content.copied_text') }}" + ": " + copyText.value, "{{ __('Success') }}");
         } else {
             alert("{{ __('content.copied_text') }}" + ":" + copyText.value);
         }

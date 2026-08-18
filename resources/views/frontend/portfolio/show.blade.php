@@ -37,7 +37,7 @@
                             <div class="owl-carousel owl-theme portfolio-single-media" id="portfolioCarousel">
                                @foreach ($sliders as $slider)
                                     <div class="item">
-                                        <img src="{{ asset('uploads/img/portfolio/slider/'.$slider->portfolio_image) }}" alt="image" class="img-fluid">
+                                        <img src="{{ asset('uploads/img/portfolio/slider/'.$slider->portfolio_image) }}" alt="image" class="img-fluid" loading="lazy" decoding="async">
                                     </div>
                                    @endforeach
                             </div>
@@ -89,9 +89,9 @@
                                            <div class="recent-post-img mr-3">
                                                <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
                                                    @if (!empty($recent_post->blog_image))
-                                                       <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" class="img-fluid image-size-100" alt="blog image">
+                                                       <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" class="img-fluid image-size-100" alt="blog image" loading="lazy" decoding="async">
                                                    @else
-                                                       <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" class="img-fluid image-size-100"  alt="blog image">
+                                                       <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" class="img-fluid image-size-100"  alt="blog image" loading="lazy" decoding="async">
                                                    @endif
                                                </a>
                                            </div>

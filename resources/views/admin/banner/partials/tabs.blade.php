@@ -5,21 +5,6 @@
             'url' => url('admin/fixed-content/create'),
             'active' => request()->is('admin/fixed-content/create'),
         ],
-        [
-            'label' => __('content.sliders'),
-            'url' => url('admin/slider/create'),
-            'active' => request()->is('admin/slider/create') || request()->is('admin/slider/*/edit'),
-        ],
-        [
-            'label' => __('content.video'),
-            'url' => url('admin/video/create'),
-            'active' => request()->is('admin/video/create'),
-        ],
-        [
-            'label' => __('content.homepage_versions'),
-            'url' => url('admin/homepage-version/create'),
-            'active' => request()->is('admin/homepage-version/create'),
-        ],
     ];
 @endphp
 

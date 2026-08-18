@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             SectionSeeder::class,
             PermissionsSeeder::class,
             HomepageVersionSeeder::class,
+            FeatureSeeder::class,
         ]);
     }
 }

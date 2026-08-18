@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.portfolio.partials.tabs')
+@endsection
+
 @section('page_actions')
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">+ {{ __('content.add_detail') }}</button>
 @endsection

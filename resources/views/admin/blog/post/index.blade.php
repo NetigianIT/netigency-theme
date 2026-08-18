@@ -1,8 +1,11 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.blog.partials.tabs')
+@endsection
+
 @section('page_actions')
     <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#blogSectionModal">{{ __('content.section_title_and_desc') }}</button>
-    <a href="{{ url('admin/blog/create') }}" class="btn btn-primary">+ {{ __('content.add_blog') }}</a>
 @endsection
 
 @section('content')
