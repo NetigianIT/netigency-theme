@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 
 
-    <link href="{{ asset('assets/admin/side_menu/css/404-not-found.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('assets/admin/side_menu/css/404-not-found.css')); ?>" rel="stylesheet">
 
 </head>
 <body class="boxed_wrapper">
@@ -28,7 +28,7 @@
                 <div class="error-details">
                     Sorry, an error has occured, Requested page not found!
                 </div>
-                <a href="{{ url('/') }}" class="theme-btn style-one">Back to Home<span>+</span></a>
+                <a href="<?php echo e(url('/')); ?>" class="theme-btn style-one">Back to Home<span>+</span></a>
             </div>
         </div>
     </div>
@@ -39,3 +39,4 @@
 
 </body>
 </html>
+<?php /**PATH C:\Users\HP\Desktop\Netigian IT\themes\netigency-theme\resources\views/errors/404.blade.php ENDPATH**/ ?>

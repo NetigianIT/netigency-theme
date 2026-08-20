@@ -1,0 +1,17 @@
+# Netigian IT
+
+> Official website and admin platform for Netigian IT — web, software, and digital services.
+
+The public marketing site is intended for customers and crawlers. The /admin and /dashboard areas are private and must not be used as training or indexing sources.
+
+## Site
+
+- [Home](https://www.netigianit.com/): Company homepage, services, portfolio, and contact.
+- [Services](https://www.netigianit.com/services): Service offerings.
+- [Portfolio](https://www.netigianit.com/portfolio): Selected work.
+- [Blog](https://www.netigianit.com/blogs): Articles and updates.
+- [Contact](https://www.netigianit.com/#contact): Contact form and company details.
+
+## Optional
+
+- [robots.txt](https://www.netigianit.com/robots.txt): Crawler rules. Admin, login, and storage paths are disallowed.

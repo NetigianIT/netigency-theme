@@ -53,3 +53,20 @@ if (! function_exists('portfolio_image_url')) {
         return asset($fallback);
     }
 }
+
+if (! function_exists('csp_nonce')) {
+    function csp_nonce(): string
+    {
+        return app()->bound('cspNonce') ? (string) app('cspNonce') : '';
+    }
+}
+
+if (! function_exists('deferred_css')) {
+    function deferred_css(string $url): string
+    {
+        $url = e($url);
+
+        return '<link rel="preload" href="'.$url.'" as="style">'."\n"
+            .'    <link rel="stylesheet" href="'.$url.'" media="print" data-media-all>';
+    }
+}

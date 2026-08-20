@@ -2,10 +2,24 @@
 
 namespace App\Support;
 
+use App\Models\Admin\Blog;
+use App\Models\Admin\Category;
+use App\Models\Admin\Counter;
+use App\Models\Admin\Feature;
 use App\Models\Admin\FrontendKeyword;
 use App\Models\Admin\Language;
 use App\Models\Admin\Message;
+use App\Models\Admin\Page;
 use App\Models\Admin\PanelKeyword;
+use App\Models\Admin\Portfolio;
+use App\Models\Admin\Service;
+use App\Models\Admin\SkillInfoList;
+use App\Models\Admin\Slider;
+use App\Models\Admin\Social;
+use App\Models\Admin\Subscribe;
+use App\Models\Admin\Team;
+use App\Models\Admin\Testimonial;
+use App\Models\Admin\WorkProcess;
 use App\Models\Frontend\Comment;
 use Illuminate\Support\Facades\Cache;
 
@@ -208,7 +222,37 @@ class SiteCache
         static::flushSections();
         static::flushSiteImage();
         static::flushSeo();
+        static::flushDashboardCounts();
         static::bumpAllFrontendVersions();
+    }
+
+    public static function dashboardCounts(): array
+    {
+        return static::remember('site.admin.dashboard_counts', static::TTL_MEDIUM, function () {
+            return [
+                'portfolios_count' => Portfolio::count(),
+                'features_count' => Feature::count(),
+                'work_processes_count' => WorkProcess::count(),
+                'skills_count' => SkillInfoList::count(),
+                'testimonials_count' => Testimonial::count(),
+                'teams_count' => Team::count(),
+                'blogs_count' => Blog::count(),
+                'messages_count' => Message::count(),
+                'services_count' => Service::count(),
+                'counters_count' => Counter::count(),
+                'subscribers_count' => Subscribe::count(),
+                'comments_count' => Comment::count(),
+                'sliders_count' => Slider::count(),
+                'pages_count' => Page::count(),
+                'categories_count' => Category::count(),
+                'socials_count' => Social::count(),
+            ];
+        });
+    }
+
+    public static function flushDashboardCounts(): void
+    {
+        Cache::forget('site.admin.dashboard_counts');
     }
 
     public static function flushAdminNotifications(): void
@@ -217,6 +261,7 @@ class SiteCache
         Cache::forget('site.admin.unread_message_count');
         Cache::forget('site.admin.unread_comments');
         Cache::forget('site.admin.unread_comment_count');
+        static::flushDashboardCounts();
     }
 
     protected static function forgetForAllLanguages(string $prefix): void

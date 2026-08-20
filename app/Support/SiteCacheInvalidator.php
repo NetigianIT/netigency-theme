@@ -147,6 +147,7 @@ class SiteCacheInvalidator
 
         $callback = function (Model $model) use ($actions) {
             static::invalidate($model, $actions);
+            SiteCache::flushDashboardCounts();
         };
 
         $modelClass::saved($callback);

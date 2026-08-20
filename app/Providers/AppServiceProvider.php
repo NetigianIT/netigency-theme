@@ -138,7 +138,11 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        if (Schema::hasTable('messages')) {
+        $isAdminUi = request()->is('admin/*')
+            || request()->is('dashboard')
+            || request()->is('livewire/*');
+
+        if ($isAdminUi && Schema::hasTable('messages')) {
             $general_recent_messages = SiteCache::remember('site.admin.recent_messages', SiteCache::TTL_SHORT, function () {
                 return Message::orderBy('id', 'desc')->take(10)->get();
             });
@@ -149,7 +153,7 @@ class AppServiceProvider extends ServiceProvider
             View::share('general_unread_message_count', $general_unread_message_count);
         }
 
-        if (Schema::hasTable('comments')) {
+        if ($isAdminUi && Schema::hasTable('comments')) {
             $general_unread_comments = SiteCache::remember('site.admin.unread_comments', SiteCache::TTL_SHORT, function () {
                 return Comment::where('approval', 0)->orderBy('id', 'desc')->take(4)->get();
             });

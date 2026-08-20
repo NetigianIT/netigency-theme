@@ -110,6 +110,79 @@ $(function() {
         });
     });
 
+    document.querySelectorAll("img[data-fallback]").forEach(function (img) {
+        img.addEventListener("error", function () {
+            var fallback = img.getAttribute("data-fallback");
+            if (fallback && img.src !== fallback) {
+                img.src = fallback;
+            }
+        });
+    });
+
+    document.querySelectorAll("img[data-fallback-class]").forEach(function (img) {
+        img.addEventListener("error", function () {
+            var host = img.closest(".ni-sidebar-brand");
+            if (host) {
+                host.classList.add(img.getAttribute("data-fallback-class"));
+            }
+        });
+    });
+
+    $(document).on("click", "[data-logout]", function (e) {
+        e.preventDefault();
+        var form = document.getElementById("logout-form");
+        if (form) {
+            form.submit();
+        }
+    });
+
+    $(document).on("click", "[onclick]", function (e) {
+        var code = (this.getAttribute("onclick") || "").replace(/\s+/g, " ").trim();
+        if (!code) {
+            return;
+        }
+
+        if (code.indexOf("btnCheckListGet") !== -1 && typeof window.btnCheckListGet === "function") {
+            window.btnCheckListGet();
+            return;
+        }
+        if (code.indexOf("showHideDeleteButton2") !== -1 && typeof window.showHideDeleteButton2 === "function") {
+            window.showHideDeleteButton2(this);
+            return;
+        }
+        if (code.indexOf("showHideDeleteButton") !== -1 && typeof window.showHideDeleteButton === "function") {
+            window.showHideDeleteButton(this);
+            return;
+        }
+        if (code.indexOf("showHideTypeDiv") !== -1 && typeof window.showHideTypeDiv === "function") {
+            window.showHideTypeDiv();
+            return;
+        }
+        if (code.indexOf("showHideMetaTag") !== -1 && typeof window.showHideMetaTag === "function") {
+            window.showHideMetaTag();
+            return;
+        }
+
+        var copyImage = code.match(/copyImageLink\((\d+)\)/);
+        if (copyImage && typeof window.copyImageLink === "function") {
+            e.preventDefault();
+            window.copyImageLink(copyImage[1]);
+            return;
+        }
+
+        var copyPageLink = code.match(/copyLink\((\d+)\)/);
+        if (copyPageLink && typeof window.copyLink === "function") {
+            e.preventDefault();
+            window.copyLink(copyPageLink[1]);
+        }
+    });
+
+    $(document).on("change", "input[name='type']", function () {
+        if (typeof window.showHideTypeDiv === "function") {
+            window.showHideTypeDiv();
+        }
+    });
+
     /* ----------------------------------------------------------------
            [ Fontawesome IconPicker Rtl Js ]
 -----------------------------------------------------------------*/

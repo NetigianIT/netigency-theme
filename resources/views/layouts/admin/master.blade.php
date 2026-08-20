@@ -5,10 +5,24 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <!-- Required meta tags -->
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @php
+        $adminPath = request()->path();
+        $isAdminDashboard = request()->routeIs('dashboard');
+        $needsAdminEditor = ! $isAdminDashboard && (str_contains($adminPath, 'create') || str_contains($adminPath, 'edit'));
+        $needsAdminTables = ! $isAdminDashboard;
+        $needsAdminPickers = $needsAdminEditor;
+        $needsAdminLightbox = isset($galleries);
+        $adminIsRtl = session()->has('language_direction_from_dropdown')
+            ? session()->get('language_direction_from_dropdown') == 1
+            : (isset($language) && $language->direction == 1);
+        $adminStyleHref = $adminIsRtl
+            ? asset('assets/admin/side_menu/version_rtl/style.css')
+            : asset('assets/admin/side_menu/style.css');
+    @endphp
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -39,50 +53,30 @@
 
     @endif
 
+    <link rel="preload" href="{{ $adminStyleHref }}" as="style">
+    <link rel="preload" href="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/webfonts/fa-solid-900.woff2') }}" as="font" type="font/woff2" crossorigin>
+
 <!-- Fonts -->
     <link href="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/css/fontawesome-iconpicker.min.css') }}" rel="stylesheet">
-
-    <!-- Datepicker CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/bootstrap-datepicker.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/color-picker-bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/form-picker.css') }}">
-
-
-
-    <!-- Master Stylesheet CSS -->
-    @if (session()->has('language_direction_from_dropdown'))
-
-        @if(session()->get('language_direction_from_dropdown') == 1)
-
-            <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/version_rtl/style.css') }}">
-
-        @endif
-
-        @if(session()->get('language_direction_from_dropdown') == 0)
-
-            <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/style.css') }}">
-
-        @endif
-
-    @elseif (isset($language))
-
-        @if ($language->direction == 0)
-            <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/style.css') }}">
-        @else
-            <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/version_rtl/style.css') }}">
-
+    @if ($needsAdminPickers)
+        {!! deferred_css(asset('assets/admin/side_menu/vendor/fontawesome-free/css/fontawesome-iconpicker.min.css')) !!}
+        {!! deferred_css(asset('assets/admin/side_menu/css/bootstrap-datepicker.min.css')) !!}
+        {!! deferred_css(asset('assets/admin/side_menu/css/default-assets/color-picker-bootstrap.css')) !!}
+        {!! deferred_css(asset('assets/admin/side_menu/css/default-assets/form-picker.css')) !!}
     @endif
 
-@endif
+    <!-- Master Stylesheet CSS -->
+    <link rel="stylesheet" href="{{ $adminStyleHref }}">
 
-<!-- Light box CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/new/ekko-lightbox.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/new/lightbox.min.css') }}">
+    @if ($needsAdminLightbox)
+        {!! deferred_css(asset('assets/admin/side_menu/css/default-assets/new/ekko-lightbox.min.css')) !!}
+        {!! deferred_css(asset('assets/admin/side_menu/css/default-assets/new/lightbox.min.css')) !!}
+    @endif
 
-    <!-- Data tables CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/datatables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/default-assets/responsive.bootstrap4.css') }}">
+    @if ($needsAdminTables)
+        {!! deferred_css(asset('assets/admin/side_menu/css/default-assets/datatables.bootstrap4.css')) !!}
+        {!! deferred_css(asset('assets/admin/side_menu/css/default-assets/responsive.bootstrap4.css')) !!}
+    @endif
 
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr.min.css') }}">
@@ -394,7 +388,7 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center" aria-hidden="true"></div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize" aria-label="Toggle sidebar">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -470,7 +464,7 @@
                 @endif
 
                 <li class="nav-item dropdown dropdown-animate">
-                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="{{ url('admin/message') }}" data-toggle="dropdown" aria-label="Messages" aria-haspopup="true" aria-expanded="false">
                         <i class="far fa-envelope"></i>
                         @if (($general_unread_message_count ?? 0) > 0)
                             <span class="count">{{ $general_unread_message_count > 99 ? '99+' : $general_unread_message_count }}</span>
@@ -519,27 +513,25 @@
                 </li>
 
                 <li class="nav-item nav-profile dropdown dropdown-animate">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ url('admin/profile/edit') }}" data-toggle="dropdown" id="profileDropdown" aria-label="Account menu" aria-haspopup="true" aria-expanded="false">
                         @php
                             $defaultAvatar = asset('uploads/img/dummy/128x128.jpg');
                             $profilePhoto = Auth::user()->profile_photo_path;
                             $profilePath = $profilePhoto ? public_path('uploads/img/profile/'.$profilePhoto) : null;
                             $profileSrc = ($profilePath && file_exists($profilePath)) ? asset('uploads/img/profile/'.$profilePhoto) : $defaultAvatar;
                         @endphp
-                        <img src="{{ $profileSrc }}" class="img-profile rounded-circle" alt="profile image" onerror="this.onerror=null;this.src='{{ $defaultAvatar }}';">
+                        <img src="{{ $profileSrc }}" class="img-profile rounded-circle" alt="{{ Auth::user()->name }} profile photo" width="40" height="40" data-fallback="{{ $defaultAvatar }}">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown profile-top" aria-labelledby="profileDropdown">
                         <a href="{{ url('admin/profile/edit') }}" class="dropdown-item"><i class="fas fa-user profile-icon" aria-hidden="true"></i> {{ __('content.profile') }}</a>
                         <a href="{{ url('admin/profile/change-password') }}" class="dropdown-item"><i class="fas fa-unlock-alt profile-icon" aria-hidden="true"></i> {{ __('content.change_password') }}</a>
 
                         <!-- Authentication -->
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('logout') }}" data-logout>
                             <i class="fas fa-sign-out-alt profile-icon" aria-hidden="true"></i>
                             {{ __('content.logout') }}
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" hidden>
                             @csrf
                         </form>
 
@@ -565,7 +557,7 @@
             <div class="ni-sidebar-brand" id="niSidebarBrand">
                 <a href="{{ url('dashboard') }}" title="Dashboard">
                     <img src="{{ $sidebarLogoSrc }}" class="admin-sidebar-logo" alt="Netigian IT" width="210" height="52"
-                         onerror="this.closest('.ni-sidebar-brand').classList.add('is-fallback');">
+                         data-fallback-class="is-fallback">
                     <span class="ni-sidebar-brand-text">Netigian IT</span>
                 </a>
                 <button type="button" class="ni-sidebar-close d-xl-none" data-dismiss="offcanvas" aria-label="Close menu">
@@ -900,83 +892,76 @@
 <!-- Plugins Js -->
 <script src="{{ asset('assets/admin/side_menu/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/admin/side_menu/vendor/toastr/toastr.min.js') }}"></script>
-<script>
-    if (typeof toastr !== 'undefined') {
-        toastr.options = {
-            closeButton: true,
-            newestOnTop: true,
-            progressBar: false,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true,
-            showDuration: 300,
-            hideDuration: 300,
-            timeOut: 4200,
-            extendedTimeOut: 1600,
-            showEasing: 'swing',
-            hideEasing: 'linear',
-            showMethod: 'fadeIn',
-            hideMethod: 'fadeOut'
-        };
-    }
-</script>
 <script src="{{ asset('assets/admin/side_menu/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/admin/side_menu/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/admin/side_menu/js/bundle.js') }}"></script>
-<script>
-    // Modals live inside .main-panel (position:fixed). Bootstrap puts the
-    // backdrop on <body>, so the dialog ends up under the overlay and looks
-    // "disabled". Always move the dialog to <body> before it shows.
-    (function ($) {
-        if (!$) return;
-        $(document).on('show.bs.modal', '.modal', function () {
-            if (this.parentNode !== document.body) {
-                document.body.appendChild(this);
-            }
-        });
-    })(window.jQuery);
-</script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/fullscreen.js') }}"></script>
-
-<!-- Active JS -->
 <script src="{{ asset('assets/admin/side_menu/js/canvas.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/collapse.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/settings.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/template.js') }}" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/default-assets/active.js') }}" defer></script>
 
-@isset ($galleries)
-    <!-- Light box JS -->
+@if ($needsAdminLightbox)
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/ekko-lightbox.min.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/lightbox.min.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/light-box-active.js') }}" defer></script>
 @endif
-<!-- Datatable JS -->
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/jquery.datatables.min.js') }}" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=12" defer></script>
 
-<!-- Datepicker JS -->
-<script src="{{ asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js') }}"></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/colorpicker-bootstrap.js') }}"></script>
-<script src="{{ asset('assets/admin/side_menu/js/bootstrap-datepicker.min.js') }}"></script>
-<script src="{{ asset('assets/admin/side_menu/js/default-assets/form-picker.js') }}"></script>
+@if ($needsAdminTables)
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/jquery.datatables.min.js') }}" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=12" defer></script>
+@endif
 
+@if ($needsAdminPickers)
+    <script src="{{ asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js') }}" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/colorpicker-bootstrap.js') }}" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/bootstrap-datepicker.min.js') }}" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/form-picker.js') }}" defer></script>
+@endif
 
+@if ($needsAdminEditor)
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@7.6.1/tinymce.min.js" referrerpolicy="origin" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/ni-editor.js') }}?v=3" defer></script>
+@endif
 
-<!-- Editor -->
 <script>
     window.NI_EDITOR_UPLOAD_URL = "{{ route('admin.editor.upload') }}";
-</script>
-<script src="https://cdn.jsdelivr.net/npm/tinymce@7.6.1/tinymce.min.js" referrerpolicy="origin"></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-editor.js') }}?v=3"></script>
-<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof toastr !== 'undefined') {
+            toastr.options = {
+                closeButton: true,
+                newestOnTop: true,
+                progressBar: false,
+                positionClass: 'toast-top-right',
+                preventDuplicates: true,
+                showDuration: 300,
+                hideDuration: 300,
+                timeOut: 4200,
+                extendedTimeOut: 1600,
+                showEasing: 'swing',
+                hideEasing: 'linear',
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut'
+            };
+        }
+        if (window.jQuery) {
+            window.jQuery(document).on('show.bs.modal', '.modal', function () {
+                if (this.parentNode !== document.body) {
+                    document.body.appendChild(this);
+                }
+            });
+        }
+    });
     function showHideTypeDiv() {
         var optionsRadios1 = document.getElementById("optionsRadios1");
         var optionsRadios2 = document.getElementById("optionsRadios2");
         var iconType = document.getElementById("icon-type");
         var imageType = document.getElementById("image-type");
+        if (!optionsRadios1 || !optionsRadios2 || !iconType || !imageType) return;
         iconType.style.display = optionsRadios1.checked ? "block" : "none";
         imageType.style.display = optionsRadios2.checked ? "block" : "none";
     }
@@ -1070,7 +1055,9 @@
 </script>
 
 <!-- Custom JS -->
-<script src="{{ asset('assets/admin/side_menu/js/custom.js') }}?v=3"></script>
+<script src="{{ asset('assets/admin/side_menu/js/custom.js') }}?v=4"></script>
+<!-- Dark / Light Mode -->
+<script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 <!-- Dark / Light Mode -->
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
 <script>
@@ -1197,12 +1184,14 @@
 </script>
 
 <!-- Icon Picker JS -->
-<script src="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js') }}"> </script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-image-input.js') }}?v=1"></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-number-input.js') }}?v=1"></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1"></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=2"></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=4"></script>
+@if ($needsAdminPickers)
+    <script src="{{ asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js') }}" defer></script>
+@endif
+<script src="{{ asset('assets/admin/side_menu/js/ni-image-input.js') }}?v=1" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-number-input.js') }}?v=1" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=2" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=4" defer></script>
 
 </body>
 
