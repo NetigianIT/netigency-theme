@@ -333,10 +333,6 @@
       return;
     }
 
-    if (window.jQuery("#basic-datatable").length) {
-      window.jQuery("#basic-datatable").DataTable(getStandardDatatableOptions());
-    }
-
     document.querySelectorAll(".ni-global-table[data-table-id]").forEach(function (wrap) {
       var tableId = wrap.getAttribute("data-table-id");
       if (!tableId || !window.jQuery("#" + tableId).length) return;
@@ -346,6 +342,10 @@
         enhanceGlobalTableToolbar(container);
       }));
     });
+
+    if (window.jQuery("#basic-datatable").length && !window.jQuery.fn.DataTable.isDataTable("#basic-datatable")) {
+      window.jQuery("#basic-datatable").DataTable(getStandardDatatableOptions());
+    }
 
     if (window.jQuery("#datatable-buttons").length) {
       var a = window.jQuery("#datatable-buttons").DataTable({

@@ -1,40 +1,45 @@
 <?php
 
 use App\Models\Admin\Language;
-
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 28.09.2020
- * Time: 19:30
- */
+use App\Support\SiteCache;
 
 if (! function_exists('getLanguage')) {
-    // Get language for create data
+    // Get language for create data (admin content language)
     function getLanguage()
     {
-        // Retrieve active langauage
-        $language = Language::where('status', 1)->first();
+        static $memo = null;
 
-        return $language;
+        if ($memo !== null) {
+            return $memo;
+        }
+
+        $memo = SiteCache::activeDataLanguage();
+
+        return $memo;
     }
 }
 
 if (! function_exists('getSiteLanguage')) {
-    // Get site Language
+    // Get site Language (frontend + UI locale)
     function getSiteLanguage()
     {
-        if (session()->has('language_id_from_dropdown')) {
-            $language_id_from_dropdown = session()->get('language_id_from_dropdown');
+        static $memo = null;
 
-            $language = Language::find($language_id_from_dropdown);
-
-            return $language;
+        if ($memo !== null) {
+            return $memo;
         }
 
-        $language = Language::where('default_site_language', 1)->first();
+        if (session()->has('language_id_from_dropdown')) {
+            $memo = SiteCache::language((int) session('language_id_from_dropdown'));
 
-        return $language;
+            if ($memo) {
+                return $memo;
+            }
+        }
+
+        $memo = SiteCache::defaultSiteLanguage();
+
+        return $memo;
     }
 }
 

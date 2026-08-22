@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.contact.partials.tabs')
+@endsection
+
 @section('page_actions')
     <a href="{{ url('admin/social/create') }}" class="btn btn-primary">+ {{ __('content.add_social') }}</a>
 @endsection

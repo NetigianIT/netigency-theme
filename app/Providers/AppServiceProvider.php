@@ -90,20 +90,26 @@ class AppServiceProvider extends ServiceProvider
             $display_dropdowns = SiteCache::remember('site.display_dropdowns', SiteCache::TTL_LONG, function () {
                 return Language::where('display_dropdown', 1)->get();
             });
-            $data_language = SiteCache::remember('site.data_language', SiteCache::TTL_LONG, function () {
-                return Language::where('status', 1)->first();
-            });
+            $data_language = SiteCache::activeDataLanguage();
 
             View::share('languages', $languages);
             View::share('display_dropdowns', $display_dropdowns);
             View::share('data_language', $data_language);
 
-            $language = SiteCache::remember('site.default_language', SiteCache::TTL_LONG, function () {
-                return Language::where('default_site_language', 1)->first();
-            });
+            $language = SiteCache::defaultSiteLanguage();
 
             if (isset($language)) {
                 View::share('language', $language);
+            }
+
+            // Keep EN/BN translation packs warm so language switches stay fast.
+            try {
+                if (! \Illuminate\Support\Facades\Cache::has('site.languages_warmed_v1')) {
+                    SiteCache::warmAllLanguages();
+                    \Illuminate\Support\Facades\Cache::forever('site.languages_warmed_v1', 1);
+                }
+            } catch (\Throwable $e) {
+                // Cache may be unavailable during install/migrate.
             }
         }
 

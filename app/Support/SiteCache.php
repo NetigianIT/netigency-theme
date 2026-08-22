@@ -93,6 +93,98 @@ class SiteCache
         return Language::query()->pluck('id')->all();
     }
 
+    public static function language(?int $languageId): ?Language
+    {
+        if (! $languageId) {
+            return null;
+        }
+
+        return static::remember("site.language.{$languageId}", static::TTL_LONG, function () use ($languageId) {
+            return Language::query()->find($languageId);
+        });
+    }
+
+    public static function defaultSiteLanguage(): ?Language
+    {
+        return static::remember('site.default_language', static::TTL_LONG, function () {
+            return Language::query()->where('default_site_language', 1)->first();
+        });
+    }
+
+    public static function defaultSiteLanguageId(): ?int
+    {
+        return optional(static::defaultSiteLanguage())->id;
+    }
+
+    public static function activeDataLanguage(): ?Language
+    {
+        return static::remember('site.data_language', static::TTL_LONG, function () {
+            return Language::query()->where('status', 1)->first();
+        });
+    }
+
+    public static function applyLanguageSession(Language $language): void
+    {
+        session([
+            'language_id_from_dropdown' => $language->id,
+            'language_name_from_dropdown' => $language->language_name,
+            'language_code_from_dropdown' => $language->language_code,
+            'language_direction_from_dropdown' => $language->direction,
+        ]);
+    }
+
+    public static function languageCookie(Language $language)
+    {
+        return cookie(
+            \App\Http\Middleware\SyncSiteLanguage::COOKIE,
+            (string) $language->id,
+            60 * 24 * 365,
+            '/',
+            null,
+            false,
+            false,
+            false,
+            'Lax'
+        );
+    }
+
+    /**
+     * Warm translation + layout caches so the next page load is fast.
+     */
+    public static function warmLanguage(int $languageId): void
+    {
+        static::language($languageId);
+        static::panelKeywords($languageId);
+        static::frontendKeywords($languageId);
+        static::remember("site.header_pages.{$languageId}", static::TTL_MEDIUM, function () use ($languageId) {
+            return \App\Models\Admin\Page::query()
+                ->where('language_id', $languageId)
+                ->where('display_header_menu', 1)
+                ->where('status', 1)
+                ->orderBy('order', 'asc')
+                ->get();
+        });
+    }
+
+    public static function warmAllLanguages(): void
+    {
+        foreach (Language::query()->pluck('id') as $languageId) {
+            static::warmLanguage((int) $languageId);
+        }
+    }
+
+    public static function flushLanguageMeta(): void
+    {
+        Cache::forget('site.languages');
+        Cache::forget('site.display_dropdowns');
+        Cache::forget('site.data_language');
+        Cache::forget('site.default_language');
+
+        foreach (Language::query()->pluck('id') as $languageId) {
+            Cache::forget("site.language.{$languageId}");
+        }
+    }
+
     public static function panelKeywords(?int $languageId): array
     {
         if (! $languageId) {
@@ -182,14 +274,6 @@ class SiteCache
         }
     }
 
-    public static function flushLanguageMeta(): void
-    {
-        Cache::forget('site.languages');
-        Cache::forget('site.display_dropdowns');
-        Cache::forget('site.data_language');
-        Cache::forget('site.default_language');
-    }
-
     public static function flushSections(): void
     {
         Cache::forget('site.sections');
@@ -213,6 +297,8 @@ class SiteCache
             Cache::forget("site.header_pages.{$languageId}");
             Cache::forget("site.homepage.{$languageId}");
         }
+
+        Cache::forget('site.languages_warmed_v1');
     }
 
     public static function flushContent(): void

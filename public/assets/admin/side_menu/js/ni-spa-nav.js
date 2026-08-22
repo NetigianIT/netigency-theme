@@ -50,7 +50,7 @@
         }
     }
 
-    function matchScore(linkPath, current) {
+    function matchScore(linkPath, current, matchPrefixes) {
         if (!linkPath || linkPath === '#') {
             return 0;
         }
@@ -61,6 +61,16 @@
 
         if (linkPath === '/dashboard') {
             return 0;
+        }
+
+        if (matchPrefixes && matchPrefixes.length) {
+            for (var i = 0; i < matchPrefixes.length; i++) {
+                var prefix = normalizePath(matchPrefixes[i]);
+                if (!prefix) continue;
+                if (current === prefix || current.indexOf(prefix + '/') === 0 || current.indexOf(prefix + '-') === 0) {
+                    return 800 + prefix.length;
+                }
+            }
         }
 
         if (current.indexOf(linkPath + '/') === 0) {
@@ -103,7 +113,11 @@
             }
 
             var linkPath = pathFromHref(href);
-            var score = matchScore(linkPath, current);
+            var matchAttr = link.getAttribute('data-ni-match') || '';
+            var matchPrefixes = matchAttr.split(',').map(function (part) {
+                return part.trim();
+            }).filter(Boolean);
+            var score = matchScore(linkPath, current, matchPrefixes);
             if (score > 0 && (!best || score > best.score)) {
                 best = { link: link, score: score };
             }

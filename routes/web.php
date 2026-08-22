@@ -78,8 +78,9 @@ Route::post('subscribe', [\App\Http\Controllers\Frontend\SubscribeController::cl
     ->name('subscribe-section.store')->middleware(['throttle:public-forms', 'XSS']);
 
 Route::middleware(['XSS'])->group(function () {
-    Route::get('services', [\App\Http\Controllers\Frontend\ServiceController::class, 'index'])
-        ->name('service-page.index');
+    Route::get('services', function () {
+        return redirect()->to(url('/#services'));
+    })->name('service-page.index');
     Route::get('service/{service_slug}', [App\Http\Controllers\Frontend\ServiceController::class, 'show'])
         ->name('service-page.show');
 });

@@ -363,7 +363,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=96">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=98">
 
 </head>
 
@@ -455,6 +455,7 @@
                     <li class="nav-item d-flex align-items-center">
                         <a href="{{ url('language/set-locale/'.$nextLang->id) }}"
                            class="ni-lang-toggle"
+                           data-language-id="{{ $nextLang->id }}"
                            title="{{ __('content.languages') }}: {{ $currentLang->language_name }} → {{ $nextLang->language_name }}"
                            aria-label="Switch language to {{ $nextLang->language_name }}">
                             <i class="fas fa-globe" aria-hidden="true"></i>
@@ -634,7 +635,7 @@
                 @endcan
                 @can('portfolio check')
                     <li class="nav-item {{ (request()->is('admin/portfolio*') || request()->is('admin/portfolio-category*')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/portfolio') }}">
+                        <a class="nav-link" href="{{ url('admin/portfolio') }}" data-ni-match="/admin/portfolio,/admin/portfolio-category,/admin/portfolio-slider,/admin/portfolio-detail">
                             <i class="fas fa-briefcase menu-icon"></i>
                             <span class="menu-title">{{ __('content.portfolios') }}</span>
                         </a>
@@ -660,7 +661,7 @@
                 @endcan
                 @can('blogs check')
                     <li class="nav-item {{ (request()->is('admin/blog*') || request()->is('admin/category*') || request()->is('admin/blog-paginate*')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/blog') }}">
+                        <a class="nav-link" href="{{ url('admin/blog') }}" data-ni-match="/admin/blog,/admin/category,/admin/blog-paginate">
                             <i class="fab fa-blogger-b menu-icon"></i>
                             <span class="menu-title">{{ __('content.blogs') }}</span>
                         </a>
@@ -674,28 +675,10 @@
                                             request()->is('admin/social') ||
                                             request()->is('admin/social/create') ||
                                             request()->is('admin/social/*/edit')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#contact" aria-expanded="false" aria-controls="contact">
+                        <a class="nav-link" href="{{ url('admin/contact/create') }}" data-ni-match="/admin/contact,/admin/social,/admin/quick-access,/admin/message">
                             <i class="fas fa-map-marked menu-icon"></i>
                             <span class="menu-title">{{ __('content.contact') }}</span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse {{ (request()->is('admin/contact/create') ||
-                                                 request()->is('admin/contact/*/edit') ||
-                                                 request()->is('admin/quick-access/create') ||
-                                                 request()->is('admin/message') ||
-                                                 request()->is('admin/social') ||
-                                                 request()->is('admin/social/create') ||
-                                                 request()->is('admin/social/*/edit')) ? 'show' : '' }}" id="contact">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/contact/create') ||
-                                                                             request()->is('admin/contact/*/edit')) ? 'active' : '' }}" href="{{ url('admin/contact/create') }}">{{ __('content.contact_info') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/social') ||
-                                                                             request()->is('admin/social/create') ||
-                                                                             request()->is('admin/social/*/edit')) ? 'active' : '' }}" href="{{ url('admin/social') }}">{{ __('content.socials') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/quick-access/create')) ? 'active' : '' }}" href="{{ url('admin/quick-access/create') }}">{{ __('content.quick_access_buttons') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/message')) ? 'active' : '' }}" href="{{ url('admin/message') }}">{{ __('content.messages') }}</a></li>
-                            </ul>
-                        </div>
                     </li>
                 @endcan
 
@@ -728,16 +711,10 @@
                 @endcan
                 @can('subscribe check')
                     <li class="nav-item {{ (request()->is('admin/subscribe/create')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#subscribers" aria-expanded="false" aria-controls="subscribers">
+                        <a class="nav-link" href="{{ url('admin/subscribe/create') }}">
                             <i class="fas fa-at menu-icon"></i>
                             <span class="menu-title">{{ __('content.subscribers') }}</span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse {{ (request()->is('admin/subscribe/create')) ? 'show' : '' }}" id="subscribers">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/subscribe/create')) ? 'active' : '' }}" href="{{ url('admin/subscribe/create') }}">{{ __('content.subscribers') }}</a></li>
-                            </ul>
-                        </div>
                     </li>
                 @endcan
 
@@ -745,36 +722,18 @@
                 <li class="nav-item {{ (request()->is('admin/admin-role') ||
                                         request()->is('admin/admin-role/create') ||
                                         request()->is('admin/admin-role/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" data-toggle="collapse" href="#admin_roles" aria-expanded="false" aria-controls="admin_roles">
+                    <a class="nav-link" href="{{ url('admin/admin-role') }}">
                         <i class="fas fa-user-lock menu-icon"></i>
                         <span class="menu-title">{{ __('content.admin_role_manage') }}</span>
-                        <i class="ti-angle-right"></i>
                     </a>
-                    <div class="collapse {{ (request()->is('admin/admin-role') ||
-                                        request()->is('admin/admin-role/create') ||
-                                        request()->is('admin/admin-role/*/edit')) ? 'show' : '' }}" id="admin_roles">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role/create')) ? 'active' : '' }}" href="{{ url('admin/admin-role/create') }}">{{ __('content.add_admin_role') }}</a></li>
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-role') || request()->is('admin/admin-role/*/edit')) ? 'active' : '' }}" href="{{ url('admin/admin-role') }}">{{ __('content.admin_roles') }}</a></li>
-                        </ul>
-                    </div>
                 </li>
                 <li class="nav-item {{ (request()->is('admin/admin-user') ||
                                         request()->is('admin/admin-user/create') ||
                                         request()->is('admin/admin-user/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" data-toggle="collapse" href="#admins" aria-expanded="false" aria-controls="admins">
+                    <a class="nav-link" href="{{ url('admin/admin-user') }}">
                         <i class="fas fa-users menu-icon"></i>
                         <span class="menu-title">{{ __('content.admin_manage') }}</span>
-                        <i class="ti-angle-right"></i>
                     </a>
-                    <div class="collapse {{ (request()->is('admin/admin-user') ||
-                                        request()->is('admin/admin-user/create') ||
-                                        request()->is('admin/admin-user/*/edit')) ? 'show' : '' }}" id="admins">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user/create')) ? 'active' : '' }}" href="{{ url('admin/admin-user/create') }}">{{ __('content.add_admin_user') }}</a></li>
-                            <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/admin-user') || request()->is('admin/admin-user/*/edit')) ? 'active' : '' }}" href="{{ url('admin/admin-user') }}">{{ __('content.all_admin') }}</a></li>
-                        </ul>
-                    </div>
                 </li>
                 @endhasrole
                 @can('settings check')
@@ -785,28 +744,10 @@
                                             request()->is('admin/color-option/create') ||
                                             request()->is('admin/google-analytic/create') ||
                                             request()->is('admin/seo/create')) ? 'active' : '' }}">
-                        <a class="nav-link" data-toggle="collapse" href="#settings" aria-expanded="false" aria-controls="settings">
+                        <a class="nav-link" href="{{ url('admin/site-info/create') }}" data-ni-match="/admin/site-info,/admin/site-image,/admin/breadcrumb,/admin/section,/admin/color-option,/admin/google-analytic,/admin/seo">
                             <i class="fas fa-fw fa-cog menu-icon"></i>
                             <span class="menu-title">{{ __('content.settings') }}</span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse {{ (request()->is('admin/site-info/create') ||
-                                                 request()->is('admin/site-image/create') ||
-                                                 request()->is('admin/breadcrumb/create') ||
-                                                 request()->is('admin/section/create') ||
-                                                 request()->is('admin/color-option/create') ||
-                                                 request()->is('admin/google-analytic/create') ||
-                                                 request()->is('admin/seo/create')) ? 'show' : '' }}" id="settings">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/site-info/create')) ? 'active' : '' }}" href="{{ url('admin/site-info/create') }}">{{ __('content.site_info') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/site-image/create')) ? 'active' : '' }}" href="{{ url('admin/site-image/create') }}">{{ __('content.site_images') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/google-analytic/create')) ? 'active' : '' }}" href="{{ url('admin/google-analytic/create') }}">{{ __('content.google_analytic') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/breadcrumb/create')) ? 'active' : '' }}" href="{{ url('admin/breadcrumb/create') }}">{{ __('content.breadcrumb') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/section/create')) ? 'active' : '' }}" href="{{ url('admin/section/create') }}">{{ __('content.sections') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/color-option/create')) ? 'active' : '' }}" href="{{ url('admin/color-option/create') }}">{{ __('content.color_option') }}</a></li>
-                                <li class="nav-item"> <a class="nav-link {{ (request()->is('admin/seo/create')) ? 'active' : '' }}" href="{{ url('admin/seo/create') }}">{{ __('content.seo') }}</a></li>
-                            </ul>
-                        </div>
                     </li>
                 @endcan
                 @can('language check')
@@ -913,7 +854,7 @@
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
-    <script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=12" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=14" defer></script>
 @endif
 
 @if ($needsAdminPickers)
@@ -1032,34 +973,59 @@
         syncBulkDeleteButton();
     }
 
-    // Get checkbox list
-    function btnCheckListGet() {
-        //Create an Array.
-        var selected = new Array();
-
-        //Reference the CheckBoxes and insert the checked CheckBox value in Array.
-        $("#basic-datatable input[name='check_list[]']:checked").each(function () {
-            selected.push(this.value);
-        });
-
-        //Display the selected CheckBox values.
-        if (selected.length > 0) {
-            selected.join(",");
+    function collectCheckedListIds() {
+        var selected = [];
+        var seen = {};
+        var nodes = document.querySelectorAll("input[name='check_list[]']:checked");
+        for (var i = 0; i < nodes.length; i++) {
+            var value = (nodes[i].value || "").trim();
+            if (!value || seen[value]) continue;
+            seen[value] = true;
+            selected.push(value);
         }
-
-        return document.getElementById("checked_lists").value = selected;
+        return selected;
     }
+
+    // Get checkbox list (must return comma-separated string for Laravel)
+    function btnCheckListGet() {
+        var selected = collectCheckedListIds();
+        var field = document.getElementById("checked_lists");
+        if (!field) {
+            return false;
+        }
+        field.value = selected.join(",");
+        return selected.length > 0;
+    }
+
+    window.syncBulkDeleteButton = syncBulkDeleteButton;
+    window.showHideDeleteButton = showHideDeleteButton;
+    window.showHideDeleteButton2 = showHideDeleteButton2;
+    window.btnCheckListGet = btnCheckListGet;
+    window.collectCheckedListIds = collectCheckedListIds;
+
+    // Reliable bulk-delete submit (works even when inline handlers are skipped)
+    document.addEventListener("submit", function (event) {
+        var form = event.target;
+        if (!form || form.tagName !== "FORM") return;
+        var field = form.querySelector("#checked_lists, input[name='checked_lists']");
+        if (!field) return;
+
+        var selected = collectCheckedListIds();
+        field.value = selected.join(",");
+        if (!selected.length) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
 
 
 
 </script>
 
 <!-- Custom JS -->
-<script src="{{ asset('assets/admin/side_menu/js/custom.js') }}?v=4"></script>
-<!-- Dark / Light Mode -->
+<script src="{{ asset('assets/admin/side_menu/js/custom.js') }}?v=5"></script>
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
-<!-- Dark / Light Mode -->
-<script src="{{ asset('assets/frontend/js/theme-mode.js') }}"></script>
+<script src="{{ asset('assets/frontend/js/language-switch.js') }}?v=1" defer></script>
 <script>
 (function () {
     var toggle = document.getElementById('niAdminSearchToggle');
@@ -1191,7 +1157,7 @@
 <script src="{{ asset('assets/admin/side_menu/js/ni-number-input.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=2" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=4" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=5" defer></script>
 
 </body>
 

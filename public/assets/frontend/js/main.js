@@ -32,6 +32,7 @@ $( document ).ready( function() {
     Filaous_Color_Options();
     Filaous_ClickSplash();
     Filaous_MouseTrail();
+    Filaous_TechSparkles();
 });
 
 /* -------------------------------------------------------------------
@@ -188,6 +189,9 @@ function Filaous_Carousel(){
     let blogCarousel            = $( '#blogCarousel');
     let testimonialCarousel     = $( '#testimonialCarousel');
     let portfolioCarousel       = $( '#portfolioCarousel');
+    let portfolioSideCarousel   = $( '#portfolioSideCarousel');
+    let blogSideCarousel        = $( '#blogSideCarousel');
+    let serviceSideCarousel     = $( '#serviceSideCarousel');
 
     testimonialCarousel.owlCarousel({
         loop:true,
@@ -249,6 +253,45 @@ function Filaous_Carousel(){
             }
         }
     });
+
+    if (portfolioSideCarousel.length && portfolioSideCarousel.find('.item').length) {
+        portfolioSideCarousel.owlCarousel({
+            items: 1,
+            loop: portfolioSideCarousel.find('.item').length > 1,
+            margin: 0,
+            nav: false,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 4200,
+            smartSpeed: 550
+        });
+    }
+
+    if (blogSideCarousel.length && blogSideCarousel.find('.item').length) {
+        blogSideCarousel.owlCarousel({
+            items: 1,
+            loop: blogSideCarousel.find('.item').length > 1,
+            margin: 0,
+            nav: false,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 4200,
+            smartSpeed: 550
+        });
+    }
+
+    if (serviceSideCarousel.length && serviceSideCarousel.find('.item').length) {
+        serviceSideCarousel.owlCarousel({
+            items: 1,
+            loop: serviceSideCarousel.find('.item').length > 1,
+            margin: 0,
+            nav: false,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 4200,
+            smartSpeed: 550
+        });
+    }
 }
 
 /* -------------------------------------------------------------------
@@ -276,13 +319,49 @@ function Filaous_MGFPopup(){
     let youtubePopup = $( '.about-video-btn' );
     let designProcessPopup = $( '.design-process-video-btn' );
 
+    function youtubeEmbedId(url) {
+        if (!url) return null;
+        var short = url.match(/youtu\.be\/([^?&#]+)/);
+        if (short) return short[1];
+        var watch = url.match(/[?&]v=([^&]+)/);
+        if (watch) return watch[1];
+        var embed = url.match(/youtube\.com\/embed\/([^?&#]+)/);
+        return embed ? embed[1] : null;
+    }
+
+    youtubePopup.each(function () {
+        var href = $(this).attr('href') || '';
+        var id = youtubeEmbedId(href);
+        if (id) {
+            $(this).attr('href', 'https://www.youtube.com/watch?v=' + id);
+        }
+    });
+
     youtubePopup.magnificPopup({
         disableOn: 700,
         type: 'iframe',
         mainClass: 'mfp-fade',
         removalDelay: 160,
         preloader: false,
-        fixedContentPos: false
+        fixedContentPos: false,
+        iframe: {
+            markup: '<div class="mfp-iframe-scaler">'+
+                      '<div class="mfp-close"></div>'+
+                      '<iframe class="mfp-iframe" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'+
+                    '</div>',
+            patterns: {
+                youtube: {
+                    index: 'youtube.com/',
+                    id: youtubeEmbedId,
+                    src: 'https://www.youtube.com/embed/%id%?autoplay=1&rel=0'
+                },
+                youtu_be: {
+                    index: 'youtu.be/',
+                    id: youtubeEmbedId,
+                    src: 'https://www.youtube.com/embed/%id%?autoplay=1&rel=0'
+                }
+            }
+        }
     });
     designProcessPopup.magnificPopup({
         disableOn: 700,
@@ -710,4 +789,82 @@ function Filaous_MouseTrail() {
             }, life + 40);
         }
     }
+}
+
+/* -------------------------------------------------------------------
+ * Tech icons — sparkle trail while hovering / moving mouse
+------------------------------------------------------------------- */
+function Filaous_TechSparkles() {
+    "use strict";
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    if (window.matchMedia && !window.matchMedia('(pointer: fine)').matches) {
+        return;
+    }
+
+    var colors = ['#15bf86', '#23e0a3', '#8ef0d0', '#ffffff', '#0d8f63'];
+    var lastX = -9999;
+    var lastY = -9999;
+    var active = 0;
+    var maxActive = 28;
+    var minDist = 10;
+
+    $(document).on('mousemove', '#myresume .tech-item', function (event) {
+        var x = event.clientX;
+        var y = event.clientY;
+        var dx = x - lastX;
+        var dy = y - lastY;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < minDist) {
+            return;
+        }
+
+        lastX = x;
+        lastY = y;
+
+        var count = dist > 28 ? 3 : 2;
+        for (var i = 0; i < count; i += 1) {
+            if (active >= maxActive) {
+                break;
+            }
+
+            active += 1;
+
+            var spark = document.createElement('span');
+            var size = 3 + Math.random() * 5;
+            var offsetX = (Math.random() - 0.5) * 14;
+            var offsetY = (Math.random() - 0.5) * 14;
+            var driftX = (Math.random() - 0.5) * 28;
+            var driftY = (Math.random() - 0.5) * 28 - 8;
+            var life = 380 + Math.random() * 320;
+            var isStar = i === 0 && Math.random() > 0.55;
+
+            spark.className = 'ni-tech-spark' + (isStar ? ' is-star' : '');
+            spark.style.left = (x + offsetX) + 'px';
+            spark.style.top = (y + offsetY) + 'px';
+            spark.style.setProperty('--size', size.toFixed(1) + 'px');
+            spark.style.setProperty('--dx', driftX.toFixed(1) + 'px');
+            spark.style.setProperty('--dy', driftY.toFixed(1) + 'px');
+            spark.style.setProperty('--life', life.toFixed(0) + 'ms');
+            spark.style.setProperty('--dot-color', colors[Math.floor(Math.random() * colors.length)]);
+
+            document.body.appendChild(spark);
+
+            (function (el, lifeMs) {
+                window.setTimeout(function () {
+                    el.remove();
+                    active = Math.max(0, active - 1);
+                }, lifeMs + 40);
+            })(spark, life);
+        }
+    });
+
+    $(document).on('mouseleave', '#myresume .tech-item', function () {
+        lastX = -9999;
+        lastY = -9999;
+    });
 }

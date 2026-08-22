@@ -1259,6 +1259,10 @@ div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"]:not(:
   border-top: 1px solid var(--ni-border);
 }
 
+.ni-info-list-gap {
+  margin-top: 2rem !important;
+}
+
 .ni-global-table__add-source {
   display: none;
 }
@@ -4079,7 +4083,7 @@ body.ni-spa-loading::before {
   right: 0;
   height: 2px;
   z-index: 99999;
-  background: linear-gradient(90deg, transparent, var(--ni-primary), transparent);
+  background: linear-gradient(90deg, transparent, rgba(160, 168, 176, 0.55), transparent);
   animation: ni-spa-progress 0.8s ease-in-out infinite;
   pointer-events: none;
 }

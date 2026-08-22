@@ -94,7 +94,7 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=103">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=119">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -381,6 +381,7 @@
                                             @endphp
                                             <a href="{{ url('language/set-locale/'.$display_dropdown->id) }}"
                                                class="lang-toggle-btn{{ $isActiveLang ? ' active' : '' }}"
+                                               data-language-id="{{ $display_dropdown->id }}"
                                                @if ($isActiveLang) aria-current="true" @endif
                                                title="{{ $display_dropdown->language_name }}">{{ $langShort }}</a>
                                         @endforeach
@@ -501,8 +502,12 @@
                                 <img src="{{ asset('uploads/img/about/'.$about->about_image) }}" alt="About image" title="About image" class="img-fluid">
                                 @if (!empty($about->video_link))
                                     <a class="about-video-btn" href="{{ $about->video_link }}" aria-label="Play demo video">
+                                        <span class="about-video-btn__pulse" aria-hidden="true"></span>
+                                        <span class="about-video-btn__pulse about-video-btn__pulse--delay" aria-hidden="true"></span>
                                         <span class="about-video-btn__ring" aria-hidden="true"></span>
-                                        <span class="about-video-btn__icon" aria-hidden="true"></span>
+                                        <span class="about-video-btn__core" aria-hidden="true">
+                                            <span class="about-video-btn__icon"></span>
+                                        </span>
                                     </a>
                                 @endif
                             </div>
@@ -544,9 +549,13 @@
                         <div class="col-lg-6 about-media-col">
                             <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
                                 <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
-                                <a class="about-video-btn" href="https://www.youtube.com/watch?v=YqQx75OPRa0" aria-label="Play demo video">
+                                <a class="about-video-btn" href="https://youtu.be/9dqvwS7NoxI" aria-label="Play demo video">
+                                    <span class="about-video-btn__pulse" aria-hidden="true"></span>
+                                    <span class="about-video-btn__pulse about-video-btn__pulse--delay" aria-hidden="true"></span>
                                     <span class="about-video-btn__ring" aria-hidden="true"></span>
-                                    <span class="about-video-btn__icon" aria-hidden="true"></span>
+                                    <span class="about-video-btn__core" aria-hidden="true">
+                                        <span class="about-video-btn__icon"></span>
+                                    </span>
                                 </a>
                             </div>
                         </div>
@@ -628,51 +637,85 @@
                             :subtitle="$feature_section->section_title"
                             :dots="true" />
                        @endisset
+                    @php
+                        $techOfficialUrls = [
+                            'laravel' => 'https://laravel.com',
+                            'vue.js' => 'https://vuejs.org',
+                            'vuejs' => 'https://vuejs.org',
+                            'php' => 'https://www.php.net',
+                            'node.js' => 'https://nodejs.org',
+                            'nodejs' => 'https://nodejs.org',
+                            'mysql' => 'https://www.mysql.com',
+                            'react.js' => 'https://react.dev',
+                            'react' => 'https://react.dev',
+                            'nuxt.js' => 'https://nuxt.com',
+                            'nuxt' => 'https://nuxt.com',
+                            'vuex' => 'https://vuex.vuejs.org',
+                            'typescript' => 'https://www.typescriptlang.org',
+                            'ts' => 'https://www.typescriptlang.org',
+                            'redis' => 'https://redis.io',
+                            'deploy' => 'https://www.docker.com',
+                            'cursor' => 'https://cursor.com',
+                            'primevue' => 'https://primevue.org',
+                            'primereact' => 'https://primereact.org',
+                            'next.js' => 'https://nextjs.org',
+                            'nextjs' => 'https://nextjs.org',
+                            'next' => 'https://nextjs.org',
+                            'zustand' => 'https://zustand.docs.pmnd.rs',
+                            'redux' => 'https://redux.js.org',
+                            'pinia' => 'https://pinia.vuejs.org',
+                            'livewire' => 'https://livewire.laravel.com',
+                        ];
+
+                        $techItems = collect($main_features ?? $features)
+                            ->concat($sub_features ?? [])
+                            ->reject(function ($feature) {
+                                $title = strtolower(trim((string) ($feature->title ?? '')));
+                                return in_array($title, ['ci/cd', 'cicd', 'ci-cd'], true);
+                            })
+                            ->values();
+                    @endphp
                     <div class="row tech-grid tech-grid--main">
-                        @foreach (($main_features ?? $features) as $feature)
-                            <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.{{ $loop->index }}s">
-                                <div class="resume-item resume-item--main">
-                                    <div class="body">
+                        @foreach ($techItems as $feature)
+                            @php
+                                $techKey = strtolower(trim((string) $feature->title));
+                                $techUrl = $techOfficialUrls[$techKey] ?? null;
+                            @endphp
+                            <div class="col-6 col-sm-4 col-lg-2 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.{{ min($loop->index, 5) }}s">
+                                @if ($techUrl)
+                                    <a class="tech-item tech-item--main{{ !empty($feature->desc) ? ' has-tooltip' : '' }}"
+                                       href="{{ $techUrl }}"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="{{ $feature->title }} official website">
                                         <x-frontend.tech-icon
                                             :title="$feature->title"
                                             :type="$feature->type"
                                             :icon="$feature->icon"
                                             :feature-image="$feature->feature_image"
                                             size="main" />
-                                        <div class="text">
-                                            <h5>{{ $feature->title }}</h5>
-                                            @if (!empty($feature->desc)) <span>{{ $feature->desc }}</span> @endif
-                                        </div>
+                                        <h5>{{ $feature->title }}</h5>
+                                        @if (!empty($feature->desc))
+                                            <span class="tech-tooltip" role="tooltip">{{ $feature->desc }}</span>
+                                        @endif
+                                    </a>
+                                @else
+                                    <div class="tech-item tech-item--main{{ !empty($feature->desc) ? ' has-tooltip' : '' }}">
+                                        <x-frontend.tech-icon
+                                            :title="$feature->title"
+                                            :type="$feature->type"
+                                            :icon="$feature->icon"
+                                            :feature-image="$feature->feature_image"
+                                            size="main" />
+                                        <h5>{{ $feature->title }}</h5>
+                                        @if (!empty($feature->desc))
+                                            <span class="tech-tooltip" role="tooltip">{{ $feature->desc }}</span>
+                                        @endif
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         @endforeach
                     </div>
-                    @if (isset($sub_features) && count($sub_features) > 0)
-                        <div class="tech-sub-stack">
-                            <p class="tech-sub-stack__label">Supporting Stack</p>
-                            <div class="row tech-grid tech-grid--sub">
-                                @foreach ($sub_features as $feature)
-                                    <div class="tech-sub-col wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.{{ min($loop->index, 5) }}s">
-                                        <div class="resume-item resume-item--sub">
-                                            <div class="body">
-                                                <x-frontend.tech-icon
-                                                    :title="$feature->title"
-                                                    :type="$feature->type"
-                                                    :icon="$feature->icon"
-                                                    :feature-image="$feature->feature_image"
-                                                    size="sub" />
-                                                <div class="text">
-                                                    <h5>{{ $feature->title }}</h5>
-                                                    @if (!empty($feature->desc)) <span>{{ $feature->desc }}</span> @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
                 </div>
             </section>
         @else
@@ -683,101 +726,62 @@
                         subtitle="Features"
                         :dots="true" />
                     <div class="row tech-grid tech-grid--main">
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.1s">
-                            <div class="resume-item resume-item--main">
-                                <div class="body">
-                                    <x-frontend.tech-icon title="Laravel" type="icon" size="main" />
-                                    <div class="text">
-                                        <h5>Laravel</h5>
-                                        <span>Secure Laravel backends, admin panels, and business web apps built for scalability and maintainability.</span>
-                                    </div>
-                                </div>
+                        @php
+                            $techOfficialUrls = [
+                                'laravel' => 'https://laravel.com',
+                                'vue.js' => 'https://vuejs.org',
+                                'php' => 'https://www.php.net',
+                                'node.js' => 'https://nodejs.org',
+                                'mysql' => 'https://www.mysql.com',
+                                'react.js' => 'https://react.dev',
+                                'nuxt.js' => 'https://nuxt.com',
+                                'vuex' => 'https://vuex.vuejs.org',
+                                'typescript' => 'https://www.typescriptlang.org',
+                                'redis' => 'https://redis.io',
+                                'deploy' => 'https://www.docker.com',
+                                'cursor' => 'https://cursor.com',
+                                'primevue' => 'https://primevue.org',
+                                'primereact' => 'https://primereact.org',
+                                'next.js' => 'https://nextjs.org',
+                                'zustand' => 'https://zustand.docs.pmnd.rs',
+                                'redux' => 'https://redux.js.org',
+                                'pinia' => 'https://pinia.vuejs.org',
+                            ];
+                            $demoTechs = [
+                                'Laravel' => 'Secure Laravel backends, admin panels, and business web apps built for scalability and maintainability.',
+                                'Vue.js' => 'Fast Vue.js frontends with reusable components, smooth interactions, and clean interface architecture.',
+                                'PHP' => 'Custom PHP development for websites, APIs, and server-side logic with stable, production-ready code.',
+                                'Node.js' => 'Node.js APIs and real-time services for modern full-stack web products and integrations.',
+                                'MySQL' => 'Optimized MySQL database design for secure storage, efficient queries, and scalable web applications.',
+                                'React.js' => 'React.js dashboards and web interfaces with modular components, responsive layouts, and smooth user flows.',
+                                'Nuxt.js' => 'Vue meta-framework for SSR, routing, and high-performance web apps.',
+                                'Vuex' => 'Centralized state management for Vue applications and shared data.',
+                                'TypeScript' => 'Typed JavaScript for safer, scalable frontend and full-stack applications.',
+                                'Redis' => 'In-memory caching and queues for faster APIs and real-time performance.',
+                                'Deploy' => 'Cloud and VPS deployment with Docker and zero-downtime strategy.',
+                                'Cursor' => 'AI-assisted development workflow for faster coding and debugging.',
+                                'PrimeVue' => 'Vue UI component library for dashboards, forms, and rich admin interfaces.',
+                                'PrimeReact' => 'React UI component library for production-ready dashboards and app layouts.',
+                                'Next.js' => 'React framework for SSR, routing, and scalable production frontends.',
+                                'Zustand' => 'Lightweight React state management with a simple, scalable store API.',
+                                'Redux' => 'Predictable React state container for complex application data flows.',
+                                'Pinia' => 'Modern Vue store for typed, modular, and maintainable state.',
+                            ];
+                        @endphp
+                        @foreach ($demoTechs as $demoTech => $demoDesc)
+                            @php $techUrl = $techOfficialUrls[strtolower($demoTech)] ?? '#'; @endphp
+                            <div class="col-6 col-sm-4 col-lg-2 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.{{ min($loop->index, 5) }}s">
+                                <a class="tech-item tech-item--main has-tooltip"
+                                   href="{{ $techUrl }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   aria-label="{{ $demoTech }} official website">
+                                    <x-frontend.tech-icon :title="$demoTech" type="icon" size="main" />
+                                    <h5>{{ $demoTech }}</h5>
+                                    <span class="tech-tooltip" role="tooltip">{{ $demoDesc }}</span>
+                                </a>
                             </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.2s">
-                            <div class="resume-item resume-item--main">
-                                <div class="body">
-                                    <x-frontend.tech-icon title="Vue.js" type="icon" size="main" />
-                                    <div class="text">
-                                        <h5>Vue.js</h5>
-                                        <span>Fast Vue.js frontends with reusable components, smooth interactions, and clean interface architecture.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.3s">
-                            <div class="resume-item resume-item--main">
-                                <div class="body">
-                                    <x-frontend.tech-icon title="PHP" type="icon" size="main" />
-                                    <div class="text">
-                                        <h5>PHP</h5>
-                                        <span>Custom PHP development for websites, APIs, and server-side logic with stable, production-ready code.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.4s">
-                            <div class="resume-item resume-item--main">
-                                <div class="body">
-                                    <x-frontend.tech-icon title="Node.js" type="icon" size="main" />
-                                    <div class="text">
-                                        <h5>Node.js</h5>
-                                        <span>Node.js APIs and real-time services for modern full-stack web products and integrations.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.5s">
-                            <div class="resume-item resume-item--main">
-                                <div class="body">
-                                    <x-frontend.tech-icon title="MySQL" type="icon" size="main" />
-                                    <div class="text">
-                                        <h5>MySQL</h5>
-                                        <span>Optimized MySQL database design for secure storage, efficient queries, and scalable web applications.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0.6s">
-                            <div class="resume-item resume-item--main">
-                                <div class="body">
-                                    <x-frontend.tech-icon title="React.js" type="icon" size="main" />
-                                    <div class="text">
-                                        <h5>React.js</h5>
-                                        <span>React.js dashboards and web interfaces with modular components, responsive layouts, and smooth user flows.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tech-sub-stack">
-                        <p class="tech-sub-stack__label">Supporting Stack</p>
-                        <div class="row tech-grid tech-grid--sub">
-                            @php
-                                $demoSubFeatures = [
-                                    ['title' => 'Redis', 'desc' => 'In-memory caching and queues for faster APIs and real-time performance.'],
-                                    ['title' => 'CI/CD', 'desc' => 'Automated testing and deployment pipelines for stable releases.'],
-                                    ['title' => 'Deploy', 'desc' => 'Cloud and VPS deployment with Docker and zero-downtime strategy.'],
-                                    ['title' => 'Cursor', 'desc' => 'AI-assisted development workflow for faster coding and debugging.'],
-                                    ['title' => 'PrimeVue', 'desc' => 'Vue UI component library for dashboards, forms, and rich admin interfaces.'],
-                                    ['title' => 'PrimeReact', 'desc' => 'React UI component library for production-ready dashboards and app layouts.'],
-                                    ['title' => 'Next.js', 'desc' => 'React framework for SSR, routing, and scalable production frontends.'],
-                                    ['title' => 'Zustand', 'desc' => 'Lightweight React state management with a simple, scalable store API.'],
-                                    ['title' => 'Redux', 'desc' => 'Predictable React state container for complex application data flows.'],
-                                    ['title' => 'Pinia', 'desc' => 'Modern Vue store for typed, modular, and maintainable state.'],
-                                ];
-                            @endphp
-                            @foreach ($demoSubFeatures as $demoFeature)
-                                <div class="tech-sub-col wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.{{ min($loop->index, 5) }}s">
-                                    <div class="resume-item resume-item--sub">
-                                        <div class="body">
-                                            <x-frontend.tech-icon :title="$demoFeature['title']" type="icon" size="sub" />
-                                            <div class="text"><h5>{{ $demoFeature['title'] }}</h5><span>{{ $demoFeature['desc'] }}</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </section>
@@ -2231,8 +2235,9 @@
 <script src="{{ asset('assets/frontend/vendor/js/scrollit.min.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/isotope.min.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/particles.js') }}" defer></script>
-<script src="{{ asset('assets/frontend/js/main.js') }}?v=82" defer></script>
+<script src="{{ asset('assets/frontend/js/main.js') }}?v=87" defer></script>
 <script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=3" defer></script>
+<script src="{{ asset('assets/frontend/js/language-switch.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}" defer></script>
 
 @if (session()->has('language_direction_from_dropdown'))

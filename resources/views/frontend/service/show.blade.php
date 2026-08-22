@@ -1,132 +1,164 @@
 @extends('layouts.frontend.master')
 
 @section('content')
+@php
+    $shortDesc = $service->short_desc
+        ?: ($service->meta_desc ?? null)
+        ?: \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags(html_entity_decode($service->desc)))), 160);
 
-    <!--// Breadcrumb Section Start //-->
-    <section class="breadcrumb-section section" data-scroll-index="1" @if ($service->breadcrumb_status == 1 && !empty($service->custom_breadcrumb_image))  data-bg-image-path = "{{ asset('uploads/img/service/breadcrumb/'.$service->custom_breadcrumb_image) }}"
-             @elseif (isset($breadcrumb)) data-bg-image-path = "{{ asset('uploads/img/general/'.$breadcrumb->breadcrumb_image) }}"
-             @else data-bg-image-path="{{ asset('uploads/img/dummy/1920x350.jpg') }}"
-            @endif>
+    $infoBar = collect($details ?? [])->take(4)->values();
+    if ($infoBar->isEmpty()) {
+        $infoBar = collect([
+            (object) ['title' => 'Service', 'desc' => $service->title],
+            (object) ['title' => 'Date', 'desc' => \Carbon\Carbon::parse($service->created_at)->format('F Y')],
+            (object) ['title' => 'Status', 'desc' => ((int) $service->status === 1) ? 'Published' : 'Draft'],
+            (object) ['title' => 'Type', 'desc' => 'Professional'],
+        ]);
+    }
+
+    $relatedServices = collect($related_services ?? []);
+    $sideItems = $relatedServices->isNotEmpty()
+        ? $relatedServices
+        : collect($recent_posts ?? []);
+    $sideIsService = $relatedServices->isNotEmpty();
+@endphp
+
+    <section class="section page-content-offset ni-detail-page ni-detail-page--service" id="service-sidebar-page">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="breadcrumb-inner">
-                        <h1>{{ $service->title }}</h1>
-                        <ul class="breadcrumb-links">
-                            <li>
-                                <a href="{{ url('/') }}">{{ __('frontend.home') }}</a>
-                            </li>
-                            <li class="active">
-                                {{ $service->title }}
-                            </li>
-                        </ul>
-                    </div>
+            <div class="ni-detail-hero">
+                <div class="ni-detail-hero__text">
+                    <h1 class="ni-detail-hero__title">{{ $service->title }}</h1>
+                    @if (!empty($shortDesc))
+                        <p class="ni-detail-hero__lead">{{ $shortDesc }}</p>
+                    @endif
+                </div>
+                <div class="ni-detail-hero__actions">
+                    <a class="ni-detail-btn ni-detail-btn--primary" href="{{ url('/#services') }}">
+                        <span>{{ __('frontend.services') }}</span>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                    <a class="ni-detail-back" href="{{ url('/#services') }}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        <span>Back to Services</span>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
-    <!--// Breadcrumb Section end //-->
 
-    <!--// Services Section Start //-->
-    <section class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-12">
-                    @if ($service->image_status == "enable")
-                        @if (!empty($service->service_image))
-                            <div class="services-detail-top">
-                                <img src="{{ asset('uploads/img/service/'.$service->service_image) }}" alt="image" class="img-fluid">
-                                @if (!empty($service->icon)) <span class="{{ $service->icon }}"></span> @endif
-                            </div>
-                            @endif
+            <div class="ni-detail-meta">
+                @foreach ($infoBar as $item)
+                    <div class="ni-detail-meta__item">
+                        <span class="ni-detail-meta__label">{{ $item->title }}</span>
+                        <span class="ni-detail-meta__value">{{ $item->desc }}</span>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="row ni-detail-media">
+                <div class="col-lg-7">
+                    <div class="ni-detail-media__main">
+                        @if ($service->image_status == 'enable' && !empty($service->service_image))
+                            <img src="{{ asset('uploads/img/service/'.$service->service_image) }}" alt="{{ $service->title }}" class="img-fluid" fetchpriority="high" decoding="async">
+                        @else
+                            <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $service->title }}" class="img-fluid">
                         @endif
-                    <div class="services-detail-inner">
-                        <h2>{{ $service->title }}</h2>
-                        <p>@php echo html_entity_decode($service->desc); @endphp</p>
+                        @if (!empty($service->icon))
+                            <span class="ni-detail-service-icon {{ $service->icon }}" aria-hidden="true"></span>
+                        @endif
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-12">
-                    <div class="widget-sidebar">
-                        @if (count($details) > 0)
-                            <div class="sidebar-widgets">
-                                <h5 class="inner-header-title">{{ __('frontend.service_details') }}</h5>
-                                <div class="sidebar-details-list">
-                                    <ul>
-                                       @foreach ($details as $detail)
-                                            <li><h6>{{ $detail->title }}<span>{{ $detail->desc }}</span></h6></li>
-                                           @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                            @endif
-                        @if (count($recent_posts) > 0)
-                                <div class="sidebar-widgets">
-                                    <h5 class="inner-header-title">{{ __('frontend.recent_posts') }}</h5>
-                                    @foreach ($recent_posts as $recent_post)
-                                        <div class="recent-post-item clearfix">
-                                            <div class="recent-post-img mr-3">
-                                                <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
-                                                    @if (!empty($recent_post->blog_image))
-                                                                <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" class="img-fluid image-size-100" alt="blog image">
-                                                    @else
-                                                        <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" class="img-fluid image-size-100"  alt="blog image">
-                                                    @endif
-                                                </a>
-                                            </div>
-                                            <div class="recent-post-body">
-                                                <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
-                                                    <h6 class="recent-post-title">{{ $recent_post->title }}</h6>
-                                                </a>
-                                                <p class="recent-post-date"><i class="far fa-calendar-alt"></i>{{ Carbon\Carbon::parse($recent_post->created_at)->isoFormat('DD') }} {{ Carbon\Carbon::parse($recent_post->created_at)->isoFormat('MMMM') }} {{ Carbon\Carbon::parse($recent_post->created_at)->isoFormat('GGGG') }}</p>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                </div>
-                            @endif
-                            <div class="sidebar-widgets">
-                                <h5 class="inner-header-title">{{ __('frontend.share') }}</h5>
-                                <ul class="sidebar-share clearfix">
-                                    <li>
-                                        <a href="{{$service->getShareUrl('twitter')}}" target="_blank">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{$service->getShareUrl('whatsapp')}}" target="_blank">
-                                            <i class="fab fa-whatsapp"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{$service->getShareUrl('pinterest')}}" target="_blank">
-                                            <i class="fab fa-pinterest"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="sidebar-widgets">
-                                <div class="subscribe-newsletter">
-                                    <div class="subscribe-newsletter-text">
-                                        <div class="icon">
-                                            <span class="fa fa-envelope-open-text"></span>
-                                        </div>
-                                        <h5>{{ __('frontend.subscribe_newsletter') }}</h5>
-                                        <p>Receive the latest news updates</p>
-                                        <form action="{{ route('subscribe-section.store') }}" method="POST">
-                                            @csrf
-                                            <div class="form-newsletter">
-                                                <input type="text" name="email" placeholder="{{ __('frontend.enter_email') }}" required>
-                                                <button><i class="fa fa-arrow-right"></i></button>
-                                            </div>
-                                        </form>
+                <div class="col-lg-5">
+                    <div class="ni-detail-media__side">
+                        @if ($sideItems->count() > 0)
+                            <div class="owl-carousel owl-theme ni-detail-side-carousel" id="serviceSideCarousel">
+                                @foreach ($sideItems as $sideItem)
+                                    <div class="item">
+                                        @if ($sideIsService)
+                                            <a class="ni-detail-side-card" href="{{ route('service-page.show', ['service_slug' => $sideItem->service_slug]) }}">
+                                                @if (!empty($sideItem->service_image))
+                                                    <img src="{{ asset('uploads/img/service/'.$sideItem->service_image) }}" alt="{{ $sideItem->title }}" class="img-fluid" loading="lazy" decoding="async">
+                                                @else
+                                                    <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $sideItem->title }}" class="img-fluid" loading="lazy" decoding="async">
+                                                @endif
+                                                <div class="ni-detail-side-card__overlay">
+                                                    <span>Service</span>
+                                                    <h4>{{ $sideItem->title }}</h4>
+                                                </div>
+                                            </a>
+                                        @else
+                                            <a class="ni-detail-side-card" href="{{ route('blog-page.show', ['slug' => $sideItem->slug]) }}">
+                                                @if (!empty($sideItem->blog_image))
+                                                    <img src="{{ asset('uploads/img/blogs/'.$sideItem->blog_image) }}" alt="{{ $sideItem->title }}" class="img-fluid" loading="lazy" decoding="async">
+                                                @else
+                                                    <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $sideItem->title }}" class="img-fluid" loading="lazy" decoding="async">
+                                                @endif
+                                                <div class="ni-detail-side-card__overlay">
+                                                    <span>Recent</span>
+                                                    <h4>{{ $sideItem->title }}</h4>
+                                                </div>
+                                            </a>
+                                        @endif
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
+                        @else
+                            <div class="ni-detail-side-panel ni-detail-side-panel--empty">
+                                <div class="ni-detail-wire">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <p>{{ $service->title }}</p>
+                            </div>
+                        @endif
                     </div>
+                </div>
+            </div>
+
+            <div class="ni-detail-body">
+                <h2 class="ni-detail-body__title">
+                    <i class="fas fa-cogs" aria-hidden="true"></i>
+                    <span>{{ $service->title }}</span>
+                </h2>
+
+                <div class="ni-detail-body__block">
+                    <h3 class="ni-detail-body__label">Overview</h3>
+                    <div class="ni-detail-body__content">
+                        @php echo html_entity_decode($service->desc); @endphp
+                    </div>
+                </div>
+
+                @if (count($details) > 0)
+                    <div class="ni-detail-body__block">
+                        <h3 class="ni-detail-body__label">{{ __('frontend.service_details') }}</h3>
+                        <div class="ni-detail-service-list">
+                            @foreach ($details as $detail)
+                                <div class="ni-detail-service-list__item">
+                                    <h4>{{ $detail->title }}</h4>
+                                    <p>{{ $detail->desc }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <div class="ni-detail-share">
+                    <span class="ni-detail-share__label">{{ __('frontend.share') }}</span>
+                    <a href="{{ $service->getShareUrl('twitter') }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $service->getShareUrl('whatsapp') }}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="{{ $service->getShareUrl('pinterest') }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Pinterest"><i class="fab fa-pinterest"></i></a>
+                </div>
+
+                <div class="ni-detail-newsletter">
+                    <div class="ni-detail-newsletter__icon"><i class="fa fa-envelope-open-text"></i></div>
+                    <div class="ni-detail-newsletter__text">
+                        <h5>{{ __('frontend.subscribe_newsletter') }}</h5>
+                        <p>Receive the latest news updates</p>
+                    </div>
+                    <form class="ni-detail-newsletter__form" action="{{ route('subscribe-section.store') }}" method="POST">
+                        @csrf
+                        <input type="email" name="email" placeholder="{{ __('frontend.enter_email') }}" required>
+                        <button type="submit" aria-label="Subscribe"><i class="fa fa-arrow-right"></i></button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
-    <!--// Services Section End //-->
-
-
 @endsection

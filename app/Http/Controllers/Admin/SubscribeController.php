@@ -73,16 +73,21 @@ class SubscribeController extends Controller
     public function destroy_checked(Request $request)
     {
         $input = $request->input('checked_lists');
-        $arr_checked_lists = explode(",", $input);
+        $arr_checked_lists = is_array($input)
+            ? $input
+            : explode(',', (string) $input);
+        $arr_checked_lists = array_values(array_filter(array_map('trim', $arr_checked_lists)));
 
-        if (array_filter($arr_checked_lists) == []) {
+        if ($arr_checked_lists === []) {
             return redirect()->route('subscribe.create')
                 ->with('warning', 'content.please_choose');
         }
 
         foreach ($arr_checked_lists as $id) {
-            $subscriber = Subscribe::findOrFail($id);
-            $subscriber->delete();
+            $subscriber = Subscribe::find($id);
+            if ($subscriber) {
+                $subscriber->delete();
+            }
         }
 
         return redirect()->route('subscribe.create')

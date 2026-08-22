@@ -98,7 +98,7 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=103">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=121">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -361,6 +361,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                             @endphp
                                             <a href="{{ url('language/set-locale/'.$display_dropdown->id) }}"
                                                class="lang-toggle-btn{{ $isActiveLang ? ' active' : '' }}"
+                                               data-language-id="{{ $display_dropdown->id }}"
                                                @if ($isActiveLang) aria-current="true" @endif
                                                title="{{ $display_dropdown->language_name }}">{{ $langShort }}</a>
                                         @endforeach
@@ -649,8 +650,9 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 <script src="{{ asset('assets/frontend/vendor/js/custom.select.plugin.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/scrollit.min.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/isotope.min.js') }}" defer></script>
-<script src="{{ asset('assets/frontend/js/main.js') }}?v=82" defer></script>
+<script src="{{ asset('assets/frontend/js/main.js') }}?v=87" defer></script>
 <script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=3" defer></script>
+<script src="{{ asset('assets/frontend/js/language-switch.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}" defer></script>
 
 @if (session()->has('language_direction_from_dropdown'))

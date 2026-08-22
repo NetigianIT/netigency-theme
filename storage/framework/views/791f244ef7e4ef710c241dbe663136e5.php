@@ -5,10 +5,24 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <!-- Required meta tags -->
 
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <?php
+        $adminPath = request()->path();
+        $isAdminDashboard = request()->routeIs('dashboard');
+        $needsAdminEditor = ! $isAdminDashboard && (str_contains($adminPath, 'create') || str_contains($adminPath, 'edit'));
+        $needsAdminTables = ! $isAdminDashboard;
+        $needsAdminPickers = $needsAdminEditor;
+        $needsAdminLightbox = isset($galleries);
+        $adminIsRtl = session()->has('language_direction_from_dropdown')
+            ? session()->get('language_direction_from_dropdown') == 1
+            : (isset($language) && $language->direction == 1);
+        $adminStyleHref = $adminIsRtl
+            ? asset('assets/admin/side_menu/version_rtl/style.css')
+            : asset('assets/admin/side_menu/style.css');
+    ?>
 
     <title><?php echo e(config('app.name', 'Laravel')); ?></title>
 
@@ -39,50 +53,38 @@
 
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
+    <link rel="preload" href="<?php echo e($adminStyleHref); ?>" as="style">
+    <link rel="preload" href="<?php echo e(asset('assets/admin/side_menu/vendor/fontawesome-free/webfonts/fa-solid-900.woff2')); ?>" as="font" type="font/woff2" crossorigin>
+
 <!-- Fonts -->
     <link href="<?php echo e(asset('assets/admin/side_menu/vendor/fontawesome-free/css/all.min.css')); ?>" rel="stylesheet">
-    <link href="<?php echo e(asset('assets/admin/side_menu/vendor/fontawesome-free/css/fontawesome-iconpicker.min.css')); ?>" rel="stylesheet">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminPickers): ?>
+        <?php echo deferred_css(asset('assets/admin/side_menu/vendor/fontawesome-free/css/fontawesome-iconpicker.min.css')); ?>
 
-    <!-- Datepicker CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/bootstrap-datepicker.min.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/default-assets/color-picker-bootstrap.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/default-assets/form-picker.css')); ?>">
+        <?php echo deferred_css(asset('assets/admin/side_menu/css/bootstrap-datepicker.min.css')); ?>
 
+        <?php echo deferred_css(asset('assets/admin/side_menu/css/default-assets/color-picker-bootstrap.css')); ?>
 
-
-    <!-- Master Stylesheet CSS -->
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session()->has('language_direction_from_dropdown')): ?>
-
-        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session()->get('language_direction_from_dropdown') == 1): ?>
-
-            <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/version_rtl/style.css')); ?>">
-
-        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session()->get('language_direction_from_dropdown') == 0): ?>
-
-            <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/style.css')); ?>">
-
-        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-    <?php elseif(isset($language)): ?>
-
-        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($language->direction == 0): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/style.css')); ?>">
-        <?php else: ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/version_rtl/style.css')); ?>">
+        <?php echo deferred_css(asset('assets/admin/side_menu/css/default-assets/form-picker.css')); ?>
 
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    <!-- Master Stylesheet CSS -->
+    <link rel="stylesheet" href="<?php echo e($adminStyleHref); ?>">
 
-<!-- Light box CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/default-assets/new/ekko-lightbox.min.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/default-assets/new/lightbox.min.css')); ?>">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminLightbox): ?>
+        <?php echo deferred_css(asset('assets/admin/side_menu/css/default-assets/new/ekko-lightbox.min.css')); ?>
 
-    <!-- Data tables CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/default-assets/datatables.bootstrap4.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/default-assets/responsive.bootstrap4.css')); ?>">
+        <?php echo deferred_css(asset('assets/admin/side_menu/css/default-assets/new/lightbox.min.css')); ?>
+
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminTables): ?>
+        <?php echo deferred_css(asset('assets/admin/side_menu/css/default-assets/datatables.bootstrap4.css')); ?>
+
+        <?php echo deferred_css(asset('assets/admin/side_menu/css/default-assets/responsive.bootstrap4.css')); ?>
+
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!-- Toastr -->
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/vendor/toastr/toastr.min.css')); ?>">
@@ -369,7 +371,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/theme-mode.css')); ?>?v=96">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/side_menu/css/theme-mode.css')); ?>?v=98">
 
 </head>
 
@@ -394,7 +396,7 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center" aria-hidden="true"></div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize" aria-label="Toggle sidebar">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -461,6 +463,7 @@
                     <li class="nav-item d-flex align-items-center">
                         <a href="<?php echo e(url('language/set-locale/'.$nextLang->id)); ?>"
                            class="ni-lang-toggle"
+                           data-language-id="<?php echo e($nextLang->id); ?>"
                            title="<?php echo e(__('content.languages')); ?>: <?php echo e($currentLang->language_name); ?> → <?php echo e($nextLang->language_name); ?>"
                            aria-label="Switch language to <?php echo e($nextLang->language_name); ?>">
                             <i class="fas fa-globe" aria-hidden="true"></i>
@@ -470,7 +473,7 @@
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                 <li class="nav-item dropdown dropdown-animate">
-                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="<?php echo e(url('admin/message')); ?>" data-toggle="dropdown" aria-label="Messages" aria-haspopup="true" aria-expanded="false">
                         <i class="far fa-envelope"></i>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($general_unread_message_count ?? 0) > 0): ?>
                             <span class="count"><?php echo e($general_unread_message_count > 99 ? '99+' : $general_unread_message_count); ?></span>
@@ -520,28 +523,26 @@
                 </li>
 
                 <li class="nav-item nav-profile dropdown dropdown-animate">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                    <a class="nav-link dropdown-toggle" href="<?php echo e(url('admin/profile/edit')); ?>" data-toggle="dropdown" id="profileDropdown" aria-label="Account menu" aria-haspopup="true" aria-expanded="false">
                         <?php
                             $defaultAvatar = asset('uploads/img/dummy/128x128.jpg');
                             $profilePhoto = Auth::user()->profile_photo_path;
                             $profilePath = $profilePhoto ? public_path('uploads/img/profile/'.$profilePhoto) : null;
                             $profileSrc = ($profilePath && file_exists($profilePath)) ? asset('uploads/img/profile/'.$profilePhoto) : $defaultAvatar;
                         ?>
-                        <img src="<?php echo e($profileSrc); ?>" class="img-profile rounded-circle" alt="profile image" onerror="this.onerror=null;this.src='<?php echo e($defaultAvatar); ?>';">
+                        <img src="<?php echo e($profileSrc); ?>" class="img-profile rounded-circle" alt="<?php echo e(Auth::user()->name); ?> profile photo" width="40" height="40" data-fallback="<?php echo e($defaultAvatar); ?>">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown profile-top" aria-labelledby="profileDropdown">
                         <a href="<?php echo e(url('admin/profile/edit')); ?>" class="dropdown-item"><i class="fas fa-user profile-icon" aria-hidden="true"></i> <?php echo e(__('content.profile')); ?></a>
                         <a href="<?php echo e(url('admin/profile/change-password')); ?>" class="dropdown-item"><i class="fas fa-unlock-alt profile-icon" aria-hidden="true"></i> <?php echo e(__('content.change_password')); ?></a>
 
                         <!-- Authentication -->
-                        <a class="dropdown-item" href="<?php echo e(route('logout')); ?>"
-                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" data-logout>
                             <i class="fas fa-sign-out-alt profile-icon" aria-hidden="true"></i>
                             <?php echo e(__('content.logout')); ?>
 
                         </a>
-                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" hidden>
                             <?php echo csrf_field(); ?>
                         </form>
 
@@ -567,7 +568,7 @@
             <div class="ni-sidebar-brand" id="niSidebarBrand">
                 <a href="<?php echo e(url('dashboard')); ?>" title="Dashboard">
                     <img src="<?php echo e($sidebarLogoSrc); ?>" class="admin-sidebar-logo" alt="Netigian IT" width="210" height="52"
-                         onerror="this.closest('.ni-sidebar-brand').classList.add('is-fallback');">
+                         data-fallback-class="is-fallback">
                     <span class="ni-sidebar-brand-text">Netigian IT</span>
                 </a>
                 <button type="button" class="ni-sidebar-close d-xl-none" data-dismiss="offcanvas" aria-label="Close menu">
@@ -644,7 +645,7 @@
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('portfolio check')): ?>
                     <li class="nav-item <?php echo e((request()->is('admin/portfolio*') || request()->is('admin/portfolio-category*')) ? 'active' : ''); ?>">
-                        <a class="nav-link" href="<?php echo e(url('admin/portfolio')); ?>">
+                        <a class="nav-link" href="<?php echo e(url('admin/portfolio')); ?>" data-ni-match="/admin/portfolio,/admin/portfolio-category,/admin/portfolio-slider,/admin/portfolio-detail">
                             <i class="fas fa-briefcase menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.portfolios')); ?></span>
                         </a>
@@ -670,7 +671,7 @@
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('blogs check')): ?>
                     <li class="nav-item <?php echo e((request()->is('admin/blog*') || request()->is('admin/category*') || request()->is('admin/blog-paginate*')) ? 'active' : ''); ?>">
-                        <a class="nav-link" href="<?php echo e(url('admin/blog')); ?>">
+                        <a class="nav-link" href="<?php echo e(url('admin/blog')); ?>" data-ni-match="/admin/blog,/admin/category,/admin/blog-paginate">
                             <i class="fab fa-blogger-b menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.blogs')); ?></span>
                         </a>
@@ -684,28 +685,10 @@
                                             request()->is('admin/social') ||
                                             request()->is('admin/social/create') ||
                                             request()->is('admin/social/*/edit')) ? 'active' : ''); ?>">
-                        <a class="nav-link" data-toggle="collapse" href="#contact" aria-expanded="false" aria-controls="contact">
+                        <a class="nav-link" href="<?php echo e(url('admin/contact/create')); ?>" data-ni-match="/admin/contact,/admin/social,/admin/quick-access,/admin/message">
                             <i class="fas fa-map-marked menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.contact')); ?></span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse <?php echo e((request()->is('admin/contact/create') ||
-                                                 request()->is('admin/contact/*/edit') ||
-                                                 request()->is('admin/quick-access/create') ||
-                                                 request()->is('admin/message') ||
-                                                 request()->is('admin/social') ||
-                                                 request()->is('admin/social/create') ||
-                                                 request()->is('admin/social/*/edit')) ? 'show' : ''); ?>" id="contact">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/contact/create') ||
-                                                                             request()->is('admin/contact/*/edit')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/contact/create')); ?>"><?php echo e(__('content.contact_info')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/social') ||
-                                                                             request()->is('admin/social/create') ||
-                                                                             request()->is('admin/social/*/edit')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/social')); ?>"><?php echo e(__('content.socials')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/quick-access/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/quick-access/create')); ?>"><?php echo e(__('content.quick_access_buttons')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/message')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/message')); ?>"><?php echo e(__('content.messages')); ?></a></li>
-                            </ul>
-                        </div>
                     </li>
                 <?php endif; ?>
 
@@ -738,16 +721,10 @@
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subscribe check')): ?>
                     <li class="nav-item <?php echo e((request()->is('admin/subscribe/create')) ? 'active' : ''); ?>">
-                        <a class="nav-link" data-toggle="collapse" href="#subscribers" aria-expanded="false" aria-controls="subscribers">
+                        <a class="nav-link" href="<?php echo e(url('admin/subscribe/create')); ?>">
                             <i class="fas fa-at menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.subscribers')); ?></span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse <?php echo e((request()->is('admin/subscribe/create')) ? 'show' : ''); ?>" id="subscribers">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/subscribe/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/subscribe/create')); ?>"><?php echo e(__('content.subscribers')); ?></a></li>
-                            </ul>
-                        </div>
                     </li>
                 <?php endif; ?>
 
@@ -755,36 +732,18 @@
                 <li class="nav-item <?php echo e((request()->is('admin/admin-role') ||
                                         request()->is('admin/admin-role/create') ||
                                         request()->is('admin/admin-role/*/edit')) ? 'active' : ''); ?>">
-                    <a class="nav-link" data-toggle="collapse" href="#admin_roles" aria-expanded="false" aria-controls="admin_roles">
+                    <a class="nav-link" href="<?php echo e(url('admin/admin-role')); ?>">
                         <i class="fas fa-user-lock menu-icon"></i>
                         <span class="menu-title"><?php echo e(__('content.admin_role_manage')); ?></span>
-                        <i class="ti-angle-right"></i>
                     </a>
-                    <div class="collapse <?php echo e((request()->is('admin/admin-role') ||
-                                        request()->is('admin/admin-role/create') ||
-                                        request()->is('admin/admin-role/*/edit')) ? 'show' : ''); ?>" id="admin_roles">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/admin-role/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/admin-role/create')); ?>"><?php echo e(__('content.add_admin_role')); ?></a></li>
-                            <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/admin-role') || request()->is('admin/admin-role/*/edit')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/admin-role')); ?>"><?php echo e(__('content.admin_roles')); ?></a></li>
-                        </ul>
-                    </div>
                 </li>
                 <li class="nav-item <?php echo e((request()->is('admin/admin-user') ||
                                         request()->is('admin/admin-user/create') ||
                                         request()->is('admin/admin-user/*/edit')) ? 'active' : ''); ?>">
-                    <a class="nav-link" data-toggle="collapse" href="#admins" aria-expanded="false" aria-controls="admins">
+                    <a class="nav-link" href="<?php echo e(url('admin/admin-user')); ?>">
                         <i class="fas fa-users menu-icon"></i>
                         <span class="menu-title"><?php echo e(__('content.admin_manage')); ?></span>
-                        <i class="ti-angle-right"></i>
                     </a>
-                    <div class="collapse <?php echo e((request()->is('admin/admin-user') ||
-                                        request()->is('admin/admin-user/create') ||
-                                        request()->is('admin/admin-user/*/edit')) ? 'show' : ''); ?>" id="admins">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/admin-user/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/admin-user/create')); ?>"><?php echo e(__('content.add_admin_user')); ?></a></li>
-                            <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/admin-user') || request()->is('admin/admin-user/*/edit')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/admin-user')); ?>"><?php echo e(__('content.all_admin')); ?></a></li>
-                        </ul>
-                    </div>
                 </li>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('settings check')): ?>
@@ -795,28 +754,10 @@
                                             request()->is('admin/color-option/create') ||
                                             request()->is('admin/google-analytic/create') ||
                                             request()->is('admin/seo/create')) ? 'active' : ''); ?>">
-                        <a class="nav-link" data-toggle="collapse" href="#settings" aria-expanded="false" aria-controls="settings">
+                        <a class="nav-link" href="<?php echo e(url('admin/site-info/create')); ?>" data-ni-match="/admin/site-info,/admin/site-image,/admin/breadcrumb,/admin/section,/admin/color-option,/admin/google-analytic,/admin/seo">
                             <i class="fas fa-fw fa-cog menu-icon"></i>
                             <span class="menu-title"><?php echo e(__('content.settings')); ?></span>
-                            <i class="ti-angle-right"></i>
                         </a>
-                        <div class="collapse <?php echo e((request()->is('admin/site-info/create') ||
-                                                 request()->is('admin/site-image/create') ||
-                                                 request()->is('admin/breadcrumb/create') ||
-                                                 request()->is('admin/section/create') ||
-                                                 request()->is('admin/color-option/create') ||
-                                                 request()->is('admin/google-analytic/create') ||
-                                                 request()->is('admin/seo/create')) ? 'show' : ''); ?>" id="settings">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/site-info/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/site-info/create')); ?>"><?php echo e(__('content.site_info')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/site-image/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/site-image/create')); ?>"><?php echo e(__('content.site_images')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/google-analytic/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/google-analytic/create')); ?>"><?php echo e(__('content.google_analytic')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/breadcrumb/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/breadcrumb/create')); ?>"><?php echo e(__('content.breadcrumb')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/section/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/section/create')); ?>"><?php echo e(__('content.sections')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/color-option/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/color-option/create')); ?>"><?php echo e(__('content.color_option')); ?></a></li>
-                                <li class="nav-item"> <a class="nav-link <?php echo e((request()->is('admin/seo/create')) ? 'active' : ''); ?>" href="<?php echo e(url('admin/seo/create')); ?>"><?php echo e(__('content.seo')); ?></a></li>
-                            </ul>
-                        </div>
                     </li>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('language check')): ?>
@@ -903,83 +844,76 @@
 <!-- Plugins Js -->
 <script src="<?php echo e(asset('assets/admin/side_menu/js/jquery.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/vendor/toastr/toastr.min.js')); ?>"></script>
-<script>
-    if (typeof toastr !== 'undefined') {
-        toastr.options = {
-            closeButton: true,
-            newestOnTop: true,
-            progressBar: false,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true,
-            showDuration: 300,
-            hideDuration: 300,
-            timeOut: 4200,
-            extendedTimeOut: 1600,
-            showEasing: 'swing',
-            hideEasing: 'linear',
-            showMethod: 'fadeIn',
-            hideMethod: 'fadeOut'
-        };
-    }
-</script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/popper.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/bootstrap.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/bundle.js')); ?>"></script>
-<script>
-    // Modals live inside .main-panel (position:fixed). Bootstrap puts the
-    // backdrop on <body>, so the dialog ends up under the overlay and looks
-    // "disabled". Always move the dialog to <body> before it shows.
-    (function ($) {
-        if (!$) return;
-        $(document).on('show.bs.modal', '.modal', function () {
-            if (this.parentNode !== document.body) {
-                document.body.appendChild(this);
-            }
-        });
-    })(window.jQuery);
-</script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/fullscreen.js')); ?>"></script>
-
-<!-- Active JS -->
 <script src="<?php echo e(asset('assets/admin/side_menu/js/canvas.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/collapse.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/settings.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/template.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/active.js')); ?>" defer></script>
 
-<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($galleries)): ?>
-    <!-- Light box JS -->
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminLightbox): ?>
     <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/ekko-lightbox.min.js')); ?>" defer></script>
     <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/lightbox.min.js')); ?>" defer></script>
     <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/light-box-active.js')); ?>" defer></script>
 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-<!-- Datatable JS -->
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/jquery.datatables.min.js')); ?>" defer></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js')); ?>" defer></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js')); ?>" defer></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js')); ?>" defer></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js')); ?>?v=12" defer></script>
 
-<!-- Datepicker JS -->
-<script src="<?php echo e(asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/colorpicker-bootstrap.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/bootstrap-datepicker.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/form-picker.js')); ?>"></script>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminTables): ?>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/jquery.datatables.min.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js')); ?>?v=14" defer></script>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminPickers): ?>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/bootstrap-colorpicker.min.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/colorpicker-bootstrap.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/bootstrap-datepicker.min.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/default-assets/form-picker.js')); ?>" defer></script>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminEditor): ?>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@7.6.1/tinymce.min.js" referrerpolicy="origin" defer></script>
+    <script src="<?php echo e(asset('assets/admin/side_menu/js/ni-editor.js')); ?>?v=3" defer></script>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-<!-- Editor -->
 <script>
     window.NI_EDITOR_UPLOAD_URL = "<?php echo e(route('admin.editor.upload')); ?>";
-</script>
-<script src="https://cdn.jsdelivr.net/npm/tinymce@7.6.1/tinymce.min.js" referrerpolicy="origin"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-editor.js')); ?>?v=3"></script>
-<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof toastr !== 'undefined') {
+            toastr.options = {
+                closeButton: true,
+                newestOnTop: true,
+                progressBar: false,
+                positionClass: 'toast-top-right',
+                preventDuplicates: true,
+                showDuration: 300,
+                hideDuration: 300,
+                timeOut: 4200,
+                extendedTimeOut: 1600,
+                showEasing: 'swing',
+                hideEasing: 'linear',
+                showMethod: 'fadeIn',
+                hideMethod: 'fadeOut'
+            };
+        }
+        if (window.jQuery) {
+            window.jQuery(document).on('show.bs.modal', '.modal', function () {
+                if (this.parentNode !== document.body) {
+                    document.body.appendChild(this);
+                }
+            });
+        }
+    });
     function showHideTypeDiv() {
         var optionsRadios1 = document.getElementById("optionsRadios1");
         var optionsRadios2 = document.getElementById("optionsRadios2");
         var iconType = document.getElementById("icon-type");
         var imageType = document.getElementById("image-type");
+        if (!optionsRadios1 || !optionsRadios2 || !iconType || !imageType) return;
         iconType.style.display = optionsRadios1.checked ? "block" : "none";
         imageType.style.display = optionsRadios2.checked ? "block" : "none";
     }
@@ -1050,32 +984,59 @@
         syncBulkDeleteButton();
     }
 
-    // Get checkbox list
-    function btnCheckListGet() {
-        //Create an Array.
-        var selected = new Array();
-
-        //Reference the CheckBoxes and insert the checked CheckBox value in Array.
-        $("#basic-datatable input[name='check_list[]']:checked").each(function () {
-            selected.push(this.value);
-        });
-
-        //Display the selected CheckBox values.
-        if (selected.length > 0) {
-            selected.join(",");
+    function collectCheckedListIds() {
+        var selected = [];
+        var seen = {};
+        var nodes = document.querySelectorAll("input[name='check_list[]']:checked");
+        for (var i = 0; i < nodes.length; i++) {
+            var value = (nodes[i].value || "").trim();
+            if (!value || seen[value]) continue;
+            seen[value] = true;
+            selected.push(value);
         }
-
-        return document.getElementById("checked_lists").value = selected;
+        return selected;
     }
+
+    // Get checkbox list (must return comma-separated string for Laravel)
+    function btnCheckListGet() {
+        var selected = collectCheckedListIds();
+        var field = document.getElementById("checked_lists");
+        if (!field) {
+            return false;
+        }
+        field.value = selected.join(",");
+        return selected.length > 0;
+    }
+
+    window.syncBulkDeleteButton = syncBulkDeleteButton;
+    window.showHideDeleteButton = showHideDeleteButton;
+    window.showHideDeleteButton2 = showHideDeleteButton2;
+    window.btnCheckListGet = btnCheckListGet;
+    window.collectCheckedListIds = collectCheckedListIds;
+
+    // Reliable bulk-delete submit (works even when inline handlers are skipped)
+    document.addEventListener("submit", function (event) {
+        var form = event.target;
+        if (!form || form.tagName !== "FORM") return;
+        var field = form.querySelector("#checked_lists, input[name='checked_lists']");
+        if (!field) return;
+
+        var selected = collectCheckedListIds();
+        field.value = selected.join(",");
+        if (!selected.length) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
 
 
 
 </script>
 
 <!-- Custom JS -->
-<script src="<?php echo e(asset('assets/admin/side_menu/js/custom.js')); ?>?v=3"></script>
-<!-- Dark / Light Mode -->
+<script src="<?php echo e(asset('assets/admin/side_menu/js/custom.js')); ?>?v=5"></script>
 <script src="<?php echo e(asset('assets/frontend/js/theme-mode.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/frontend/js/language-switch.js')); ?>?v=1" defer></script>
 <script>
 (function () {
     var toggle = document.getElementById('niAdminSearchToggle');
@@ -1200,12 +1161,14 @@
 </script>
 
 <!-- Icon Picker JS -->
-<script src="<?php echo e(asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js')); ?>"> </script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-image-input.js')); ?>?v=1"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-number-input.js')); ?>?v=1"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-icon-select.js')); ?>?v=1"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-select.js')); ?>?v=2"></script>
-<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-spa-nav.js')); ?>?v=4"></script>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needsAdminPickers): ?>
+    <script src="<?php echo e(asset('assets/admin/side_menu/vendor/fontawesome-free/js/fontawesome-iconpicker.min.js')); ?>" defer></script>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-image-input.js')); ?>?v=1" defer></script>
+<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-number-input.js')); ?>?v=1" defer></script>
+<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-icon-select.js')); ?>?v=1" defer></script>
+<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-select.js')); ?>?v=2" defer></script>
+<script src="<?php echo e(asset('assets/admin/side_menu/js/ni-spa-nav.js')); ?>?v=5" defer></script>
 
 </body>
 

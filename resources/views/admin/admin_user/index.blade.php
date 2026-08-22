@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.admin_user.partials.tabs')
+@endsection
+
 @section('page_actions')
     <a href="{{ url('admin/admin-user/create') }}" class="btn btn-primary">+ {{ __('content.add_admin_user') }}</a>
 @endsection

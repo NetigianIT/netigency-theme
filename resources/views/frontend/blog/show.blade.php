@@ -1,170 +1,194 @@
 @extends('layouts.frontend.master')
 
 @section('content')
+@php
+    $authorName = ($blog->type == 'with_this_account' && !empty($blog->author_name))
+        ? $blog->author_name
+        : __('frontend.anonymous');
+    $shortDesc = $blog->short_desc
+        ?: ($blog->meta_desc ?? null)
+        ?: \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags(html_entity_decode($blog->desc)))), 160);
+    $techTags = !empty($blog->tag)
+        ? array_values(array_filter(array_map('trim', explode(',', $blog->tag))))
+        : [];
+    $readMinutes = max(1, (int) ceil(str_word_count(strip_tags(html_entity_decode($blog->desc))) / 200));
+    $sideItems = collect($recent_posts ?? []);
+@endphp
 
-    <!--// Blog Details Section Start //-->
-    <section class="section page-content-offset blog-details-section" id="blog-sidebar-page">
+    <section class="section page-content-offset ni-detail-page ni-detail-page--blog" id="blog-sidebar-page">
         <div class="container">
-            <div class="row blog-details-row align-items-start">
-                <div class="col-lg-8 blog-details-main">
-                    <div class="blog-post-single blog-details-card">
-                       @if ($blog->image_status == 1 && !empty($blog->blog_image))
-                            <div class="blog-post-img">
-                                <img src="{{ asset('uploads/img/blogs/'.$blog->blog_image) }}" alt="Image" class="img-fluid" fetchpriority="high" decoding="async">
-                            </div>
-                           @endif
-                        <div class="blog-text">
-                            <h4>{{ $blog->title }}</h4>
-                            <div class="author-meta">
-                                <a href="#"><span class="far fa-user"></span>@if ($blog->type == "with_this_account") {{ $blog->author_name }} @else {{ __('frontend.anonymous') }} @endif</a>
-                                <a href="#"><span class="far fa-calendar-alt"></span>{{ Carbon\Carbon::parse($blog->created_at)->isoFormat('DD') }} {{ Carbon\Carbon::parse($blog->created_at)->isoFormat('MMMM') }} {{ Carbon\Carbon::parse($blog->created_at)->isoFormat('GGGG') }}</a>
-                            </div>
-                            <div class="blog-details-content">
-                                @php echo html_entity_decode($blog->desc); @endphp
-                            </div>
-                            <div class="comments-wrap">
-                                @if (count($comments) > 0)
-                                    <h5 class="inner-header-title">{{ __('frontend.comments') }}({{ count($comments) }})</h5>
-                                @endif
-                                @foreach ($comments as $comment)
-                                        <div class="comment-item">
-                                                <i class="fas fa-user font-100 mr-4"></i>
-                                            <div class="comment-item-body">
-                                                <h6 class="comment-item-title">{{ $comment->name }}</h6>
-                                                <div class="comment-meta">
-                                                    <span><i class="far fa-calendar-alt"></i>{{ Carbon\Carbon::parse($comment->created_at)->isoFormat('DD') }} {{ Carbon\Carbon::parse($comment->created_at)->isoFormat('MMM') }} {{ Carbon\Carbon::parse($comment->created_at)->isoFormat('GGGG') }}</span>
-                                                </div>
-                                                <p>{{ $comment->comment }}</p>
-                                                <a href="#" class="reply-btn" data-scroll-nav="2"><i class="fa fa-reply"></i> {{ __('frontend.reply') }} </a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                            </div>
-                            <div class="leave-comment-wrapper" data-scroll-index="2">
-                                <h5 class="inner-header-title">{{ __('frontend.leave_a_comment') }}</h5>
-                                <form id="contact-form" action="{{ route('comment.store') }}" method="POST">
-                                    @csrf
-                                    <input name="blog_id" type="hidden" value="{{ Crypt::encrypt($blog->id) }}">
-                                    <input name="page" type="hidden" value="{{ Crypt::encrypt(98) }}">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="comment-form-group">
-                                                <input type="text" class="form-control" name="name" placeholder="{{ __('frontend.your_name') }}" autocomplete="off" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="comment-form-group">
-                                                <input type="email" class="form-control" name="email" placeholder="{{ __('frontend.your_email') }}" autocomplete="off" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="comment-form-group">
-                                                <textarea class="form-control text-area" name="comment" cols="30" rows="9" placeholder="{{ __('frontend.your_comment') }}" autocomplete="off"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button type="submit" class="primary-btn">
-                                                <span class="text">{{ __('frontend.send_comment') }}</span>
-                                                <span class="icon"><i class="fa fa-arrow-right"></i></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+            <div class="ni-detail-hero">
+                <div class="ni-detail-hero__text">
+                    <h1 class="ni-detail-hero__title">{{ $blog->title }}</h1>
+                    @if (!empty($shortDesc))
+                        <p class="ni-detail-hero__lead">{{ $shortDesc }}</p>
+                    @endif
+                </div>
+                <div class="ni-detail-hero__actions">
+                    <a class="ni-detail-btn ni-detail-btn--primary" href="{{ route('blog-page.index') }}">
+                        <span>{{ __('frontend.blogs') }}</span>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                    <a class="ni-detail-back" href="{{ route('blog-page.index') }}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        <span>Back to Blogs</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="ni-detail-meta">
+                <div class="ni-detail-meta__item">
+                    <span class="ni-detail-meta__label">Author</span>
+                    <span class="ni-detail-meta__value">{{ $authorName }}</span>
+                </div>
+                <div class="ni-detail-meta__item">
+                    <span class="ni-detail-meta__label">Date</span>
+                    <span class="ni-detail-meta__value">{{ \Carbon\Carbon::parse($blog->created_at)->format('F Y') }}</span>
+                </div>
+                <div class="ni-detail-meta__item">
+                    <span class="ni-detail-meta__label">Category</span>
+                    <span class="ni-detail-meta__value">{{ $blog->category_name }}</span>
+                </div>
+                <div class="ni-detail-meta__item">
+                    <span class="ni-detail-meta__label">Read Time</span>
+                    <span class="ni-detail-meta__value">{{ $readMinutes }} min</span>
+                </div>
+            </div>
+
+            <div class="row ni-detail-media">
+                <div class="col-lg-7">
+                    <div class="ni-detail-media__main">
+                        @if (!empty($blog->blog_image) && ($blog->image_status ?? 'enable') != 'disable')
+                            <img src="{{ asset('uploads/img/blogs/'.$blog->blog_image) }}" alt="{{ $blog->title }}" class="img-fluid" fetchpriority="high" decoding="async">
+                        @else
+                            <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $blog->title }}" class="img-fluid">
+                        @endif
                     </div>
                 </div>
-                <div class="col-lg-4 blog-details-aside">
-                    <div class="widget-sidebar">
-                        <div class="sidebar-widgets">
-                            <h5 class="inner-header-title">{{ __('frontend.search') }}</h5>
-                            <form class="search-form" action="{{ route('blog-page.search') }}" method="POST">
-                                @csrf
-                                <div class="blog-search-bar position-relative">
-                                    <input type="text" name="search" placeholder="{{ __('frontend.search_here') }}" class="search-form-control" required>
-                                    <button type="submit" class="blog-search-btn"><span class="fa fa-search"></span></button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="sidebar-widgets">
-                            <h5 class="inner-header-title">{{ __('frontend.categories') }}</h5>
-                            <ul class="sidebar-category-list clearfix">
-                                @foreach ($blog_count_categories as $blog_count_category)
-                                    <li class="@if ($blog_count_category->category->category_name == $blog->category_name) active @endif">
-                                        @if (isset($blog_count_category->category->category_slug))
-                                            <a href="{{ url('blog/category/'.$blog_count_category->category->category_slug) }}">{{$blog_count_category->category->category_name }}<span class="category-count">({{ $blog_count_category->category_count }})</span></a>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @if (count($recent_posts) > 0)
-                            <div class="sidebar-widgets">
-                                <h5 class="inner-header-title">{{ __('frontend.recent_posts') }}</h5>
-                                @foreach ($recent_posts as $recent_post)
-                                    <div class="recent-post-item clearfix">
-                                        <div class="recent-post-img mr-3">
-                                            <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
-                                                @if (!empty($recent_post->blog_image))
-                                                    <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" class="img-fluid image-size-100" alt="blog image" loading="lazy" decoding="async">
-                                                @else
-                                                    <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" class="img-fluid image-size-100"  alt="blog image" loading="lazy" decoding="async">
-                                                @endif
-                                            </a>
-                                        </div>
-                                        <div class="recent-post-body">
-                                            <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
-                                                <h6 class="recent-post-title">{{ $recent_post->title }}</h6>
-                                            </a>
-                                            <p class="recent-post-date"><i class="far fa-calendar-alt"></i>{{ Carbon\Carbon::parse($recent_post->created_at)->isoFormat('DD') }} {{ Carbon\Carbon::parse($recent_post->created_at)->isoFormat('MMMM') }} {{ Carbon\Carbon::parse($recent_post->created_at)->isoFormat('GGGG') }}</p>
-                                        </div>
+                <div class="col-lg-5">
+                    <div class="ni-detail-media__side">
+                        @if ($sideItems->count() > 0)
+                            <div class="owl-carousel owl-theme ni-detail-side-carousel" id="blogSideCarousel">
+                                @foreach ($sideItems as $recent_post)
+                                    <div class="item">
+                                        <a class="ni-detail-side-card" href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
+                                            @if (!empty($recent_post->blog_image))
+                                                <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" alt="{{ $recent_post->title }}" class="img-fluid" loading="lazy" decoding="async">
+                                            @else
+                                                <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $recent_post->title }}" class="img-fluid" loading="lazy" decoding="async">
+                                            @endif
+                                            <div class="ni-detail-side-card__overlay">
+                                                <span>Recent</span>
+                                                <h4>{{ $recent_post->title }}</h4>
+                                            </div>
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>
-                        @endif
-                        <div class="sidebar-widgets">
-                            <h5 class="inner-header-title">{{ __('frontend.share') }}</h5>
-                            <ul class="sidebar-share clearfix">
-                                <li>
-                                    <a href="{{$blog->getShareUrl('twitter')}}" target="_blank">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{$blog->getShareUrl('whatsapp')}}" target="_blank">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{$blog->getShareUrl('pinterest')}}" target="_blank">
-                                        <i class="fab fa-pinterest"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        @if (!empty($blog->tag))
-                            <div class="sidebar-widgets tag-widgets">
-                                <h5 class="inner-header-title">{{ __('frontend.tags') }}</h5>
-                                @php
-                                    $str = $blog->tag;
-                                    $array_tags = explode(",",$str);
-                                @endphp
-                                <ul class="sidebar-tags clearfix">
-                                    @foreach ($array_tags as $tag)
-                                        @if (trim($tag) !== '')
-                                            <li>
-                                                <a href="#">{{ trim($tag) }}</a>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
+                        @else
+                            <div class="ni-detail-side-panel ni-detail-side-panel--empty">
+                                <div class="ni-detail-wire">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <p>{{ $blog->category_name }}</p>
                             </div>
-                            @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="ni-detail-body">
+                <h2 class="ni-detail-body__title">
+                    <i class="fas fa-newspaper" aria-hidden="true"></i>
+                    <span>{{ $blog->title }}</span>
+                </h2>
+
+                <div class="ni-detail-body__block">
+                    <h3 class="ni-detail-body__label">Overview</h3>
+                    <div class="ni-detail-body__content">
+                        @php echo html_entity_decode($blog->desc); @endphp
+                    </div>
+                </div>
+
+                @if (count($techTags) > 0)
+                    <div class="ni-detail-body__block">
+                        <h3 class="ni-detail-body__label">{{ __('frontend.tags') }}</h3>
+                        <div class="ni-detail-tags">
+                            @foreach ($techTags as $tag)
+                                <span class="ni-detail-tag">{{ $tag }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <div class="ni-detail-share">
+                    <span class="ni-detail-share__label">{{ __('frontend.share') }}</span>
+                    <a href="{{ $blog->getShareUrl('twitter') }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $blog->getShareUrl('whatsapp') }}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="{{ $blog->getShareUrl('pinterest') }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Pinterest"><i class="fab fa-pinterest"></i></a>
+                </div>
+
+                <div class="ni-detail-newsletter">
+                    <div class="ni-detail-newsletter__icon"><i class="fa fa-envelope-open-text"></i></div>
+                    <div class="ni-detail-newsletter__text">
+                        <h5>{{ __('frontend.subscribe_newsletter') }}</h5>
+                        <p>Receive the latest news updates</p>
+                    </div>
+                    <form class="ni-detail-newsletter__form" action="{{ route('subscribe-section.store') }}" method="POST">
+                        @csrf
+                        <input type="email" name="email" placeholder="{{ __('frontend.enter_email') }}" required>
+                        <button type="submit" aria-label="Subscribe"><i class="fa fa-arrow-right"></i></button>
+                    </form>
+                </div>
+
+                <div class="ni-detail-comments">
+                    @if (count($comments) > 0)
+                        <h5 class="ni-detail-comments__title">{{ __('frontend.comments') }} ({{ count($comments) }})</h5>
+                        @foreach ($comments as $comment)
+                            <div class="ni-detail-comment">
+                                <div class="ni-detail-comment__avatar"><i class="fas fa-user"></i></div>
+                                <div class="ni-detail-comment__body">
+                                    <h6>{{ $comment->name }}</h6>
+                                    <span>{{ \Carbon\Carbon::parse($comment->created_at)->format('d M Y') }}</span>
+                                    <p>{{ $comment->comment }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+
+                    <div class="ni-detail-comment-form" data-scroll-index="2">
+                        <h5 class="ni-detail-comments__title">{{ __('frontend.leave_a_comment') }}</h5>
+                        <form id="contact-form" action="{{ route('comment.store') }}" method="POST">
+                            @csrf
+                            <input name="blog_id" type="hidden" value="{{ Crypt::encrypt($blog->id) }}">
+                            <input name="page" type="hidden" value="{{ Crypt::encrypt(98) }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="comment-form-group">
+                                        <input type="text" class="form-control" name="name" placeholder="{{ __('frontend.your_name') }}" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="comment-form-group">
+                                        <input type="email" class="form-control" name="email" placeholder="{{ __('frontend.your_email') }}" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="comment-form-group">
+                                        <textarea class="form-control text-area" name="comment" cols="30" rows="6" placeholder="{{ __('frontend.your_comment') }}" autocomplete="off"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="ni-detail-btn ni-detail-btn--primary">
+                                        <span class="text">{{ __('frontend.send_comment') }}</span>
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--// Blog Details Section End //-->
-
 @endsection

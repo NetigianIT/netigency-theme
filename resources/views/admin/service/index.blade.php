@@ -1,7 +1,6 @@
 @extends('layouts.admin.master')
 
 @section('page_actions')
-    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#sectionModal">{{ __('content.section_title_and_desc') }}</button>
     <a href="{{ url('admin/service/create') }}" class="btn btn-primary">+ {{ __('content.add_service') }}</a>
 @endsection
 
@@ -142,79 +141,4 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div><!-- end row-->
-    <div class="modal fade" id="sectionModal" tabindex="-1" role="dialog" aria-labelledby="sectionModalLabel" aria-modal="false">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0 font-16" id="serviceModalLabel">{{ __('content.section_title_and_desc') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    @if (isset($service_section))
-                        @if ($demo_mode == "on")
-                            <!-- Include Alert Blade -->
-                                @include('admin.demo_mode.demo-mode')
-                            @else
-                                <form action="{{ route('service-section.update', $service_section->id) }}" method="POST" enctype="multipart/form-data">
-                                    @method('PUT')
-                                    @csrf
-                                    @endif
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="section_title" class="form-control" id="section_title" value="{{ $service_section->section_title }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="title" class="form-control" id="title" value="{{ $service_section->title }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
-                        </form>
-                        @else
-                                    @if ($demo_mode == "on")
-                                    <!-- Include Alert Blade -->
-                                        @include('admin.demo_mode.demo-mode')
-                                    @else
-                                        <form action="{{ route('service-section.store') }}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            @endif
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="section_title" class="form-control" id="section_title" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="title" class="form-control" id="title" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
-                        </form>
-                    @endif
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 @endsection

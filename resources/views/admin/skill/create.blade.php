@@ -122,7 +122,7 @@
     </div>
     <!-- end row -->
 
-    <div class="row">
+    <div class="row ni-info-list-gap">
         <div class="col-12 box-margin">
             <div class="card">
                 <div class="card-body pb-0">

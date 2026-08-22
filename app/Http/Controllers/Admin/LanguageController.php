@@ -15,22 +15,33 @@ class LanguageController extends Controller
     // Set session for language
     public function set_locale($language_id)
     {
-        $language = Language::find($language_id);
+        $language = \App\Support\SiteCache::language((int) $language_id);
 
         if (! $language) {
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json(['ok' => false], 404);
+            }
+
             return redirect()->back();
         }
 
-        session([
-            'language_id_from_dropdown' => $language->id,
-            'language_name_from_dropdown' => $language->language_name,
-            'language_code_from_dropdown' => $language->language_code,
-            'language_direction_from_dropdown' => $language->direction,
-        ]);
+        \App\Support\SiteCache::applyLanguageSession($language);
+        \App\Support\SiteCache::warmLanguage((int) $language->id);
 
         app()->forgetInstance('translator');
 
-        return redirect()->back();
+        $cookie = \App\Support\SiteCache::languageCookie($language);
+
+        if (request()->expectsJson() || request()->ajax()) {
+            return response()->json([
+                'ok' => true,
+                'language_id' => $language->id,
+                'language_code' => $language->language_code,
+                'redirect' => url()->previous() ?: url('/'),
+            ])->cookie($cookie);
+        }
+
+        return redirect()->back()->cookie($cookie);
     }
 
     /**
@@ -216,49 +227,25 @@ class LanguageController extends Controller
      */
     public function update_processed_language(Request $request)
     {
-        // Form validation
         $request->validate([
             'language_id' => 'required|integer',
         ]);
 
-        // Get All Request
-        $input = $request->all();
+        $language = Language::find($request->input('language_id'));
 
-        // Retrieve a model
-        $language = Language::find($input['language_id']);
-
-
-        if (isset($language)) {
-
-            // Retrieve a model
-            $languages = Language::all();
-
-            foreach ($languages as $language) {
-
-                if ($language->id == $input['language_id']) {
-
-                    // Update to database status = 1
-                    Language::find($language->id)->update(['status' => 1]);
-
-                } else {
-
-                    // Update to database status = 0
-                    Language::find($language->id)->update(['status' => 0]);
-
-                }
-
-            }
-
+        if (! $language) {
             return redirect()->back()
-                ->with('success', 'content.updated_successfully');
-
-        } else {
-
-            return redirect()->back()
-                ->with('warning','content.please_try_again');
-
+                ->with('warning', 'content.please_try_again');
         }
 
+        Language::query()->where('id', '!=', $language->id)->update(['status' => 0]);
+        $language->update(['status' => 1]);
+
+        \App\Support\SiteCache::flushLanguageMeta();
+        \App\Support\SiteCache::warmLanguage((int) $language->id);
+
+        return redirect()->back()
+            ->with('success', 'content.updated_successfully');
     }
 
     /**

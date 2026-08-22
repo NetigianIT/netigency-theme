@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Admin\Language;
 use App\Support\SiteCache;
 
 $fallback = [
@@ -245,11 +244,7 @@ $fallback = [
 
 ];
 
-$languageId = session('language_id_from_dropdown');
-
-if (! $languageId) {
-    $languageId = optional(Language::where('default_site_language', 1)->first())->id;
-}
+$languageId = session('language_id_from_dropdown') ?: SiteCache::defaultSiteLanguageId();
 
 return array_merge($fallback, SiteCache::panelKeywords($languageId));
 

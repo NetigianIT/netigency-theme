@@ -143,7 +143,17 @@ $(function() {
         }
 
         if (code.indexOf("btnCheckListGet") !== -1 && typeof window.btnCheckListGet === "function") {
-            window.btnCheckListGet();
+            var ok = window.btnCheckListGet();
+            var type = ((this.getAttribute("type") || "") + "").toLowerCase();
+            var isSubmit = this.tagName === "BUTTON" && (type === "submit" || type === "");
+            if (isSubmit || type === "submit") {
+                if (!ok) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                return;
+            }
+            e.preventDefault();
             return;
         }
         if (code.indexOf("showHideDeleteButton2") !== -1 && typeof window.showHideDeleteButton2 === "function") {

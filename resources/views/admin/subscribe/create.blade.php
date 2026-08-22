@@ -19,7 +19,7 @@
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
                         </div>
-                        <form onsubmit="return btnCheckListGet()" action="{{ route('subscribe.destroy_checked') }}" method="POST">
+                        <form id="bulkDeleteForm" onsubmit="return btnCheckListGet()" action="{{ route('subscribe.destroy_checked') }}" method="POST">
                             @method('DELETE')
                             @csrf
                             <input type="hidden" id="checked_lists" name="checked_lists" value="">
@@ -38,7 +38,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
-                                            <button onclick="btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
+                                            <button type="submit" class="btn btn-success" onclick="return btnCheckListGet()">{{ __('content.yes_delete_it') }}</button>
                                         </div>
                                     </div>
                                 </div>

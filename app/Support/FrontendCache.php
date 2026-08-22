@@ -68,10 +68,21 @@ class FrontendCache
 
         $pageData = SiteCache::frontendRemember('service', $languageId, $slug, SiteCache::TTL_MEDIUM, function () use ($languageId, $slug) {
             $service = Service::where('services.service_slug', $slug)->firstOrFail();
-            $details = ServiceDetail::where('service_id', $service->id)->get();
+            $details = ServiceDetail::where('service_id', $service->id)
+                ->orderBy('order', 'asc')
+                ->orderBy('id', 'asc')
+                ->get();
+            $related_services = Service::query()
+                ->where('language_id', $languageId)
+                ->where('status', 1)
+                ->where('id', '!=', $service->id)
+                ->orderBy('order', 'asc')
+                ->orderBy('id', 'desc')
+                ->take(4)
+                ->get(['id', 'title', 'service_slug', 'service_image', 'short_desc', 'icon']);
             $recent_posts = static::recentPosts($languageId, 3);
 
-            return compact('service', 'details', 'recent_posts');
+            return compact('service', 'details', 'related_services', 'recent_posts');
         });
 
         return array_merge($data, $pageData);
@@ -211,6 +222,7 @@ class FrontendCache
                     'author_name',
                     'title',
                     'desc',
+                    'short_desc',
                     'blog_image',
                     'type',
                     'slug',
@@ -227,7 +239,23 @@ class FrontendCache
                 ->where('status', 1)
                 ->where('slug', $slug)
                 ->firstOrFail();
-            $recent_posts = static::recentPosts($languageId, 3);
+            $recent_posts = Blog::query()
+                ->select([
+                    'blogs.id',
+                    'blogs.title',
+                    'blogs.slug',
+                    'blogs.blog_image',
+                    'blogs.created_at',
+                ])
+                ->join('categories', 'categories.id', '=', 'blogs.category_id')
+                ->where('blogs.language_id', $languageId)
+                ->where('categories.language_id', $languageId)
+                ->where('categories.status', 1)
+                ->where('blogs.status', 1)
+                ->where('blogs.id', '!=', $blog->id)
+                ->orderByDesc('blogs.id')
+                ->take(4)
+                ->get();
             $blog_count_categories = Blog::query()
                 ->select(DB::raw('count(*) as category_count, category_id'))
                 ->where('language_id', $languageId)

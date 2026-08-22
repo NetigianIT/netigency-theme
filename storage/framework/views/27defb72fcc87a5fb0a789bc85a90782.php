@@ -4,7 +4,7 @@
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="title" content="<?php if(isset($blog)): ?> <?php echo e($blog->title); ?> <?php elseif(isset($service)): ?> <?php echo e($service->title); ?> <?php elseif(isset($portfolio->title)): ?> <?php echo e($portfolio->title); ?> <?php elseif(isset($general_seo)): ?><?php echo e($general_seo->site_name); ?> <?php endif; ?>">
     <meta name="description" content="<?php if(isset($blog)): ?> <?php echo e($blog->meta_desc); ?> <?php elseif(isset($service)): ?> <?php echo e($service->meta_desc); ?> <?php elseif(isset($portfolio)): ?> <?php echo e($portfolio->meta_desc); ?> <?php elseif(isset($general_seo)): ?><?php echo e($general_seo->site_desc); ?> <?php endif; ?>">
     <meta name="keywords" content="<?php if(isset($blog)): ?> <?php echo e($blog->meta_keyword); ?> <?php elseif(isset($service)): ?> <?php echo e($service->meta_keyword); ?> <?php elseif(isset($portfolio)): ?> <?php echo e($portfolio->meta_keyword); ?> <?php elseif(isset($general_seo)): ?><?php echo e($general_seo->site_keywords); ?> <?php endif; ?> ">
@@ -53,21 +53,22 @@
         <link href="<?php echo e(asset('uploads/img/dummy/favicon.png')); ?>" sizes="128x128" rel="shortcut icon" />
 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
+    <link rel="preload" href="<?php echo e(asset('assets/frontend/css/style.css')); ?>" as="style">
+    <link rel="preload" href="<?php echo e(asset('assets/frontend/fonts/font_awesome/webfonts/fa-solid-900.woff2')); ?>" as="font" type="font/woff2" crossorigin>
+
     <!--// Bootstrap  //-->
     <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/vendor/css/bootstrap.min.css')); ?>">
-    <!--// Magnific Popup //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/vendor/css/magnific.popup.min.css')); ?>">
-    <!--// Animate Css //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/vendor/css/animate.min.css')); ?>">
-    <!--// Owl Carousel //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/vendor/css/owl.carousel.min.css')); ?>">
-    <!--// Owl Carousel Default //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/vendor/css/owl.carousel.default.min.css')); ?>">
-    <!--// Font Awesome //-->
+    <?php echo deferred_css(asset('assets/frontend/vendor/css/magnific.popup.min.css')); ?>
+
+    <?php echo deferred_css(asset('assets/frontend/vendor/css/animate.min.css')); ?>
+
+    <?php echo deferred_css(asset('assets/frontend/vendor/css/owl.carousel.min.css')); ?>
+
+    <?php echo deferred_css(asset('assets/frontend/vendor/css/owl.carousel.default.min.css')); ?>
+
     <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/fonts/font_awesome/css/all.css')); ?>">
-    <!--// Flat Icons //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/fonts/flat_icons/flaticon.css')); ?>">
-    <!--// Theme Main Css //-->
+    <?php echo deferred_css(asset('assets/frontend/fonts/flat_icons/flaticon.css')); ?>
+
     <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/style.css')); ?>">
     <!--// Theme Color Css //-->
     <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/default-color.css')); ?>" id="theme-color-toggle" />
@@ -102,7 +103,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=101">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=121">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -289,8 +290,8 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                 <nav class="navbar navbar-expand-lg p-0">
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($general_site_image->site_colored_logo_image)): ?>
                         <a class="navbar-brand" title="Home" href="<?php echo e(url('/')); ?>">
-                            <img src="<?php echo e(asset('uploads/img/general/'.$general_site_image->site_white_logo_image)); ?>" alt="Logo White" class="img-fluid logo-transparent">
-                            <img src="<?php echo e(asset('uploads/img/general/'.$general_site_image->site_colored_logo_image)); ?>" alt="Logo Black" class="img-fluid logo-normal">
+                            <img src="<?php echo e(asset('uploads/img/general/'.$general_site_image->site_white_logo_image)); ?>" alt="<?php echo e(optional($general_seo ?? null)->site_name ?: 'Netigian IT'); ?>" class="img-fluid logo-transparent" width="180" height="60">
+                            <img src="<?php echo e(asset('uploads/img/general/'.$general_site_image->site_colored_logo_image)); ?>" alt="<?php echo e(optional($general_seo ?? null)->site_name ?: 'Netigian IT'); ?>" class="img-fluid logo-normal" width="180" height="60">
                         </a>
                     <?php else: ?>
                         <a class="navbar-brand" title="Home" href="#">
@@ -365,6 +366,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                             ?>
                                             <a href="<?php echo e(url('language/set-locale/'.$display_dropdown->id)); ?>"
                                                class="lang-toggle-btn<?php echo e($isActiveLang ? ' active' : ''); ?>"
+                                               data-language-id="<?php echo e($display_dropdown->id); ?>"
                                                <?php if($isActiveLang): ?> aria-current="true" <?php endif; ?>
                                                title="<?php echo e($display_dropdown->language_name); ?>"><?php echo e($langShort); ?></a>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -504,19 +506,19 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                     <div class="footer-widget">
                                         <h6 class="footer-title">About Us</h6>
                                         <div class="footer-social-links">
-                                            <a href="javascript:void(0)">
+                                            <a href="#">
                                                 <i class="fab fa-facebook-f"></i>
                                                 <span>Facebook</span>
                                             </a>
-                                            <a href="javascript:void(0)">
+                                            <a href="#">
                                                 <i class="fab fa-youtube"></i>
                                                 <span>YouTube</span>
                                             </a>
-                                            <a href="javascript:void(0)">
+                                            <a href="#">
                                                 <i class="fab fa-instagram"></i>
                                                 <span>Instagram</span>
                                             </a>
-                                            <a href="javascript:void(0)">
+                                            <a href="#">
                                                 <i class="fab fa-twitter"></i>
                                                 <span>Twitter</span>
                                             </a>
@@ -528,22 +530,22 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         <h6 class="footer-title">Customer relationship</h6>
                                         <ul class="footer-links">
                                             <li>
-                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Product review</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Product review</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>User agreement</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>User agreement</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Distance Selling Agreement</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Distance Selling Agreement</span></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0)"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -567,7 +569,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                                     <i class="fab fa-whatsapp"></i>
                                                     <div class="footer-contact-body">
                                                         <h6>WhatsApp</h6>
-                                                        <p><a href="javascript:void(0)" class="text-white">+1 422-200-5555</a></p>
+                                                        <p><a href="#" class="text-white">+1 422-200-5555</a></p>
                                                     </div>
                                                 </li>
                                                 <li>
@@ -605,7 +607,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['color_option_sidebar'] == 1): ?>
     <div id="colorOptionsSidebar">
     <div class="color-options-wrap">
-        <button type="button" id="colorOptionsSidebarToggle">
+        <button type="button" id="colorOptionsSidebarToggle" aria-label="Color options">
             <i class="fa fa-cog fa-spin"></i>
         </button>
         <div class="color-options-list">
@@ -629,7 +631,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['rtl_sidebar'] == 1): ?>
     <div id="rtlSidebar">
-    <button type="button" id="rtlToggle">RTL</button>
+    <button type="button" id="rtlToggle" aria-label="Toggle RTL layout">RTL</button>
 </div>
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 <!--// #rtlSidebar //-->
@@ -639,45 +641,31 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 
 
 <!--// JQuery //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/jquery.min.js')); ?>"></script>
-<!--// Popper //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/popper.min.js')); ?>"></script>
-<!--// Bootstrap //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/bootstrap.min.js')); ?>"></script>
-<!--// Images Loaded Js //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/images.loaded.min.js')); ?>"></script>
-<!--// Wow Js //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/wow.min.js')); ?>"></script>
-<!--// Magnific Popup //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/magnific.popup.min.js')); ?>"></script>
-<!--// Waypoint Js //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/waypoint.min.js')); ?>"></script>
-<!--// Counter Up Js //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/counter.up.min.js')); ?>"></script>
-<!--// JQuery Easing Functions //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/jquery.easing.min.js')); ?>"></script>
-<!--// Owl Carousel //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/owl.carousel.min.js')); ?>"></script>
-<!--// Form Validate //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/validate.min.js')); ?>"></script>
-<!--// Form Validate //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/custom.select.plugin.js')); ?>"></script>
-<!--// Scroll It //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/scrollit.min.js')); ?>"></script>
-<!--// Isotope Js //-->
-<script src="<?php echo e(asset('assets/frontend/vendor/js/isotope.min.js')); ?>"></script>
-<!--// Main Js //-->
-<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=81"></script>
-<script src="<?php echo e(asset('assets/frontend/js/ni-contact-form.js')); ?>?v=3"></script>
-<!--// Dark / Light Mode //-->
-<script src="<?php echo e(asset('assets/frontend/js/theme-mode.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/jquery.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/popper.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/bootstrap.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/images.loaded.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/wow.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/magnific.popup.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/waypoint.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/counter.up.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/jquery.easing.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/owl.carousel.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/validate.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/custom.select.plugin.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/scrollit.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/vendor/js/isotope.min.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=87" defer></script>
+<script src="<?php echo e(asset('assets/frontend/js/ni-contact-form.js')); ?>?v=3" defer></script>
+<script src="<?php echo e(asset('assets/frontend/js/language-switch.js')); ?>?v=1" defer></script>
+<script src="<?php echo e(asset('assets/frontend/js/theme-mode.js')); ?>" defer></script>
 
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session()->has('language_direction_from_dropdown')): ?>
 
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session()->get('language_direction_from_dropdown') == 1): ?>
 
         <!-- Theme Main Js  -->
-        <script src="<?php echo e(asset('assets/frontend/js/rtl-mode.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/frontend/js/rtl-mode.js')); ?>" defer></script>
 
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
@@ -687,7 +675,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($language->direction == 1): ?>
 
         <!-- Theme Main Js  -->
-        <script src="<?php echo e(asset('assets/frontend/js/rtl-mode.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/frontend/js/rtl-mode.js')); ?>" defer></script>
 
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
@@ -699,8 +687,8 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<script src="<?php echo e(asset('assets/frontend/js/ni-select.js')); ?>?v=1"></script>
-<script src="<?php echo e(asset('assets/frontend/js/ni-spa-nav.js')); ?>?v=1"></script>
+<script src="<?php echo e(asset('assets/frontend/js/ni-select.js')); ?>?v=1" defer></script>
+<script src="<?php echo e(asset('assets/frontend/js/ni-spa-nav.js')); ?>?v=1" defer></script>
 
 </body>
 </html><?php /**PATH C:\Users\HP\Desktop\Netigian IT\themes\netigency-theme\resources\views/layouts/frontend/master.blade.php ENDPATH**/ ?>

@@ -75,17 +75,19 @@ unset($__defined_vars, $__key, $__value); ?>
 
     $logoFile = $techLogos[strtolower(trim($title))] ?? null;
     $sizeClass = $size === 'sub' ? 'tech-icon-wrap--sub' : 'tech-icon-wrap--main';
+    $logoSlug = preg_replace('/[^a-z0-9]+/', '-', strtolower(trim($title)));
+    $logoSlug = trim($logoSlug, '-');
 ?>
 
 <div class="tech-icon-wrap <?php echo e($sizeClass); ?>">
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($type === 'icon' && $logoFile): ?>
-        <img src="<?php echo e(asset('assets/frontend/img/tech/'.$logoFile)); ?>" alt="<?php echo e($title); ?>" class="tech-logo" loading="lazy" decoding="async">
+        <img src="<?php echo e(asset('assets/frontend/img/tech/'.$logoFile)); ?>" alt="<?php echo e($title); ?>" class="tech-logo tech-logo--<?php echo e($logoSlug); ?>" loading="lazy" decoding="async">
     <?php elseif($type === 'icon' && !empty($icon)): ?>
         <div class="tech-fa-icon" aria-hidden="true">
             <span class="<?php echo e($icon); ?>"></span>
         </div>
     <?php elseif($type !== 'icon' && !empty($featureImage)): ?>
-        <img src="<?php echo e(asset('uploads/img/features/'.$featureImage)); ?>" alt="<?php echo e($title); ?>" class="tech-logo" loading="lazy" decoding="async">
+        <img src="<?php echo e(asset('uploads/img/features/'.$featureImage)); ?>" alt="<?php echo e($title); ?>" class="tech-logo tech-logo--<?php echo e($logoSlug); ?>" loading="lazy" decoding="async">
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
 <?php /**PATH C:\Users\HP\Desktop\Netigian IT\themes\netigency-theme\resources\views/components/frontend/tech-icon.blade.php ENDPATH**/ ?>

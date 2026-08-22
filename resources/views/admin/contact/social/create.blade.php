@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.contact.partials.tabs')
+@endsection
+
 @section('page_actions')
     <a href="{{ route('social.index') }}" class="btn btn-primary">{{ __('content.back') }}</a>
 @endsection

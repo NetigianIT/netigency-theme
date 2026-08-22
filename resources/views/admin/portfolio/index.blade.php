@@ -4,10 +4,6 @@
     @include('admin.portfolio.partials.tabs')
 @endsection
 
-@section('page_actions')
-    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#portfolioSectionModal">{{ __('content.section_title_and_desc') }}</button>
-@endsection
-
 @section('content')
 
     <!-- Include Alert Blade -->
@@ -61,7 +57,6 @@
                                 <th scope="col">
                                     <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
                                 </th>
-                                <th>{{ __('content.additional_features') }}</th>
                                 <th>{{ __('content.title') }}</th>
                                 <th>{{ __('content.category_name') }}</th>
                                 <th>{{ __('content.order') }}</th>
@@ -76,25 +71,22 @@
                                     <td>
                                         <input  name="check_list[]" type="checkbox" value="{{ $portfolio->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Select</button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item"  href="{{ route('portfolio-slider.create', $portfolio->id) }}">{{ __('content.sliders') }}</a>
-                                                <a class="dropdown-item"  href="{{ route('portfolio-detail.create', $portfolio->id) }}">{{ __('content.details') }}</a>
-                                            </div>
-                                        </div>
-                                    </td>
                                     <td>{{ $portfolio->title }}</td>
                                     <td>{{ $portfolio->category_name }}</td>
                                     <td>{{ $portfolio->order }}</td>
                                     <td>
                                         <div>
-                                            <a href="{{ route('portfolio.edit', $portfolio->id) }}" class="mr-2">
-                                                <i class="fa fa-edit text-info font-18"></i>
+                                            <a href="{{ route('portfolio-slider.create', $portfolio->id) }}" class="ni-action-icon ni-action-view mr-2" title="{{ __('content.sliders') }}">
+                                                <i class="fas fa-images font-18" aria-hidden="true"></i>
                                             </a>
-                                            <a href="#" data-toggle="modal" data-target="#deleteModal{{ $portfolio->id }}">
-                                                <i class="fa fa-trash text-danger font-18"></i>
+                                            <a href="{{ route('portfolio-detail.create', $portfolio->id) }}" class="ni-action-icon ni-action-view mr-2" title="{{ __('content.details') }}">
+                                                <i class="far fa-eye font-18" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="{{ route('portfolio.edit', $portfolio->id) }}" class="ni-action-icon mr-2" title="{{ __('content.edit') }}">
+                                                <i class="fa fa-edit text-info font-18" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="#" class="ni-action-icon ni-action-delete" data-toggle="modal" data-target="#deleteModal{{ $portfolio->id }}" title="{{ __('content.delete') }}">
+                                                <i class="fa fa-trash text-danger font-18" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </td>
@@ -141,78 +133,4 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div><!-- end row-->
-    <div class="modal fade" id="portfolioSectionModal" tabindex="-1" role="dialog" aria-labelledby="portfolioSectionModalLabel" aria-modal="false">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0 font-16" id="portfolioSectionModalLabel">{{ __('content.section_title_and_desc') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    @if (isset($portfolio_section))
-                        @if ($demo_mode == "on")
-                            <!-- Include Alert Blade -->
-                                @include('admin.demo_mode.demo-mode')
-                            @else
-                                <form action="{{ route('portfolio-section.update', $portfolio_section->id) }}" method="POST">
-                                    @method('PUT')
-                                    @csrf
-                                    @endif
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="section_title" class="form-control" id="section_title" value="{{ $portfolio_section->section_title }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="title" class="form-control" id="title" value="{{ $portfolio_section->title }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
-                        </form>
-                    @else
-                                    @if ($demo_mode == "on")
-                                    <!-- Include Alert Blade -->
-                                        @include('admin.demo_mode.demo-mode')
-                                    @else
-                                        <form action="{{ route('portfolio-section.store') }}"  method="POST">
-                                            @csrf
-                                            @endif
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="section_title" class="form-control" id="section_title" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="title" class="form-control" id="title" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
-                        </form>
-                    @endif
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 @endsection

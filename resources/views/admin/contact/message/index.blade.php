@@ -1,5 +1,9 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.contact.partials.tabs')
+@endsection
+
 @section('page_actions')
     <form class="d-block ml-auto" action="{{ route('message.mark_all_read_update') }}" method="POST">
         @csrf

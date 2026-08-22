@@ -1,7 +1,10 @@
 @extends('layouts.admin.master')
 
+@section('page_tabs')
+    @include('admin.contact.partials.tabs')
+@endsection
+
 @section('page_actions')
-    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#contactSectionModal">{{ __('content.section_title_and_desc') }}</button>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactModal">+ {{ __('content.add_contact') }}</button>
 @endsection
 
@@ -128,92 +131,6 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div><!-- end row-->
-    <div class="modal fade" id="contactSectionModal" tabindex="-1" role="dialog" aria-labelledby="contactSectionModalLabel" aria-modal="false">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0 font-16" id="contactModalLabel">{{ __('content.section_title_and_desc') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    @if (isset($contact_section))
-                        @if ($demo_mode == "on")
-                            <!-- Include Alert Blade -->
-                                @include('admin.demo_mode.demo-mode')
-                            @else
-                                <form action="{{ route('contact-section.update', $contact_section->id) }}" method="POST">
-                                    @method('PUT')
-                                    @csrf
-                                    @endif
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="section_title" class="form-control" id="section_title" value="{{ $contact_section->section_title }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="title" class="form-control" id="title" value="{{ $contact_section->title }}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="map_iframe" data-toggle="tooltip" title="{{ __('content.map_iframe_desc_placeholder') }}">{{ __('content.map_iframe') }}</label>
-                                        <textarea name="map_iframe" class="form-control" id="map_iframe">{{ $contact_section->map_iframe }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
-                        </form>
-                    @else
-                                    @if ($demo_mode == "on")
-                                    <!-- Include Alert Blade -->
-                                        @include('admin.demo_mode.demo-mode')
-                                    @else
-                                        <form action="{{ route('contact-section.store') }}" method="POST">
-                                            @csrf
-                                            @endif
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="section_title" class="form-control" id="section_title" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                        <input type="text" name="title" class="form-control" id="title" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="map_iframe" data-toggle="tooltip" title="{{ __('content.map_iframe_desc_placeholder') }}">{{ __('content.map_iframe') }}</label>
-                                        <textarea name="map_iframe" class="form-control" id="map_iframe"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
-                        </form>
-                    @endif
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
     <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-modal="false">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
