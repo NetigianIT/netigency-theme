@@ -1,21 +1,12 @@
 <?php
 
-use App\Models\Admin\Language;
 use App\Support\SiteCache;
 
 if (! function_exists('getLanguage')) {
-    // Get language for create data (admin content language)
+    // Admin content language follows the selected English/Bengali locale.
     function getLanguage()
     {
-        static $memo = null;
-
-        if ($memo !== null) {
-            return $memo;
-        }
-
-        $memo = SiteCache::activeDataLanguage();
-
-        return $memo;
+        return getSiteLanguage();
     }
 }
 
@@ -49,13 +40,64 @@ if (! function_exists('portfolio_image_url')) {
      */
     function portfolio_image_url($filename = null)
     {
-        $fallback = 'uploads/img/dummy/portfolio-demo.png';
+        static $fallback = null;
+        $fallback ??= asset('uploads/img/dummy/portfolio-demo.png');
 
-        if (! empty($filename) && file_exists(public_path('uploads/img/portfolio/' . $filename))) {
-            return asset('uploads/img/portfolio/' . $filename);
+        if (empty($filename)) {
+            return $fallback;
         }
 
-        return asset($fallback);
+        static $exists = [];
+
+        if (! array_key_exists($filename, $exists)) {
+            $exists[$filename] = is_file(public_path('uploads/img/portfolio/'.$filename));
+        }
+
+        return $exists[$filename]
+            ? asset('uploads/img/portfolio/'.$filename)
+            : $fallback;
+    }
+}
+
+if (! function_exists('tech_logo_file')) {
+    /**
+     * Built-in tech stack logo filename for a feature title, if available.
+     */
+    function tech_logo_file(?string $title): ?string
+    {
+        $techLogos = [
+            'laravel' => 'laravel.svg',
+            'vue.js' => 'vuejs.svg',
+            'vuejs' => 'vuejs.svg',
+            'php' => 'php.svg',
+            'node.js' => 'nodejs.svg',
+            'nodejs' => 'nodejs.svg',
+            'mysql' => 'mysql.svg',
+            'react.js' => 'react.svg',
+            'react' => 'react.svg',
+            'redis' => 'redis.svg',
+            'livewire' => 'livewire.svg',
+            'ci/cd' => 'cicd.svg',
+            'cicd' => 'cicd.svg',
+            'deploy' => 'deploy.svg',
+            'cursor' => 'cursor.svg',
+            'primevue' => 'primevue.svg',
+            'primereact' => 'primereact.svg',
+            'reactvue' => 'primereact.svg',
+            'nuxt.js' => 'nuxt.svg',
+            'nuxt' => 'nuxt.svg',
+            'next.js' => 'nextjs.svg',
+            'nextjs' => 'nextjs.svg',
+            'next' => 'nextjs.svg',
+            'zustand' => 'zustand.svg',
+            'redux' => 'redux.svg',
+            'vuex' => 'vuex.svg',
+            'pinia' => 'pinia.svg',
+            'typescript' => 'typescript.svg',
+            'ts' => 'typescript.svg',
+        ];
+
+        return $techLogos[strtolower(trim((string) $title))] ?? null;
     }
 }
 

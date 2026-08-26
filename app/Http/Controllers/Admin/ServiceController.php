@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Service;
+use App\Models\Admin\ServiceDetail;
 use App\Models\Admin\ServicePaginate;
 use App\Models\Admin\ServiceSection;
+use App\Support\DetailSync;
 use App\Support\HtmlCleaner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -47,7 +49,7 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         // Form validation
-        $request->validate([
+        $request->validate(array_merge([
             'title' => 'required',
             'order' => 'required|integer',
             'images_status'   =>  'in:enable,disable',
@@ -55,10 +57,10 @@ class ServiceController extends Controller
             'service_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
             'breadcrumb_status'   =>  'integer|in:0,1',
             'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
-        ]);
+        ], DetailSync::validationRules()));
 
         // Get All Request
-        $input = $request->all();
+        $input = $request->except('details');
 
         if($request->hasFile('service_image')){
 
@@ -105,7 +107,7 @@ class ServiceController extends Controller
         }
 
         // Record to database
-        Service::create([
+        $service = Service::create([
             'language_id' => getLanguage()->id,
             'title' => $input['title'],
             'desc' => HtmlCleaner::clean($input['desc']),
@@ -120,6 +122,8 @@ class ServiceController extends Controller
             'order' => $input['order']
         ]);
 
+        DetailSync::sync(ServiceDetail::class, 'service_id', (int) $service->id, $request->input('details', []));
+
         return redirect()->route('service.index')
             ->with('success', 'content.created_successfully');
     }
@@ -133,8 +137,9 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = Service::findOrFail($id);
+        $service_details = ServiceDetail::where('service_id', $id)->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
-        return view('admin.service.edit', compact('service'));
+        return view('admin.service.edit', compact('service', 'service_details'));
     }
 
     /**
@@ -147,7 +152,7 @@ class ServiceController extends Controller
     public function update(Request $request, $id)
     {
         // Form validation
-        $request->validate([
+        $request->validate(array_merge([
             'title' => 'required',
             'order' => 'required|integer',
             'images_status'   =>  'in:enable,disable',
@@ -155,12 +160,12 @@ class ServiceController extends Controller
             'service_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
             'breadcrumb_status'   =>  'integer|in:0,1',
             'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
-        ]);
+        ], DetailSync::validationRules()));
 
         $service = Service::find($id);
 
         // Get All Request
-        $input = $request->all();
+        $input = $request->except('details');
 
         if($request->hasFile('service_image')){
 
@@ -212,6 +217,8 @@ class ServiceController extends Controller
         // Record to database
         Service::find($id)->update($input);
 
+        DetailSync::sync(ServiceDetail::class, 'service_id', (int) $id, $request->input('details', []));
+
         return redirect()->route('service.index')
             ->with('success', 'content.updated_successfully');
     }
@@ -234,6 +241,8 @@ class ServiceController extends Controller
         // Delete Image
         File::delete(public_path($folder.$service->service_image));
         File::delete(public_path($folder2.$service->custom_breadcrumb_image));
+
+        ServiceDetail::where('service_id', $service->id)->delete();
 
         // Delete record
         $service->delete();
@@ -272,6 +281,8 @@ class ServiceController extends Controller
             // Delete Image
             File::delete(public_path($folder.$service->service_image));
             File::delete(public_path($folder2.$service->custom_breadcrumb_image));
+
+            ServiceDetail::where('service_id', $service->id)->delete();
 
             // Delete record
             $service->delete();

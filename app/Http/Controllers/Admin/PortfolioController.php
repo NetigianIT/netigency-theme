@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Portfolio;
 use App\Models\Admin\PortfolioCategory;
+use App\Models\Admin\PortfolioDetail;
 use App\Models\Admin\PortfolioSection;
+use App\Support\DetailSync;
 use App\Support\HtmlCleaner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -71,7 +73,7 @@ class PortfolioController extends Controller
     public function store(Request $request)
     {
         // Form validation
-        $request->validate([
+        $request->validate(array_merge([
             'category_id' => 'integer|required',
             'title' => 'required',
             'image_status'   =>  'integer|in:0,1',
@@ -80,10 +82,10 @@ class PortfolioController extends Controller
             'breadcrumb_status' => 'integer|in:0,1',
             'order'   =>  'required|integer',
             'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
-        ]);
+        ], DetailSync::validationRules()));
 
         // Get All Request
-        $input = $request->all();
+        $input = $request->except('details');
 
         if($request->hasFile('thumbnail_image')){
 
@@ -133,7 +135,7 @@ class PortfolioController extends Controller
         $category = PortfolioCategory::find($input['category_id']);
 
         // Record to database
-        Portfolio::create([
+        $portfolio = Portfolio::create([
             'language_id' => getLanguage()->id,
             'category_name' => $category->category_name,
             'category_id' => $input['category_id'],
@@ -148,6 +150,8 @@ class PortfolioController extends Controller
             'custom_breadcrumb_image' => $input['custom_breadcrumb_image'],
             'order' => $input['order']
         ]);
+
+        DetailSync::sync(PortfolioDetail::class, 'portfolio_id', (int) $portfolio->id, $request->input('details', []));
 
         return redirect()->route('portfolio.index')
             ->with('success', 'content.created_successfully');
@@ -165,8 +169,9 @@ class PortfolioController extends Controller
         $language = getLanguage();
         $portfolio = Portfolio::findOrFail($id);
         $categories = PortfolioCategory::where('language_id', $language->id)->get();
+        $portfolio_details = PortfolioDetail::where('portfolio_id', $id)->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
 
-        return view('admin.portfolio.edit', compact('portfolio', 'categories'));
+        return view('admin.portfolio.edit', compact('portfolio', 'categories', 'portfolio_details'));
     }
 
     /**
@@ -179,7 +184,7 @@ class PortfolioController extends Controller
     public function update(Request $request, $id)
     {
         // Form validation
-        $request->validate([
+        $request->validate(array_merge([
             'category_id' => 'integer|required',
             'title' => 'required',
             'image_status' => 'integer|in:0,1',
@@ -188,12 +193,12 @@ class PortfolioController extends Controller
             'breadcrumb_status' => 'integer|in:0,1',
             'order'   =>  'required|integer',
             'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
-        ]);
+        ], DetailSync::validationRules()));
 
         $portfolio = Portfolio::find($id);
 
         // Get All Request
-        $input = $request->all();
+        $input = $request->except('details');
 
         if($request->hasFile('thumbnail_image')){
 
@@ -250,6 +255,8 @@ class PortfolioController extends Controller
         // Record to database
         Portfolio::find($id)->update($input);
 
+        DetailSync::sync(PortfolioDetail::class, 'portfolio_id', (int) $id, $request->input('details', []));
+
         return redirect()->route('portfolio.index')
             ->with('success', 'content.updated_successfully');
     }
@@ -272,6 +279,8 @@ class PortfolioController extends Controller
         // Delete Image
         File::delete(public_path($folder.$portfolio->custom_breadcrumb_image));
         File::delete(public_path($folder1.$portfolio->thumbnail_image));
+
+        PortfolioDetail::where('portfolio_id', $portfolio->id)->delete();
 
         // Delete record
         $portfolio->delete();
@@ -310,6 +319,8 @@ class PortfolioController extends Controller
             // Delete Image
             File::delete(public_path($folder.$portfolio->custom_breadcrumb_image));
             File::delete(public_path($folder1.$portfolio->thumbnail_image));
+
+            PortfolioDetail::where('portfolio_id', $portfolio->id)->delete();
 
             // Delete record
             $portfolio->delete();

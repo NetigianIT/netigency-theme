@@ -37,10 +37,6 @@
                         <span>{{ __('frontend.services') }}</span>
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </a>
-                    <a class="ni-detail-back" href="{{ url('/#services') }}">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                        <span>Back to Services</span>
-                    </a>
                 </div>
             </div>
 
@@ -60,9 +56,6 @@
                             <img src="{{ asset('uploads/img/service/'.$service->service_image) }}" alt="{{ $service->title }}" class="img-fluid" fetchpriority="high" decoding="async">
                         @else
                             <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $service->title }}" class="img-fluid">
-                        @endif
-                        @if (!empty($service->icon))
-                            <span class="ni-detail-service-icon {{ $service->icon }}" aria-hidden="true"></span>
                         @endif
                     </div>
                 </div>
@@ -146,18 +139,6 @@
                     <a href="{{ $service->getShareUrl('pinterest') }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Pinterest"><i class="fab fa-pinterest"></i></a>
                 </div>
 
-                <div class="ni-detail-newsletter">
-                    <div class="ni-detail-newsletter__icon"><i class="fa fa-envelope-open-text"></i></div>
-                    <div class="ni-detail-newsletter__text">
-                        <h5>{{ __('frontend.subscribe_newsletter') }}</h5>
-                        <p>Receive the latest news updates</p>
-                    </div>
-                    <form class="ni-detail-newsletter__form" action="{{ route('subscribe-section.store') }}" method="POST">
-                        @csrf
-                        <input type="email" name="email" placeholder="{{ __('frontend.enter_email') }}" required>
-                        <button type="submit" aria-label="Subscribe"><i class="fa fa-arrow-right"></i></button>
-                    </form>
-                </div>
             </div>
         </div>
     </section>

@@ -15,10 +15,7 @@ class PortfolioDetailController extends Controller
      */
     public function create($id)
     {
-        // Retrieving models
-        $portfolio_details = PortfolioDetail::where('portfolio_id', $id)->orderBy('id', 'desc')->get();
-
-        return view('admin.portfolio.detail.create', compact( 'portfolio_details', 'id'));
+        return redirect()->route('portfolio.edit', $id);
     }
 
     /**
@@ -60,10 +57,7 @@ class PortfolioDetailController extends Controller
      */
     public function edit($portfolio_id, $id)
     {
-        // Retrieving models
-        $portfolio_detail = PortfolioDetail::find($id);
-
-        return view('admin.portfolio.detail.edit', compact('portfolio_detail', 'portfolio_id'));
+        return redirect()->route('portfolio.edit', $portfolio_id);
     }
 
     /**

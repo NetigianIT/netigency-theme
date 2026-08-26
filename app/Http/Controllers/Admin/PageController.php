@@ -32,7 +32,12 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('admin.page.create');
+        $language = getLanguage();
+        $pageCount = Page::countableForLanguage($language->id)->count();
+        $maxPages = Page::MAX_PAGES_PER_LANGUAGE;
+        $canCreate = $pageCount < $maxPages;
+
+        return view('admin.page.create', compact('pageCount', 'maxPages', 'canCreate'));
     }
 
     /**
@@ -43,6 +48,14 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
+        $language = getLanguage();
+        $pageCount = Page::countableForLanguage($language->id)->count();
+
+        if ($pageCount >= Page::MAX_PAGES_PER_LANGUAGE) {
+            return redirect()->route('page.index')
+                ->with('warning', __('content.page_limit_reached', ['max' => Page::MAX_PAGES_PER_LANGUAGE]));
+        }
+
         // Form validation
         $request->validate([
             'page_title' => 'required|unique:pages',
@@ -58,7 +71,7 @@ class PageController extends Controller
         // Record to database
         Page::create(
             [
-                'language_id' => getLanguage()->id,
+                'language_id' => $language->id,
                 'page_title' => $input['page_title'],
                 'desc' => HtmlCleaner::clean($input['desc']),
                 'status' => $input['status'],

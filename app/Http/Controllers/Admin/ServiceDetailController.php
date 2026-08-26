@@ -15,10 +15,7 @@ class ServiceDetailController extends Controller
      */
     public function create($id)
     {
-        // Retrieving models
-        $service_details = ServiceDetail::where('service_id', $id)->orderBy('id', 'desc')->get();
-
-        return view('admin.service.detail.create', compact( 'service_details', 'id'));
+        return redirect()->route('service.edit', $id);
     }
 
     /**
@@ -60,10 +57,7 @@ class ServiceDetailController extends Controller
      */
     public function edit($service_id, $id)
     {
-        // Retrieving models
-        $service_detail = ServiceDetail::find($id);
-
-        return view('admin.service.detail.edit', compact('service_detail', 'service_id'));
+        return redirect()->route('service.edit', $service_id);
     }
 
     /**

@@ -33,6 +33,7 @@
                                           <textarea id="summernote" name="desc" class="form-control"></textarea>
                                       </div>
                                   </div>
+                                  @include('admin.components.details-repeater')
                                   <div class="col-md-12 height-card box-margin">
                                       <div id="accordion-">
                                           <div class="card mb-2">

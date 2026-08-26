@@ -87,9 +87,6 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <a href="{{ route('service-detail.create', $service->id) }}" class="ni-action-icon ni-action-view mr-2" title="{{ __('content.details') }}">
-                                                <i class="far fa-eye font-18" aria-hidden="true"></i>
-                                            </a>
                                             <a href="{{ route('service.edit', $service->id) }}" class="ni-action-icon mr-2" title="{{ __('content.edit') }}">
                                                 <i class="fa fa-edit text-info font-18" aria-hidden="true"></i>
                                             </a>

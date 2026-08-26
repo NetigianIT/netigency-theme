@@ -14,14 +14,26 @@ class LanguageSeeder extends Seeder
      */
     public function run()
     {
-        // Create datas
-        Language::create([
-            'language_name' => 'English',
-            'language_code' => 'en',
-            'direction' => 0,
-            'status' => 1,
-            'display_dropdown' => 1,
-            'default_site_language' => 1
-        ]);
+        Language::firstOrCreate(
+            ['language_code' => Language::CODE_ENGLISH],
+            [
+                'language_name' => 'English',
+                'direction' => 0,
+                'status' => 1,
+                'display_dropdown' => 1,
+                'default_site_language' => 1,
+            ]
+        );
+
+        Language::firstOrCreate(
+            ['language_code' => Language::CODE_BENGALI],
+            [
+                'language_name' => 'Bengali',
+                'direction' => 0,
+                'status' => 0,
+                'display_dropdown' => 1,
+                'default_site_language' => 0,
+            ]
+        );
     }
 }

@@ -16,12 +16,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="section_title" class="form-control" id="section_title" value="{{ $about->section_title }}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
                                     <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
                                     <input type="text" name="title" class="form-control" id="title" value="{{ $about->title }}" required>
                                 </div>
@@ -38,32 +32,6 @@
                                     <input type="text" name="video_link" class="form-control" id="video_link" value="{{ $about->video_link }}">
                                     <small id="video_link" class="form-text text-muted">{{ __('content.youtube_supported') }}</small>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="cv">{{ __('Cv File') }} (.pdf)</label>
-                                    <input id="cv" type="file" name="cv_file" class="form-control-file">
-                                </div>
-                                <div class="height-card box-margin">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="avatar-area text-center">
-                                                <div class="media">
-                                                    @if (!empty($about->cv_file))
-                                                        <a  class="d-block mx-auto" href="{{ asset('uploads/img/about/'.$about->cv_file) }}" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('content.current_image') }}">
-                                                            {{ $about->cv_file }}
-                                                        </a>
-                                                    @else
-                                                        <span>{{ __('content.not_yet_created') }}</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <!--end card-body-->
-                                        </div>
-                                    </div>
-                                    <!--end card-->
-                                </div>
-                                <!--end col-->
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -104,12 +72,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="section_title" class="form-control" id="section_title" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
                                     <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
                                     <input type="text" name="title" class="form-control" id="title" required>
                                 </div>
@@ -125,12 +87,6 @@
                                     <label for="video_link">{{ __('content.video_link') }}</label>
                                     <input type="text" name="video_link" class="form-control" id="video_link">
                                     <small id="video_link" class="form-text text-muted">{{ __('content.youtube_supported') }}</small>
-                                </div>
-                            </div>
-                            <div class="col-xl-12">
-                                <div class="form-group">
-                                    <label for="cv">{{ __('content.cv_or_any_file') }} (.pdf)</label>
-                                    <input id="cv" type="file" name="cv_file" class="form-control-file">
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -162,9 +118,9 @@
                 <div class="card-body pb-0">
                     <div class="d-flex justify-content-between align-items-center mb-20">
                         <h6 class="card-title mb-0">{{ __('content.information_list') }}</h6>
-                        <button type="button" class="btn btn-primary waves-effect waves-light float-right mb-3" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">+ {{ __('content.add_info') }}</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">+ {{ __('content.add_info') }}</button>
                     </div>
-                    <div class="table-responsive order-stats">
+                    <div class="table-responsive order-stats ni-dt-toolbar-end">
                         @if (count($info_lists) > 0)
                             <div>
                                 <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">

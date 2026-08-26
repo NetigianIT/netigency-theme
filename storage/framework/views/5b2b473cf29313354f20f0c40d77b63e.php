@@ -37,10 +37,6 @@
                         <span><?php echo e(__('frontend.services')); ?></span>
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </a>
-                    <a class="ni-detail-back" href="<?php echo e(url('/#services')); ?>">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                        <span>Back to Services</span>
-                    </a>
                 </div>
             </div>
 
@@ -60,9 +56,6 @@
                             <img src="<?php echo e(asset('uploads/img/service/'.$service->service_image)); ?>" alt="<?php echo e($service->title); ?>" class="img-fluid" fetchpriority="high" decoding="async">
                         <?php else: ?>
                             <img src="<?php echo e(asset('uploads/img/dummy/no-image.jpg')); ?>" alt="<?php echo e($service->title); ?>" class="img-fluid">
-                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($service->icon)): ?>
-                            <span class="ni-detail-service-icon <?php echo e($service->icon); ?>" aria-hidden="true"></span>
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
                 </div>
@@ -146,18 +139,6 @@
                     <a href="<?php echo e($service->getShareUrl('pinterest')); ?>" target="_blank" rel="noopener noreferrer" aria-label="Share on Pinterest"><i class="fab fa-pinterest"></i></a>
                 </div>
 
-                <div class="ni-detail-newsletter">
-                    <div class="ni-detail-newsletter__icon"><i class="fa fa-envelope-open-text"></i></div>
-                    <div class="ni-detail-newsletter__text">
-                        <h5><?php echo e(__('frontend.subscribe_newsletter')); ?></h5>
-                        <p>Receive the latest news updates</p>
-                    </div>
-                    <form class="ni-detail-newsletter__form" action="<?php echo e(route('subscribe-section.store')); ?>" method="POST">
-                        <?php echo csrf_field(); ?>
-                        <input type="email" name="email" placeholder="<?php echo e(__('frontend.enter_email')); ?>" required>
-                        <button type="submit" aria-label="Subscribe"><i class="fa fa-arrow-right"></i></button>
-                    </form>
-                </div>
             </div>
         </div>
     </section>

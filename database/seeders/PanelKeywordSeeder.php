@@ -1033,11 +1033,6 @@ class PanelKeywordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'key' => 'optimizer',
-                'value' => 'Optimizer',
-            ],
-            [
-                'language_id' => 1,
                 'key' => 'required_fields',
                 'value' => 'Fields marked are required',
             ],
@@ -1090,21 +1085,6 @@ class PanelKeywordSeeder extends Seeder
                 'language_id' => 1,
                 'key' => 'if_you_choose_other',
                 'value' => 'If you choose the other, you\'ll know how to create links that you can use on your site.',
-            ],
-            [
-                'language_id' => 1,
-                'key' => 'external_url',
-                'value' => 'External Url',
-            ],
-            [
-                'language_id' => 1,
-                'key' => 'subscribers',
-                'value' => 'Subscribers',
-            ],
-            [
-                'language_id' => 1,
-                'key' => 'add_subscriber',
-                'value' => 'Add Subscriber',
             ],
             [
                 'language_id' => 1,

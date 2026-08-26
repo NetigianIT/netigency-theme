@@ -4,21 +4,28 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Support\FrontendCache;
+use App\Support\SiteCache;
 
 class PageController extends Controller
 {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $page_slug
      * @return \Illuminate\Http\Response
      */
     public function show($page_slug)
     {
         $language = getSiteLanguage();
 
-        $data = FrontendCache::customPage($language->id, $page_slug);
+        $html = FrontendCache::rememberShowHtml(
+            'page',
+            $language->id,
+            $page_slug,
+            'frontend.page.show',
+            fn () => FrontendCache::customPage($language->id, $page_slug)
+        );
 
-        return view('frontend.page.show', $data);
+        return SiteCache::cachedHtmlResponse($html);
     }
 }

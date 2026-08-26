@@ -35,9 +35,7 @@ class AboutController extends Controller
     {
         // Form validation
         $request->validate([
-            'section_title' => 'required',
             'title' => 'required',
-            'cv_file' => 'mimes:pdf|max:2048',
             'about_image' => 'required|image|mimes:svg,png,jpeg,jpg|max:2048'
         ]);
 
@@ -63,36 +61,13 @@ class AboutController extends Controller
 
         }
 
-        if( $request->hasFile('cv_file')){
-
-            // Get cv file
-            $cv_file = $request->file('cv_file');
-
-            // Folder path
-            $folder ='uploads/img/about/';
-
-            // Make cv name
-            $cv_file_name =  time().'-'.$cv_file->getClientOriginalName();
-
-            // Upload file
-            $cv_file->move($folder, $cv_file_name);
-
-            // Set input
-            $input['cv_file']= $cv_file_name;
-
-        } else {
-            // Set input
-            $input['cv_file']= null;
-        }
-
         // Record to database
         About::firstOrCreate([
             'language_id' => getLanguage()->id,
-            'section_title' => $input['section_title'],
+            'section_title' => __('frontend.about_us'),
             'title' => $input['title'],
             'desc' => $input['desc'],
             'video_link' => $input['video_link'],
-            'cv_file' => $input['cv_file'],
             'about_image' => $input['about_image']
         ]);
 
@@ -111,16 +86,14 @@ class AboutController extends Controller
     {
         // Form validation
         $request->validate([
-            'section_title' => 'required',
             'title' => 'required',
-            'cv_file' => 'mimes:pdf|max:2048',
             'about_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
         ]);
 
         $about = About::find($id);
 
-        // Get All Request
-        $input = $request->all();
+        $input = $request->except('section_title');
+        $input['section_title'] = __('frontend.about_us');
 
         if($request->hasFile('about_image')){
 
@@ -142,27 +115,6 @@ class AboutController extends Controller
             // Set input
             $input['about_image']= $about_image_name;
 
-        }
-
-        if($request->hasFile('cv_file')){
-
-            // Get cv file
-            $cv_file = $request->file('cv_file');
-
-            // Folder path
-            $folder ='uploads/img/about/';
-
-            // Make image name
-            $cv_file_name =  time().'-'.$cv_file->getClientOriginalName();
-
-            // Delete Image
-            File::delete(public_path($folder.$about->cv_file));
-
-            // Upload image
-            $cv_file->move($folder, $cv_file_name);
-
-            // Set input
-            $input['cv_file']= $cv_file_name;
         }
 
         // Update model

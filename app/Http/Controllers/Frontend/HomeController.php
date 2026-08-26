@@ -12,7 +12,6 @@ use App\Models\Admin\Contact;
 use App\Models\Admin\ContactSection;
 use App\Models\Admin\Counter;
 use App\Models\Admin\CounterSection;
-use App\Models\Admin\ExternalUrl;
 use App\Models\Admin\Feature;
 use App\Models\Admin\FeatureSection;
 use App\Models\Admin\FixedContent;
@@ -61,7 +60,6 @@ class HomeController extends Controller
             $socials = Social::where('status', 1)->get();
             $color_option = ColorOption::first();
             $homepage_version = HomepageVersion::first();
-            $external_url = ExternalUrl::where('language_id', $language->id)->where('status', 1)->first();
             $quick_access_button = QuickAccessButton::first();
             $sliders = Slider::where('language_id', $language->id)->orderBy('order', 'asc')->get();
             $video = Video::first();
@@ -138,11 +136,7 @@ class HomeController extends Controller
                 ->where('status', 1)
                 ->orderBy('order', 'asc')
                 ->get();
-            $footer_pages = Page::where('language_id', $language->id)
-                ->where('display_header_menu', 0)
-                ->where('status', 1)
-                ->orderBy('order', 'asc')
-                ->get();
+            $footer_pages = Page::footerLinksForLanguage($language->id);
 
             return compact(
                 'site_info', 'google_analytic', 'socials', 'color_option',
@@ -150,7 +144,7 @@ class HomeController extends Controller
                 'service_section', 'services', 'counter_section', 'counters', 'work_process_section', 'work_processes',
                 'skill', 'skill_info_lists', 'portfolio_categories', 'portfolio_section', 'portfolios',
                 'team_section', 'teams', 'testimonial_section', 'testimonials', 'blog_section',
-                'recent_posts', 'contact_section', 'contacts', 'header_pages', 'footer_pages', 'external_url',
+                'recent_posts', 'contact_section', 'contacts', 'header_pages', 'footer_pages',
                 'sliders', 'video', 'quick_access_button'
             );
         });

@@ -16,21 +16,6 @@
             'active' => request()->is('admin/google-analytic/create'),
         ],
         [
-            'label' => __('content.breadcrumb'),
-            'url' => url('admin/breadcrumb/create'),
-            'active' => request()->is('admin/breadcrumb/create'),
-        ],
-        [
-            'label' => __('content.sections'),
-            'url' => url('admin/section/create'),
-            'active' => request()->is('admin/section/create'),
-        ],
-        [
-            'label' => __('content.color_option'),
-            'url' => url('admin/color-option/create'),
-            'active' => request()->is('admin/color-option/create'),
-        ],
-        [
             'label' => __('content.seo'),
             'url' => url('admin/seo/create'),
             'active' => request()->is('admin/seo/create'),

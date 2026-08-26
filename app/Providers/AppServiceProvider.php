@@ -83,12 +83,12 @@ class AppServiceProvider extends ServiceProvider
         $demo_mode = 'off'; // on/off
         View::share('demo_mode', $demo_mode);
 
-        if (Schema::hasTable('languages')) {
-            $languages = SiteCache::remember('site.languages', SiteCache::TTL_LONG, function () {
-                return Language::get();
+        if (SiteCache::tableExists('languages')) {
+            $languages = SiteCache::remember('site.languages.en_bn', SiteCache::TTL_LONG, function () {
+                return Language::supported()->get();
             });
-            $display_dropdowns = SiteCache::remember('site.display_dropdowns', SiteCache::TTL_LONG, function () {
-                return Language::where('display_dropdown', 1)->get();
+            $display_dropdowns = SiteCache::remember('site.display_dropdowns.en_bn', SiteCache::TTL_LONG, function () {
+                return Language::supported()->get();
             });
             $data_language = SiteCache::activeDataLanguage();
 
@@ -113,21 +113,21 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        if (Schema::hasTable('site_images')) {
+        if (SiteCache::tableExists('site_images')) {
             $general_site_image = SiteCache::remember('site.site_image', SiteCache::TTL_MEDIUM, function () {
                 return SiteImage::first();
             });
             View::share('general_site_image', $general_site_image);
         }
 
-        if (Schema::hasTable('seos')) {
+        if (SiteCache::tableExists('seos')) {
             $general_seo = SiteCache::remember('site.seo', SiteCache::TTL_MEDIUM, function () {
                 return Seo::first();
             });
             View::share('general_seo', $general_seo);
         }
 
-        if (Schema::hasTable('sections')) {
+        if (SiteCache::tableExists('sections')) {
             $section_arr = SiteCache::remember('site.sections', SiteCache::TTL_MEDIUM, function () {
                 $sections = Section::all();
                 $arr = [];
@@ -148,7 +148,7 @@ class AppServiceProvider extends ServiceProvider
             || request()->is('dashboard')
             || request()->is('livewire/*');
 
-        if ($isAdminUi && Schema::hasTable('messages')) {
+        if ($isAdminUi && SiteCache::tableExists('messages')) {
             $general_recent_messages = SiteCache::remember('site.admin.recent_messages', SiteCache::TTL_SHORT, function () {
                 return Message::orderBy('id', 'desc')->take(10)->get();
             });
@@ -159,7 +159,7 @@ class AppServiceProvider extends ServiceProvider
             View::share('general_unread_message_count', $general_unread_message_count);
         }
 
-        if ($isAdminUi && Schema::hasTable('comments')) {
+        if ($isAdminUi && SiteCache::tableExists('comments')) {
             $general_unread_comments = SiteCache::remember('site.admin.unread_comments', SiteCache::TTL_SHORT, function () {
                 return Comment::where('approval', 0)->orderBy('id', 'desc')->take(4)->get();
             });
@@ -171,7 +171,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('layouts.frontend.master', function ($view) {
-            if (! Schema::hasTable('pages')) {
+            if (! SiteCache::tableExists('pages')) {
                 $view->with('header_pages', collect());
 
                 return;

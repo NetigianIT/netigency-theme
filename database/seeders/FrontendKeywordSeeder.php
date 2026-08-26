@@ -93,16 +93,6 @@ class FrontendKeywordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
-                'key' => 'subscribe_newsletter',
-                'value' => 'Subscribe Newsletter',
-            ],
-            [
-                'language_id' => 1,
-                'key' => 'enter_email',
-                'value' => 'Enter Email',
-            ],
-            [
-                'language_id' => 1,
                 'key' => 'all',
                 'value' => 'All',
             ],

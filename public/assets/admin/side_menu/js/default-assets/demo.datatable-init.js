@@ -152,7 +152,7 @@
     var wrap = container.closest(".ni-global-table");
     if (!wrap) return;
 
-    var topRow = container.querySelector("div.row:has(.dataTables_filter)");
+    var topRow = container.querySelector("div.row:has(.dataTables_filter):not(:has(.dataTables_paginate))");
     if (!topRow || topRow.getAttribute("data-ni-global-ready") === "1") return;
     topRow.setAttribute("data-ni-global-ready", "1");
     topRow.classList.add("ni-global-table__row");
@@ -197,6 +197,9 @@
     if (!$del.length) return;
 
     var $top = window.jQuery(container).find(".dataTables_filter").first().closest(".row");
+    if ($top.find(".dataTables_paginate").length) {
+      $top = window.jQuery();
+    }
     if (!$top.length) {
       $top = window.jQuery(container).find("div.row").first();
     }
@@ -218,8 +221,12 @@
 
   function getStandardDatatableOptions(onReady) {
     return {
-      keys: true,
       autoWidth: false,
+      // Search on top. Info + pagination + entries filter stay under the table.
+      dom:
+        "<'row'<'col-sm-12'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'p><'col-sm-12 col-md-4'l>>",
       columnDefs: [
         { targets: 0, orderable: false, className: "all" },
         { targets: -1, orderable: false, className: "all text-nowrap" }
@@ -267,7 +274,7 @@
   }
 
   function moveAddButtonToToolbar(container) {
-    var topRow = container.querySelector("div.row:has(.dataTables_filter)");
+    var topRow = container.querySelector("div.row:has(.dataTables_filter):not(:has(.dataTables_paginate))");
     if (!topRow) return;
 
     var actions = topRow.querySelector(".ni-dt-toolbar-actions");
@@ -277,7 +284,20 @@
       topRow.appendChild(actions);
     }
 
+    var candidates = [];
     document.querySelectorAll(".ni-page-title__actions .btn.btn-primary, .ni-page-title__actions a.btn.btn-primary").forEach(function (btn) {
+      candidates.push(btn);
+    });
+
+    var card = container.closest(".card");
+    if (card) {
+      card.querySelectorAll(".btn.btn-primary, a.btn.btn-primary").forEach(function (btn) {
+        if (btn.closest(".dataTables_wrapper, .modal, form")) return;
+        candidates.push(btn);
+      });
+    }
+
+    candidates.forEach(function (btn) {
       if (!isAddAction(btn)) return;
       if (btn.getAttribute("data-ni-moved") === "1") return;
       btn.setAttribute("data-ni-moved", "1");
@@ -296,17 +316,20 @@
   function moveLengthToFooter(container) {
     var length = container.querySelector(".dataTables_length");
     var footer = container.querySelector("div.row:has(.dataTables_paginate)");
-    if (!length || !footer || length.getAttribute("data-ni-moved") === "1") return;
+    if (!length || !footer) return;
 
     var del = length.querySelector("#deleteChecked");
-    var topRow = container.querySelector("div.row:has(.dataTables_filter)");
+    var topRow = container.querySelector("div.row:has(.dataTables_filter):not(:has(.dataTables_paginate))");
     if (del && topRow) {
       topRow.appendChild(del);
     }
 
+    if (length.getAttribute("data-ni-moved") !== "1" && !footer.contains(length)) {
+      footer.appendChild(length);
+    }
+
     length.classList.add("ni-dt-length-footer");
     length.setAttribute("data-ni-moved", "1");
-    footer.appendChild(length);
   }
 
   if (!window.__niDtLengthBound) {

@@ -65,40 +65,10 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/fonts/font_awesome/css/all.css') }}">
     {!! deferred_css(asset('assets/frontend/fonts/flat_icons/flaticon.css')) !!}
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/style.css') }}">
-    <!--// Theme Color Css //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/default-color.css') }}" id="theme-color-toggle" />
-
-    <!--// Color Option Css //-->
-    @isset ($color_option)
-
-        @if ($color_option->color_option == 1)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/blue-color.css') }}">
-        @elseif ($color_option->color_option == 2)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/red-color.css') }}">
-        @elseif ($color_option->color_option == 3)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/yellow-color.css') }}">
-        @elseif ($color_option->color_option == 4)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/green-color.css') }}">
-        @elseif ($color_option->color_option == 5)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/pink-color.css') }}">
-        @elseif ($color_option->color_option == 6)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/turquose-color.css') }}">
-        @elseif ($color_option->color_option == 7)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/purple-color.css') }}">
-        @elseif ($color_option->color_option == 8)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/blue-color-2.css') }}">
-        @elseif ($color_option->color_option == 9)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/orange-color.css') }}">
-        @elseif ($color_option->color_option == 10)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/magenta-color.css') }}">
-        @elseif ($color_option->color_option == 11)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/orange-color-2.css') }}">
-        @endif
-
-    @endisset
+    <!-- Theme stays green; palette skins are not loaded. -->
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=121">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=130">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -394,7 +364,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                     <div class="footer-top">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6 col-lg-4 footer-widget-resp">
+                                <div class="col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">{{ __('frontend.about_us') }}</h6>
                                         <div class="footer-social-links">
@@ -423,25 +393,8 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-4 footer-widget-resp">
-                                    <div class="footer-widget footer-widget-pl">
-                                        <h6 class="footer-title">{{ __('frontend.customer_relationship') }}</h6>
-                                        <ul class="footer-links">
-                                            @foreach ($footer_pages as $footer_page)
-                                                @if (in_array($footer_page->page_slug, ['services', 'works', 'recent-works', 'case-studys', 'presentation', 'presentations']))
-                                                    @continue
-                                                @endif
-                                                <li>
-                                                    <a href="{{ route('any-page.show', ['page_slug' => $footer_page->page_slug]) }}">
-                                                        <i class="fas fa-angle-right"></i>
-                                                        <span>{{ $footer_page->page_title }}</span>
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-4 footer-widget-resp">
+                                @include('frontend.partials.footer-page-columns')
+                                <div class="col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">Contact Info</h6>
                                         <div class="footer-contact-info-wrap">
@@ -497,7 +450,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                     <div class="footer-top">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6 col-lg-4 footer-widget-resp">
+                                <div class="col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">About Us</h6>
                                         <div class="footer-social-links">
@@ -520,32 +473,45 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-4 footer-widget-resp">
+                                <div class="col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget footer-widget-pl">
                                         <h6 class="footer-title">Customer relationship</h6>
                                         <ul class="footer-links">
                                             <li>
-                                                <a href="#"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Our Vision</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="fas fa-angle-right"></i><span>Product review</span></a>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>About Us</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Terms and Condition</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                    <div class="footer-widget footer-widget-pl">
+                                        <h6 class="footer-title">Useful Links</h6>
+                                        <ul class="footer-links">
+                                            <li>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
                                             </li>
                                             <li>
                                                 <a href="#"><i class="fas fa-angle-right"></i><span>User agreement</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
-                                            </li>
-                                            <li>
                                                 <a href="#"><i class="fas fa-angle-right"></i><span>Distance Selling Agreement</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-4 footer-widget-resp">
+                                <div class="col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">Contact Info</h6>
                                         <div class="footer-contact-info-wrap">
@@ -598,31 +564,6 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
             <i class="fab fa-whatsapp"></i>
         </a>
     @endif
-
-    @if ($section_arr['color_option_sidebar'] == 1)
-    <div id="colorOptionsSidebar">
-    <div class="color-options-wrap">
-        <button type="button" id="colorOptionsSidebarToggle" aria-label="Color options">
-            <i class="fa fa-cog fa-spin"></i>
-        </button>
-        <div class="color-options-list">
-            <span class="color-options-item default" data-skins-css-path="{{ asset('assets/frontend/css/skins/default-color.css') }}"></span>
-            <span class="color-options-item blue" data-skins-css-path="{{ asset('assets/frontend/css/skins/blue-color.css') }}"></span>
-            <span class="color-options-item red" data-skins-css-path="{{ asset('assets/frontend/css/skins/red-color.css') }}"></span>
-            <span class="color-options-item yellow" data-skins-css-path="{{ asset('assets/frontend/css/skins/yellow-color.css') }}"></span>
-            <span class="color-options-item green" data-skins-css-path="{{ asset('assets/frontend/css/skins/green-color.css') }}"></span>
-            <span class="color-options-item pink" data-skins-css-path="{{ asset('assets/frontend/css/skins/pink-color.css') }}"></span>
-            <span class="color-options-item turquose" data-skins-css-path="{{ asset('assets/frontend/css/skins/turquose-color.css') }}"></span>
-            <span class="color-options-item purple" data-skins-css-path="{{ asset('assets/frontend/css/skins/purple-color.css') }}"></span>
-            <span class="color-options-item blue2" data-skins-css-path="{{ asset('assets/frontend/css/skins/blue-color-2.css') }}"></span>
-            <span class="color-options-item orange" data-skins-css-path="{{ asset('assets/frontend/css/skins/orange-color.css') }}"></span>
-            <span class="color-options-item magenta" data-skins-css-path="{{ asset('assets/frontend/css/skins/magenta-color.css') }}"></span>
-            <span class="color-options-item orange2" data-skins-css-path="{{ asset('assets/frontend/css/skins/orange-color-2.css') }}"></span>
-        </div>
-    </div>
-</div>
-    @endif
-<!--// #colorOptionsSidebar //-->
 
     @if ($section_arr['rtl_sidebar'] == 1)
     <div id="rtlSidebar">

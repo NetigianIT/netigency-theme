@@ -2,12 +2,27 @@
 
 namespace App\Models\Admin;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
 {
     use HasFactory;
+
+    public const CODE_ENGLISH = 'en';
+
+    public const CODE_BENGALI = 'bn-BD';
+
+    /**
+     * Fixed site languages. Extra rows in the database are ignored.
+     *
+     * @var list<string>
+     */
+    public const SUPPORTED_CODES = [
+        self::CODE_ENGLISH,
+        self::CODE_BENGALI,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -22,4 +37,15 @@ class Language extends Model
         'display_dropdown',
         'default_site_language',
     ];
+
+    public function scopeSupported(Builder $query): Builder
+    {
+        return $query->whereIn('language_code', self::SUPPORTED_CODES)
+            ->orderByRaw("CASE language_code WHEN 'en' THEN 0 WHEN 'bn-BD' THEN 1 ELSE 2 END");
+    }
+
+    public function isSupported(): bool
+    {
+        return in_array($this->language_code, self::SUPPORTED_CODES, true);
+    }
 }

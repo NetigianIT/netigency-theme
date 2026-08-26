@@ -20,7 +20,6 @@ class About extends Model
         'title',
         'desc',
         'video_link',
-        'cv_file',
         'about_image',
     ];
 }

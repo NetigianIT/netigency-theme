@@ -80,9 +80,6 @@
                                             <a href="<?php echo e(route('portfolio-slider.create', $portfolio->id)); ?>" class="ni-action-icon ni-action-view mr-2" title="<?php echo e(__('content.sliders')); ?>">
                                                 <i class="fas fa-images font-18" aria-hidden="true"></i>
                                             </a>
-                                            <a href="<?php echo e(route('portfolio-detail.create', $portfolio->id)); ?>" class="ni-action-icon ni-action-view mr-2" title="<?php echo e(__('content.details')); ?>">
-                                                <i class="far fa-eye font-18" aria-hidden="true"></i>
-                                            </a>
                                             <a href="<?php echo e(route('portfolio.edit', $portfolio->id)); ?>" class="ni-action-icon mr-2" title="<?php echo e(__('content.edit')); ?>">
                                                 <i class="fa fa-edit text-info font-18" aria-hidden="true"></i>
                                             </a>

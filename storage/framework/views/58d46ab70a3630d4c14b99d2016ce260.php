@@ -78,8 +78,6 @@
             <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/red-color.css')); ?>">
         <?php elseif($color_option->color_option == 3): ?>
             <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/yellow-color.css')); ?>">
-        <?php elseif($color_option->color_option == 4): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/green-color.css')); ?>">
         <?php elseif($color_option->color_option == 5): ?>
             <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/pink-color.css')); ?>">
         <?php elseif($color_option->color_option == 6): ?>
@@ -99,7 +97,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=119">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=129">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -139,8 +137,19 @@
         }
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control,
         html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control:focus{
-            color:var(--ni-text,#111827)!important;
-            border-color:var(--ni-glass-border, rgba(21,191,134,.28))!important;
+            background:#fff!important;
+            background-color:#fff!important;
+            background-image:none!important;
+            border:1.5px solid rgba(18,120,88,.22)!important;
+            box-shadow:none!important;
+            outline:none!important;
+            backdrop-filter:none!important;
+            -webkit-backdrop-filter:none!important;
+            color:#12201b!important;
+        }
+        html[data-theme="light"] .contact-form-wrap .contact-form-group .form-control::placeholder{
+            color:#667872!important;
+            opacity:1;
         }
         .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill,
         .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:hover,
@@ -161,10 +170,53 @@
         html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:focus,
         html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:-webkit-autofill:active,
         html[data-theme="light"] .contact-form-wrap .contact-form-group input.form-control:autofill{
-            -webkit-text-fill-color:var(--ni-text,#111827)!important;
-            caret-color:var(--ni-text,#111827);
-            -webkit-box-shadow:0 0 0 1000px rgba(255,255,255,.08) inset!important;
-            box-shadow:0 0 0 1000px rgba(255,255,255,.08) inset!important;
+            -webkit-text-fill-color:#12201b!important;
+            caret-color:#12201b;
+            -webkit-box-shadow:0 0 0 1000px #fff inset!important;
+            box-shadow:0 0 0 1000px #fff inset!important;
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:disabled{
+            background:#fff!important;
+            background-image:none!important;
+            border:1.5px solid rgba(18,120,88,.28)!important;
+            box-shadow:0 8px 22px rgba(18,60,45,.08)!important;
+            backdrop-filter:none!important;
+            -webkit-backdrop-filter:none!important;
+            color:#0d8f63!important;
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover{
+            background:#15bf86!important;
+            border-color:#15bf86!important;
+            box-shadow:0 12px 28px rgba(21,191,134,.28)!important;
+            color:#fff!important;
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .text,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .text{
+            color:inherit!important;
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon::before{
+            background:linear-gradient(180deg, transparent 0%, rgba(18,120,88,.35) 50%, transparent 100%);
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon::before{
+            background:linear-gradient(180deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i{
+            background:linear-gradient(135deg, #12a974 0%, #15bf86 55%, #23e0a3 100%)!important;
+            -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat!important;
+            mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat!important;
+            border-radius:0!important;
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon i{
+            background:#fff!important;
+        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i::before,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i::after,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon i::before,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon i::after{
+            content:none!important;
+            display:none!important;
         }
         .contact-section .contact-btn-left{
             width:100%!important;
@@ -498,14 +550,14 @@
                 <div class="container">
                     <?php if (isset($component)) { $__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalb2cd6a24aaa44aae6cff221852ee8c49 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.section-title','data' => ['title' => $about->section_title ?: __('frontend.about_us'),'colClass' => 'col-12','headingClass' => 'about-section-heading','dots' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.section-title','data' => ['title' => __('frontend.about_us'),'colClass' => 'col-12','headingClass' => 'about-section-heading','dots' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.section-title'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($about->section_title ?: __('frontend.about_us')),'col-class' => 'col-12','heading-class' => 'about-section-heading','dots' => true]); ?>
+<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('frontend.about_us')),'col-class' => 'col-12','heading-class' => 'about-section-heading','dots' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalb2cd6a24aaa44aae6cff221852ee8c49)): ?>
@@ -1454,14 +1506,17 @@
                                   <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $skill_info_lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $skill_info_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="col-md-6 col-sm-6 skills-item-resp">
                                             <div class="skills-item">
+                                                <div class="skills-ring">
+                                                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                                                        <circle class="skills-ring-track" cx="50" cy="50" r="42"></circle>
+                                                        <circle class="skills-ring-value skills-progress-value" cx="50" cy="50" r="42" data-percent="<?php echo e($skill_info_list->percent_rate); ?>"></circle>
+                                                    </svg>
+                                                    <div class="skills-ring-center">
+                                                        <h2 class="counter"><?php echo e($skill_info_list->percent_rate); ?></h2>
+                                                    </div>
+                                                </div>
                                                 <div class="skills-item-text">
                                                     <h5><?php echo e($skill_info_list->title); ?></h5>
-                                                </div>
-                                                <div class="body">
-                                                    <h2 class="counter"><?php echo e($skill_info_list->percent_rate); ?></h2>
-                                                    <div class="skills-progress-bar">
-                                                        <div class="skills-progress-value slideInLeft wow" data-percent="<?php echo e($skill_info_list->percent_rate); ?>"></div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1493,27 +1548,33 @@
                                 <div class="row skills-cards">
                                     <div class="col-md-6 col-sm-6 skills-item-resp">
                                         <div class="skills-item">
+                                            <div class="skills-ring">
+                                                <svg viewBox="0 0 100 100" aria-hidden="true">
+                                                    <circle class="skills-ring-track" cx="50" cy="50" r="42"></circle>
+                                                    <circle class="skills-ring-value skills-progress-value" cx="50" cy="50" r="42" data-percent="80"></circle>
+                                                </svg>
+                                                <div class="skills-ring-center">
+                                                    <h2 class="counter">80</h2>
+                                                </div>
+                                            </div>
                                             <div class="skills-item-text">
                                                 <h5>Design</h5>
-                                            </div>
-                                            <div class="body">
-                                                <h2 class="counter">80</h2>
-                                                <div class="skills-progress-bar">
-                                                    <div class="skills-progress-value slideInLeft wow" data-percent="80"></div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6 skills-item-resp">
                                         <div class="skills-item">
+                                            <div class="skills-ring">
+                                                <svg viewBox="0 0 100 100" aria-hidden="true">
+                                                    <circle class="skills-ring-track" cx="50" cy="50" r="42"></circle>
+                                                    <circle class="skills-ring-value skills-progress-value" cx="50" cy="50" r="42" data-percent="90"></circle>
+                                                </svg>
+                                                <div class="skills-ring-center">
+                                                    <h2 class="counter">90</h2>
+                                                </div>
+                                            </div>
                                             <div class="skills-item-text">
                                                 <h5>Coding</h5>
-                                            </div>
-                                            <div class="body">
-                                                <h2 class="counter">90</h2>
-                                                <div class="skills-progress-bar">
-                                                    <div class="skills-progress-value slideInLeft wow" data-percent="90"></div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2179,7 +2240,7 @@
 <?php unset($__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49); ?>
 <?php endif; ?>
                       <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                    <div class="row contact-layout align-items-stretch">
+                    <div class="row contact-layout align-items-start">
                         <div class="col-lg-5">
                             <div class="contact-info-list">
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -2307,7 +2368,7 @@
 <?php $component = $__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49; ?>
 <?php unset($__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49); ?>
 <?php endif; ?>
-                    <div class="row contact-layout align-items-stretch">
+                    <div class="row contact-layout align-items-start">
                         <div class="col-lg-5">
                             <div class="contact-info-list">
                             <div class="contact-info-item">
@@ -2402,22 +2463,6 @@
                 </div>
             </section>
             
-                            <!--            <div class="subscribe-newsletter">-->
-                            <!--    <div class="subscribe-newsletter-text">-->
-                            <!--        <div class="icon">-->
-                            <!--            <span class="fa fa-envelope-open-text"></span>-->
-                            <!--        </div>-->
-                            <!--        <h5><?php echo e(__('frontend.subscribe_newsletter')); ?></h5>-->
-                            <!--        <p>Receive the latest news updates</p>-->
-                            <!--        <form action="<?php echo e(route('subscribe-section.store')); ?>" method="POST">-->
-                            <!--            <?php echo csrf_field(); ?>-->
-                            <!--            <div class="form-newsletter">-->
-                            <!--                <input type="text" name="email" placeholder="<?php echo e(__('frontend.enter_email')); ?>" required>-->
-                            <!--                <button><i class="fa fa-arrow-right"></i></button>-->
-                            <!--            </div>-->
-                            <!--        </form>-->
-                            <!--    </div>-->
-                            <!--</div>-->
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         <!--// Contact Section End //-->
 
@@ -2437,7 +2482,7 @@
                 <div class="footer-top">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6 col-lg-4 footer-widget-resp">
+                            <div class="col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title"><?php echo e(__('frontend.about_us')); ?></h6>
                                     <div class="footer-social-links">
@@ -2466,25 +2511,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 footer-widget-resp">
-                                <div class="footer-widget footer-widget-pl">
-                                    <h6 class="footer-title"><?php echo e(__('frontend.customer_relationship')); ?></h6>
-                                    <ul class="footer-links">
-                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $footer_pages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $footer_page): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(in_array($footer_page->page_slug, ['services', 'works', 'recent-works', 'case-studys', 'presentation', 'presentations'])): ?>
-                                                <?php continue; ?>
-                                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                            <li>
-                                                <a href="<?php echo e(route('any-page.show', ['page_slug' => $footer_page->page_slug])); ?>">
-                                                    <i class="fas fa-angle-right"></i>
-                                                    <span><?php echo e($footer_page->page_title); ?></span>
-                                                </a>
-                                            </li>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 footer-widget-resp">
+                            <?php echo $__env->make('frontend.partials.footer-page-columns', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+                            <div class="col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">Contact Info</h6>
                                     <div class="footer-contact-info-wrap">
@@ -2540,7 +2568,7 @@
                 <div class="footer-top">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6 col-lg-4 footer-widget-resp">
+                            <div class="col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">About Us</h6>
                                     <div class="footer-social-links">
@@ -2563,32 +2591,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 footer-widget-resp">
+                            <div class="col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget footer-widget-pl">
                                     <h6 class="footer-title">Customer relationship</h6>
                                     <ul class="footer-links">
                                         <li>
-                                            <a href="#"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
+                                            <a href="#"><i class="fas fa-angle-right"></i><span>Our Vision</span></a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fas fa-angle-right"></i><span>Product review</span></a>
+                                            <a href="#"><i class="fas fa-angle-right"></i><span>About Us</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fas fa-angle-right"></i><span>Terms and Condition</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="footer-widget footer-widget-pl">
+                                    <h6 class="footer-title">Useful Links</h6>
+                                    <ul class="footer-links">
+                                        <li>
+                                            <a href="#"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fas fa-angle-right"></i><span>Delivery and Returns</span></a>
                                         </li>
                                         <li>
                                             <a href="#"><i class="fas fa-angle-right"></i><span>User agreement</span></a>
                                         </li>
                                         <li>
-                                            <a href="#"><i class="fas fa-angle-right"></i><span>Privacy Policy</span></a>
-                                        </li>
-                                        <li>
                                             <a href="#"><i class="fas fa-angle-right"></i><span>Distance Selling Agreement</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><i class="fas fa-angle-right"></i><span>Frequently Asked Questions</span></a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 footer-widget-resp">
+                            <div class="col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">Contact Info</h6>
                                     <div class="footer-contact-info-wrap">
@@ -2657,7 +2698,6 @@
             <span class="color-options-item blue" data-skins-css-path="<?php echo e(asset('assets/frontend/css/skins/blue-color.css')); ?>"></span>
             <span class="color-options-item red" data-skins-css-path="<?php echo e(asset('assets/frontend/css/skins/red-color.css')); ?>"></span>
             <span class="color-options-item yellow" data-skins-css-path="<?php echo e(asset('assets/frontend/css/skins/yellow-color.css')); ?>"></span>
-            <span class="color-options-item green" data-skins-css-path="<?php echo e(asset('assets/frontend/css/skins/green-color.css')); ?>"></span>
             <span class="color-options-item pink" data-skins-css-path="<?php echo e(asset('assets/frontend/css/skins/pink-color.css')); ?>"></span>
             <span class="color-options-item turquose" data-skins-css-path="<?php echo e(asset('assets/frontend/css/skins/turquose-color.css')); ?>"></span>
             <span class="color-options-item purple" data-skins-css-path="<?php echo e(asset('assets/frontend/css/skins/purple-color.css')); ?>"></span>

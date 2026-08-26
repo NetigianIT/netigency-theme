@@ -22,9 +22,7 @@ class PermissionsSeeder extends Seeder
 
         // create permissions
         Permission::create(['name' => 'uploads check']);
-        Permission::create(['name' => 'subscribe check']);
         Permission::create(['name' => 'banner check']);
-        Permission::create(['name' => 'external url check']);
         Permission::create(['name' => 'about us check']);
         Permission::create(['name' => 'features check']);
         Permission::create(['name' => 'services check']);
@@ -40,7 +38,6 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'pages check']);
         Permission::create(['name' => 'comments check']);
         Permission::create(['name' => 'language check']);
-        Permission::create(['name' => 'clear cache check']);
 
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'super-admin']);
@@ -48,9 +45,7 @@ class PermissionsSeeder extends Seeder
 
         $role2 = Role::create(['name' => 'admin']);
         $role2->givePermissionTo('uploads check');
-        $role2->givePermissionTo('subscribe check');
         $role2->givePermissionTo('banner check');
-        $role2->givePermissionTo('external url check');
         $role2->givePermissionTo('about us check');
         $role2->givePermissionTo('features check');
         $role2->givePermissionTo('services check');
@@ -66,7 +61,6 @@ class PermissionsSeeder extends Seeder
         $role2->givePermissionTo('pages check');
         $role2->givePermissionTo('comments check');
         $role2->givePermissionTo('language check');
-        $role2->givePermissionTo('clear cache check');
 
         $role3 = Role::create(['name' => 'editor']);
         $role3->givePermissionTo('blogs check');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Support\FrontendCache;
+use App\Support\SiteCache;
 
 class ServiceController extends Controller
 {
@@ -25,15 +26,21 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
         $language = getSiteLanguage();
 
-        $data = FrontendCache::serviceShow($language->id, $slug);
+        $html = FrontendCache::rememberShowHtml(
+            'service',
+            $language->id,
+            $slug,
+            'frontend.service.show',
+            fn () => FrontendCache::serviceShow($language->id, $slug)
+        );
 
-        return view('frontend.service.show', $data);
+        return SiteCache::cachedHtmlResponse($html);
     }
 }

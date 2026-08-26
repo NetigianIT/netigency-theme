@@ -5,15 +5,15 @@
   --ni-primary-hover: #12a574;
   --ni-primary-soft: rgba(21, 191, 134, 0.12);
   --ni-primary-rgb: 21, 191, 134;
-  --ni-bg: #f4f7f5;
-  --ni-surface: #fafcfb;
-  --ni-surface-2: #eef3f0;
-  --ni-border: #dfe8e3;
+  --ni-bg: #f7faf8;
+  --ni-surface: #ffffff;
+  --ni-surface-2: #ffffff;
+  --ni-border: #e5ece8;
   --ni-text: #111827;
   --ni-muted: #6b7280;
-  --ni-sidebar: #fafcfb;
-  --ni-navbar: #fafcfb;
-  --ni-input-bg: #fafcfb;
+  --ni-sidebar: #ffffff;
+  --ni-navbar: #ffffff;
+  --ni-input-bg: #ffffff;
   --ni-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.05);
   --ni-radius: 12px;
   --ni-btn-radius: 0.375rem; /* rounded-md */
@@ -509,6 +509,11 @@ body.rtl-version .main-panel {
   color: var(--ni-text) !important;
   box-shadow: var(--ni-shadow) !important;
   border-color: var(--ni-border) !important;
+}
+
+.card {
+  border-radius: var(--ni-radius) !important;
+  overflow: hidden;
 }
 
 .card .card-header,
@@ -1195,9 +1200,8 @@ html[data-theme="light"] .ni-dt-length__option:hover:not(.is-selected) {
   line-height: 1;
 }
 
-/* Search bar — joined to the table (no gap) */
-div.dataTables_wrapper > div.row:has(.dataTables_length),
-div.dataTables_wrapper > div.row:has(.dataTables_filter) {
+/* Search bar — joined to the table top. Never style the footer as a header. */
+div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1208,12 +1212,11 @@ div.dataTables_wrapper > div.row:has(.dataTables_filter) {
   padding: 0.7rem 0.9rem !important;
   border: 1px solid var(--ni-border) !important;
   border-bottom: 0 !important;
-  border-radius: 0.2rem 0.2rem 0 0 !important;
+  border-radius: var(--ni-radius) var(--ni-radius) 0 0 !important;
   background-color: var(--ni-surface-2, transparent);
 }
 
-div.dataTables_wrapper > div.row:has(.dataTables_length) > [class*="col-"],
-div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"] {
+div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) > [class*="col-"] {
   flex: 1 1 auto;
   max-width: none !important;
   width: auto !important;
@@ -1221,18 +1224,18 @@ div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"] {
   padding-right: 0 !important;
 }
 
-div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"]:last-child,
-div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"]:has(.dataTables_filter) {
+div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) > [class*="col-"]:last-child,
+div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) > [class*="col-"]:has(.dataTables_filter) {
   display: flex;
   justify-content: flex-start;
   flex: 0 1 auto;
 }
 
-div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_length)) {
+div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) {
   justify-content: flex-start;
 }
 
-div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"]:not(:has(.dataTables_filter)):not(:has(.dataTables_length)):not(:has(#deleteChecked)) {
+div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) > [class*="col-"]:not(:has(.dataTables_filter)):not(:has(#deleteChecked)) {
   display: none !important;
 }
 
@@ -1241,6 +1244,18 @@ div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"]:not(:
   align-items: center;
   gap: 8px;
   margin-left: auto;
+}
+
+.ni-dt-toolbar-end div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) {
+  justify-content: flex-end !important;
+}
+
+.ni-dt-toolbar-end div.dataTables_wrapper > div.row:has(.dataTables_filter):not(:has(.dataTables_paginate)) > [class*="col-"]:has(.dataTables_filter) {
+  justify-content: flex-end;
+}
+
+.ni-dt-toolbar-end .ni-dt-toolbar-actions {
+  margin-left: 0.75rem;
 }
 
 .ni-dt-toolbar-actions .btn,
@@ -1300,7 +1315,7 @@ div.dataTables_wrapper > div.row:has(.dataTables_filter) > [class*="col-"]:not(:
   padding: 0.7rem 0.9rem;
   margin-bottom: 0.75rem;
   border: 1px solid var(--ni-border);
-  border-radius: 0.2rem;
+  border-radius: var(--ni-radius);
   background-color: var(--ni-surface-2, transparent);
 }
 
@@ -1395,7 +1410,7 @@ div.dataTables_wrapper > div.row:has(.dataTables_paginate) {
   padding: 0.7rem 0.9rem !important;
   border: 1px solid var(--ni-border) !important;
   border-top: 1px solid var(--ni-border) !important;
-  border-radius: 0 0 0.2rem 0.2rem !important;
+  border-radius: 0 0 var(--ni-radius) var(--ni-radius) !important;
   background-color: var(--ni-surface-2, transparent);
 }
 
@@ -1434,11 +1449,15 @@ div.dataTables_wrapper > div.row:has(.dataTables_paginate) > [class*="col-"]:has
   color: var(--ni-muted, var(--ni-text)) !important;
 }
 
+div.dataTables_wrapper > div.row:has(.dataTables_paginate) > [class*="col-"]:has(.dataTables_length),
 .dataTables_wrapper .dataTables_length.ni-dt-length-footer {
   grid-column: 3;
   justify-self: end;
   margin: 0 !important;
   float: none !important;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 @media (max-width: 767.98px) {
@@ -1451,6 +1470,7 @@ div.dataTables_wrapper > div.row:has(.dataTables_paginate) > [class*="col-"]:has
 
   div.dataTables_wrapper > div.row:has(.dataTables_paginate) > [class*="col-"]:has(.dataTables_info),
   div.dataTables_wrapper > div.row:has(.dataTables_paginate) > [class*="col-"]:has(.dataTables_paginate),
+  div.dataTables_wrapper > div.row:has(.dataTables_paginate) > [class*="col-"]:has(.dataTables_length),
   .dataTables_wrapper .dataTables_paginate,
   .dataTables_wrapper .dataTables_length.ni-dt-length-footer,
   .dataTables_wrapper .dataTables_info {
@@ -1464,7 +1484,7 @@ div.dataTables_wrapper > div.row:has(.dataTables_paginate) > [class*="col-"]:has
 .table-responsive:not(:has(> .dataTables_wrapper)) {
   overflow-x: auto;
   border: 1px solid var(--ni-border);
-  border-radius: 0.2rem; /* rounded-sm */
+  border-radius: var(--ni-radius);
 }
 
 div.dataTables_wrapper > div.row:has(table.dataTable)::-webkit-scrollbar,

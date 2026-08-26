@@ -41,6 +41,7 @@
                                         <textarea type="text" name="desc" class="form-control" id="summernote">@php echo html_entity_decode($portfolio->desc); @endphp</textarea>
                                     </div>
                                 </div>
+                                @include('admin.components.details-repeater', ['details' => $portfolio_details])
                                 <div class="col-md-12 height-card box-margin">
                                     <div id="accordion-">
                                         <div class="card mb-2">

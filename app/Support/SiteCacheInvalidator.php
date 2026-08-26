@@ -13,7 +13,6 @@ use App\Models\Admin\Contact;
 use App\Models\Admin\ContactSection;
 use App\Models\Admin\Counter;
 use App\Models\Admin\CounterSection;
-use App\Models\Admin\ExternalUrl;
 use App\Models\Admin\Feature;
 use App\Models\Admin\FeatureSection;
 use App\Models\Admin\FixedContent;
@@ -44,7 +43,6 @@ use App\Models\Admin\Skill;
 use App\Models\Admin\SkillInfoList;
 use App\Models\Admin\Slider;
 use App\Models\Admin\Social;
-use App\Models\Admin\Subscribe;
 use App\Models\Admin\Team;
 use App\Models\Admin\TeamSection;
 use App\Models\Admin\Testimonial;
@@ -93,7 +91,6 @@ class SiteCacheInvalidator
         ContactSection::class => ['homepage'],
         FixedContent::class => ['homepage'],
         Slider::class => ['homepage'],
-        ExternalUrl::class => ['homepage', 'frontend_layout'],
         SiteInfo::class => ['homepage', 'frontend_layout'],
         Video::class => ['homepage_all'],
         HomepageVersion::class => ['homepage_all'],
@@ -103,21 +100,20 @@ class SiteCacheInvalidator
         Social::class => ['homepage_all', 'frontend_layout'],
         Page::class => ['homepage', 'header_pages', 'frontend_page', 'frontend_layout'],
         Section::class => ['sections'],
-        SiteImage::class => ['site_image'],
-        Seo::class => ['seo'],
+        SiteImage::class => ['site_image', 'frontend_layout'],
+        Seo::class => ['seo', 'frontend_layout'],
         PanelKeyword::class => ['panel_keywords'],
-        FrontendKeyword::class => ['frontend_keywords'],
+        FrontendKeyword::class => ['frontend_keywords', 'frontend_html'],
         Language::class => ['language'],
         Message::class => ['admin_messages'],
         Comment::class => ['admin_comments', 'frontend_blog'],
         Photo::class => ['content'],
         Breadcrumb::class => ['frontend_layout'],
-        Subscribe::class => ['content'],
     ];
 
     public static function register(): void
     {
-        if (! Schema::hasTable('languages')) {
+        if (! SiteCache::tableExists('languages')) {
             return;
         }
 
@@ -175,7 +171,7 @@ class SiteCacheInvalidator
             'homepage_all' => SiteCache::flushHomepage(),
             'header_pages' => SiteCache::flushHeaderPages($languageId),
             'panel_keywords' => $languageId ? SiteCache::flushPanelKeywords($languageId) : SiteCache::flushTranslations(),
-            'frontend_keywords' => $languageId ? SiteCache::flushFrontendKeywords($languageId) : SiteCache::flushTranslations(),
+            'frontend_keywords' => static::flushFrontendKeywords($languageId),
             'language' => static::flushLanguage($languageId),
             'sections' => static::flushSections(),
             'site_image' => SiteCache::flushSiteImage(),
@@ -191,9 +187,23 @@ class SiteCacheInvalidator
             'frontend_blog' => SiteCache::bumpFrontendVersion('blog', $languageId),
             'frontend_blog_category' => SiteCache::bumpFrontendVersion('blog_category', $languageId),
             'frontend_page' => SiteCache::bumpFrontendVersion('page', $languageId),
+            'frontend_html' => SiteCache::bumpAllFrontendVersions($languageId),
             'content' => SiteCache::flushContent(),
             default => SiteCache::flushContent(),
         };
+    }
+
+    protected static function flushFrontendKeywords(?int $languageId): void
+    {
+        if ($languageId) {
+            SiteCache::flushFrontendKeywords($languageId);
+            SiteCache::bumpAllFrontendVersions($languageId);
+
+            return;
+        }
+
+        SiteCache::flushTranslations();
+        SiteCache::bumpAllFrontendVersions();
     }
 
     protected static function flushLanguage(?int $languageId): void

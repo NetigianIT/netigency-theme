@@ -490,12 +490,23 @@ function Filaous_ScrollIt() {
 function Filaous_SkillsBar(){
     "use-strict";
 
-    // Variables
-    var skillsItem         = $( '.skills-item' );
+    var skillsItem = $( '.skills-item' );
+    var ringCircumference = 2 * Math.PI * 42;
 
     skillsItem.each(function(){
-        var skillPercent   = $( this ).find( '.skills-progress-value' ).attr( 'data-percent' );
-        $( this ).find( '.skills-progress-value' ).css( 'width', skillPercent + '%' );
+        var $value = $( this ).find( '.skills-progress-value' );
+        var skillPercent = parseFloat( $value.attr( 'data-percent' ) ) || 0;
+
+        if ( $value.is( 'circle' ) ) {
+            var offset = ringCircumference * ( 1 - ( Math.min( Math.max( skillPercent, 0 ), 100 ) / 100 ) );
+            $value.css({
+                'stroke-dasharray': ringCircumference,
+                'stroke-dashoffset': offset
+            });
+            return;
+        }
+
+        $value.css( 'width', skillPercent + '%' );
     });
 }
 

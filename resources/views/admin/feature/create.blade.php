@@ -73,14 +73,15 @@
                                         <input  name="check_list[]" type="checkbox" value="{{ $feature->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
                                     <td>
-                                        @if ($feature->type == 'icon')
-                                            <i class="{{ $feature->icon }}"></i> {{ $feature->icon }}
+                                        @php $logoFile = tech_logo_file($feature->title); @endphp
+                                        @if ($feature->type == 'icon' && $logoFile)
+                                            <img class="image-size img-fluid" src="{{ asset('assets/frontend/img/tech/'.$logoFile) }}" alt="{{ $feature->title }}">
+                                        @elseif ($feature->type == 'icon' && !empty($feature->icon))
+                                            <i class="{{ $feature->icon }} font-24"></i>
+                                        @elseif (!empty($feature->feature_image))
+                                            <img class="image-size img-fluid" src="{{ asset('uploads/img/features/'.$feature->feature_image) }}" alt="{{ $feature->title }}">
                                         @else
-                                            @if (!empty($feature->feature_image))
-                                                <img class="image-size img-fluid" src="{{ asset('uploads/img/features/'.$feature->feature_image) }}" alt="blog image">
-                                            @else
-                                                <img class="image-size img-fluid" src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="no image">
-                                            @endif
+                                            <img class="image-size img-fluid" src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="no image">
                                         @endif
                                     </td>
                                     <td>{{ $feature->title }}</td>

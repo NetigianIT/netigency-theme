@@ -7,39 +7,7 @@
 ])
 
 @php
-    $techLogos = [
-        'laravel' => 'laravel.svg',
-        'vue.js' => 'vuejs.svg',
-        'vuejs' => 'vuejs.svg',
-        'php' => 'php.svg',
-        'node.js' => 'nodejs.svg',
-        'nodejs' => 'nodejs.svg',
-        'mysql' => 'mysql.svg',
-        'react.js' => 'react.svg',
-        'react' => 'react.svg',
-        'redis' => 'redis.svg',
-        'livewire' => 'livewire.svg',
-        'ci/cd' => 'cicd.svg',
-        'cicd' => 'cicd.svg',
-        'deploy' => 'deploy.svg',
-        'cursor' => 'cursor.svg',
-        'primevue' => 'primevue.svg',
-        'primereact' => 'primereact.svg',
-        'reactvue' => 'primereact.svg',
-        'nuxt.js' => 'nuxt.svg',
-        'nuxt' => 'nuxt.svg',
-        'next.js' => 'nextjs.svg',
-        'nextjs' => 'nextjs.svg',
-        'next' => 'nextjs.svg',
-        'zustand' => 'zustand.svg',
-        'redux' => 'redux.svg',
-        'vuex' => 'vuex.svg',
-        'pinia' => 'pinia.svg',
-        'typescript' => 'typescript.svg',
-        'ts' => 'typescript.svg',
-    ];
-
-    $logoFile = $techLogos[strtolower(trim($title))] ?? null;
+    $logoFile = tech_logo_file($title);
     $sizeClass = $size === 'sub' ? 'tech-icon-wrap--sub' : 'tech-icon-wrap--main';
     $logoSlug = preg_replace('/[^a-z0-9]+/', '-', strtolower(trim($title)));
     $logoSlug = trim($logoSlug, '-');

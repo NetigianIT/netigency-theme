@@ -4,15 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Blog;
-use App\Models\Admin\Breadcrumb;
-use App\Models\Admin\ColorOption;
-use App\Models\Admin\ExternalUrl;
-use App\Models\Admin\GoogleAnalytic;
-use App\Models\Admin\Page;
-use App\Models\Admin\QuickAccessButton;
-use App\Models\Admin\SiteInfo;
-use App\Models\Admin\Social;
 use App\Support\FrontendCache;
+use App\Support\SiteCache;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -36,36 +29,61 @@ class BlogController extends Controller
      * Display the specified resource.
      *
      * @param  string  $slug
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
         $language = getSiteLanguage();
 
-        $data = FrontendCache::blogShow($language->id, $slug);
+        $html = FrontendCache::rememberShowHtml(
+            'blog',
+            $language->id,
+            $slug,
+            'frontend.blog.show',
+            function () use ($language, $slug) {
+                $data = FrontendCache::blogShow($language->id, $slug);
+                $data = array_merge($data, FrontendCache::blogComments($language->id, $data['blog']->id));
 
-        Blog::where('id', $data['blog']->id)->increment('view');
-        $data['blog']->view = ($data['blog']->view ?? 0) + 1;
+                return $data;
+            }
+        );
 
-        $data = array_merge($data, FrontendCache::blogComments($language->id, $data['blog']->id));
+        // Do not block the response on view-count writes.
+        dispatch(function () use ($language, $slug) {
+            try {
+                Blog::query()
+                    ->where('language_id', $language->id)
+                    ->where('slug', $slug)
+                    ->where('status', 1)
+                    ->increment('view');
+            } catch (\Throwable $e) {
+                // Ignore analytics write failures.
+            }
+        })->afterResponse();
 
-        return view('frontend.blog.show', $data);
+        return SiteCache::cachedHtmlResponse($html);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  string  $category_name
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Http\Response
      */
     public function category_show($category_name)
     {
         $language = getSiteLanguage();
         $page = (int) request()->get('page', 1);
 
-        $data = FrontendCache::blogCategory($language->id, $category_name, $page);
+        $html = FrontendCache::rememberShowHtml(
+            'blog_category',
+            $language->id,
+            "{$category_name}.p{$page}",
+            'frontend.blog.category-show',
+            fn () => FrontendCache::blogCategory($language->id, $category_name, $page)
+        );
 
-        return view('frontend.blog.category-show', $data);
+        return SiteCache::cachedHtmlResponse($html);
     }
 
     /**
@@ -78,19 +96,7 @@ class BlogController extends Controller
         $language = getSiteLanguage();
         $search = $request->get('search');
 
-        $site_info = SiteInfo::where('language_id', $language->id)->first();
-        $google_analytic = GoogleAnalytic::first();
-        $socials = Social::where('status', 1)->get();
-        $color_option = ColorOption::first();
-        $breadcrumb = Breadcrumb::first();
-        $external_url = ExternalUrl::where('language_id', $language->id)->where('status', 1)->first();
-        $quick_access_button = QuickAccessButton::first();
-
-        $footer_pages = Page::where('language_id', $language->id)
-            ->where('display_header_menu', 0)
-            ->where('status', 1)
-            ->orderBy('order', 'asc')
-            ->get();
+        $layout = FrontendCache::layout($language->id);
 
         $blogs = Blog::join('categories', 'categories.id', '=', 'blogs.category_id')
             ->where('categories.language_id', $language->id)
@@ -100,16 +106,6 @@ class BlogController extends Controller
             ->orderBy('blogs.id', 'desc')
             ->get();
 
-        return view('frontend.blog.search-index', compact(
-            'site_info',
-            'google_analytic',
-            'socials',
-            'breadcrumb',
-            'external_url',
-            'quick_access_button',
-            'footer_pages',
-            'blogs',
-            'color_option'
-        ));
+        return view('frontend.blog.search-index', array_merge($layout, compact('blogs')));
     }
 }

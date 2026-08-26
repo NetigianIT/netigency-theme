@@ -13,7 +13,7 @@
         $adminPath = request()->path();
         $isAdminDashboard = request()->routeIs('dashboard');
         $needsAdminEditor = ! $isAdminDashboard && (str_contains($adminPath, 'create') || str_contains($adminPath, 'edit'));
-        $needsAdminTables = ! $isAdminDashboard;
+        $needsAdminTables = true;
         $needsAdminPickers = $needsAdminEditor;
         $needsAdminLightbox = isset($galleries);
         $adminIsRtl = session()->has('language_direction_from_dropdown')
@@ -80,7 +80,7 @@
 
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/vendor/toastr/toastr-modern.css') }}?v=3">
 
     <style>
         /* Always keep admin sidebar expanded (no icon-only collapse) */
@@ -363,7 +363,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=98">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=101">
 
 </head>
 
@@ -619,7 +619,7 @@
                 <li class="nav-item  {{ (request()->is('admin/work-process/create') ||
                                          request()->is('admin/work-process/*/edit')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('admin/work-process/create') }}">
-                        <i class="fas fa-pen-alt menu-icon"></i>
+                        <i class="fas fa-project-diagram menu-icon"></i>
                         <span class="menu-title">{{ __('content.work_processes') }}</span>
                     </a>
                 </li>
@@ -628,7 +628,7 @@
                 <li class="nav-item  {{ (request()->is('admin/skill/create') ||
                                          request()->is('admin/skill-info-list/*/edit')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('admin/skill/create') }}">
-                        <i class="fas fa-tools menu-icon"></i>
+                        <i class="fas fa-code menu-icon"></i>
                         <span class="menu-title">{{ __('content.skill') }}</span>
                     </a>
                 </li>
@@ -692,28 +692,12 @@
                         </a>
                     </li>
                 @endcan
-                @can('external url check')
-                <li class="nav-item  {{ (request()->is('admin/external-url/create')) ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('admin/external-url/create') }}">
-                        <i class="fas fa-external-link-square-alt menu-icon"></i>
-                        <span class="menu-title">{{ __('content.external_url') }}</span>
-                    </a>
-                </li>
-                @endcan
                 @can('uploads check')
                     <li class="nav-item  {{ (request()->is('admin/photo/create') ||
                                              request()->is('admin/photo/*/edit')) ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('admin/photo/create') }}">
                             <i class="fas fa-cloud-upload-alt menu-icon"></i>
                             <span class="menu-title">{{ __('content.uploads') }}</span>
-                        </a>
-                    </li>
-                @endcan
-                @can('subscribe check')
-                    <li class="nav-item {{ (request()->is('admin/subscribe/create')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/subscribe/create') }}">
-                            <i class="fas fa-at menu-icon"></i>
-                            <span class="menu-title">{{ __('content.subscribers') }}</span>
                         </a>
                     </li>
                 @endcan
@@ -739,12 +723,9 @@
                 @can('settings check')
                     <li class="nav-item {{ (request()->is('admin/site-info/create') ||
                                             request()->is('admin/site-image/create') ||
-                                            request()->is('admin/breadcrumb/create') ||
-                                            request()->is('admin/section/create') ||
-                                            request()->is('admin/color-option/create') ||
                                             request()->is('admin/google-analytic/create') ||
                                             request()->is('admin/seo/create')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/site-info/create') }}" data-ni-match="/admin/site-info,/admin/site-image,/admin/breadcrumb,/admin/section,/admin/color-option,/admin/google-analytic,/admin/seo">
+                        <a class="nav-link" href="{{ url('admin/site-info/create') }}" data-ni-match="/admin/site-info,/admin/site-image,/admin/google-analytic,/admin/seo">
                             <i class="fas fa-fw fa-cog menu-icon"></i>
                             <span class="menu-title">{{ __('content.settings') }}</span>
                         </a>
@@ -754,7 +735,7 @@
                     <li class="nav-item  {{ (request()->is('admin/language/create') ||
                                             request()->is('admin/language/*/edit') ||
                                             request()->is('admin/language-keyword-for-adminpanel/create/*') ||
-                                            request()->is('admin/language/*/edit') ||
+                                            request()->is('admin/language-keyword-for-frontend/create/*') ||
                                             request()->is('admin/language/*/edit')) ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('admin/language/create') }}">
                             <i class="fas fa-language menu-icon"></i>
@@ -791,42 +772,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="processedLanguageModal" tabindex="-1" role="dialog" aria-labelledby="processedLanguageModalLabel" aria-modal="false">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0 font-16" id="processedLanguageModalLabel">{{ __('content.which_language') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('language.update_processed_language') }}" method="POST">
-                        @method('PATCH')
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="language_id">{{ __('content.languages') }}</label>
-                                    <select class="form-control" name="language_id" id="language_id" required>
-                                        @foreach ($languages as $lang)
-                                            <option value="{{ $lang->id }}" {{ $lang->status == 1 ? 'selected' : '' }}>{{ $lang->language_name }}</option>
-                                        @endforeach
-                                        @php unset($lang); @endphp
-                                    </select>
-                                    <small id="language_id" class="form-text text-muted">{{ __('content.reminding') }}</small>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('content.submit') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 </div>
 
 
@@ -854,7 +799,7 @@
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
-    <script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=14" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=16" defer></script>
 @endif
 
 @if ($needsAdminPickers)

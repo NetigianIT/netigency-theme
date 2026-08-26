@@ -127,13 +127,13 @@
 }
 
 .toast-top-right {
-  top: 70px;
-  right: 18px;
+  top: 10px;
+  right: 16px;
 }
 
 html[dir="rtl"] .toast-top-right {
   right: auto;
-  left: 18px;
+  left: 16px;
 }
 
 html[dir="rtl"] #toast-container > div {
@@ -153,7 +153,7 @@ html[dir="rtl"] #toast-container > div::before {
 
 @media (max-width: 575.98px) {
   .toast-top-right {
-    top: 62px;
+    top: 8px;
     right: 10px;
     left: 10px;
   }

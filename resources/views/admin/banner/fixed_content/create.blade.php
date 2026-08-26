@@ -35,21 +35,21 @@
                                     <textarea name="desc" class="form-control" id="desc" rows="3" required>{{ $fixed_content->desc }}</textarea>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="btn_name">{{ __('content.btn_name') }}</label>
                                     <input type="text" name="btn_name" class="form-control" id="btn_name" value="{{ $fixed_content->btn_name }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="btn_link">{{ __('content.btn_link') }}</label>
                                     <input type="text" name="btn_link" class="form-control" id="btn_link" value="{{ $fixed_content->btn_link }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="image_status" class="col-form-label">{{ __('content.image_status') }}</label>
+                                    <label for="image_status">{{ __('content.image_status') }}</label>
                                     <select class="form-control" name="status" id="image_status">
                                         <option value="1" selected>{{ __('content.select_your_option') }}</option>
                                         <option value="1" {{ $fixed_content->image_status == 1 ? 'selected' : '' }}>{{ __('content.enable') }}</option>
@@ -107,21 +107,21 @@
                                     <textarea name="desc" class="form-control" id="desc" rows="3" required></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="btn_name">{{ __('content.btn_name') }}</label>
                                     <input type="text" name="btn_name" class="form-control" id="btn_name">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="btn_link">{{ __('content.btn_link') }}</label>
                                     <input type="text" name="btn_link" class="form-control" id="btn_link">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="image_status" class="col-form-label">{{ __('content.image_status') }} </label>
+                                    <label for="image_status">{{ __('content.image_status') }}</label>
                                     <select class="form-control" name="image_status" id="image_status">
                                         <option value="1" selected>{{ __('content.select_your_option') }}</option>
                                         <option value="1">{{ __('content.enable') }}</option>

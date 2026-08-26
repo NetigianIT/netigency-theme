@@ -16,12 +16,13 @@ use App\Models\Admin\Service;
 use App\Models\Admin\SkillInfoList;
 use App\Models\Admin\Slider;
 use App\Models\Admin\Social;
-use App\Models\Admin\Subscribe;
 use App\Models\Admin\Team;
 use App\Models\Admin\Testimonial;
 use App\Models\Admin\WorkProcess;
 use App\Models\Frontend\Comment;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class SiteCache
 {
@@ -34,6 +35,25 @@ class SiteCache
     public static function remember(string $key, int $ttl, callable $callback)
     {
         return Cache::remember($key, $ttl, $callback);
+    }
+
+    public static function tableExists(string $table): bool
+    {
+        static $memo = [];
+
+        if (array_key_exists($table, $memo)) {
+            return $memo[$table];
+        }
+
+        try {
+            $memo[$table] = (bool) static::remember("site.schema.has.{$table}", static::TTL_LONG, function () use ($table) {
+                return Schema::hasTable($table);
+            });
+        } catch (\Throwable $e) {
+            $memo[$table] = Schema::hasTable($table);
+        }
+
+        return $memo[$table];
     }
 
     /**
@@ -64,6 +84,41 @@ class SiteCache
         return static::remember($key, $ttl, $callback);
     }
 
+    /**
+     * Cache fully rendered detail-page HTML (before CSP nonce injection).
+     * Key includes group + layout versions so content/layout edits invalidate together.
+     */
+    public static function frontendRememberHtml(string $group, int $languageId, string $suffix, int $ttl, callable $callback): string
+    {
+        $version = static::frontendVersion($group, $languageId);
+        $layoutVersion = static::frontendVersion('layout', $languageId);
+        $key = "site.frontend.html.{$group}.{$languageId}.v{$version}.l{$layoutVersion}.{$suffix}";
+
+        return (string) static::remember($key, $ttl, $callback);
+    }
+
+    public static function cachedHtmlResponse(string $html, int $browserTtl = 60): Response
+    {
+        $token = csrf_token();
+        $html = preg_replace(
+            '/(<meta\s+name=["\']csrf-token["\']\s+content=["\'])[^"\']*(["\'])/i',
+            '${1}'.$token.'${2}',
+            $html
+        ) ?? $html;
+        $html = preg_replace(
+            '/(<input\b[^>]*\bname=["\']_token["\'][^>]*\bvalue=["\'])[^"\']*(["\'])/i',
+            '${1}'.$token.'${2}',
+            $html
+        ) ?? $html;
+
+        return response($html, 200, [
+            'Content-Type' => 'text/html; charset=UTF-8',
+            // private: language is cookie/session based — avoid CDN mixing locales
+            'Cache-Control' => 'private, max-age='.$browserTtl.', stale-while-revalidate=300',
+            'Vary' => 'Cookie',
+        ]);
+    }
+
     public static function bumpFrontendVersion(string $group, ?int $languageId = null): void
     {
         foreach (static::languageIds($languageId) as $id) {
@@ -90,7 +145,7 @@ class SiteCache
             return [$languageId];
         }
 
-        return Language::query()->pluck('id')->all();
+        return Language::query()->supported()->pluck('id')->all();
     }
 
     public static function language(?int $languageId): ?Language
@@ -99,15 +154,21 @@ class SiteCache
             return null;
         }
 
-        return static::remember("site.language.{$languageId}", static::TTL_LONG, function () use ($languageId) {
+        $language = static::remember("site.language.{$languageId}", static::TTL_LONG, function () use ($languageId) {
             return Language::query()->find($languageId);
         });
+
+        return ($language && $language->isSupported()) ? $language : null;
     }
 
     public static function defaultSiteLanguage(): ?Language
     {
         return static::remember('site.default_language', static::TTL_LONG, function () {
-            return Language::query()->where('default_site_language', 1)->first();
+            $language = Language::query()->supported()->where('default_site_language', 1)->first();
+
+            return $language
+                ?: Language::query()->supported()->where('language_code', Language::CODE_ENGLISH)->first()
+                ?: Language::query()->supported()->first();
         });
     }
 
@@ -119,7 +180,9 @@ class SiteCache
     public static function activeDataLanguage(): ?Language
     {
         return static::remember('site.data_language', static::TTL_LONG, function () {
-            return Language::query()->where('status', 1)->first();
+            $language = Language::query()->supported()->where('status', 1)->first();
+
+            return $language ?: static::defaultSiteLanguage();
         });
     }
 
@@ -168,7 +231,7 @@ class SiteCache
 
     public static function warmAllLanguages(): void
     {
-        foreach (Language::query()->pluck('id') as $languageId) {
+        foreach (Language::query()->supported()->pluck('id') as $languageId) {
             static::warmLanguage((int) $languageId);
         }
     }
@@ -176,11 +239,13 @@ class SiteCache
     public static function flushLanguageMeta(): void
     {
         Cache::forget('site.languages');
+        Cache::forget('site.languages.en_bn');
         Cache::forget('site.display_dropdowns');
+        Cache::forget('site.display_dropdowns.en_bn');
         Cache::forget('site.data_language');
         Cache::forget('site.default_language');
 
-        foreach (Language::query()->pluck('id') as $languageId) {
+        foreach (Language::query()->supported()->pluck('id') as $languageId) {
             Cache::forget("site.language.{$languageId}");
         }
     }
@@ -291,7 +356,7 @@ class SiteCache
 
     public static function flushTranslations(): void
     {
-        foreach (Language::query()->pluck('id') as $languageId) {
+        foreach (Language::query()->supported()->pluck('id') as $languageId) {
             Cache::forget("site.panel_keywords.{$languageId}");
             Cache::forget("site.frontend_keywords.{$languageId}");
             Cache::forget("site.header_pages.{$languageId}");
@@ -326,7 +391,6 @@ class SiteCache
                 'messages_count' => Message::count(),
                 'services_count' => Service::count(),
                 'counters_count' => Counter::count(),
-                'subscribers_count' => Subscribe::count(),
                 'comments_count' => Comment::count(),
                 'sliders_count' => Slider::count(),
                 'pages_count' => Page::count(),
@@ -352,7 +416,7 @@ class SiteCache
 
     protected static function forgetForAllLanguages(string $prefix): void
     {
-        foreach (Language::query()->pluck('id') as $languageId) {
+        foreach (Language::query()->supported()->pluck('id') as $languageId) {
             Cache::forget($prefix.$languageId);
         }
     }

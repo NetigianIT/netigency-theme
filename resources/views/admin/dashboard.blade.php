@@ -111,16 +111,6 @@
         </div>
 
         <div class="col-12 col-sm-6 col-xl-3">
-            <a href="{{ url('admin/subscribe/create') }}" class="ni-stat-card card box-margin">
-                <div class="card-body">
-                    <div class="ni-stat-card__icon"><i class="fas fa-at"></i></div>
-                    <p class="ni-stat-card__label">{{ __('content.subscribers') }}</p>
-                    <span class="ni-stat-card__value">{{ $subscribers_count }}</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3">
             <a href="{{ url('admin/comment') }}" class="ni-stat-card card box-margin">
                 <div class="card-body">
                     <div class="ni-stat-card__icon"><i class="fas fa-comments"></i></div>

@@ -5,9 +5,7 @@ use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BlogSectionController;
-use App\Http\Controllers\Admin\BreadcrumbController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ColorOptionController;
 use App\Http\Controllers\Admin\CommentSectionController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ContactSectionController;
@@ -16,14 +14,12 @@ use App\Http\Controllers\Admin\CounterSectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EditorUploadController;
 use App\Http\Controllers\Admin\ErrorPageController;
-use App\Http\Controllers\Admin\ExternalUrlController;
 use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\FeatureSectionController;
 use App\Http\Controllers\Admin\FixedContentController;
 use App\Http\Controllers\Admin\GoogleAnalyticController;
 use App\Http\Controllers\Admin\HomepageVersionController;
 use App\Http\Controllers\Admin\LanguageController;
-use App\Http\Controllers\Admin\LanguageKeywordController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PhotoController;
@@ -34,7 +30,6 @@ use App\Http\Controllers\Admin\PortfolioSectionController;
 use App\Http\Controllers\Admin\PortfolioSliderController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\QuickAccessButtonController;
-use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\ServiceDetailController;
 use App\Http\Controllers\Admin\ServiceSectionController;
@@ -44,7 +39,6 @@ use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SocialController;
-use App\Http\Controllers\Admin\SubscribeController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TeamSectionController;
 use App\Http\Controllers\Admin\TestimonialController;
@@ -53,7 +47,6 @@ use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\WorkProcessController;
 use App\Http\Controllers\Admin\WorkProcessSectionController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Support\SiteCache;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -73,9 +66,6 @@ use Illuminate\Support\Facades\Route;
 
 // Start Site Frontend Route
 Route::get('/', [HomeController::class, 'index'])->name('homepage')->middleware('XSS');
-
-Route::post('subscribe', [\App\Http\Controllers\Frontend\SubscribeController::class, 'store'])
-    ->name('subscribe-section.store')->middleware(['throttle:public-forms', 'XSS']);
 
 Route::middleware(['XSS'])->group(function () {
     Route::get('services', function () {
@@ -139,13 +129,6 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:uploads check'
     Route::delete('photo/{id}', [PhotoController::class, 'destroy'])->name('photo.destroy');
 });
 
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:subscribe check'])->prefix('admin')->group(function () {
-    Route::get('subscribe/create', [SubscribeController::class, 'create'])->name('subscribe.create');
-    Route::post('subscribe', [SubscribeController::class, 'store'])->name('subscribe.store');
-    Route::delete('subscribe/{id}', [SubscribeController::class, 'destroy'])->name('subscribe.destroy');
-    Route::delete('subscribe-checked', [SubscribeController::class, 'destroy_checked'])->name('subscribe.destroy_checked');
-});
-
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:banner check'])->prefix('admin')->group(function () {
     Route::get('fixed-content/create', [FixedContentController::class, 'create'])->name('fixed-content.create');
     Route::post('fixed-content', [FixedContentController::class, 'store'])->name('fixed-content.store');
@@ -170,12 +153,6 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:banner check']
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:banner check'])->prefix('admin')->group(function () {
     Route::get('homepage-version/create', [HomepageVersionController::class, 'create'])->name('homepage-version.create');
     Route::put('homepage-version/{id}', [HomepageVersionController::class, 'update'])->name('homepage-version.update');
-});
-
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:external url check'])->prefix('admin')->group(function () {
-    Route::get('external-url/create', [ExternalUrlController::class, 'create'])->name('external-url.create');
-    Route::post('external-url', [ExternalUrlController::class, 'store'])->name('external-url.store');
-    Route::put('external-url/{id}', [ExternalUrlController::class, 'update'])->name('external-url.update');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS',  'permission:about us check'])->prefix('admin')->group(function () {
@@ -369,26 +346,9 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check'])->prefix('admin')->group(function () {
-    Route::get('breadcrumb/create', [BreadcrumbController::class, 'create'])->name('breadcrumb.create');
-    Route::post('breadcrumb', [BreadcrumbController::class, 'store'])->name('breadcrumb.store');
-    Route::put('breadcrumb/{id}', [BreadcrumbController::class, 'update'])->name('breadcrumb.update');
-});
-
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check'])->prefix('admin')->group(function () {
-    Route::get('section/create',  [SectionController::class, 'create'])->name('section.create');
-    Route::patch('section/{id}',  [SectionController::class, 'update'])->name('section.update');
-});
-
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check'])->prefix('admin')->group(function () {
     Route::get('seo/create', [SeoController::class, 'create'])->name('seo.create');
     Route::post('seo', [SeoController::class, 'store'])->name('seo.store');
     Route::put('seo/{id}', [SeoController::class, 'update'])->name('seo.update');
-});
-
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check'])->prefix('admin')->group(function () {
-    Route::get('color-option/create', [ColorOptionController::class, 'create'])->name('color-option.create');
-    Route::post('color-option', [ColorOptionController::class, 'store'])->name('color-option.store');
-    Route::put('color-option/{id}', [ColorOptionController::class, 'update'])->name('color-option.update');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:contact check'])->prefix('admin')->group(function () {
@@ -463,63 +423,8 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS'])->prefix('admin')->group(f
     Route::put('profile/change-password/update', [ProfileController::class, 'change_password_update'])->name('profile.change_password_update');
 });
 
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:language check'])->prefix('admin')->group(function () {
-    Route::get('language/create', [LanguageController::class, 'create'])->name('language.create');
-    Route::post('language', [LanguageController::class, 'store'])->name('language.store');
-    Route::get('language/{id}/edit', [LanguageController::class, 'edit'])->name('language.edit');
-    Route::patch('language/language-select', [LanguageController::class, 'update_language'])->name('language.update_language');
-    Route::patch('language/processed-language', [LanguageController::class, 'update_processed_language'])->name('language.update_processed_language');
-    Route::put('language/{id}', [LanguageController::class, 'update'])->name('language.update');
-    Route::patch('language/update_display_dropdown/{id}', [LanguageController::class, 'update_display_dropdown'])->name('language.update_display_dropdown');
-    Route::delete('language/{id}', [LanguageController::class, 'destroy'])->name('language.destroy');
-    Route::delete('language-checked', [LanguageController::class, 'destroy_checked'])->name('language.destroy_checked');
-});
-
 Route::get('language/set-locale/{language_id}', [LanguageController::class, 'set_locale'])
     ->name('language.set_locale')->middleware('XSS');
-
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:language check'])->prefix('admin')->group(function () {
-
-    Route::get('language-keyword-for-adminpanel/create/{id}', [LanguageKeywordController::class, 'create'])
-        ->name('language-keyword-for-adminpanel.create');
-    Route::get('language-keyword-for-frontend/frontend-create/{id}', [LanguageKeywordController::class, 'frontend_create'])
-        ->name('language-keyword-for-frontend.frontend_create');
-
-    Route::post('panel-keyword', [LanguageKeywordController::class, 'store_panel_keyword'])
-        ->name('panel-keyword.store_panel_keyword');
-    Route::put('panel-keyword', [LanguageKeywordController::class, 'update_panel_keyword'])
-        ->name('panel-keyword.update_panel_keyword');
-
-    Route::post('frontend-keyword', [LanguageKeywordController::class, 'store_frontend_keyword'])
-        ->name('frontend-keyword.store_frontend_keyword');
-    Route::put('frontend-keyword', [LanguageKeywordController::class, 'update_frontend_keyword'])
-        ->name('frontend-keyword.update_frontend_keyword');
-
-
-});
-
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:clear cache check'])->prefix('admin')->group(function () {
-    Route::get('clear-cache', function () {
-        SiteCache::flushAll();
-
-        Artisan::call('cache:clear');
-        Artisan::call('route:clear');
-        Artisan::call('config:clear');
-        Artisan::call('view:clear');
-
-        return redirect()->route('dashboard')
-            ->with('success', 'content.created_successfully');
-    });
-
-    Route::get('optimize', function () {
-        Artisan::call('config:cache');
-        Artisan::call('route:cache');
-        Artisan::call('view:cache');
-
-        return redirect()->route('dashboard')
-            ->with('success', 'content.created_successfully');
-    });
-});
 
 Route::middleware(['XSS'])->group(function () {
     Route::get('run-updater', function() {
