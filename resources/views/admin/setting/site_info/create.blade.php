@@ -36,25 +36,25 @@
                                     <input type="text" name="copyright" class="form-control" id="copyright" value="{{ $site_info->copyright }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address">{{ __('content.address') }}</label>
                                     <input type="text" name="address" class="form-control" id="address" value="{{ $site_info->address }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address_map_link">{{ __('content.address_map_link') }}</label>
                                     <input type="text" name="address_map_link" class="form-control" id="address_map_link" value="{{ $site_info->address_map_link }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">{{ __('content.email') }}</label>
                                     <input type="text" name="email" class="form-control" id="email" value="{{ $site_info->email }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">{{ __('content.phone') }}</label>
                                     <input type="text" name="phone" class="form-control" id="phone" value="{{ $site_info->phone }}">
@@ -92,25 +92,25 @@
                                     <input type="text" name="copyright" class="form-control" id="copyright">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address">{{ __('content.address') }}</label>
                                     <input type="text" name="address" class="form-control" id="address">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address_map_link">{{ __('content.address_map_link') }}</label>
                                     <input type="text" name="address_map_link" class="form-control" id="address_map_link">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email">{{ __('content.email') }}</label>
                                     <input type="text" name="email" class="form-control" id="email">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">{{ __('content.phone') }}</label>
                                     <input type="text" name="phone" class="form-control" id="phone">

@@ -10,6 +10,7 @@ $__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames(([
     'colClass' => 'col-lg-6',
     'rowClass' => '',
     'headingClass' => '',
+    'navSlotId' => null,
 ]));
 
 foreach ($attributes->all() as $__key => $__value) {
@@ -34,6 +35,7 @@ foreach (array_filter(([
     'colClass' => 'col-lg-6',
     'rowClass' => '',
     'headingClass' => '',
+    'navSlotId' => null,
 ]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 }
@@ -49,11 +51,12 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php
     $headingBaseClass = $align === 'center' ? 'section-heading' : 'section-heading-left';
     $headingClasses = trim($headingBaseClass.' '.($light ? 'light ' : '').$headingClass);
-    $rowClasses = trim('row '.($dots ? 'ni-heading-dots ' : '').$rowClass);
+    $rowClasses = trim('row align-items-center '.($dots ? 'ni-heading-dots ' : '').$rowClass);
+    $titleColClass = $navSlotId ? 'col-7 col-md-6' : $colClass;
 ?>
 
 <div class="<?php echo e($rowClasses); ?>">
-    <div class="<?php echo e($colClass); ?>">
+    <div class="<?php echo e($titleColClass); ?>">
         <div class="<?php echo e($headingClasses); ?>">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($subtitle)): ?>
                 <span><?php echo e($subtitle); ?></span>
@@ -61,5 +64,10 @@ unset($__defined_vars, $__key, $__value); ?>
             <h2><?php echo e($title); ?></h2>
         </div>
     </div>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($navSlotId)): ?>
+        <div class="col-5 col-md-6">
+            <div class="section-carousel-nav" id="<?php echo e($navSlotId); ?>"></div>
+        </div>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
 <?php /**PATH C:\Users\HP\Desktop\Netigian IT\themes\netigency-theme\resources\views/components/frontend/section-title.blade.php ENDPATH**/ ?>

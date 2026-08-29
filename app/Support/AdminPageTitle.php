@@ -16,14 +16,13 @@ class AdminPageTitle
 
         $items = [
             'dashboard' => [
-                'title' => 'Welcome back!',
+                'title' => __('content.dashboard'),
                 'subtitle' => 'Manage site content for '.$site.'.',
                 'icon' => 'fas fa-home',
                 'url' => url('dashboard'),
             ],
             'admin/admin-role' => ['title' => __('content.admin_role_manage'), 'icon' => 'fas fa-user-lock'],
             'admin/admin-user' => ['title' => __('content.admin_manage'), 'icon' => 'fas fa-users'],
-            'admin/photo' => ['title' => __('content.uploads'), 'icon' => 'fas fa-cloud-upload-alt'],
             'admin/fixed-content' => ['title' => __('content.hero_section'), 'icon' => 'fas fa-image'],
             'admin/slider' => ['title' => __('content.hero_section'), 'icon' => 'fas fa-image'],
             'admin/video' => ['title' => __('content.hero_section'), 'icon' => 'fas fa-image'],
@@ -48,6 +47,8 @@ class AdminPageTitle
             'admin/category' => ['title' => __('content.categories'), 'icon' => 'fab fa-blogger-b'],
             'admin/blog-paginate' => ['title' => __('content.blog_paginate'), 'icon' => 'fab fa-blogger-b'],
             'admin/blog' => ['title' => __('content.blogs'), 'icon' => 'fab fa-blogger-b'],
+            'admin/video-category' => ['title' => __('content.videos'), 'icon' => 'fas fa-video'],
+            'admin/video-item' => ['title' => __('content.videos'), 'icon' => 'fas fa-video'],
             'admin/comment' => ['title' => __('content.comments'), 'icon' => 'fas fa-comments'],
             'admin/page' => ['title' => __('content.pages'), 'icon' => 'fas fa-file-alt'],
             'admin/contact' => ['title' => __('content.contact_info'), 'icon' => 'fas fa-map-marked'],

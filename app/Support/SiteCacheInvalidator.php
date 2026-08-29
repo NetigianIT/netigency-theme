@@ -24,7 +24,6 @@ use App\Models\Admin\Language;
 use App\Models\Admin\Message;
 use App\Models\Admin\Page;
 use App\Models\Admin\PanelKeyword;
-use App\Models\Admin\Photo;
 use App\Models\Admin\Portfolio;
 use App\Models\Admin\PortfolioCategory;
 use App\Models\Admin\PortfolioDetail;
@@ -48,6 +47,8 @@ use App\Models\Admin\TeamSection;
 use App\Models\Admin\Testimonial;
 use App\Models\Admin\TestimonialSection;
 use App\Models\Admin\Video;
+use App\Models\Admin\VideoCategory;
+use App\Models\Admin\VideoItem;
 use App\Models\Admin\WorkProcess;
 use App\Models\Admin\WorkProcessSection;
 use App\Models\Frontend\Comment;
@@ -87,6 +88,8 @@ class SiteCacheInvalidator
         BlogSection::class => ['homepage', 'frontend_blogs'],
         BlogPaginate::class => ['homepage_all', 'frontend_blogs'],
         Category::class => ['homepage', 'frontend_blogs', 'frontend_blog_category'],
+        VideoCategory::class => ['frontend_layout'],
+        VideoItem::class => ['frontend_layout'],
         Contact::class => ['homepage', 'frontend_layout'],
         ContactSection::class => ['homepage'],
         FixedContent::class => ['homepage'],
@@ -107,7 +110,6 @@ class SiteCacheInvalidator
         Language::class => ['language'],
         Message::class => ['admin_messages'],
         Comment::class => ['admin_comments', 'frontend_blog'],
-        Photo::class => ['content'],
         Breadcrumb::class => ['frontend_layout'],
     ];
 

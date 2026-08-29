@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 class LanguageController extends Controller
 {
     /**
-     * Switch the visitor/admin UI between the fixed English and Bengali locales.
+     * Switch the visitor/admin UI locale (English-only site).
      *
      * @param  int  $language_id
      * @return \Illuminate\Http\Response

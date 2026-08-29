@@ -27,8 +27,8 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="summernote">{{ __('content.description') }} <span class="text-red">*</span></label>
-                                    <textarea id="summernote" name="desc" class="form-control" required></textarea>
+                                    <label for="summernote">{{ __('content.details') }} <span class="text-red">*</span></label>
+                                    <textarea id="summernote" name="desc" class="form-control ni-editor"></textarea>
                                 </div>
                             </div>
                             <div class="col-xl-12">

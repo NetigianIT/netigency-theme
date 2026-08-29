@@ -112,7 +112,7 @@ class SecurityHeaders
             "media-src 'self' data: blob: https://www.youtube.com https://youtube.com",
             "manifest-src 'self'",
             "require-trusted-types-for 'script'",
-            "trusted-types default goog#html goog#script tinymce tinymce#dom tinymce#xss literal-string 'allow-duplicates'",
+            "trusted-types default goog#html goog#script tinymce tinymce#dom tinymce#xss dompurify literal-string 'allow-duplicates'",
         ];
 
         if ($request->secure() || $request->headers->get('X-Forwarded-Proto') === 'https') {
@@ -159,15 +159,64 @@ class SecurityHeaders
     {
         $js = <<<'JS'
 (function(){
-  if(window.trustedTypes&&trustedTypes.createPolicy){
+  function installDefaultPolicy(win){
+    if(!win||!win.trustedTypes||!win.trustedTypes.createPolicy)return null;
     try{
-      trustedTypes.createPolicy('default',{
+      if(win.trustedTypes.defaultPolicy)return win.trustedTypes.defaultPolicy;
+      return win.trustedTypes.createPolicy('default',{
         createHTML:function(s){return s;},
         createScriptURL:function(s){return s;},
         createScript:function(s){return s;}
       });
-    }catch(e){}
+    }catch(e){
+      return win.trustedTypes.defaultPolicy||null;
+    }
   }
+  function patchHtmlSinks(win){
+    if(!win||win.__niTtHtmlPatched)return;
+    var policy=installDefaultPolicy(win);
+    if(!policy||!win.Element||!win.Element.prototype)return;
+    function asTrustedHtml(value){
+      if(value==null||(win.trustedTypes&&win.trustedTypes.isHTML&&win.trustedTypes.isHTML(value)))return value;
+      try{return policy.createHTML(String(value));}catch(e){return value;}
+    }
+    try{
+      var desc=Object.getOwnPropertyDescriptor(win.Element.prototype,'innerHTML');
+      if(desc&&desc.set){
+        var origSet=desc.set,origGet=desc.get;
+        Object.defineProperty(win.Element.prototype,'innerHTML',{
+          configurable:true,
+          enumerable:desc.enumerable,
+          get:origGet,
+          set:function(v){return origSet.call(this,asTrustedHtml(v));}
+        });
+      }
+    }catch(e){}
+    try{
+      var outer=Object.getOwnPropertyDescriptor(win.Element.prototype,'outerHTML');
+      if(outer&&outer.set){
+        var oSet=outer.set,oGet=outer.get;
+        Object.defineProperty(win.Element.prototype,'outerHTML',{
+          configurable:true,
+          enumerable:outer.enumerable,
+          get:oGet,
+          set:function(v){return oSet.call(this,asTrustedHtml(v));}
+        });
+      }
+    }catch(e){}
+    try{
+      var ia=win.Element.prototype.insertAdjacentHTML;
+      if(ia){
+        win.Element.prototype.insertAdjacentHTML=function(pos,html){
+          return ia.call(this,pos,asTrustedHtml(html));
+        };
+      }
+    }catch(e){}
+    win.__niTtHtmlPatched=true;
+  }
+  installDefaultPolicy(window);
+  patchHtmlSinks(window);
+  window.__niPatchTrustedHtml=patchHtmlSinks;
   var n='%NONCE%';
   try{
     var orig=Document.prototype.createElement;

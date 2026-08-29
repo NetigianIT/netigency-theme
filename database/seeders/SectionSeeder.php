@@ -100,6 +100,13 @@ class SectionSeeder extends Seeder
 
         // Create datas
         Section::create([
+            'title' => 'Videos Section',
+            'section' => 'videos_section',
+            'status' => 1
+        ]);
+
+        // Create datas
+        Section::create([
             'title' => 'Contact Section',
             'section' => 'contact_section',
             'status' => 1

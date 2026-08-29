@@ -240,10 +240,13 @@ class SiteCache
     {
         Cache::forget('site.languages');
         Cache::forget('site.languages.en_bn');
+        Cache::forget('site.languages.supported');
         Cache::forget('site.display_dropdowns');
         Cache::forget('site.display_dropdowns.en_bn');
+        Cache::forget('site.display_dropdowns.supported');
         Cache::forget('site.data_language');
         Cache::forget('site.default_language');
+        Cache::forget('site.languages_warmed_v1');
 
         foreach (Language::query()->supported()->pluck('id') as $languageId) {
             Cache::forget("site.language.{$languageId}");

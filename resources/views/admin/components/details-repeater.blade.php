@@ -3,7 +3,7 @@
     $details = collect($details ?? []);
 @endphp
 
-<div class="col-md-12" id="ni-details-section">
+<div class="col-12" id="ni-details-section">
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">{{ __('content.details') }}</h5>
@@ -16,27 +16,27 @@
                 @forelse ($details as $index => $detail)
                     <div class="ni-detail-row border rounded p-3 mb-3">
                         <input type="hidden" name="details[{{ $index }}][id]" value="{{ $detail->id }}">
-                        <div class="row">
-                            <div class="col-md-5">
+                        <div class="row align-items-end ni-detail-row__fields">
+                            <div class="col-md">
                                 <div class="form-group mb-md-0">
                                     <label>{{ __('content.title') }}</label>
                                     <input type="text" name="details[{{ $index }}][title]" class="form-control" value="{{ $detail->title }}">
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md">
                                 <div class="form-group mb-md-0">
                                     <label>{{ __('content.description') }}</label>
                                     <input type="text" name="details[{{ $index }}][desc]" class="form-control" value="{{ $detail->desc }}">
                                 </div>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-auto ni-detail-row__order">
                                 <div class="form-group mb-md-0">
                                     <label>{{ __('content.order') }}</label>
                                     <input type="number" name="details[{{ $index }}][order]" class="form-control" value="{{ $detail->order }}">
                                 </div>
                             </div>
-                            <div class="col-md-1 d-flex align-items-end">
-                                <button type="button" class="btn btn-outline-danger btn-sm ni-remove-detail-row mb-3" title="{{ __('content.delete') }}">
+                            <div class="col-md-auto d-flex align-items-end pb-1">
+                                <button type="button" class="btn btn-link text-danger ni-remove-detail-row p-0" title="{{ __('content.delete') }}">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -52,27 +52,27 @@
 
 <template id="ni-detail-row-template">
     <div class="ni-detail-row border rounded p-3 mb-3">
-        <div class="row">
-            <div class="col-md-5">
+        <div class="row align-items-end ni-detail-row__fields">
+            <div class="col-md">
                 <div class="form-group mb-md-0">
                     <label>{{ __('content.title') }}</label>
                     <input type="text" name="details[__INDEX__][title]" class="form-control" value="">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md">
                 <div class="form-group mb-md-0">
                     <label>{{ __('content.description') }}</label>
                     <input type="text" name="details[__INDEX__][desc]" class="form-control" value="">
                 </div>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-auto ni-detail-row__order">
                 <div class="form-group mb-md-0">
                     <label>{{ __('content.order') }}</label>
                     <input type="number" name="details[__INDEX__][order]" class="form-control" value="0">
                 </div>
             </div>
-            <div class="col-md-1 d-flex align-items-end">
-                <button type="button" class="btn btn-outline-danger btn-sm ni-remove-detail-row mb-3" title="{{ __('content.delete') }}">
+            <div class="col-md-auto d-flex align-items-end pb-1">
+                <button type="button" class="btn btn-link text-danger ni-remove-detail-row p-0" title="{{ __('content.delete') }}">
                     <i class="fa fa-trash"></i>
                 </button>
             </div>

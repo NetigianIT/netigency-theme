@@ -42,8 +42,11 @@
                                     </div>
                                 <div class="body">
                                     <div class="portfolio-details">
-                                        <span>{{ $portfolio->portfolio_category->category_name }}</span>
                                         <h5>{{ $portfolio->title }}</h5>
+                                        @php $portfolioExcerpt = $portfolio->cardExcerpt(); @endphp
+                                        @if ($portfolioExcerpt !== '')
+                                            <p>{{ $portfolioExcerpt }}</p>
+                                        @endif
                                     </div>
                                     <a href="{{ route('portfolio-page.show', ['portfolio_slug' => $portfolio->portfolio_slug]) }}" class="portfolio-link">
                                         <i class="fa fa-arrow-right"></i>

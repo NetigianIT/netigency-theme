@@ -68,7 +68,7 @@
     <!-- Theme stays green; palette skins are not loaded. -->
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=130">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=140">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -264,14 +264,20 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             <img src="{{ asset('uploads/img/dummy/colored-logo.png') }}" alt="Logo Black" class="img-fluid logo-normal">
                         </a>
                     @endif
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
-                            aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="togler-icon-inner">
-                                <span class="line-1"></span>
-                                <span class="line-2"></span>
-                                <span class="line-3"></span>
-                            </span>
-                    </button>
+                    <div class="header-mobile-actions d-lg-none">
+                        <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
+                            <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                            <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                        </button>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
+                                aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="togler-icon-inner">
+                                    <span class="line-1"></span>
+                                    <span class="line-2"></span>
+                                    <span class="line-3"></span>
+                                </span>
+                        </button>
+                    </div>
                     <div class="collapse navbar-collapse main-menu" id="fixedNavbar">
                         <ul class="navbar-nav header-nav-center">
                             <li class="nav-item">
@@ -300,6 +306,11 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             @if (($section_arr['blog_section'] ?? 0) == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{ request()->is('blogs*') ? 'active' : '' }}" href="{{ route('blog-page.index') }}">{{ __('frontend.blogs') }}</a>
+                            </li>
+                            @endif
+                            @if (($section_arr['videos_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ request()->is('videos*') ? 'active' : '' }}" href="{{ route('video-page.index') }}">{{ __('frontend.videos') }}</a>
                             </li>
                             @endif
                             @if (($section_arr['contact_section'] ?? 0) == 1)
@@ -338,7 +349,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                     </div>
                                 </li>
                             @endif
-                            <li class="nav-item d-flex align-items-center header-theme-item">
+                            <li class="nav-item d-none d-lg-flex align-items-center header-theme-item">
                                 <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
                                     <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
                                     <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
@@ -358,17 +369,17 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
         @yield('content')
 
         <!--// Footer Start //-->
-            @if ($section_arr['footer_section'] == 1)
-            @if (count($socials) > 0 || isset($site_info) || count($footer_pages) > 0)
+            @if (($section_arr['footer_section'] ?? 0) == 1)
+            @if (count($socials ?? []) > 0 || isset($site_info) || count($footer_pages ?? []) > 0)
                 <footer class="footer">
                     <div class="footer-top">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">{{ __('frontend.about_us') }}</h6>
                                         <div class="footer-social-links">
-                                            @foreach ($socials as $social)
+                                            @foreach (($socials ?? []) as $social)
                                                 @if ($social->social_media === 'fab fa-whatsapp')
                                                     @continue
                                                 @endif
@@ -394,12 +405,12 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                     </div>
                                 </div>
                                 @include('frontend.partials.footer-page-columns')
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">Contact Info</h6>
                                         <div class="footer-contact-info-wrap">
                                             <ul class="footer-contact-info-list">
-                                                @if (!empty($site_info->address))
+                                                @if (!empty(optional($site_info)->address))
                                                     <li>
                                                         <i class="fas fa-map-marker-alt"></i>
                                                         <div class="footer-contact-body">
@@ -408,7 +419,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                                         </div>
                                                     </li>
                                                 @endif
-                                                @if (!empty($site_info->phone))
+                                                @if (!empty(optional($site_info)->phone))
                                                     <li>
                                                         <i class="fab fa-whatsapp"></i>
                                                         <div class="footer-contact-body">
@@ -419,7 +430,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                                         </div>
                                                     </li>
                                                 @endif
-                                                @if (!empty($site_info->email))
+                                                @if (!empty(optional($site_info)->email))
                                                     <li>
                                                         <i class="fas fa-envelope"></i>
                                                         <div class="footer-contact-body">
@@ -437,7 +448,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             </div>
                         </div>
                     </div>
-                    @if (!empty($site_info->copyright))
+                    @if (!empty(optional($site_info)->copyright))
                         <div class="copyright">
                             <div class="container">
                                 <p class="copyright-text">{{ $site_info->copyright }}</p>
@@ -450,7 +461,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                     <div class="footer-top">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">About Us</h6>
                                         <div class="footer-social-links">
@@ -473,7 +484,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget footer-widget-pl">
                                         <h6 class="footer-title">Customer relationship</h6>
                                         <ul class="footer-links">
@@ -492,7 +503,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget footer-widget-pl">
                                         <h6 class="footer-title">Useful Links</h6>
                                         <ul class="footer-links">
@@ -511,7 +522,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">Contact Info</h6>
                                         <div class="footer-contact-info-wrap">

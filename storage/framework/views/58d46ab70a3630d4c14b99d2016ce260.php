@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/fonts/font_awesome/css/all.css')); ?>">
     <?php echo deferred_css(asset('assets/frontend/fonts/flat_icons/flaticon.css')); ?>
 
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/style.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/style.css')); ?>?v=90">
     <!--// Theme Color Css //-->
     <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/default-color.css')); ?>" id="theme-color-toggle" />
 
@@ -97,7 +97,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=129">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=141">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -178,38 +178,34 @@
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:disabled{
-            background:#fff!important;
+            background:#15bf86!important;
             background-image:none!important;
-            border:1.5px solid rgba(18,120,88,.28)!important;
-            box-shadow:0 8px 22px rgba(18,60,45,.08)!important;
+            border:1.5px solid #15bf86!important;
+            box-shadow:0 12px 28px rgba(21,191,134,.28)!important;
             backdrop-filter:none!important;
             -webkit-backdrop-filter:none!important;
-            color:#0d8f63!important;
+            color:#fff!important;
         }
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover{
-            background:#15bf86!important;
-            border-color:#15bf86!important;
-            box-shadow:0 12px 28px rgba(21,191,134,.28)!important;
+            background:#12a974!important;
+            border-color:#12a974!important;
+            box-shadow:0 14px 32px rgba(21,191,134,.34)!important;
             color:#fff!important;
         }
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .text,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .text{
             color:inherit!important;
         }
-        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon::before{
-            background:linear-gradient(180deg, transparent 0%, rgba(18,120,88,.35) 50%, transparent 100%);
-        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon::before,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon::before{
             background:linear-gradient(180deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
         }
-        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i{
-            background:linear-gradient(135deg, #12a974 0%, #15bf86 55%, #23e0a3 100%)!important;
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon i{
+            background:#fff!important;
             -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat!important;
             mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat!important;
             border-radius:0!important;
-        }
-        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon i{
-            background:#fff!important;
         }
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i::before,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i::after,
@@ -371,14 +367,20 @@
                             <img src="<?php echo e(asset('uploads/img/dummy/colored-logo.png')); ?>" alt="Logo Black" class="img-fluid logo-normal">
                         </a>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
-                            aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="togler-icon-inner">
-                                <span class="line-1"></span>
-                                <span class="line-2"></span>
-                                <span class="line-3"></span>
-                            </span>
-                    </button>
+                    <div class="header-mobile-actions d-lg-none">
+                        <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
+                            <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                            <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                        </button>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
+                                aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="togler-icon-inner">
+                                    <span class="line-1"></span>
+                                    <span class="line-2"></span>
+                                    <span class="line-3"></span>
+                                </span>
+                        </button>
+                    </div>
                     <div class="collapse navbar-collapse main-menu" id="fixedNavbar">
                         <ul class="navbar-nav header-nav-center">
                             <li class="nav-item">
@@ -407,6 +409,11 @@
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['blog_section'] == 1): ?>
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="6"><?php echo e(__('frontend.blogs')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['videos_section'] ?? 0) == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="<?php echo e(route('video-page.index')); ?>"><?php echo e(__('frontend.videos')); ?></a>
                             </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['contact_section'] == 1): ?>
@@ -445,7 +452,7 @@
                                     </div>
                                 </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                            <li class="nav-item d-flex align-items-center header-theme-item">
+                            <li class="nav-item d-none d-lg-flex align-items-center header-theme-item">
                                 <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
                                     <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
                                     <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
@@ -463,14 +470,28 @@
     <main class="main-area">
 
         <!--// Hero Section Start //-->
+        <?php
+            $heroParticlesEnabled = ! isset($fixed_content) || (int) ($fixed_content->particles_status ?? 1) === 1;
+        ?>
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($fixed_content)): ?>
             <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                <div id="heroparticles"></div>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($heroParticlesEnabled): ?>
+                    <div id="heroparticles"></div>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
                             <div class="hero-inner">
-                                <h1><?php echo e($fixed_content->title); ?></h1>
+                                <?php
+                                    $heroAnimatedTitles = $fixed_content->animatedTitles();
+                                ?>
+                                <h1>
+                                    <span class="hero-title-static"><?php echo e($fixed_content->title); ?></span><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($heroAnimatedTitles) > 0): ?>
+                                        <span class="hero-typed" data-words='<?php echo json_encode($heroAnimatedTitles, 15, 512) ?>'>
+                                            <span class="hero-typed__text"><?php echo e($heroAnimatedTitles[0]); ?></span><span class="hero-typed__cursor" aria-hidden="true"></span>
+                                        </span>
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                </h1>
                                 <h2><?php echo e($fixed_content->desc); ?></h2>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($fixed_content->btn_name)): ?>
                                     <a href="#porfolio" data-scroll-nav="4" class="white-btn">
@@ -480,12 +501,38 @@
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
                         </div>
-                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($fixed_content->image_status == 1 && !empty($fixed_content->thumbnail_image)): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($fixed_content->image_status == 1 && (!empty($fixed_content->thumbnail_image) || !empty($fixed_content->thumbnail_image_light))): ?>
+                            <?php
+                                $heroImages = theme_mode_image_urls(
+                                    $fixed_content->thumbnail_image,
+                                    $fixed_content->thumbnail_image_light,
+                                    'general'
+                                );
+                            ?>
                             <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
                                 <div class="hero-img">
                                     <div class="border-line-outer">
                                         <div class="border-line-inner">
-                                            <img src="<?php echo e(asset('uploads/img/general/'.$fixed_content->thumbnail_image)); ?>" alt="image" class="img-fluid">
+                                            <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $heroImages['dark'],'lightSrc' => $heroImages['light'],'alt' => 'image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('frontend.theme-mode-image'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($heroImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($heroImages['light']),'alt' => 'image']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $attributes = $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $component = $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -504,13 +551,21 @@
             </section>
         <?php else: ?>
             <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                <div id="heroparticles"></div>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($heroParticlesEnabled): ?>
+                    <div id="heroparticles"></div>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
                             <div class="hero-inner">
+                                <?php
+                                    $demoHeroWords = ['Web Products.', 'Mobile Apps.', 'Business Software.', 'Digital Solutions.'];
+                                ?>
                                 <h1>
-                                    We Build Modern Web Products.
+                                    <span class="hero-title-static">We Build Modern</span>
+                                    <span class="hero-typed" data-words='<?php echo json_encode($demoHeroWords, 15, 512) ?>'>
+                                        <span class="hero-typed__text">Web Products.</span><span class="hero-typed__cursor" aria-hidden="true"></span>
+                                    </span>
                                 </h1>
                                 <h2>
                                     Custom websites, ecommerce platforms, CRM, HRM, POS, and business software — engineered with Laravel, Vue.js, PHP, Node.js, and React.
@@ -525,7 +580,26 @@
                             <div class="hero-img">
                                 <div class="border-line-outer">
                                     <div class="border-line-inner">
-                                        <img src="<?php echo e(asset('uploads/img/general/demo-hero.png')); ?>" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
+                                        <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/general/demo-hero-dark.png'),'lightSrc' => asset('uploads/img/general/demo-hero-light.png'),'alt' => 'Hero image','title' => 'Hero image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('frontend.theme-mode-image'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/general/demo-hero-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/general/demo-hero-light.png')),'alt' => 'Hero image','title' => 'Hero image']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $attributes = $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $component = $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -570,8 +644,34 @@
 <?php endif; ?>
                     <div class="row about-row align-items-stretch">
                         <div class="col-lg-6 about-media-col">
-                            <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
-                                <img src="<?php echo e(asset('uploads/img/about/'.$about->about_image)); ?>" alt="About image" title="About image" class="img-fluid">
+                            <div class="about-img">
+                                <?php
+                                    $aboutImages = theme_mode_image_urls(
+                                        $about->about_image,
+                                        $about->about_image_light,
+                                        'about'
+                                    );
+                                ?>
+                                <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $aboutImages['dark'],'lightSrc' => $aboutImages['light'],'alt' => 'About image','title' => 'About image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('frontend.theme-mode-image'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($aboutImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($aboutImages['light']),'alt' => 'About image','title' => 'About image']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $attributes = $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $component = $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($about->video_link)): ?>
                                     <a class="about-video-btn" href="<?php echo e($about->video_link); ?>" aria-label="Play demo video">
                                         <span class="about-video-btn__pulse" aria-hidden="true"></span>
@@ -590,7 +690,7 @@
                                 <p><?php echo e($about->desc); ?></p>
                                 <div class="row about-info-grid">
                                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $info_lists->chunk((int) max(1, ceil($info_lists->count() / 2))); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $info_list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="col-md-6 col-sm-6">
+                                        <div class="col-6">
                                             <ul class="mb-resp-15">
                                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $info_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <li class="about-info-item">
@@ -634,8 +734,27 @@
 <?php endif; ?>
                     <div class="row about-row align-items-stretch">
                         <div class="col-lg-6 about-media-col">
-                            <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
-                                <img src="<?php echo e(asset('uploads/img/about/demo-about.png')); ?>" alt="About image" title="About image" class="img-fluid">
+                            <div class="about-img">
+                                <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/about/demo-about-dark.png'),'lightSrc' => asset('uploads/img/about/demo-about-light.png'),'alt' => 'About image','title' => 'About image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('frontend.theme-mode-image'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/about/demo-about-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/about/demo-about-light.png')),'alt' => 'About image','title' => 'About image']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $attributes = $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $component = $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
                                 <a class="about-video-btn" href="https://youtu.be/9dqvwS7NoxI" aria-label="Play demo video">
                                     <span class="about-video-btn__pulse" aria-hidden="true"></span>
                                     <span class="about-video-btn__pulse about-video-btn__pulse--delay" aria-hidden="true"></span>
@@ -653,7 +772,7 @@
                                     We design and develop custom websites, ecommerce stores, CRM, HRM, POS, and business platforms with clean code, modern UI, and reliable performance.
                                 </p>
                                 <div class="row about-info-grid">
-                                    <div class="col-md-6 col-sm-6">
+                                    <div class="col-6">
                                         <ul class="mb-resp-15">
                                             <li class="about-info-item">
                                                 <div class="text">
@@ -681,7 +800,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-6 col-sm-6">
+                                    <div class="col-6">
                                         <ul>
                                             <li class="about-info-item">
                                                 <div class="text">
@@ -1492,7 +1611,33 @@
                       <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($skill)): ?>
                             <div class="col-lg-5 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                                 <div class="skills-img">
-                                    <img src="<?php echo e(asset('uploads/img/skill/'.$skill->skill_image)); ?>" alt="Software technology" title="Software technology" class="img-fluid">
+                                    <?php
+                                        $skillImages = theme_mode_image_urls(
+                                            $skill->skill_image,
+                                            $skill->skill_image_light,
+                                            'skill'
+                                        );
+                                    ?>
+                                    <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $skillImages['dark'],'lightSrc' => $skillImages['light'],'alt' => 'Software technology','title' => 'Software technology']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('frontend.theme-mode-image'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($skillImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($skillImages['light']),'alt' => 'Software technology','title' => 'Software technology']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $attributes = $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $component = $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
                                 </div>
                             </div>
                           <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -1533,7 +1678,26 @@
                     <div class="row skills-row align-items-stretch">
                         <div class="col-lg-5 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-img">
-                                <img src="<?php echo e(asset('uploads/img/skill/demo-skill.png')); ?>" alt="Software technology" title="Software technology" class="img-fluid">
+                                <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/skill/demo-skill-dark.png'),'lightSrc' => asset('uploads/img/skill/demo-skill-light.png'),'alt' => 'Software technology','title' => 'Software technology']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('frontend.theme-mode-image'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/skill/demo-skill-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/skill/demo-skill-light.png')),'alt' => 'Software technology','title' => 'Software technology']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $attributes = $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
+<?php $component = $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d; ?>
+<?php unset($__componentOriginal8440a5f1adbd93b7621a6506d3f8965d); ?>
+<?php endif; ?>
                             </div>
                         </div>
                         <div class="col-lg-7 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
@@ -1623,8 +1787,11 @@
                                         </div>
                                     <div class="body">
                                         <div class="portfolio-details">
-                                            <span><?php echo e($portfolio->portfolio_category->category_name); ?></span>
                                             <h5><?php echo e($portfolio->title); ?></h5>
+                                            <?php $portfolioExcerpt = $portfolio->cardExcerpt(); ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($portfolioExcerpt !== ''): ?>
+                                                <p><?php echo e($portfolioExcerpt); ?></p>
+                                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                         </div>
                                         <a href="<?php echo e(route('portfolio-page.show', ['portfolio_slug' => $portfolio->portfolio_slug])); ?>" class="portfolio-link">
                                             <i class="fa fa-arrow-right"></i>
@@ -1658,12 +1825,12 @@
                     <div class="row portfolio-grid" id="portfolio-masonry-wrap">
                         <?php
                             $demoProjects = [
-                                ['slug' => 'ecommerce', 'cat' => 'Ecommerce', 'title' => 'Nova Commerce', 'img' => 'demo-nova-commerce.png'],
-                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Pulse Finance', 'img' => 'demo-pulse-finance.png'],
-                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Atlas Trails', 'img' => 'demo-atlas-trails.png'],
-                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Verdant Care', 'img' => 'demo-verdant-care.png'],
-                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Studio Arc', 'img' => 'demo-studio-arc.png'],
-                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Beacon LMS', 'img' => 'demo-beacon-lms.png'],
+                                ['slug' => 'ecommerce', 'cat' => 'Ecommerce', 'title' => 'Nova Commerce', 'desc' => 'Modern ecommerce storefront with fast checkout and clean product discovery.', 'img' => 'demo-nova-commerce.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Pulse Finance', 'desc' => 'Fintech dashboard with clear money insights and secure account views.', 'img' => 'demo-pulse-finance.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Atlas Trails', 'desc' => 'Travel planning web app with routes, bookings, and trip timelines.', 'img' => 'demo-atlas-trails.png'],
+                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Verdant Care', 'desc' => 'Healthcare UI focused on calm flows and accessible patient journeys.', 'img' => 'demo-verdant-care.png'],
+                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Studio Arc', 'desc' => 'Creative studio interface with bold layouts and smooth interactions.', 'img' => 'demo-studio-arc.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Beacon LMS', 'desc' => 'Learning platform with courses, progress tracking, and assessments.', 'img' => 'demo-beacon-lms.png'],
                             ];
                         ?>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $demoProjects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $demo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -1677,8 +1844,8 @@
                                     </div>
                                     <div class="body">
                                         <div class="portfolio-details">
-                                            <span><?php echo e($demo['cat']); ?></span>
                                             <h5><?php echo e($demo['title']); ?></h5>
+                                            <p><?php echo e($demo['desc']); ?></p>
                                         </div>
                                         <a href="#" class="portfolio-link">
                                             <i class="fa fa-arrow-right"></i>
@@ -2029,14 +2196,14 @@
                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($blog_section)): ?>
                         <?php if (isset($component)) { $__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalb2cd6a24aaa44aae6cff221852ee8c49 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.section-title','data' => ['title' => $blog_section->title,'subtitle' => $blog_section->section_title,'colClass' => 'col-md-6']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.section-title','data' => ['title' => $blog_section->title,'subtitle' => $blog_section->section_title,'colClass' => 'col-md-6','navSlotId' => 'blogCarouselNav']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.section-title'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($blog_section->title),'subtitle' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($blog_section->section_title),'col-class' => 'col-md-6']); ?>
+<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($blog_section->title),'subtitle' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($blog_section->section_title),'col-class' => 'col-md-6','nav-slot-id' => 'blogCarouselNav']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalb2cd6a24aaa44aae6cff221852ee8c49)): ?>
@@ -2047,6 +2214,13 @@
 <?php $component = $__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49; ?>
 <?php unset($__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49); ?>
 <?php endif; ?>
+                   <?php else: ?>
+                        <div class="row align-items-center">
+                            <div class="col-7 col-md-6"></div>
+                            <div class="col-5 col-md-6">
+                                <div class="section-carousel-nav" id="blogCarouselNav"></div>
+                            </div>
+                        </div>
                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <div class="owl-carousel owl-theme" id="blogCarousel">
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $recent_posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $recent_post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -2089,12 +2263,15 @@
         <?php else: ?>
         <section class="section pb-minus-76" id="blog" data-scroll-index="6">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="row align-items-center">
+                    <div class="col-7 col-md-6">
                         <div class="section-heading-left">
                             <span>Blogs</span>
                             <h2>Our Blogs</h2>
                         </div>
+                    </div>
+                    <div class="col-5 col-md-6">
+                        <div class="section-carousel-nav" id="blogCarouselNav"></div>
                     </div>
                 </div>
                 <div class="owl-carousel owl-theme" id="blogCarousel">
@@ -2482,7 +2659,7 @@
                 <div class="footer-top">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title"><?php echo e(__('frontend.about_us')); ?></h6>
                                     <div class="footer-social-links">
@@ -2512,7 +2689,7 @@
                                 </div>
                             </div>
                             <?php echo $__env->make('frontend.partials.footer-page-columns', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">Contact Info</h6>
                                     <div class="footer-contact-info-wrap">
@@ -2568,7 +2745,7 @@
                 <div class="footer-top">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">About Us</h6>
                                     <div class="footer-social-links">
@@ -2591,7 +2768,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget footer-widget-pl">
                                     <h6 class="footer-title">Customer relationship</h6>
                                     <ul class="footer-links">
@@ -2610,7 +2787,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget footer-widget-pl">
                                     <h6 class="footer-title">Useful Links</h6>
                                     <ul class="footer-links">
@@ -2629,7 +2806,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">Contact Info</h6>
                                     <div class="footer-contact-info-wrap">
@@ -2733,8 +2910,10 @@
 <script src="<?php echo e(asset('assets/frontend/vendor/js/custom.select.plugin.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/frontend/vendor/js/scrollit.min.js')); ?>" defer></script>
 <script src="<?php echo e(asset('assets/frontend/vendor/js/isotope.min.js')); ?>" defer></script>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($heroParticlesEnabled ?? true): ?>
 <script src="<?php echo e(asset('assets/frontend/vendor/js/particles.js')); ?>" defer></script>
-<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=87" defer></script>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=89" defer></script>
 <script src="<?php echo e(asset('assets/frontend/js/ni-contact-form.js')); ?>?v=3" defer></script>
 <script src="<?php echo e(asset('assets/frontend/js/language-switch.js')); ?>?v=1" defer></script>
 <script src="<?php echo e(asset('assets/frontend/js/theme-mode.js')); ?>" defer></script>

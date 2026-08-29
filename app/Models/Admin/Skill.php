@@ -20,5 +20,6 @@ class Skill extends Model
         'title',
         'desc',
         'skill_image',
+        'skill_image_light',
     ];
 }

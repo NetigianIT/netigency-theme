@@ -5,7 +5,7 @@
 @endphp
 
 @if ($footerPagesCol1->isNotEmpty())
-    <div class="col-md-6 col-lg-3 footer-widget-resp">
+    <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
         <div class="footer-widget footer-widget-pl">
             <h6 class="footer-title">{{ __('frontend.customer_relationship') }}</h6>
             <ul class="footer-links">
@@ -23,7 +23,7 @@
 @endif
 
 @if ($footerPagesCol2->isNotEmpty())
-    <div class="col-md-6 col-lg-3 footer-widget-resp">
+    <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
         <div class="footer-widget footer-widget-pl">
             <h6 class="footer-title">{{ __('frontend.useful_links') }}</h6>
             <ul class="footer-links">

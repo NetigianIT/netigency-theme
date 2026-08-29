@@ -20,6 +20,11 @@
             'url' => url('admin/seo/create'),
             'active' => request()->is('admin/seo/create'),
         ],
+        [
+            'label' => __('content.particles_status'),
+            'url' => url('admin/hero-particles/create'),
+            'active' => request()->is('admin/hero-particles/create'),
+        ],
     ];
 @endphp
 

@@ -12,8 +12,6 @@ class Language extends Model
 
     public const CODE_ENGLISH = 'en';
 
-    public const CODE_BENGALI = 'bn-BD';
-
     /**
      * Fixed site languages. Extra rows in the database are ignored.
      *
@@ -21,7 +19,6 @@ class Language extends Model
      */
     public const SUPPORTED_CODES = [
         self::CODE_ENGLISH,
-        self::CODE_BENGALI,
     ];
 
     /**
@@ -41,7 +38,7 @@ class Language extends Model
     public function scopeSupported(Builder $query): Builder
     {
         return $query->whereIn('language_code', self::SUPPORTED_CODES)
-            ->orderByRaw("CASE language_code WHEN 'en' THEN 0 WHEN 'bn-BD' THEN 1 ELSE 2 END");
+            ->orderByRaw("CASE language_code WHEN 'en' THEN 0 ELSE 1 END");
     }
 
     public function isSupported(): bool

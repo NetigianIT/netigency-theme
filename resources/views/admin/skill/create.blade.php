@@ -38,28 +38,29 @@
                                     <textarea name="desc" class="form-control" id="desc" rows="3">{{ $skill->desc }}</textarea>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="skill_image">{{ __('content.image') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
+                                    <label for="skill_image">{{ __('content.thumbnail_dark') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="skill_image" class="form-control-file" id="skill_image">
-                                    <small id="skill_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
+                                    <small class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
                                 </div>
-                                <div class="height-card box-margin">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="avatar-area text-center">
-                                                <div class="media">
-                                                     <a  class="d-block mx-auto" href="#" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('content.current_image') }}">
-                                                         <img src="{{ asset('uploads/img/skill/'.$skill->skill_image) }}" alt="image" class="rounded w-25">
-                                                     </a>
-                                                </div>
-                                            </div>
-                                            <!--end card-body-->
-                                        </div>
-                                    </div>
-                                    <!--end card-->
+                                <div class="avatar-area text-center mt-2">
+                                    @if (!empty($skill->skill_image))
+                                        <img src="{{ asset('uploads/img/skill/'.$skill->skill_image) }}" alt="dark mode skill" class="rounded w-50">
+                                    @endif
                                 </div>
-                                <!--end col-->
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="skill_image_light">{{ __('content.thumbnail_light') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
+                                    <input type="file" name="skill_image_light" class="form-control-file" id="skill_image_light">
+                                    <small class="form-text text-muted">{{ __('content.image_light_help') }}</small>
+                                </div>
+                                <div class="avatar-area text-center mt-2">
+                                    @if (!empty($skill->skill_image_light))
+                                        <img src="{{ asset('uploads/img/skill/'.$skill->skill_image_light) }}" alt="light mode skill" class="rounded w-50">
+                                    @endif
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -99,11 +100,18 @@
                                     <textarea name="desc" class="form-control" id="desc" rows="3"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="skill_image">{{ __('content.image') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png) <span class="text-red">*</span></label>
+                                    <label for="skill_image">{{ __('content.thumbnail_dark') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png) <span class="text-red">*</span></label>
                                     <input type="file" name="skill_image" class="form-control-file" id="skill_image" required>
-                                    <small id="skill_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
+                                    <small class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="skill_image_light">{{ __('content.thumbnail_light') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
+                                    <input type="file" name="skill_image_light" class="form-control-file" id="skill_image_light">
+                                    <small class="form-text text-muted">{{ __('content.image_light_help') }}</small>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -190,12 +198,12 @@
                                     <td>
                                         <input name="check_list[]" type="checkbox" value="{{ $info_list->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                     </td>
-                                    <td>{{ $info_list->desc }}</td>
+                                    <td>{{ $info_list->title }}</td>
                                     <td>{{ $info_list->percent_rate }}</td>
                                     <td>{{ $info_list->order }}</td>
                                     <td>
                                         <div>
-                                            <a href="{{ route('skill.edit_info_list', $info_list->id) }}" class="mr-2">
+                                            <a href="#" class="mr-2" data-toggle="modal" data-target="#editInfoModal{{ $info_list->id }}">
                                                 <i class="fa fa-edit text-info font-18"></i>
                                             </a>
                                             @if ($demo_mode == "on")
@@ -231,6 +239,53 @@
                                                         </div>
                                                     </div>
                                                 </form>
+                                        </div>
+
+                                        <div class="modal fade" id="editInfoModal{{ $info_list->id }}" tabindex="-1" role="dialog" aria-labelledby="editInfoModalLabel{{ $info_list->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-md">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title mt-0 font-16" id="editInfoModalLabel{{ $info_list->id }}">{{ __('content.edit_info') }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @if ($demo_mode == "on")
+                                                            @include('admin.demo_mode.demo-mode')
+                                                        @else
+                                                            <form action="{{ route('skill.update_info_list', $info_list->id) }}" method="POST">
+                                                                @method('PUT')
+                                                                @csrf
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label for="edit_title_{{ $info_list->id }}">{{ __('content.title') }} <span class="text-red">*</span></label>
+                                                                            <input type="text" name="title" class="form-control" id="edit_title_{{ $info_list->id }}" value="{{ $info_list->title }}" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label for="edit_percent_rate_{{ $info_list->id }}">{{ __('content.percent_rate') }} <span class="text-red">*</span></label>
+                                                                            <input type="number" name="percent_rate" class="form-control" id="edit_percent_rate_{{ $info_list->id }}" value="{{ $info_list->percent_rate }}" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label for="edit_order_{{ $info_list->id }}">{{ __('content.order') }}</label>
+                                                                            <input type="number" name="order" class="form-control" id="edit_order_{{ $info_list->id }}" value="{{ $info_list->order }}" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-sm btn-primary">{{ __('content.submit') }}</button>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

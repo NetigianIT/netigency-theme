@@ -21,5 +21,6 @@ class About extends Model
         'desc',
         'video_link',
         'about_image',
+        'about_image_light',
     ];
 }

@@ -1,3 +1,17 @@
+﻿@php
+    $isAdminFragment = request()->boolean('admin_fragment') || request()->header('X-Admin-Fragment') === '1';
+@endphp
+@if ($isAdminFragment)
+    @include('admin.alert.alert')
+    @unless(trim($__env->yieldContent('hide_page_title')))
+        @include('admin.components.page-title', [
+            'pageTitle' => trim($__env->yieldContent('page_title')),
+            'pageTabs' => trim($__env->yieldContent('page_tabs')),
+            'pageActions' => trim($__env->yieldContent('page_actions')),
+        ])
+    @endunless
+    @yield('content')
+@else
 <!DOCTYPE html>
 <html dir="@if (session()->has('language_direction_from_dropdown')) @if(session()->get('language_direction_from_dropdown') == 1) {{ __('rtl') }} @else {{ __('ltr') }} @endif @else {{ __('ltr') }} @endif" lang="@if (session()->has('language_code_from_dropdown')){{ str_replace('_', '-', session()->get('language_code_from_dropdown')) }}@else{{ str_replace('_', '-',   $language->language_code) }}@endif">
 
@@ -12,9 +26,9 @@
     @php
         $adminPath = request()->path();
         $isAdminDashboard = request()->routeIs('dashboard');
-        $needsAdminEditor = ! $isAdminDashboard && (str_contains($adminPath, 'create') || str_contains($adminPath, 'edit'));
+        $needsAdminEditor = true;
         $needsAdminTables = true;
-        $needsAdminPickers = $needsAdminEditor;
+        $needsAdminPickers = ! $isAdminDashboard && (str_contains($adminPath, 'create') || str_contains($adminPath, 'edit'));
         $needsAdminLightbox = isset($galleries);
         $adminIsRtl = session()->has('language_direction_from_dropdown')
             ? session()->get('language_direction_from_dropdown') == 1
@@ -88,7 +102,7 @@
             display: none !important;
         }
 
-        /* Hamburger only on tablet/mobile — high specificity */
+        /* Hamburger only on tablet/mobile â€” high specificity */
         .navbar .top-navbar-area .nav-item.ni-menu-toggle-item {
             display: none !important;
         }
@@ -100,12 +114,12 @@
             }
         }
 
-        /* Hide empty navbar brand slot — logo lives in sidebar */
+        /* Hide empty navbar brand slot â€” logo lives in sidebar */
         .navbar .navbar-brand-wrapper {
             display: none !important;
         }
 
-        /* Sidebar logo — same height as top nav */
+        /* Sidebar logo â€” same height as top nav */
         .ni-sidebar-brand {
             display: flex !important;
             align-items: center;
@@ -166,7 +180,7 @@
             display: block !important;
         }
 
-        /* Sidebar menu — left/right inset from edges */
+        /* Sidebar menu â€” left/right inset from edges */
         .sidebar .nav:not(.sub-menu) > .nav-item {
             margin-bottom: 2px !important;
         }
@@ -181,7 +195,7 @@
             padding: 0.5rem 1.65rem 0.25rem !important;
         }
 
-        /* Submenu — same tight gap as main items */
+        /* Submenu â€” same tight gap as main items */
         .sidebar .nav.sub-menu {
             padding: 2px 12px 2px 28px !important;
             margin: 0 !important;
@@ -206,7 +220,7 @@
             background: transparent !important;
         }
 
-        /* Kill indigo (#5867dd) — match green primary everywhere */
+        /* Kill indigo (#5867dd) â€” match green primary everywhere */
         .sidebar .nav .nav-item .nav-link .menu-title,
         .sidebar .nav .nav-item .nav-link i,
         .sidebar .nav .nav-item .nav-link i.menu-icon,
@@ -240,7 +254,7 @@
             background: transparent !important;
         }
 
-        /* Full-height sidebar — desktop only (offcanvas below xl) */
+        /* Full-height sidebar â€” desktop only (offcanvas below xl) */
         @media (min-width: 1200px) {
             .navbar.fixed-top {
                 left: 255px;
@@ -363,7 +377,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=101">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=105">
 
 </head>
 
@@ -396,39 +410,16 @@
                 </svg>
             </button>
             <div class="d-flex align-items-center flex-grow-1 overflow-hidden">
-                <button type="button" class="ni-top-search" id="niAdminSearchToggle" aria-label="Search menu" title="Search menu">
-                    <i class="fas fa-search"></i>
-                </button>
-                <div class="ni-admin-search-wrap" id="niAdminSearchWrap" hidden>
+                <div class="ni-admin-search-wrap" id="niAdminSearchWrap">
                     <div class="ni-admin-search-field">
-                        <input type="search" id="niAdminSearchInput" class="form-control form-control-sm" placeholder="Search menu..." autocomplete="off">
+                        <i class="fas fa-search ni-admin-search-icon" aria-hidden="true"></i>
+                        <input type="search" id="niAdminSearchInput" class="form-control" placeholder="Search menu..." autocomplete="off">
                         <button type="button" class="ni-admin-search-clear" id="niAdminSearchClear" hidden aria-label="Clear search">
                             <i class="fas fa-times" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div class="ni-admin-search-results" id="niAdminSearchResults" hidden></div>
                 </div>
-                <ul class="ni-quick-links" id="niQuickLinks">
-                    @can('portfolio check')
-                        <li><a href="{{ url('admin/portfolio') }}" class="{{ request()->is('admin/portfolio*') || request()->is('admin/portfolio-category*') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> <span>{{ __('content.portfolios') }}</span></a></li>
-                    @endcan
-                    @can('features check')
-                        <li><a href="{{ url('admin/feature/create') }}" class="{{ request()->is('admin/feature*') ? 'active' : '' }}"><i class="fas fa-star"></i> <span>{{ __('content.features') }}</span></a></li>
-                    @endcan
-                    @can('services check')
-                        <li><a href="{{ url('admin/service') }}" class="{{ request()->is('admin/service*') ? 'active' : '' }}"><i class="fas fa-people-carry"></i> <span>{{ __('content.services') }}</span></a></li>
-                    @endcan
-                    @can('blogs check')
-                        <li><a href="{{ url('admin/blog') }}" class="{{ request()->is('admin/blog*') || request()->is('admin/category*') || request()->is('admin/blog-paginate*') ? 'active' : '' }}"><i class="fab fa-blogger-b"></i> <span>{{ __('content.blogs') }}</span></a></li>
-                    @endcan
-                    @can('testimonials check')
-                        <li><a href="{{ url('admin/testimonial/create') }}" class="{{ request()->is('admin/testimonial*') ? 'active' : '' }}"><i class="fas fa-quote-right"></i> <span>{{ __('content.testimonials') }}</span></a></li>
-                    @endcan
-                    @can('contact check')
-                        <li><a href="{{ url('admin/message') }}" class="{{ request()->is('admin/message*') ? 'active' : '' }}"><i class="fas fa-inbox"></i> <span>{{ __('content.messages') }}</span></a></li>
-                    @endcan
-                    <li><a href="{{ url('/') }}" target="_blank"><i class="fas fa-external-link-alt"></i> <span>{{ __('content.site') }}</span></a></li>
-                </ul>
             </div>
             <ul class="top-navbar-area navbar-nav navbar-nav-right">
                 <li class="nav-item d-flex align-items-center">
@@ -456,7 +447,7 @@
                         <a href="{{ url('language/set-locale/'.$nextLang->id) }}"
                            class="ni-lang-toggle"
                            data-language-id="{{ $nextLang->id }}"
-                           title="{{ __('content.languages') }}: {{ $currentLang->language_name }} → {{ $nextLang->language_name }}"
+                           title="{{ __('content.languages') }}: {{ $currentLang->language_name }} â†’ {{ $nextLang->language_name }}"
                            aria-label="Switch language to {{ $nextLang->language_name }}">
                             <i class="fas fa-globe" aria-hidden="true"></i>
                             <span class="ni-lang-toggle__code">{{ $langShort }}</span>
@@ -642,9 +633,8 @@
                     </li>
                 @endcan
                 @can('teams check')
-                <li class="nav-item  {{ (request()->is('admin/team/create') ||
-                                         request()->is('admin/team/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('admin/team/create') }}">
+                <li class="nav-item {{ request()->is('admin/team*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('team.index') }}" data-ni-match="/admin/team">
                         <i class="fas fa-user-friends menu-icon"></i>
                         <span class="menu-title">{{ __('content.teams') }}</span>
                     </a>
@@ -664,6 +654,14 @@
                         <a class="nav-link" href="{{ url('admin/blog') }}" data-ni-match="/admin/blog,/admin/category,/admin/blog-paginate">
                             <i class="fab fa-blogger-b menu-icon"></i>
                             <span class="menu-title">{{ __('content.blogs') }}</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('videos check')
+                    <li class="nav-item {{ (request()->is('admin/video-item*') || request()->is('admin/video-category*')) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/video-item') }}" data-ni-match="/admin/video-item,/admin/video-category">
+                            <i class="fas fa-video menu-icon"></i>
+                            <span class="menu-title">{{ __('content.videos') }}</span>
                         </a>
                     </li>
                 @endcan
@@ -692,15 +690,6 @@
                         </a>
                     </li>
                 @endcan
-                @can('uploads check')
-                    <li class="nav-item  {{ (request()->is('admin/photo/create') ||
-                                             request()->is('admin/photo/*/edit')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/photo/create') }}">
-                            <i class="fas fa-cloud-upload-alt menu-icon"></i>
-                            <span class="menu-title">{{ __('content.uploads') }}</span>
-                        </a>
-                    </li>
-                @endcan
 
                 @hasrole ('super-admin')
                 <li class="nav-item {{ (request()->is('admin/admin-role') ||
@@ -724,30 +713,11 @@
                     <li class="nav-item {{ (request()->is('admin/site-info/create') ||
                                             request()->is('admin/site-image/create') ||
                                             request()->is('admin/google-analytic/create') ||
-                                            request()->is('admin/seo/create')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/site-info/create') }}" data-ni-match="/admin/site-info,/admin/site-image,/admin/google-analytic,/admin/seo">
+                                            request()->is('admin/seo/create') ||
+                                            request()->is('admin/hero-particles/create')) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/site-info/create') }}" data-ni-match="/admin/site-info,/admin/site-image,/admin/google-analytic,/admin/seo,/admin/hero-particles">
                             <i class="fas fa-fw fa-cog menu-icon"></i>
                             <span class="menu-title">{{ __('content.settings') }}</span>
-                        </a>
-                    </li>
-                @endcan
-                @can('language check')
-                    <li class="nav-item  {{ (request()->is('admin/language/create') ||
-                                            request()->is('admin/language/*/edit') ||
-                                            request()->is('admin/language-keyword-for-adminpanel/create/*') ||
-                                            request()->is('admin/language-keyword-for-frontend/create/*') ||
-                                            request()->is('admin/language/*/edit')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/language/create') }}">
-                            <i class="fas fa-language menu-icon"></i>
-                            <span class="menu-title">{{ __('content.languages') }}</span>
-                        </a>
-                    </li>
-                @endcan
-                @can('clear cache check')
-                    <li class="nav-item {{ (request()->is('admin/clear-cache')) ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/clear-cache') }}" data-no-spa>
-                            <i class="fab fa-cloudscale menu-icon"></i>
-                            <span class="menu-title">{{ __('content.optimizer') }}</span>
                         </a>
                     </li>
                 @endcan
@@ -811,7 +781,7 @@
 
 @if ($needsAdminEditor)
     <script src="https://cdn.jsdelivr.net/npm/tinymce@7.6.1/tinymce.min.js" referrerpolicy="origin" defer></script>
-    <script src="{{ asset('assets/admin/side_menu/js/ni-editor.js') }}?v=3" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/ni-editor.js') }}?v=5" defer></script>
 @endif
 
 <script>
@@ -963,7 +933,48 @@
         }
     }, true);
 
+    function setDeleteConfirmLoading(btn) {
+        if (!btn || btn.dataset.niLoading === "1") return;
+        btn.dataset.niLoading = "1";
+        btn.disabled = true;
+        btn.classList.add("is-loading");
+        btn.setAttribute("aria-busy", "true");
+        if (!btn.dataset.niOriginalHtml) {
+            btn.dataset.niOriginalHtml = btn.innerHTML;
+        }
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>';
+    }
 
+    function findDeleteModalFromForm(form, submitter) {
+        if (submitter) {
+            var fromSubmitter = submitter.closest(".modal");
+            if (fromSubmitter) return fromSubmitter;
+        }
+        var nested = form.querySelector('.modal[id*="delete"], .modal[id*="Delete"]');
+        if (nested) return nested;
+        return form.closest(".modal");
+    }
+
+    // Spinner on "Yes, delete it!" then toast shows after redirect (session flash)
+    document.addEventListener("submit", function (event) {
+        var form = event.target;
+        if (!form || form.tagName !== "FORM" || event.defaultPrevented) return;
+
+        var modal = findDeleteModalFromForm(form, event.submitter);
+        if (!modal) return;
+        var modalId = (modal.id || "").toLowerCase();
+        if (modalId.indexOf("delete") === -1) return;
+
+        var field = form.querySelector("#checked_lists, input[name='checked_lists']");
+        if (field && !collectCheckedListIds().length) return;
+
+        var btn = event.submitter;
+        if (!btn || btn.type !== "submit") {
+            btn = form.querySelector('button[type="submit"].btn-success') ||
+                modal.querySelector('button[type="submit"].btn-success');
+        }
+        setDeleteConfirmLoading(btn);
+    }, true);
 
 </script>
 
@@ -973,31 +984,13 @@
 <script src="{{ asset('assets/frontend/js/language-switch.js') }}?v=1" defer></script>
 <script>
 (function () {
-    var toggle = document.getElementById('niAdminSearchToggle');
     var wrap = document.getElementById('niAdminSearchWrap');
     var input = document.getElementById('niAdminSearchInput');
     var clearBtn = document.getElementById('niAdminSearchClear');
     var results = document.getElementById('niAdminSearchResults');
-    var quickLinks = document.getElementById('niQuickLinks');
-    if (!toggle || !wrap || !input || !results) return;
+    if (!wrap || !input || !results) return;
 
     var menuIndex = null;
-
-    function closeSearch() {
-        wrap.setAttribute('hidden', '');
-        toggle.removeAttribute('hidden');
-        if (quickLinks) quickLinks.style.display = '';
-        input.value = '';
-        syncClear();
-        hideResults();
-    }
-
-    function openSearch() {
-        wrap.removeAttribute('hidden');
-        toggle.setAttribute('hidden', '');
-        if (quickLinks) quickLinks.style.display = 'none';
-        input.focus();
-    }
 
     function syncClear() {
         if (!clearBtn) return;
@@ -1059,21 +1052,16 @@
         results.removeAttribute('hidden');
     }
 
-    toggle.addEventListener('click', function () {
-        if (wrap.hasAttribute('hidden')) {
-            openSearch();
-        } else {
-            closeSearch();
-        }
-    });
-
     input.addEventListener('input', function () {
         renderResults(input.value);
     });
 
     input.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-            closeSearch();
+            input.value = '';
+            hideResults();
+            syncClear();
+            input.blur();
         }
     });
 
@@ -1087,9 +1075,8 @@
     }
 
     document.addEventListener('click', function (e) {
-        if (wrap.hasAttribute('hidden')) return;
-        if (wrap.contains(e.target) || toggle.contains(e.target)) return;
-        closeSearch();
+        if (wrap.contains(e.target)) return;
+        hideResults();
     });
 })();
 </script>
@@ -1102,8 +1089,11 @@
 <script src="{{ asset('assets/admin/side_menu/js/ni-number-input.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=2" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=5" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-textarea-auto.js') }}?v=1" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=7" defer></script>
 
 </body>
 
 </html>
+@endif
+

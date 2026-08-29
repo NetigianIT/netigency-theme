@@ -23,13 +23,13 @@
                         @endif
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">{{ __('content.name') }} <span class="text-red">*</span></label>
                                     <input type="text" name="name" class="form-control" id="name" value="{{ $testimonial->name }}" required>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="job">{{ __('content.job') }} <span class="text-red">*</span></label>
                                     <input type="text" name="job" class="form-control" id="job" value="{{ $testimonial->job }}" required>
@@ -41,7 +41,7 @@
                                     <textarea type="text" name="desc" class="form-control" id="desc" required>{{ $testimonial->desc }}</textarea>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="star" class="col-form-label">{{ __('content.star') }}</label>
                                     <select class="form-control" name="star" id="star">
@@ -54,7 +54,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="order">{{ __('content.order') }}</label>
                                     <input type="number" name="order" class="form-control" id="order" value="{{ $testimonial->order }}">

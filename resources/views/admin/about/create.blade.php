@@ -33,28 +33,29 @@
                                     <small id="video_link" class="form-text text-muted">{{ __('content.youtube_supported') }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="about_image">{{ __('content.image') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
+                                    <label for="about_image">{{ __('content.thumbnail_dark') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="about_image" class="form-control-file" id="about_image">
-                                    <small id="about_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
+                                    <small class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
                                 </div>
-                                <div class="height-card box-margin">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="avatar-area text-center">
-                                                <div class="media">
-                                                    <a  class="d-block mx-auto" href="#" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('content.current_image') }}">
-                                                        <img src="{{ asset('uploads/img/about/'.$about->about_image) }}" alt="image" class="rounded w-25">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!--end card-body-->
-                                        </div>
-                                    </div>
-                                    <!--end card-->
+                                <div class="avatar-area text-center mt-2">
+                                    @if (!empty($about->about_image))
+                                        <img src="{{ asset('uploads/img/about/'.$about->about_image) }}" alt="dark mode about" class="rounded w-50">
+                                    @endif
                                 </div>
-                                <!--end col-->
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="about_image_light">{{ __('content.thumbnail_light') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
+                                    <input type="file" name="about_image_light" class="form-control-file" id="about_image_light">
+                                    <small class="form-text text-muted">{{ __('content.image_light_help') }}</small>
+                                </div>
+                                <div class="avatar-area text-center mt-2">
+                                    @if (!empty($about->about_image_light))
+                                        <img src="{{ asset('uploads/img/about/'.$about->about_image_light) }}" alt="light mode about" class="rounded w-50">
+                                    @endif
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -89,11 +90,18 @@
                                     <small id="video_link" class="form-text text-muted">{{ __('content.youtube_supported') }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="about_image">{{ __('content.image') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png) <span class="text-red">*</span></label>
+                                    <label for="about_image">{{ __('content.thumbnail_dark') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png) <span class="text-red">*</span></label>
                                     <input type="file" name="about_image" class="form-control-file" id="about_image" required>
-                                    <small id="about_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
+                                    <small class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="about_image_light">{{ __('content.thumbnail_light') }} ({{ __('content.size') }} 480 x 600) (.svg, .jpg, .jpeg, .png)</label>
+                                    <input type="file" name="about_image_light" class="form-control-file" id="about_image_light">
+                                    <small class="form-text text-muted">{{ __('content.image_light_help') }}</small>
                                 </div>
                             </div>
                             <div class="col-md-12">

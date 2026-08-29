@@ -1,13 +1,51 @@
 {
+  "_client-Dd3aBlkj.js": {
+    "file": "assets/client-Dd3aBlkj.js",
+    "name": "client"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-D1dzozBn.css",
+    "file": "assets/app-Db1MEGmv.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/js/Pages/Frontend/Home.jsx": {
+    "file": "assets/Home-D4XNPmah.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Frontend/Home.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-Dd3aBlkj.js",
+      "resources/js/app.jsx",
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/admin.jsx": {
+    "file": "assets/admin-B05ezqU8.js",
+    "name": "admin",
+    "src": "resources/js/admin.jsx",
+    "isEntry": true,
+    "imports": [
+      "_client-Dd3aBlkj.js",
+      "resources/js/app.js"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-CIomGrQN.js",
+    "file": "assets/app-BYbPYwBC.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
+  },
+  "resources/js/app.jsx": {
+    "file": "assets/app-AYh2Em4s.js",
+    "name": "app",
+    "src": "resources/js/app.jsx",
+    "isEntry": true,
+    "imports": [
+      "_client-Dd3aBlkj.js",
+      "resources/js/app.js"
+    ],
+    "dynamicImports": [
+      "resources/js/Pages/Frontend/Home.jsx"
+    ]
   }
 }

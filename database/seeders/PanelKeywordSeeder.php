@@ -233,6 +233,21 @@ class PanelKeywordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
+                'key' => 'hero_title_help',
+                'value' => 'Static headline text shown before the typing animation (example: We Build Modern).',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'animated_title',
+                'value' => 'Animated Title',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'animated_titles_help',
+                'value' => 'Up to 4 titles rotate with a typing animation after the main title. Leave blank to skip.',
+            ],
+            [
+                'language_id' => 1,
                 'key' => 'description',
                 'value' => 'Description',
             ],
@@ -258,8 +273,33 @@ class PanelKeywordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
+                'key' => 'particles_status',
+                'value' => 'Particles.js Effect',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'particles_status_help',
+                'value' => 'Turn the hero area Particles.js background animation on or off.',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'hero_content_required_for_particles',
+                'value' => 'Please create Hero Fixed Content first, then you can enable or disable the Particles.js effect here.',
+            ],
+            [
+                'language_id' => 1,
                 'key' => 'thumbnail',
                 'value' => 'Thumbnail',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'thumbnail_dark',
+                'value' => 'Hero Image (Dark Mode)',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'thumbnail_light',
+                'value' => 'Hero Image (Light / White Mode)',
             ],
             [
                 'language_id' => 1,
@@ -355,6 +395,31 @@ class PanelKeywordSeeder extends Seeder
                 'language_id' => 1,
                 'key' => 'blogs',
                 'value' => 'Blogs',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'videos',
+                'value' => 'Videos',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'add_video',
+                'value' => 'Add Video',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'edit_video',
+                'value' => 'Edit Video',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'video_url',
+                'value' => 'Video URL',
+            ],
+            [
+                'language_id' => 1,
+                'key' => 'video_url_help',
+                'value' => 'Paste a YouTube or Vimeo video link.',
             ],
             [
                 'language_id' => 1,

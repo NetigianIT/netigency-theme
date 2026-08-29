@@ -200,8 +200,19 @@
             window.initNiIconSelect();
         }
 
+        if (typeof window.initNiTextareaAuto === 'function') {
+            window.initNiTextareaAuto();
+        }
+
         if (typeof window.initNiEditor === 'function') {
             window.initNiEditor();
+            if (!window.tinymce || !window.tinymce.editors || !window.tinymce.editors.length) {
+                window.setTimeout(function () {
+                    if (typeof window.initNiEditor === 'function') {
+                        window.initNiEditor();
+                    }
+                }, 120);
+            }
         }
 
         window.dispatchEvent(new CustomEvent('ni:page-loaded'));

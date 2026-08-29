@@ -8,6 +8,7 @@ use App\Models\Admin\Page;
 use App\Models\Admin\Section;
 use App\Models\Admin\Seo;
 use App\Models\Admin\SiteImage;
+use App\Support\FrontendCache;
 use App\Support\SiteCache;
 use App\Support\SiteCacheInvalidator;
 use App\Models\Frontend\Comment;
@@ -84,11 +85,14 @@ class AppServiceProvider extends ServiceProvider
         View::share('demo_mode', $demo_mode);
 
         if (SiteCache::tableExists('languages')) {
-            $languages = SiteCache::remember('site.languages.en_bn', SiteCache::TTL_LONG, function () {
+            $languages = SiteCache::remember('site.languages.supported', SiteCache::TTL_LONG, function () {
                 return Language::supported()->get();
             });
-            $display_dropdowns = SiteCache::remember('site.display_dropdowns.en_bn', SiteCache::TTL_LONG, function () {
-                return Language::supported()->get();
+            // Language switcher is hidden when only one locale is supported.
+            $display_dropdowns = SiteCache::remember('site.display_dropdowns.supported', SiteCache::TTL_LONG, function () {
+                $supported = Language::supported()->get();
+
+                return $supported->count() > 1 ? $supported : collect();
             });
             $data_language = SiteCache::activeDataLanguage();
 
@@ -102,7 +106,7 @@ class AppServiceProvider extends ServiceProvider
                 View::share('language', $language);
             }
 
-            // Keep EN/BN translation packs warm so language switches stay fast.
+            // Keep English translation packs warm for faster page loads.
             try {
                 if (! \Illuminate\Support\Facades\Cache::has('site.languages_warmed_v1')) {
                     SiteCache::warmAllLanguages();
@@ -171,8 +175,15 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('layouts.frontend.master', function ($view) {
+            $defaults = [
+                'header_pages' => collect(),
+                'footer_pages' => collect(),
+                'socials' => collect(),
+                'site_info' => null,
+            ];
+
             if (! SiteCache::tableExists('pages')) {
-                $view->with('header_pages', collect());
+                $view->with($defaults);
 
                 return;
             }
@@ -180,7 +191,7 @@ class AppServiceProvider extends ServiceProvider
             $language = getSiteLanguage();
 
             if (! $language) {
-                $view->with('header_pages', collect());
+                $view->with($defaults);
 
                 return;
             }
@@ -193,7 +204,11 @@ class AppServiceProvider extends ServiceProvider
                     ->get();
             });
 
-            $view->with('header_pages', $header_pages);
+            $layout = FrontendCache::layout($language->id);
+
+            $view->with(array_merge($defaults, $layout, [
+                'header_pages' => $header_pages,
+            ]));
         });
 
         SiteCacheInvalidator::register();

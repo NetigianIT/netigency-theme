@@ -37,68 +37,6 @@
                                           <textarea id="summernote" name="desc" class="form-control"></textarea>
                                       </div>
                                   </div>
-                                  @include('admin.components.details-repeater')
-                                  <div class="col-md-12 height-card box-margin">
-                                      <div id="accordion-">
-                                          <div class="card mb-2">
-                                              <div class="card-header bg-secondary">
-                                                  <a class="collapsed text-white" data-toggle="collapse" href="#accordion-1" aria-expanded="false">
-                                                      {{ __('content.seo_optimization') }}
-                                                  </a>
-                                              </div>
-
-                                              <div id="accordion-1" class="collapse" data-parent="#accordion-" style="">
-                                                  <div class="card-body">
-                                                      <div class="row">
-                                                          <div class="col-md-12">
-                                                              <div class="form-group">
-                                                                  <label for="meta_desc">{{ __('content.meta_desc') }} </label>
-                                                                  <input id="title" name="meta_desc" type="text" class="form-control">
-                                                              </div>
-                                                          </div>
-                                                          <div class="col-md-12">
-                                                              <div class="form-group">
-                                                                  <label for="meta_keyword">{{ __('content.meta_keyword') }} ({{ __('content.separate_with_commas') }})</label>
-                                                                  <textarea id="meta_keyword" name="meta_keyword" class="form-control"></textarea>
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-
-                                          <div class="card">
-                                              <div class="card-header bg-secondary">
-                                                  <a class="text-white" data-toggle="collapse" href="#accordion-2" aria-expanded="true">
-                                                      {{ __('content.breadcrumb_customization') }}
-                                                  </a>
-                                              </div>
-                                              <div id="accordion-2" class="collapse" data-parent="#accordion-" style="">
-                                                  <div class="card-body">
-                                                      <div class="row">
-                                                          <div class="col-md-12">
-                                                              <div class="form-group">
-                                                                  <label for="breadcrumb_status" class="col-form-label">{{ __('content.use_special_breadcrumb') }}</label>
-                                                                  <select name="breadcrumb_status" class="form-control" id="breadcrumb_status">
-                                                                      <option value="0" selected>{{ __('content.select_your_option') }}</option>
-                                                                      <option value="1">{{ __('content.yes') }}</option>
-                                                                      <option value="0">{{ __('content.no') }}</option>
-                                                                  </select>
-                                                              </div>
-                                                          </div>
-                                                          <div class="col-md-12">
-                                                              <div class="form-group">
-                                                                  <label for="custom_breadcrumb_image">{{ __('content.custom_breadcrumb_image') }} ({{ __('content.size') }} 1920 x 350) (.svg, .jpg, .jpeg, .png)</label>
-                                                                  <input type="file" name="custom_breadcrumb_image" class="form-control-file" id="custom_breadcrumb_image">
-                                                                  <small id="custom_breadcrumb_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
                               </div>
                           </div>
                             <div class="col-md-4">
@@ -158,6 +96,74 @@
                                     </div>
                                 </div>
                             </div>
+
+                        @include('admin.components.details-repeater')
+
+                        <div class="col-12 height-card box-margin">
+                            <div id="accordion-" class="row ni-seo-breadcrumb-row align-items-start">
+                                <div class="col-md-6">
+                                    <div class="card mb-2">
+                                        <div class="card-header bg-secondary">
+                                            <a class="collapsed text-white" data-toggle="collapse" href="#accordion-1" aria-expanded="false">
+                                                {{ __('content.seo_optimization') }}
+                                            </a>
+                                        </div>
+
+                                        <div id="accordion-1" class="collapse" data-parent="#accordion-">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="meta_desc">{{ __('content.meta_desc') }} </label>
+                                                            <input id="title" name="meta_desc" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="meta_keyword">{{ __('content.meta_keyword') }} ({{ __('content.separate_with_commas') }})</label>
+                                                            <textarea id="meta_keyword" name="meta_keyword" class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="card mb-2">
+                                        <div class="card-header bg-secondary">
+                                            <a class="collapsed text-white" data-toggle="collapse" href="#accordion-2" aria-expanded="false">
+                                                {{ __('content.breadcrumb_customization') }}
+                                            </a>
+                                        </div>
+                                        <div id="accordion-2" class="collapse" data-parent="#accordion-">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="breadcrumb_status" class="col-form-label">{{ __('content.use_special_breadcrumb') }}</label>
+                                                            <select name="breadcrumb_status" class="form-control" id="breadcrumb_status">
+                                                                <option value="0" selected>{{ __('content.select_your_option') }}</option>
+                                                                <option value="1">{{ __('content.yes') }}</option>
+                                                                <option value="0">{{ __('content.no') }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="custom_breadcrumb_image">{{ __('content.custom_breadcrumb_image') }} ({{ __('content.size') }} 1920 x 350) (.svg, .jpg, .jpeg, .png)</label>
+                                                            <input type="file" name="custom_breadcrumb_image" class="form-control-file" id="custom_breadcrumb_image">
+                                                            <small id="custom_breadcrumb_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                     </form>
             </div>

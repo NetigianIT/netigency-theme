@@ -21,7 +21,6 @@ class PermissionsSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'uploads check']);
         Permission::create(['name' => 'banner check']);
         Permission::create(['name' => 'about us check']);
         Permission::create(['name' => 'features check']);
@@ -33,6 +32,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'teams check']);
         Permission::create(['name' => 'testimonials check']);
         Permission::create(['name' => 'blogs check']);
+        Permission::create(['name' => 'videos check']);
         Permission::create(['name' => 'settings check']);
         Permission::create(['name' => 'contact check']);
         Permission::create(['name' => 'pages check']);
@@ -44,7 +44,6 @@ class PermissionsSeeder extends Seeder
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         $role2 = Role::create(['name' => 'admin']);
-        $role2->givePermissionTo('uploads check');
         $role2->givePermissionTo('banner check');
         $role2->givePermissionTo('about us check');
         $role2->givePermissionTo('features check');
@@ -56,6 +55,7 @@ class PermissionsSeeder extends Seeder
         $role2->givePermissionTo('teams check');
         $role2->givePermissionTo('testimonials check');
         $role2->givePermissionTo('blogs check');
+        $role2->givePermissionTo('videos check');
         $role2->givePermissionTo('settings check');
         $role2->givePermissionTo('contact check');
         $role2->givePermissionTo('pages check');
@@ -64,6 +64,7 @@ class PermissionsSeeder extends Seeder
 
         $role3 = Role::create(['name' => 'editor']);
         $role3->givePermissionTo('blogs check');
+        $role3->givePermissionTo('videos check');
         $role3->givePermissionTo('services check');
         $role3->givePermissionTo('portfolio check');
 

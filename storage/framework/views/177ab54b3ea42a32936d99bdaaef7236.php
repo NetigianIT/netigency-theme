@@ -41,6 +41,7 @@
                                         <textarea type="text" name="desc" class="form-control" id="summernote"><?php echo html_entity_decode($portfolio->desc); ?></textarea>
                                     </div>
                                 </div>
+                                <?php echo $__env->make('admin.components.details-repeater', ['details' => $portfolio_details], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                                 <div class="col-md-12 height-card box-margin">
                                     <div id="accordion-">
                                         <div class="card mb-2">

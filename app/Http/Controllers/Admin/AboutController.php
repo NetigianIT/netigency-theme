@@ -36,22 +36,21 @@ class AboutController extends Controller
         // Form validation
         $request->validate([
             'title' => 'required',
-            'about_image' => 'required|image|mimes:svg,png,jpeg,jpg|max:2048'
+            'about_image' => 'required|image|mimes:svg,png,jpeg,jpg|max:2048',
+            'about_image_light' => 'nullable|image|mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
         // Get All Request
         $input = $request->all();
+        $folder = 'uploads/img/about/';
 
         if($request->hasFile('about_image')){
 
             // Get image file
             $about_image_file = $request->file('about_image');
 
-            // Folder path
-            $folder = 'uploads/img/about/';
-
             // Make image name
-            $about_image_name = time().'-'.$about_image_file->getClientOriginalName();
+            $about_image_name = time().'-dark-'.$about_image_file->getClientOriginalName();
 
             // Original size upload file
             $about_image_file->move($folder, $about_image_name);
@@ -61,6 +60,14 @@ class AboutController extends Controller
 
         }
 
+        $input['about_image_light'] = null;
+        if ($request->hasFile('about_image_light')) {
+            $light = $request->file('about_image_light');
+            $lightName = time().'-light-'.$light->getClientOriginalName();
+            $light->move($folder, $lightName);
+            $input['about_image_light'] = $lightName;
+        }
+
         // Record to database
         About::firstOrCreate([
             'language_id' => getLanguage()->id,
@@ -68,7 +75,8 @@ class AboutController extends Controller
             'title' => $input['title'],
             'desc' => $input['desc'],
             'video_link' => $input['video_link'],
-            'about_image' => $input['about_image']
+            'about_image' => $input['about_image'],
+            'about_image_light' => $input['about_image_light'],
         ]);
 
         return redirect()->route('about.create')
@@ -87,24 +95,23 @@ class AboutController extends Controller
         // Form validation
         $request->validate([
             'title' => 'required',
-            'about_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
+            'about_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
+            'about_image_light' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
         $about = About::find($id);
 
         $input = $request->except('section_title');
         $input['section_title'] = __('frontend.about_us');
+        $folder = 'uploads/img/about/';
 
         if($request->hasFile('about_image')){
 
             // Get image file
             $about_image_file = $request->file('about_image');
 
-            // Folder path
-            $folder = 'uploads/img/about/';
-
             // Make image name
-            $about_image_name =  time().'-'.$about_image_file->getClientOriginalName();
+            $about_image_name =  time().'-dark-'.$about_image_file->getClientOriginalName();
 
             // Delete Image
             File::delete(public_path($folder.$about->about_image));
@@ -115,6 +122,16 @@ class AboutController extends Controller
             // Set input
             $input['about_image']= $about_image_name;
 
+        }
+
+        if ($request->hasFile('about_image_light')) {
+            $light = $request->file('about_image_light');
+            $lightName = time().'-light-'.$light->getClientOriginalName();
+            if (! empty($about->about_image_light)) {
+                File::delete(public_path($folder.$about->about_image_light));
+            }
+            $light->move($folder, $lightName);
+            $input['about_image_light'] = $lightName;
         }
 
         // Update model

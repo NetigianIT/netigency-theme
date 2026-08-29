@@ -33,7 +33,7 @@ class TeamSectionController extends Controller
             'title' => $input['title']
         ]);
 
-        return redirect()->route('team.create')
+        return redirect()->route('team.index')
             ->with('success', 'content.created_successfully');
     }
 
@@ -58,7 +58,7 @@ class TeamSectionController extends Controller
         // Update model
         TeamSection::find($id)->update($input);
 
-        return redirect()->route('team.create')
+        return redirect()->route('team.index')
             ->with('success', 'content.updated_successfully');
     }
 

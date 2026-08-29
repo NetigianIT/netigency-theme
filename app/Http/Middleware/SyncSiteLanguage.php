@@ -22,22 +22,19 @@ class SyncSiteLanguage
         $sessionId = (int) $request->session()->get('language_id_from_dropdown', 0);
         $targetId = $cookieId > 0 ? $cookieId : $sessionId;
 
-        if ($targetId > 0) {
-            $language = SiteCache::language($targetId);
+        $language = $targetId > 0 ? SiteCache::language($targetId) : null;
 
-            if ($language) {
-                $needsSync = $sessionId !== (int) $language->id
-                    || ! $request->session()->has('language_code_from_dropdown');
+        // Unsupported locales (e.g. removed Bangla) fall back to English.
+        if (! $language) {
+            $language = SiteCache::defaultSiteLanguage();
+        }
 
-                if ($needsSync) {
-                    SiteCache::applyLanguageSession($language);
-                }
-            }
-        } elseif (! $request->session()->has('language_id_from_dropdown')) {
-            $default = SiteCache::defaultSiteLanguage();
+        if ($language) {
+            $needsSync = $sessionId !== (int) $language->id
+                || ! $request->session()->has('language_code_from_dropdown');
 
-            if ($default) {
-                SiteCache::applyLanguageSession($default);
+            if ($needsSync) {
+                SiteCache::applyLanguageSession($language);
             }
         }
 

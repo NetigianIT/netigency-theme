@@ -60,7 +60,7 @@
     {!! deferred_css(asset('assets/frontend/vendor/css/owl.carousel.default.min.css')) !!}
     <link rel="stylesheet" href="{{ asset('assets/frontend/fonts/font_awesome/css/all.css') }}">
     {!! deferred_css(asset('assets/frontend/fonts/flat_icons/flaticon.css')) !!}
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/style.css') }}?v=90">
     <!--// Theme Color Css //-->
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/default-color.css') }}" id="theme-color-toggle" />
 
@@ -92,7 +92,7 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=129">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=142">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -173,38 +173,34 @@
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:disabled{
-            background:#fff!important;
+            background:#15bf86!important;
             background-image:none!important;
-            border:1.5px solid rgba(18,120,88,.28)!important;
-            box-shadow:0 8px 22px rgba(18,60,45,.08)!important;
+            border:1.5px solid #15bf86!important;
+            box-shadow:0 12px 28px rgba(21,191,134,.28)!important;
             backdrop-filter:none!important;
             -webkit-backdrop-filter:none!important;
-            color:#0d8f63!important;
+            color:#fff!important;
         }
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover{
-            background:#15bf86!important;
-            border-color:#15bf86!important;
-            box-shadow:0 12px 28px rgba(21,191,134,.28)!important;
+            background:#12a974!important;
+            border-color:#12a974!important;
+            box-shadow:0 14px 32px rgba(21,191,134,.34)!important;
             color:#fff!important;
         }
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .text,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .text{
             color:inherit!important;
         }
-        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon::before{
-            background:linear-gradient(180deg, transparent 0%, rgba(18,120,88,.35) 50%, transparent 100%);
-        }
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon::before,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon::before{
             background:linear-gradient(180deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
         }
-        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i{
-            background:linear-gradient(135deg, #12a974 0%, #15bf86 55%, #23e0a3 100%)!important;
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i,
+        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon i{
+            background:#fff!important;
             -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat!important;
             mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 11h11.17l-3.58-3.59L13 6l6 6-6 6-1.41-1.41L15.17 13H4v-2z'/%3E%3C/svg%3E") center / 18px 18px no-repeat!important;
             border-radius:0!important;
-        }
-        html[data-theme="light"] .contact-section .contact-btn-left .primary-btn:hover .icon i{
-            background:#fff!important;
         }
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i::before,
         html[data-theme="light"] .contact-section .contact-btn-left .primary-btn .icon i::after,
@@ -366,14 +362,20 @@
                             <img src="{{ asset('uploads/img/dummy/colored-logo.png') }}" alt="Logo Black" class="img-fluid logo-normal">
                         </a>
                     @endif
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
-                            aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="togler-icon-inner">
-                                <span class="line-1"></span>
-                                <span class="line-2"></span>
-                                <span class="line-3"></span>
-                            </span>
-                    </button>
+                    <div class="header-mobile-actions d-lg-none">
+                        <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
+                            <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                            <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                        </button>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
+                                aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="togler-icon-inner">
+                                    <span class="line-1"></span>
+                                    <span class="line-2"></span>
+                                    <span class="line-3"></span>
+                                </span>
+                        </button>
+                    </div>
                     <div class="collapse navbar-collapse main-menu" id="fixedNavbar">
                         <ul class="navbar-nav header-nav-center">
                             <li class="nav-item">
@@ -402,6 +404,11 @@
                             @if ($section_arr['blog_section'] == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#" data-scroll-nav="6">{{ __('frontend.blogs') }}</a>
+                            </li>
+                            @endif
+                            @if (($section_arr['videos_section'] ?? 0) == 1)
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="{{ route('video-page.index') }}">{{ __('frontend.videos') }}</a>
                             </li>
                             @endif
                             @if ($section_arr['contact_section'] == 1)
@@ -440,7 +447,7 @@
                                     </div>
                                 </li>
                             @endif
-                            <li class="nav-item d-flex align-items-center header-theme-item">
+                            <li class="nav-item d-none d-lg-flex align-items-center header-theme-item">
                                 <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
                                     <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
                                     <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
@@ -458,14 +465,28 @@
     <main class="main-area">
 
         <!--// Hero Section Start //-->
+        @php
+            $heroParticlesEnabled = ! isset($fixed_content) || (int) ($fixed_content->particles_status ?? 1) === 1;
+        @endphp
         @isset ($fixed_content)
             <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                <div id="heroparticles"></div>
+                @if ($heroParticlesEnabled)
+                    <div id="heroparticles"></div>
+                @endif
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
                             <div class="hero-inner">
-                                <h1>{{ $fixed_content->title }}</h1>
+                                @php
+                                    $heroAnimatedTitles = $fixed_content->animatedTitles();
+                                @endphp
+                                <h1>
+                                    <span class="hero-title-static">{{ $fixed_content->title }}</span>@if (count($heroAnimatedTitles) > 0)
+                                        <span class="hero-typed" data-words='@json($heroAnimatedTitles)'>
+                                            <span class="hero-typed__text">{{ $heroAnimatedTitles[0] }}</span><span class="hero-typed__cursor" aria-hidden="true"></span>
+                                        </span>
+                                    @endif
+                                </h1>
                                 <h2>{{ $fixed_content->desc }}</h2>
                                 @if (!empty($fixed_content->btn_name))
                                     <a href="#porfolio" data-scroll-nav="4" class="white-btn">
@@ -475,12 +496,23 @@
                                 @endif
                             </div>
                         </div>
-                        @if ($fixed_content->image_status == 1 && !empty($fixed_content->thumbnail_image))
+                        @if ($fixed_content->image_status == 1 && (!empty($fixed_content->thumbnail_image) || !empty($fixed_content->thumbnail_image_light)))
+                            @php
+                                $heroImages = theme_mode_image_urls(
+                                    $fixed_content->thumbnail_image,
+                                    $fixed_content->thumbnail_image_light,
+                                    'general'
+                                );
+                            @endphp
                             <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
                                 <div class="hero-img">
                                     <div class="border-line-outer">
                                         <div class="border-line-inner">
-                                            <img src="{{ asset('uploads/img/general/'.$fixed_content->thumbnail_image) }}" alt="image" class="img-fluid">
+                                            <x-frontend.theme-mode-image
+                                                :dark-src="$heroImages['dark']"
+                                                :light-src="$heroImages['light']"
+                                                alt="image"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -499,13 +531,21 @@
             </section>
         @else
             <section class="hero-banner" id="hero-particles-effect" data-scroll-index="1">
-                <div id="heroparticles"></div>
+                @if ($heroParticlesEnabled)
+                    <div id="heroparticles"></div>
+                @endif
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
                             <div class="hero-inner">
+                                @php
+                                    $demoHeroWords = ['Web Products.', 'Mobile Apps.', 'Business Software.', 'Digital Solutions.'];
+                                @endphp
                                 <h1>
-                                    We Build Modern Web Products.
+                                    <span class="hero-title-static">We Build Modern</span>
+                                    <span class="hero-typed" data-words='@json($demoHeroWords)'>
+                                        <span class="hero-typed__text">Web Products.</span><span class="hero-typed__cursor" aria-hidden="true"></span>
+                                    </span>
                                 </h1>
                                 <h2>
                                     Custom websites, ecommerce platforms, CRM, HRM, POS, and business software — engineered with Laravel, Vue.js, PHP, Node.js, and React.
@@ -520,7 +560,12 @@
                             <div class="hero-img">
                                 <div class="border-line-outer">
                                     <div class="border-line-inner">
-                                        <img src="{{ asset('uploads/img/general/demo-hero.png') }}" title="HovyLee phone image" alt="HovyLee phone image" class="img-fluid">
+                                        <x-frontend.theme-mode-image
+                                            :dark-src="asset('uploads/img/general/demo-hero-dark.png')"
+                                            :light-src="asset('uploads/img/general/demo-hero-light.png')"
+                                            alt="Hero image"
+                                            title="Hero image"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -550,8 +595,20 @@
                         :dots="true" />
                     <div class="row about-row align-items-stretch">
                         <div class="col-lg-6 about-media-col">
-                            <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
-                                <img src="{{ asset('uploads/img/about/'.$about->about_image) }}" alt="About image" title="About image" class="img-fluid">
+                            <div class="about-img">
+                                @php
+                                    $aboutImages = theme_mode_image_urls(
+                                        $about->about_image,
+                                        $about->about_image_light,
+                                        'about'
+                                    );
+                                @endphp
+                                <x-frontend.theme-mode-image
+                                    :dark-src="$aboutImages['dark']"
+                                    :light-src="$aboutImages['light']"
+                                    alt="About image"
+                                    title="About image"
+                                />
                                 @if (!empty($about->video_link))
                                     <a class="about-video-btn" href="{{ $about->video_link }}" aria-label="Play demo video">
                                         <span class="about-video-btn__pulse" aria-hidden="true"></span>
@@ -570,7 +627,7 @@
                                 <p>{{ $about->desc }}</p>
                                 <div class="row about-info-grid">
                                     @foreach ($info_lists->chunk((int) max(1, ceil($info_lists->count() / 2))) as $info_list)
-                                        <div class="col-md-6 col-sm-6">
+                                        <div class="col-6">
                                             <ul class="mb-resp-15">
                                                 @foreach ($info_list as $item)
                                                     <li class="about-info-item">
@@ -599,8 +656,13 @@
                         :dots="true" />
                     <div class="row about-row align-items-stretch">
                         <div class="col-lg-6 about-media-col">
-                            <div class="about-img wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s">
-                                <img src="{{ asset('uploads/img/about/demo-about.png') }}" alt="About image" title="About image" class="img-fluid">
+                            <div class="about-img">
+                                <x-frontend.theme-mode-image
+                                    :dark-src="asset('uploads/img/about/demo-about-dark.png')"
+                                    :light-src="asset('uploads/img/about/demo-about-light.png')"
+                                    alt="About image"
+                                    title="About image"
+                                />
                                 <a class="about-video-btn" href="https://youtu.be/9dqvwS7NoxI" aria-label="Play demo video">
                                     <span class="about-video-btn__pulse" aria-hidden="true"></span>
                                     <span class="about-video-btn__pulse about-video-btn__pulse--delay" aria-hidden="true"></span>
@@ -618,7 +680,7 @@
                                     We design and develop custom websites, ecommerce stores, CRM, HRM, POS, and business platforms with clean code, modern UI, and reliable performance.
                                 </p>
                                 <div class="row about-info-grid">
-                                    <div class="col-md-6 col-sm-6">
+                                    <div class="col-6">
                                         <ul class="mb-resp-15">
                                             <li class="about-info-item">
                                                 <div class="text">
@@ -646,7 +708,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-6 col-sm-6">
+                                    <div class="col-6">
                                         <ul>
                                             <li class="about-info-item">
                                                 <div class="text">
@@ -1163,7 +1225,19 @@
                       @isset ($skill)
                             <div class="col-lg-5 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                                 <div class="skills-img">
-                                    <img src="{{ asset('uploads/img/skill/'.$skill->skill_image) }}" alt="Software technology" title="Software technology" class="img-fluid">
+                                    @php
+                                        $skillImages = theme_mode_image_urls(
+                                            $skill->skill_image,
+                                            $skill->skill_image_light,
+                                            'skill'
+                                        );
+                                    @endphp
+                                    <x-frontend.theme-mode-image
+                                        :dark-src="$skillImages['dark']"
+                                        :light-src="$skillImages['light']"
+                                        alt="Software technology"
+                                        title="Software technology"
+                                    />
                                 </div>
                             </div>
                           @endisset
@@ -1204,7 +1278,12 @@
                     <div class="row skills-row align-items-stretch">
                         <div class="col-lg-5 skills-media-col wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="skills-img">
-                                <img src="{{ asset('uploads/img/skill/demo-skill.png') }}" alt="Software technology" title="Software technology" class="img-fluid">
+                                <x-frontend.theme-mode-image
+                                    :dark-src="asset('uploads/img/skill/demo-skill-dark.png')"
+                                    :light-src="asset('uploads/img/skill/demo-skill-light.png')"
+                                    alt="Software technology"
+                                    title="Software technology"
+                                />
                             </div>
                         </div>
                         <div class="col-lg-7 skills-content-col wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.3s">
@@ -1294,8 +1373,11 @@
                                         </div>
                                     <div class="body">
                                         <div class="portfolio-details">
-                                            <span>{{ $portfolio->portfolio_category->category_name }}</span>
                                             <h5>{{ $portfolio->title }}</h5>
+                                            @php $portfolioExcerpt = $portfolio->cardExcerpt(); @endphp
+                                            @if ($portfolioExcerpt !== '')
+                                                <p>{{ $portfolioExcerpt }}</p>
+                                            @endif
                                         </div>
                                         <a href="{{ route('portfolio-page.show', ['portfolio_slug' => $portfolio->portfolio_slug]) }}" class="portfolio-link">
                                             <i class="fa fa-arrow-right"></i>
@@ -1329,12 +1411,12 @@
                     <div class="row portfolio-grid" id="portfolio-masonry-wrap">
                         @php
                             $demoProjects = [
-                                ['slug' => 'ecommerce', 'cat' => 'Ecommerce', 'title' => 'Nova Commerce', 'img' => 'demo-nova-commerce.png'],
-                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Pulse Finance', 'img' => 'demo-pulse-finance.png'],
-                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Atlas Trails', 'img' => 'demo-atlas-trails.png'],
-                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Verdant Care', 'img' => 'demo-verdant-care.png'],
-                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Studio Arc', 'img' => 'demo-studio-arc.png'],
-                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Beacon LMS', 'img' => 'demo-beacon-lms.png'],
+                                ['slug' => 'ecommerce', 'cat' => 'Ecommerce', 'title' => 'Nova Commerce', 'desc' => 'Modern ecommerce storefront with fast checkout and clean product discovery.', 'img' => 'demo-nova-commerce.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Pulse Finance', 'desc' => 'Fintech dashboard with clear money insights and secure account views.', 'img' => 'demo-pulse-finance.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Atlas Trails', 'desc' => 'Travel planning web app with routes, bookings, and trip timelines.', 'img' => 'demo-atlas-trails.png'],
+                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Verdant Care', 'desc' => 'Healthcare UI focused on calm flows and accessible patient journeys.', 'img' => 'demo-verdant-care.png'],
+                                ['slug' => 'ui-ux', 'cat' => 'UI / UX', 'title' => 'Studio Arc', 'desc' => 'Creative studio interface with bold layouts and smooth interactions.', 'img' => 'demo-studio-arc.png'],
+                                ['slug' => 'web-app', 'cat' => 'Web App', 'title' => 'Beacon LMS', 'desc' => 'Learning platform with courses, progress tracking, and assessments.', 'img' => 'demo-beacon-lms.png'],
                             ];
                         @endphp
                         @foreach ($demoProjects as $demo)
@@ -1348,8 +1430,8 @@
                                     </div>
                                     <div class="body">
                                         <div class="portfolio-details">
-                                            <span>{{ $demo['cat'] }}</span>
                                             <h5>{{ $demo['title'] }}</h5>
+                                            <p>{{ $demo['desc'] }}</p>
                                         </div>
                                         <a href="#" class="portfolio-link">
                                             <i class="fa fa-arrow-right"></i>
@@ -1655,7 +1737,15 @@
                         <x-frontend.section-title
                             :title="$blog_section->title"
                             :subtitle="$blog_section->section_title"
-                            col-class="col-md-6" />
+                            col-class="col-md-6"
+                            nav-slot-id="blogCarouselNav" />
+                   @else
+                        <div class="row align-items-center">
+                            <div class="col-7 col-md-6"></div>
+                            <div class="col-5 col-md-6">
+                                <div class="section-carousel-nav" id="blogCarouselNav"></div>
+                            </div>
+                        </div>
                        @endisset
                     <div class="owl-carousel owl-theme" id="blogCarousel">
                         @foreach ($recent_posts as $recent_post)
@@ -1697,12 +1787,15 @@
         @else
         <section class="section pb-minus-76" id="blog" data-scroll-index="6">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="row align-items-center">
+                    <div class="col-7 col-md-6">
                         <div class="section-heading-left">
                             <span>Blogs</span>
                             <h2>Our Blogs</h2>
                         </div>
+                    </div>
+                    <div class="col-5 col-md-6">
+                        <div class="section-carousel-nav" id="blogCarouselNav"></div>
                     </div>
                 </div>
                 <div class="owl-carousel owl-theme" id="blogCarousel">
@@ -2023,7 +2116,7 @@
                 <div class="footer-top">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">{{ __('frontend.about_us') }}</h6>
                                     <div class="footer-social-links">
@@ -2053,7 +2146,7 @@
                                 </div>
                             </div>
                             @include('frontend.partials.footer-page-columns')
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">Contact Info</h6>
                                     <div class="footer-contact-info-wrap">
@@ -2109,7 +2202,7 @@
                 <div class="footer-top">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">About Us</h6>
                                     <div class="footer-social-links">
@@ -2132,7 +2225,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget footer-widget-pl">
                                     <h6 class="footer-title">Customer relationship</h6>
                                     <ul class="footer-links">
@@ -2151,7 +2244,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget footer-widget-pl">
                                     <h6 class="footer-title">Useful Links</h6>
                                     <ul class="footer-links">
@@ -2170,7 +2263,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 footer-widget-resp">
+                            <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                 <div class="footer-widget">
                                     <h6 class="footer-title">Contact Info</h6>
                                     <div class="footer-contact-info-wrap">
@@ -2274,8 +2367,10 @@
 <script src="{{ asset('assets/frontend/vendor/js/custom.select.plugin.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/scrollit.min.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/isotope.min.js') }}" defer></script>
+@if ($heroParticlesEnabled ?? true)
 <script src="{{ asset('assets/frontend/vendor/js/particles.js') }}" defer></script>
-<script src="{{ asset('assets/frontend/js/main.js') }}?v=87" defer></script>
+@endif
+<script src="{{ asset('assets/frontend/js/main.js') }}?v=89" defer></script>
 <script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=3" defer></script>
 <script src="{{ asset('assets/frontend/js/language-switch.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}" defer></script>

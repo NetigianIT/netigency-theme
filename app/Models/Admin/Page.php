@@ -62,25 +62,12 @@ class Page extends Model
     public const MAX_PAGES_PER_LANGUAGE = 8;
 
     /**
-     * Section/system pages that must not fill the 8 footer link slots.
-     */
-    public const FOOTER_EXCLUDED_SLUGS = [
-        'services',
-        'works',
-        'recent-works',
-        'case-studys',
-        'presentation',
-        'presentations',
-    ];
-
-    /**
-     * Pages that count toward the admin create limit (footer-eligible pages).
+     * Pages that count toward the admin create limit.
      */
     public static function countableForLanguage(int $languageId)
     {
         return static::query()
-            ->where('language_id', $languageId)
-            ->whereNotIn('page_slug', self::FOOTER_EXCLUDED_SLUGS);
+            ->where('language_id', $languageId);
     }
 
     /**
@@ -93,7 +80,6 @@ class Page extends Model
             ->where('language_id', $languageId)
             ->where('status', 1)
             ->where('display_header_menu', '!=', 2)
-            ->whereNotIn('page_slug', self::FOOTER_EXCLUDED_SLUGS)
             ->orderBy('order', 'asc')
             ->orderBy('id', 'asc')
             ->limit($limit)

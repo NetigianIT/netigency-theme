@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'f2b3dad7f02612a1b0e79c8fd397b9eb8c631509',
+        'reference' => '9d281a0c381164279f62fdf4647c0c55c08513cb',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -442,6 +442,15 @@
                 0 => 'v13.21.1',
             ),
         ),
+        'inertiajs/inertia-laravel' => array(
+            'pretty_version' => 'v3.3.1',
+            'version' => '3.3.1.0',
+            'reference' => '7bfd75e352938b703180574b943d81963555a0aa',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../inertiajs/inertia-laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'intervention/gif' => array(
             'pretty_version' => '5.0.1',
             'version' => '5.0.1.0',
@@ -505,7 +514,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'f2b3dad7f02612a1b0e79c8fd397b9eb8c631509',
+            'reference' => '9d281a0c381164279f62fdf4647c0c55c08513cb',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

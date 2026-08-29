@@ -37,22 +37,21 @@ class SkillController extends Controller
         $request->validate([
             'section_title' => 'required',
             'title' => 'required',
-            'skill_image' => 'required|image|mimes:svg,png,jpeg,jpg|max:2048'
+            'skill_image' => 'required|image|mimes:svg,png,jpeg,jpg|max:2048',
+            'skill_image_light' => 'nullable|image|mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
         // Get All Request
         $input = $request->all();
+        $folder = 'uploads/img/skill/';
 
         if($request->hasFile('skill_image')){
 
             // Get image file
             $skill_image_file = $request->file('skill_image');
 
-            // Folder path
-            $folder = 'uploads/img/skill/';
-
             // Make image name
-            $skill_image_name = time().'-'.$skill_image_file->getClientOriginalName();
+            $skill_image_name = time().'-dark-'.$skill_image_file->getClientOriginalName();
 
             // Original size upload file
             $skill_image_file->move($folder, $skill_image_name);
@@ -62,13 +61,22 @@ class SkillController extends Controller
 
         }
 
+        $input['skill_image_light'] = null;
+        if ($request->hasFile('skill_image_light')) {
+            $light = $request->file('skill_image_light');
+            $lightName = time().'-light-'.$light->getClientOriginalName();
+            $light->move($folder, $lightName);
+            $input['skill_image_light'] = $lightName;
+        }
+
         // Record to database
         Skill::firstOrCreate([
             'language_id' => getLanguage()->id,
             'section_title' => $input['section_title'],
             'title' => $input['title'],
             'desc' => $input['desc'],
-            'skill_image' => $input['skill_image']
+            'skill_image' => $input['skill_image'],
+            'skill_image_light' => $input['skill_image_light'],
         ]);
 
         return redirect()->route('skill.create')
@@ -88,24 +96,23 @@ class SkillController extends Controller
         $request->validate([
             'section_title' => 'required',
             'title' => 'required',
-            'skill_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
+            'skill_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
+            'skill_image_light' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
         $skill = Skill::find($id);
 
         // Get All Request
         $input = $request->all();
+        $folder = 'uploads/img/skill/';
 
         if($request->hasFile('skill_image')){
 
             // Get image file
             $skill_image_file = $request->file('skill_image');
 
-            // Folder path
-            $folder = 'uploads/img/skill/';
-
             // Make image name
-            $skill_image_name =  time().'-'.$skill_image_file->getClientOriginalName();
+            $skill_image_name =  time().'-dark-'.$skill_image_file->getClientOriginalName();
 
             // Delete Image
             File::delete(public_path($folder.$skill->skill_image));
@@ -116,6 +123,16 @@ class SkillController extends Controller
             // Set input
             $input['skill_image']= $skill_image_name;
 
+        }
+
+        if ($request->hasFile('skill_image_light')) {
+            $light = $request->file('skill_image_light');
+            $lightName = time().'-light-'.$light->getClientOriginalName();
+            if (! empty($skill->skill_image_light)) {
+                File::delete(public_path($folder.$skill->skill_image_light));
+            }
+            $light->move($folder, $lightName);
+            $input['skill_image_light'] = $lightName;
         }
 
         // Update model

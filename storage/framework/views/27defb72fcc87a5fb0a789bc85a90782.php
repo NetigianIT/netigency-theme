@@ -73,7 +73,7 @@
     <!-- Theme stays green; palette skins are not loaded. -->
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=130">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=140">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -269,14 +269,20 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             <img src="<?php echo e(asset('uploads/img/dummy/colored-logo.png')); ?>" alt="Logo Black" class="img-fluid logo-normal">
                         </a>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
-                            aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="togler-icon-inner">
-                                <span class="line-1"></span>
-                                <span class="line-2"></span>
-                                <span class="line-3"></span>
-                            </span>
-                    </button>
+                    <div class="header-mobile-actions d-lg-none">
+                        <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
+                            <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                            <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                        </button>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar"
+                                aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="togler-icon-inner">
+                                    <span class="line-1"></span>
+                                    <span class="line-2"></span>
+                                    <span class="line-3"></span>
+                                </span>
+                        </button>
+                    </div>
                     <div class="collapse navbar-collapse main-menu" id="fixedNavbar">
                         <ul class="navbar-nav header-nav-center">
                             <li class="nav-item">
@@ -305,6 +311,11 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['blog_section'] ?? 0) == 1): ?>
                             <li class="nav-item">
                                 <a class="nav-link menu-link <?php echo e(request()->is('blogs*') ? 'active' : ''); ?>" href="<?php echo e(route('blog-page.index')); ?>"><?php echo e(__('frontend.blogs')); ?></a>
+                            </li>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['videos_section'] ?? 0) == 1): ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link <?php echo e(request()->is('videos*') ? 'active' : ''); ?>" href="<?php echo e(route('video-page.index')); ?>"><?php echo e(__('frontend.videos')); ?></a>
                             </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['contact_section'] ?? 0) == 1): ?>
@@ -343,7 +354,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                     </div>
                                 </li>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                            <li class="nav-item d-flex align-items-center header-theme-item">
+                            <li class="nav-item d-none d-lg-flex align-items-center header-theme-item">
                                 <button type="button" class="theme-mode-toggle" data-theme-toggle aria-label="Toggle color mode">
                                     <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
                                     <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
@@ -363,17 +374,17 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
         <?php echo $__env->yieldContent('content'); ?>
 
         <!--// Footer Start //-->
-            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($section_arr['footer_section'] == 1): ?>
-            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($socials) > 0 || isset($site_info) || count($footer_pages) > 0): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($section_arr['footer_section'] ?? 0) == 1): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($socials ?? []) > 0 || isset($site_info) || count($footer_pages ?? []) > 0): ?>
                 <footer class="footer">
                     <div class="footer-top">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title"><?php echo e(__('frontend.about_us')); ?></h6>
                                         <div class="footer-social-links">
-                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $socials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $social): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = ($socials ?? []); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $social): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($social->social_media === 'fab fa-whatsapp'): ?>
                                                     <?php continue; ?>
                                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -399,12 +410,12 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                     </div>
                                 </div>
                                 <?php echo $__env->make('frontend.partials.footer-page-columns', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">Contact Info</h6>
                                         <div class="footer-contact-info-wrap">
                                             <ul class="footer-contact-info-list">
-                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($site_info->address)): ?>
+                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty(optional($site_info)->address)): ?>
                                                     <li>
                                                         <i class="fas fa-map-marker-alt"></i>
                                                         <div class="footer-contact-body">
@@ -413,7 +424,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                                         </div>
                                                     </li>
                                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($site_info->phone)): ?>
+                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty(optional($site_info)->phone)): ?>
                                                     <li>
                                                         <i class="fab fa-whatsapp"></i>
                                                         <div class="footer-contact-body">
@@ -424,7 +435,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                                         </div>
                                                     </li>
                                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($site_info->email)): ?>
+                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty(optional($site_info)->email)): ?>
                                                     <li>
                                                         <i class="fas fa-envelope"></i>
                                                         <div class="footer-contact-body">
@@ -442,7 +453,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                             </div>
                         </div>
                     </div>
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($site_info->copyright)): ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty(optional($site_info)->copyright)): ?>
                         <div class="copyright">
                             <div class="container">
                                 <p class="copyright-text"><?php echo e($site_info->copyright); ?></p>
@@ -455,7 +466,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                     <div class="footer-top">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">About Us</h6>
                                         <div class="footer-social-links">
@@ -478,7 +489,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget footer-widget-pl">
                                         <h6 class="footer-title">Customer relationship</h6>
                                         <ul class="footer-links">
@@ -497,7 +508,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget footer-widget-pl">
                                         <h6 class="footer-title">Useful Links</h6>
                                         <ul class="footer-links">
@@ -516,7 +527,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-3 footer-widget-resp">
+                                <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
                                     <div class="footer-widget">
                                         <h6 class="footer-title">Contact Info</h6>
                                         <div class="footer-contact-info-wrap">

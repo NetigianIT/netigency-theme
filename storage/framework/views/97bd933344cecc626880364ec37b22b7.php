@@ -5,7 +5,7 @@
 ?>
 
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($footerPagesCol1->isNotEmpty()): ?>
-    <div class="col-md-6 col-lg-3 footer-widget-resp">
+    <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
         <div class="footer-widget footer-widget-pl">
             <h6 class="footer-title"><?php echo e(__('frontend.customer_relationship')); ?></h6>
             <ul class="footer-links">
@@ -23,7 +23,7 @@
 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($footerPagesCol2->isNotEmpty()): ?>
-    <div class="col-md-6 col-lg-3 footer-widget-resp">
+    <div class="col-6 col-md-6 col-lg-3 footer-widget-resp">
         <div class="footer-widget footer-widget-pl">
             <h6 class="footer-title"><?php echo e(__('frontend.useful_links')); ?></h6>
             <ul class="footer-links">

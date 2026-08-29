@@ -141,13 +141,13 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="short_desc">{{ __('content.short_desc') }}</label>
-                                        <textarea id="short_desc" name="short_desc" class="form-control">{{ $blog->short_desc }}</textarea>
+                                        <textarea id="short_desc" name="short_desc" class="form-control ni-textarea-auto" rows="1">{{ $blog->short_desc }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="tag">{{ __('content.tag') }} ({{ __('content.separate_with_commas') }})</label>
-                                        <textarea id="tag" name="tag" class="form-control">{{ $blog->tag }}</textarea>
+                                        <textarea id="tag" name="tag" class="form-control ni-textarea-auto" rows="1">{{ $blog->tag }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

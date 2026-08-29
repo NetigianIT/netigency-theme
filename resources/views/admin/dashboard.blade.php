@@ -1,12 +1,8 @@
 @extends('layouts.admin.master')
 
-@section('hide_page_title', true)
-
 @section('content')
 
     @include('admin.alert.alert')
-
-    <h1 class="sr-only">{{ __('content.dashboard') }}</h1>
 
     <div class="row ni-dash-stats">
 
@@ -61,7 +57,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-xl-3">
-            <a href="{{ url('admin/team/create') }}" class="ni-stat-card card box-margin">
+            <a href="{{ route('team.index') }}" class="ni-stat-card card box-margin">
                 <div class="card-body">
                     <div class="ni-stat-card__icon"><i class="fas fa-users"></i></div>
                     <p class="ni-stat-card__label">{{ __('content.teams') }}</p>
@@ -101,16 +97,6 @@
         </div>
 
         <div class="col-12 col-sm-6 col-xl-3">
-            <a href="{{ url('admin/counter/create') }}" class="ni-stat-card card box-margin">
-                <div class="card-body">
-                    <div class="ni-stat-card__icon"><i class="fas fa-hourglass-start"></i></div>
-                    <p class="ni-stat-card__label">{{ __('content.counters') }}</p>
-                    <span class="ni-stat-card__value">{{ $counters_count }}</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3">
             <a href="{{ url('admin/comment') }}" class="ni-stat-card card box-margin">
                 <div class="card-body">
                     <div class="ni-stat-card__icon"><i class="fas fa-comments"></i></div>
@@ -136,26 +122,6 @@
                     <div class="ni-stat-card__icon"><i class="fas fa-file"></i></div>
                     <p class="ni-stat-card__label">{{ __('content.pages') }}</p>
                     <span class="ni-stat-card__value">{{ $pages_count }}</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3">
-            <a href="{{ url('admin/category/create') }}" class="ni-stat-card card box-margin">
-                <div class="card-body">
-                    <div class="ni-stat-card__icon"><i class="fas fa-th-large"></i></div>
-                    <p class="ni-stat-card__label">{{ __('content.categories') }}</p>
-                    <span class="ni-stat-card__value">{{ $categories_count }}</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3">
-            <a href="{{ url('admin/social') }}" class="ni-stat-card card box-margin">
-                <div class="card-body">
-                    <div class="ni-stat-card__icon"><i class="fas fa-share-alt"></i></div>
-                    <p class="ni-stat-card__label">{{ __('content.socials') }}</p>
-                    <span class="ni-stat-card__value">{{ $socials_count }}</span>
                 </div>
             </a>
         </div>

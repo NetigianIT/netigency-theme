@@ -16,7 +16,6 @@ class FixedContentController extends Controller
      */
     public function create()
     {
-        // Retrieving a model
         $language = getLanguage();
         $fixed_content = FixedContent::where('language_id', $language->id)->first();
 
@@ -31,48 +30,39 @@ class FixedContentController extends Controller
      */
     public function store(Request $request)
     {
-        // Form validation
         $request->validate([
             'title' => 'required',
+            'animated_title_1' => 'nullable|string|max:120',
+            'animated_title_2' => 'nullable|string|max:120',
+            'animated_title_3' => 'nullable|string|max:120',
+            'animated_title_4' => 'nullable|string|max:120',
             'desc' => 'required',
-            'image_status'   =>  'integer|in:0,1',
+            'image_status' => 'integer|in:0,1',
+            'particles_status' => 'integer|in:0,1',
             'thumbnail_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
+            'thumbnail_image_light' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
-        // Get All Request
         $input = $request->all();
+        $folder = 'uploads/img/general/';
 
-        if($request->hasFile('thumbnail_image')){
+        $input['thumbnail_image'] = $this->storeImage($request, 'thumbnail_image', $folder);
+        $input['thumbnail_image_light'] = $this->storeImage($request, 'thumbnail_image_light', $folder);
 
-            // Get image file
-            $thumbnail_image = $request->file('thumbnail_image');
-
-            // Folder path
-            $folder ='uploads/img/general/';
-
-            // Make image name
-            $thumbnail_image_name =  time().'-'.$thumbnail_image->getClientOriginalName();
-
-            // Upload image
-            $thumbnail_image->move($folder, $thumbnail_image_name);
-
-            // Set input
-            $input['thumbnail_image'] = $thumbnail_image_name;
-
-        } else {
-            // Set input
-            $input['thumbnail_image'] = null;
-        }
-
-        // Record to database
         FixedContent::firstOrCreate([
             'language_id' => getLanguage()->id,
             'title' => $input['title'],
+            'animated_title_1' => $input['animated_title_1'] ?? null,
+            'animated_title_2' => $input['animated_title_2'] ?? null,
+            'animated_title_3' => $input['animated_title_3'] ?? null,
+            'animated_title_4' => $input['animated_title_4'] ?? null,
             'desc' => $input['desc'],
             'btn_name' => $input['btn_name'],
             'btn_link' => $input['btn_link'],
             'image_status' => $input['image_status'],
-            'thumbnail_image' => $input['thumbnail_image']
+            'particles_status' => $input['particles_status'] ?? 1,
+            'thumbnail_image' => $input['thumbnail_image'],
+            'thumbnail_image_light' => $input['thumbnail_image_light'],
         ]);
 
         return redirect()->route('fixed-content.create')
@@ -88,46 +78,71 @@ class FixedContentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Form validation
         $request->validate([
             'title' => 'required',
+            'animated_title_1' => 'nullable|string|max:120',
+            'animated_title_2' => 'nullable|string|max:120',
+            'animated_title_3' => 'nullable|string|max:120',
+            'animated_title_4' => 'nullable|string|max:120',
             'desc' => 'required',
-            'image_status'   =>  'integer|in:0,1',
+            'image_status' => 'integer|in:0,1',
+            'particles_status' => 'integer|in:0,1',
             'thumbnail_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
+            'thumbnail_image_light' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
-        // Get model
-        $fixed_content = FixedContent::find($id);
-
-        // Get All Request
+        $fixed_content = FixedContent::findOrFail($id);
         $input = $request->all();
+        $folder = 'uploads/img/general/';
 
-        if($request->hasFile('thumbnail_image')){
-
-            // Get image file
-            $thumbnail_image = $request->file('thumbnail_image');
-
-            // Folder path
-            $folder ='uploads/img/general/';
-
-            // Make image name
-            $thumbnail_image_name =  time().'-'.$thumbnail_image->getClientOriginalName();
-
-            // Delete Image
-            File::delete(public_path($folder.$fixed_content->thumbnail_image));
-
-            // Upload image
-            $thumbnail_image->move($folder, $thumbnail_image_name);
-
-            // Set input
-            $input['thumbnail_image'] = $thumbnail_image_name;
-
+        if ($request->hasFile('thumbnail_image')) {
+            $input['thumbnail_image'] = $this->replaceImage(
+                $request,
+                'thumbnail_image',
+                $folder,
+                $fixed_content->thumbnail_image
+            );
         }
 
-        // Update user
-        FixedContent::find($id)->update($input);
+        if ($request->hasFile('thumbnail_image_light')) {
+            $input['thumbnail_image_light'] = $this->replaceImage(
+                $request,
+                'thumbnail_image_light',
+                $folder,
+                $fixed_content->thumbnail_image_light
+            );
+        }
+
+        $fixed_content->update($input);
 
         return redirect()->route('fixed-content.create')
             ->with('success', 'content.updated_successfully');
+    }
+
+    private function storeImage(Request $request, string $field, string $folder): ?string
+    {
+        if (! $request->hasFile($field)) {
+            return null;
+        }
+
+        $file = $request->file($field);
+        $name = time().'-'.$field.'-'.$file->getClientOriginalName();
+        $file->move($folder, $name);
+
+        return $name;
+    }
+
+    private function replaceImage(Request $request, string $field, string $folder, ?string $old): string
+    {
+        $file = $request->file($field);
+        $name = time().'-'.$field.'-'.$file->getClientOriginalName();
+
+        if (! empty($old)) {
+            File::delete(public_path($folder.$old));
+        }
+
+        $file->move($folder, $name);
+
+        return $name;
     }
 }

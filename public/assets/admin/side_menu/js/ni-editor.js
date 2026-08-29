@@ -134,11 +134,25 @@
         input.click();
       },
       setup: function (editor) {
+        editor.on("PreInit", function () {
+          try {
+            var win = editor.getWin && editor.getWin();
+            if (win && typeof window.__niPatchTrustedHtml === "function") {
+              window.__niPatchTrustedHtml(win);
+            }
+          } catch (e) {}
+        });
         editor.on("init", function () {
           var el = editor.getElement();
           if (el) {
             el.removeAttribute("required");
           }
+          try {
+            var win = editor.getWin && editor.getWin();
+            if (win && typeof window.__niPatchTrustedHtml === "function") {
+              window.__niPatchTrustedHtml(win);
+            }
+          } catch (e) {}
         });
         editor.on("change keyup", function () {
           editor.save();

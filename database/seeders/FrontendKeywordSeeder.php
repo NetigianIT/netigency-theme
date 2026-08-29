@@ -43,6 +43,11 @@ class FrontendKeywordSeeder extends Seeder
             ],
             [
                 'language_id' => 1,
+                'key' => 'videos',
+                'value' => 'Videos',
+            ],
+            [
+                'language_id' => 1,
                 'key' => 'contact',
                 'value' => 'Contact',
             ],

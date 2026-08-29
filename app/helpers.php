@@ -3,7 +3,7 @@
 use App\Support\SiteCache;
 
 if (! function_exists('getLanguage')) {
-    // Admin content language follows the selected English/Bengali locale.
+    // Admin content language follows the selected site locale (English).
     function getLanguage()
     {
         return getSiteLanguage();
@@ -56,6 +56,34 @@ if (! function_exists('portfolio_image_url')) {
         return $exists[$filename]
             ? asset('uploads/img/portfolio/'.$filename)
             : $fallback;
+    }
+}
+
+if (! function_exists('theme_mode_image_urls')) {
+    /**
+     * Resolve dark/light image asset URLs with cross-fallback.
+     *
+     * @return array{dark: ?string, light: ?string}
+     */
+    function theme_mode_image_urls(?string $darkFile, ?string $lightFile, string $folder, ?string $demoDark = null, ?string $demoLight = null): array
+    {
+        $folder = trim($folder, '/').'/';
+
+        $toUrl = static function (?string $file) use ($folder): ?string {
+            if (empty($file)) {
+                return null;
+            }
+
+            return asset('uploads/img/'.$folder.$file);
+        };
+
+        $dark = $toUrl($darkFile) ?: $toUrl($demoDark);
+        $light = $toUrl($lightFile) ?: $toUrl($demoLight);
+
+        return [
+            'dark' => $dark ?: $light,
+            'light' => $light ?: $dark,
+        ];
     }
 }
 

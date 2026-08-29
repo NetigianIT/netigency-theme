@@ -33,7 +33,83 @@ $( document ).ready( function() {
     Filaous_ClickSplash();
     Filaous_MouseTrail();
     Filaous_TechSparkles();
+    Filaous_HeroTyped();
 });
+
+/* -------------------------------------------------------------------
+ * Hero typed titles
+------------------------------------------------------------------- */
+function Filaous_HeroTyped() {
+    "use-strict";
+
+    var roots = document.querySelectorAll('.hero-typed[data-words]');
+    if (!roots.length) {
+        return;
+    }
+
+    roots.forEach(function (root) {
+        if (root.dataset.typedReady === '1') {
+            return;
+        }
+
+        var words = [];
+        try {
+            words = JSON.parse(root.getAttribute('data-words') || '[]');
+        } catch (e) {
+            words = [];
+        }
+
+        words = (words || []).filter(function (word) {
+            return typeof word === 'string' && word.trim() !== '';
+        });
+
+        if (!words.length) {
+            return;
+        }
+
+        root.dataset.typedReady = '1';
+
+        var textEl = root.querySelector('.hero-typed__text');
+        if (!textEl) {
+            return;
+        }
+
+        var wordIndex = 0;
+        var charIndex = words[0].length;
+        var deleting = true;
+        var typeSpeed = 90;
+        var deleteSpeed = 45;
+        var holdDelay = 1600;
+        var gapDelay = 350;
+
+        textEl.textContent = words[0];
+
+        var tick = function () {
+            var current = words[wordIndex] || '';
+
+            if (!deleting && charIndex === current.length) {
+                window.setTimeout(function () {
+                    deleting = true;
+                    tick();
+                }, holdDelay);
+                return;
+            }
+
+            if (deleting && charIndex === 0) {
+                deleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                window.setTimeout(tick, gapDelay);
+                return;
+            }
+
+            charIndex += deleting ? -1 : 1;
+            textEl.textContent = (words[wordIndex] || '').slice(0, charIndex);
+            window.setTimeout(tick, deleting ? deleteSpeed : typeSpeed);
+        };
+
+        window.setTimeout(tick, holdDelay);
+    });
+}
 
 /* -------------------------------------------------------------------
  * 01.Preloader
@@ -221,6 +297,7 @@ function Filaous_Carousel(){
         dots:false,
         nav:true,
         smartSpeed:1000,
+        navContainer: $( '#blogCarouselNav' ).length ? '#blogCarouselNav' : false,
         navText: [ "<span class='fa fa-arrow-left'></span>","<span class='fa fa-arrow-right'></span>" ],
         responsive:{
             0:{

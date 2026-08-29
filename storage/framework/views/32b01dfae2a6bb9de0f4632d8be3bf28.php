@@ -1,12 +1,8 @@
 
 
-<?php $__env->startSection('hide_page_title', true); ?>
-
 <?php $__env->startSection('content'); ?>
 
     <?php echo $__env->make('admin.alert.alert', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-
-    <h1 class="sr-only"><?php echo e(__('content.dashboard')); ?></h1>
 
     <div class="row ni-dash-stats">
 
@@ -61,7 +57,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-xl-3">
-            <a href="<?php echo e(url('admin/team/create')); ?>" class="ni-stat-card card box-margin">
+            <a href="<?php echo e(route('team.index')); ?>" class="ni-stat-card card box-margin">
                 <div class="card-body">
                     <div class="ni-stat-card__icon"><i class="fas fa-users"></i></div>
                     <p class="ni-stat-card__label"><?php echo e(__('content.teams')); ?></p>
@@ -101,16 +97,6 @@
         </div>
 
         <div class="col-12 col-sm-6 col-xl-3">
-            <a href="<?php echo e(url('admin/counter/create')); ?>" class="ni-stat-card card box-margin">
-                <div class="card-body">
-                    <div class="ni-stat-card__icon"><i class="fas fa-hourglass-start"></i></div>
-                    <p class="ni-stat-card__label"><?php echo e(__('content.counters')); ?></p>
-                    <span class="ni-stat-card__value"><?php echo e($counters_count); ?></span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3">
             <a href="<?php echo e(url('admin/comment')); ?>" class="ni-stat-card card box-margin">
                 <div class="card-body">
                     <div class="ni-stat-card__icon"><i class="fas fa-comments"></i></div>
@@ -136,26 +122,6 @@
                     <div class="ni-stat-card__icon"><i class="fas fa-file"></i></div>
                     <p class="ni-stat-card__label"><?php echo e(__('content.pages')); ?></p>
                     <span class="ni-stat-card__value"><?php echo e($pages_count); ?></span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3">
-            <a href="<?php echo e(url('admin/category/create')); ?>" class="ni-stat-card card box-margin">
-                <div class="card-body">
-                    <div class="ni-stat-card__icon"><i class="fas fa-th-large"></i></div>
-                    <p class="ni-stat-card__label"><?php echo e(__('content.categories')); ?></p>
-                    <span class="ni-stat-card__value"><?php echo e($categories_count); ?></span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3">
-            <a href="<?php echo e(url('admin/social')); ?>" class="ni-stat-card card box-margin">
-                <div class="card-body">
-                    <div class="ni-stat-card__icon"><i class="fas fa-share-alt"></i></div>
-                    <p class="ni-stat-card__label"><?php echo e(__('content.socials')); ?></p>
-                    <span class="ni-stat-card__value"><?php echo e($socials_count); ?></span>
                 </div>
             </a>
         </div>

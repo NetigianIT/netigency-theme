@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2026 at 03:46 PM
+-- Generation Time: Aug 29, 2026 at 06:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,6 +36,7 @@ CREATE TABLE `abouts` (
   `video_link` text DEFAULT NULL,
   `cv_file` text DEFAULT NULL,
   `about_image` text NOT NULL,
+  `about_image_light` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -44,9 +45,9 @@ CREATE TABLE `abouts` (
 -- Dumping data for table `abouts`
 --
 
-INSERT INTO `abouts` (`id`, `language_id`, `section_title`, `title`, `desc`, `video_link`, `cv_file`, `about_image`, `created_at`, `updated_at`) VALUES
-(1, 1, 'About Us', 'We craft scalable web solutions with 5+ years of experience', 'We design and develop custom websites, ecommerce stores, CRM, HRM, POS, and business platforms with clean code, modern UI, and reliable performance.', 'https://youtu.be/9dqvwS7NoxI', '1718511395-All Services Presentation 1(784kb).pdf', 'demo-about.png', '2024-02-07 06:50:28', '2026-08-21 03:31:13'),
-(2, 4, 'আমাদের সম্পর্কে', 'আমরা এখানে 0২ বছরের ব্যবহারকারীর অভিজ্ঞতা নিয়ে আছি', 'আমরা আপনার প্রকল্পে সময় অপচয় এবং সিদ্ধান্তহীনতা কমাতে বিশেষজ্ঞ। অগণিত ক্লায়েন্ট এবং ব্র্যান্ড আমাদের সহযোগিতার সাথে তাদের সন্তুষ্টির কথা জানিয়েছে। অসংখ্য সন্তুষ্ট গ্রাহক এবং ব্র্যান্ড আমাদের সাথে কাজ করে তাদের সন্তুষ্টির প্রমাণ দেয়।', 'https://youtu.be/9dqvwS7NoxI', '1730543838-1718511395-All Services Presentation 1(784kb).pdf', 'demo-about.png', '2024-11-02 10:37:18', '2026-08-21 07:31:44');
+INSERT INTO `abouts` (`id`, `language_id`, `section_title`, `title`, `desc`, `video_link`, `cv_file`, `about_image`, `about_image_light`, `created_at`, `updated_at`) VALUES
+(1, 1, 'About Us', 'We craft scalable web solutions with 5+ years of experience', 'We design and develop custom websites, ecommerce stores, CRM, HRM, POS, and business platforms with clean code, modern UI, and reliable performance.', 'https://youtu.be/9dqvwS7NoxI', '1718511395-All Services Presentation 1(784kb).pdf', 'demo-about.png', 'demo-about-light.png', '2024-02-07 06:50:28', '2026-08-29 08:05:50'),
+(2, 4, 'আমাদের সম্পর্কে', 'আমরা এখানে 0২ বছরের ব্যবহারকারীর অভিজ্ঞতা নিয়ে আছি', 'আমরা আপনার প্রকল্পে সময় অপচয় এবং সিদ্ধান্তহীনতা কমাতে বিশেষজ্ঞ। অগণিত ক্লায়েন্ট এবং ব্র্যান্ড আমাদের সহযোগিতার সাথে তাদের সন্তুষ্টির কথা জানিয়েছে। অসংখ্য সন্তুষ্ট গ্রাহক এবং ব্র্যান্ড আমাদের সাথে কাজ করে তাদের সন্তুষ্টির প্রমাণ দেয়।', 'https://youtu.be/9dqvwS7NoxI', '1730543838-1718511395-All Services Presentation 1(784kb).pdf', 'demo-about.png', 'demo-about-light.png', '2024-11-02 10:37:18', '2026-08-29 08:05:50');
 
 -- --------------------------------------------------------
 
@@ -475,11 +476,17 @@ CREATE TABLE `fixed_contents` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `language_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(191) NOT NULL,
+  `animated_title_1` varchar(191) DEFAULT NULL,
+  `animated_title_2` varchar(191) DEFAULT NULL,
+  `animated_title_3` varchar(191) DEFAULT NULL,
+  `animated_title_4` varchar(191) DEFAULT NULL,
   `desc` text NOT NULL,
   `btn_name` varchar(191) DEFAULT NULL,
   `btn_link` varchar(191) DEFAULT NULL,
   `image_status` int(11) NOT NULL DEFAULT 1,
+  `particles_status` int(11) NOT NULL DEFAULT 1,
   `thumbnail_image` text DEFAULT NULL,
+  `thumbnail_image_light` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -488,9 +495,9 @@ CREATE TABLE `fixed_contents` (
 -- Dumping data for table `fixed_contents`
 --
 
-INSERT INTO `fixed_contents` (`id`, `language_id`, `title`, `desc`, `btn_name`, `btn_link`, `image_status`, `thumbnail_image`, `created_at`, `updated_at`) VALUES
-(1, 1, 'We Build Modern Web Products.', 'Custom websites, ecommerce platforms, CRM, HRM, POS, and business software — engineered with Laravel, Vue.js, PHP, Node.js, and React.', 'View Works', '#', 1, 'demo-hero.png', '2024-02-07 06:37:37', '2026-08-18 07:59:54'),
-(2, 4, 'আপনার ব্যবসা ডিজিটাল করুন', 'আমরা আমাদের পরিষেবা অফার করার আগে ব্যবহারকারীর অভিজ্ঞতাকে মূল্য দিই। এই মুহূর্তটি আমাদের সাথে সহযোগিতা করার এবং আপনার ব্র্যান্ডকে নতুন উচ্চতায় উন্নীত করার জন্য উপস্থাপন করে। আসুন এই সুযোগটি কাজে লাগাই এবং একসাথে আপনার ব্যবসাকে এগিয়ে নিয়ে যাই।', 'সর্বশেষ কাজ', '#', 1, 'demo-hero.png', '2024-11-02 10:34:17', '2026-07-30 04:05:15');
+INSERT INTO `fixed_contents` (`id`, `language_id`, `title`, `animated_title_1`, `animated_title_2`, `animated_title_3`, `animated_title_4`, `desc`, `btn_name`, `btn_link`, `image_status`, `particles_status`, `thumbnail_image`, `thumbnail_image_light`, `created_at`, `updated_at`) VALUES
+(1, 1, 'We Build Modern', 'Web Products', 'CRM Systems', 'Ecommerce Site', 'POS Solutions', 'Custom websites, ecommerce platforms, CRM, HRM, POS, and business software — engineered with Laravel, Vue.js, PHP, Node.js, and React.', 'View Works', '#', 1, 0, 'demo-hero-dark.png', 'demo-hero-light.png', '2024-02-07 06:37:37', '2026-08-29 08:19:17'),
+(2, 4, 'আপনার ব্যবসা ডিজিটাল করুন', NULL, NULL, NULL, NULL, 'আমরা আমাদের পরিষেবা অফার করার আগে ব্যবহারকারীর অভিজ্ঞতাকে মূল্য দিই। এই মুহূর্তটি আমাদের সাথে সহযোগিতা করার এবং আপনার ব্র্যান্ডকে নতুন উচ্চতায় উন্নীত করার জন্য উপস্থাপন করে। আসুন এই সুযোগটি কাজে লাগাই এবং একসাথে আপনার ব্যবসাকে এগিয়ে নিয়ে যাই।', 'সর্বশেষ কাজ', '#', 1, 1, 'demo-hero-dark.png', 'demo-hero-light.png', '2024-11-02 10:34:17', '2026-08-29 07:38:36');
 
 -- --------------------------------------------------------
 
@@ -631,7 +638,8 @@ INSERT INTO `frontend_keywords` (`id`, `language_id`, `key`, `value`) VALUES
 (167, 4, 'your_message_has_been_delivered', 'আপনার মেসেজ পাঠানো হয়েছে'),
 (168, 4, 'your_comment_is_pending_approval', 'আপনার কমেন্ট পেন্ডিংয়ে আছে'),
 (169, 1, 'technology', 'Technology'),
-(170, 4, 'technology', 'প্রযুক্তি');
+(170, 4, 'technology', 'প্রযুক্তি'),
+(171, 1, 'videos', 'Videos');
 
 -- --------------------------------------------------------
 
@@ -732,8 +740,8 @@ CREATE TABLE `languages` (
 --
 
 INSERT INTO `languages` (`id`, `language_name`, `language_code`, `direction`, `status`, `display_dropdown`, `default_site_language`, `created_at`, `updated_at`) VALUES
-(1, 'English', 'en', 0, 1, 1, 1, '2021-05-02 13:14:51', '2025-11-22 21:51:20'),
-(4, 'Bengali', 'bn-BD', 0, 0, 1, 0, '2024-11-02 10:13:59', '2025-11-22 21:51:28');
+(1, 'English', 'en', 0, 1, 0, 1, '2021-05-02 13:14:51', '2026-08-29 00:58:36'),
+(4, 'Bengali', 'bn-BD', 0, 0, 0, 0, '2024-11-02 10:13:59', '2026-08-29 00:58:35');
 
 -- --------------------------------------------------------
 
@@ -832,7 +840,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (64, '2026_08_18_211900_add_stack_to_features_table', 3),
 (65, '2026_08_22_124200_remove_optimizer_permission_and_keyword', 4),
 (66, '2026_08_22_124500_remove_external_url_feature', 5),
-(67, '2026_08_22_125200_remove_subscribe_permission_and_keywords', 6);
+(67, '2026_08_22_125200_remove_subscribe_permission_and_keywords', 6),
+(68, '2026_08_29_084124_add_particles_status_to_fixed_contents_table', 7),
+(69, '2026_08_29_193500_add_thumbnail_image_light_to_fixed_contents_table', 8),
+(70, '2026_08_29_200000_add_animated_titles_to_fixed_contents_table', 9),
+(71, '2026_08_29_195400_add_light_mode_images_to_content_tables', 10),
+(72, '2026_08_29_210000_create_video_gallery_tables', 11);
 
 -- --------------------------------------------------------
 
@@ -894,10 +907,10 @@ INSERT INTO `pages` (`id`, `language_id`, `page_title`, `desc`, `display_header_
 (6, 1, 'Terms and Condition', '<h5><b>Terms and Conditions</b></h5><h5><b><br></b></h5><p>Welcome to Netigian IT, a digital agency focused on providing innovative digital solutions. These terms and conditions govern your use of our website; by accessing this website, you accept these terms and conditions in full. If you disagree with any part of these terms and conditions, please do not use our website.<br></p><p><b><br></b></p><p><b>Intellectual Property Rights:</b></p><p>Unless otherwise stated, we or our licensors own the intellectual property rights in the website and material on the website. Subject to the license below, all these intellectual property rights are reserved.</p><p>You may view, download for caching purposes only, and print pages from the website for your own personal use, subject to the restrictions set out below and elsewhere in these terms and conditions.</p><p><br></p><p><b>Acceptable Use:</b></p><p>You must not use our website in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of the website; or in any way which is unlawful, illegal, fraudulent, or harmful, or in connection with any unlawful, illegal, fraudulent, or harmful purpose or activity.</p><p>You must not use our website to copy, store, host, transmit, send, use, publish, or distribute any material which consists of (or is linked to) any spyware, computer virus, Trojan horse, worm, keystroke logger, rootkit, or other malicious computer software.</p><p>You must not conduct any systematic or automated data collection activities (including without limitation scraping, data mining, data extraction, and data harvesting) on or in relation to our website without our express written consent.</p><p><br></p><p><b>Limitations of Liability:</b></p><p>We will not be liable to you (whether under the law of contact, the law of torts, or otherwise) in relation to the contents of, or use of, or otherwise in connection with, this website:</p><p>- for any indirect, special or consequential loss; or</p><p>- for any business losses, loss of revenue, income, profits or anticipated savings, loss of contracts or business relationships, loss of reputation or goodwill, or loss or corruption of information or data.</p><p>These limitations of liability apply even if we have been expressly advised of the potential loss.</p><p><br></p><p><b>Variation:</b></p><p>We may revise these terms and conditions from time-to-time. Revised terms and conditions will apply to the use of our website from the date of the publication of the revised terms and conditions on our website. Please check this page regularly to ensure you are familiar with the current version.</p><p><br></p><p><b>Entire Agreement:</b></p><p>These terms and conditions constitute the entire agreement between you and us in relation to your use of our website and supersede all previous agreements in respect of your use of this website.</p><p><br></p><p>Contact Information:</p><p>If you have any questions about our terms and conditions, please contact us via email at contact@netigianit.com.</p><p>Feel free to adjust this template according to your specific needs and legal advice.</p>', 0, 1, 4, 'terms', '2024-02-13 10:34:32', '2024-04-01 08:25:45'),
 (7, 1, 'Privacy Policy', '<h5>Our Privacy Policy</h5><p><br></p><p><b>Privacy Policy: (</b>Last updated: 17-02-24)</p><p>Welcome to Netigian, a digital agency committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you visit our website or use our services.<br></p><p><br></p><p><b>Information We Collect:  </b><b>(</b>Personal Information)</p><p>We may collect personally identifiable information that you provide to us, such as your name, email address, phone number, and company details. This information is collected when you fill out forms on our website or communicate with us through email or other channels.</p><p><br></p><p><span style=\"font-weight:bolder;\">Information We Collect:  </span>(Non-Personal Information)</p><p>We may also collect non-personal information, such as browser type, operating system, IP address, and website usage statistics, through the use of cookies and other tracking technologies. This information helps us improve our website and services.</p><p><br></p><p><b>How We Use Your Information</b>:  (We use the collected information for various purposes, including)</p><p>- Providing and maintaining our services<br></p><p>- Improving our website and services</p><p>- Responding to your inquiries and requests</p><p>- Sending promotional materials and updates with your consent</p><p>- Complying with legal obligations</p><p><br></p><p><b>Disclosure of Your Information</b>:  (We may share your personal information with third parties in certain situations, such as)</p><p>- Service providers who assist us in delivering our services<br></p><p>- Legal authorities to comply with applicable laws and regulations</p><p>- Business partners for joint marketing efforts with your consent</p><p><br></p><p><b>Security</b>:  (We do not sell or rent your personal information to third parties for marketing purposes)</p><p>We take reasonable measures to protect your personal information from unauthorized access, disclosure, alteration, and destruction. However, please be aware that no method of transmission over the internet or electronic storage is completely secure.<br></p><p><br></p><p><b>Your Choices:  (</b>You can control the information you provide to us and how it is used. You have the right to)</p><p>- Access, update, or delete your personal information</p><p>- Opt-out of receiving promotional communications</p><p><br></p><p><b>Changes to This Privacy Policy:</b><br></p><p>We may update our Privacy Policy from time to time. Any changes will be posted on this page with a revised effective date.</p><p><br></p><p><b>Contact Us:</b></p><p>If you have any questions or concerns about our Privacy Policy, please contact us at <b>contact@netigianit.com</b></p>', 0, 1, 5, 'privacy-policy', '2024-02-13 10:35:05', '2024-04-01 08:26:33'),
 (9, 1, 'Presentation', '<p><br></p>', 0, 1, 0, 'presentation', '2024-02-17 18:25:50', '2024-03-10 19:56:20'),
-(10, 1, 'FAQ', '<p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">1. What services does\r\nyour digital agency provide?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">Web Development, Digital\r\nMarketing, Video Editing, Graphic Design &amp; Search Engine Optimization.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">2. How do you approach\r\nwebsite design and development projects?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We begin by defining\r\nproject goals, researching industry trends, and creating a comprehensive plan.\r\nOur iterative process includes wireframing, design, development, thorough\r\ntesting, and ongoing maintenance for optimal client satisfaction and project\r\nsuccess.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">3. What sets your agency\r\napart from others in the industry?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">Our agency\r\ndifferentiates with a focus on cutting-edge design, robust communication, and a\r\npersonalized client-centric approach, ensuring unique solutions and enduring\r\nclient satisfaction.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">4. Can you provide\r\nexamples of your previous work or case studies?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">While I don\'t have\r\nspecific examples, our portfolio boasts diverse projects showcasing innovative\r\ndesign and successful outcomes. Client testimonials and case studies are\r\navailable upon request.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">5. How do you handle\r\nwebsite maintenance and updates post-launch?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We handle website\r\nmaintenance and updates post-launch by offering regular monitoring, timely\r\nsoftware patches, and proactive content updates, ensuring optimal performance\r\nand security while adapting to evolving needs and trends.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">6. What is your approach\r\nto search engine optimization (SEO)?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We prioritize SEO\r\nthrough meticulous keyword research, on-page optimization, and adherence to\r\nsearch engine guidelines, aiming for enhanced online visibility and organic\r\ntraffic growth. Continuous monitoring and adaptation ensure sustained\r\nperformance.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">7. How do you ensure a\r\nwebsite is mobile-friendly and responsive?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We prioritize mobile\r\nresponsiveness by employing responsive design techniques and thorough testing\r\nacross various devices, ensuring optimal user experiences and adaptability.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">8. What is your process\r\nfor creating a digital marketing strategy?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">   -\r\nProvide insights into your approach to digital marketing, including market\r\nresearch, target audience analysis, and the selection of appropriate channels\r\nand tactics.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">9. How do you handle\r\nwebsite security and data protection?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We start by conducting\r\nthorough market research and analyzing client goals, then craft tailored\r\nstrategies leveraging diverse channels and data-driven insights, ensuring\r\neffective implementation and continual optimization for maximum impact.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">10. What is your\r\ntimeline for completing a typical web development project?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">Our typical web\r\ndevelopment projects follow a structured timeline, usually ranging from a few\r\nweeks for smaller projects to several months for more complex endeavors,\r\nensuring thorough planning, execution, and testing.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">11. How do you determine\r\nthe cost of a project?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We assess project scope,\r\ncomplexity, and required resources, factoring in design, development, and\r\ntesting phases, ensuring a transparent and tailored cost estimation aligned\r\nwith client needs and goals.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">12. What is your\r\napproach to client communication and collaboration during a project?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We prioritize\r\ntransparent and regular communication, keeping clients informed of project\r\nprogress and involving them in key decisions. Our collaborative approach\r\nensures client input is valued, resulting in a successful and tailored project\r\noutcome.</span></p><p> </p>', 1, 1, 6, 'frequently-asked-questions', '2024-02-27 00:21:33', '2026-08-15 05:57:39'),
+(10, 1, 'Frequently Asked Questions', '<p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">1. What services does\r\nyour digital agency provide?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">Web Development, Digital\r\nMarketing, Video Editing, Graphic Design &amp; Search Engine Optimization.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">2. How do you approach\r\nwebsite design and development projects?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We begin by defining\r\nproject goals, researching industry trends, and creating a comprehensive plan.\r\nOur iterative process includes wireframing, design, development, thorough\r\ntesting, and ongoing maintenance for optimal client satisfaction and project\r\nsuccess.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">3. What sets your agency\r\napart from others in the industry?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">Our agency\r\ndifferentiates with a focus on cutting-edge design, robust communication, and a\r\npersonalized client-centric approach, ensuring unique solutions and enduring\r\nclient satisfaction.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">4. Can you provide\r\nexamples of your previous work or case studies?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">While I don\'t have\r\nspecific examples, our portfolio boasts diverse projects showcasing innovative\r\ndesign and successful outcomes. Client testimonials and case studies are\r\navailable upon request.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">5. How do you handle\r\nwebsite maintenance and updates post-launch?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We handle website\r\nmaintenance and updates post-launch by offering regular monitoring, timely\r\nsoftware patches, and proactive content updates, ensuring optimal performance\r\nand security while adapting to evolving needs and trends.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">6. What is your approach\r\nto search engine optimization (SEO)?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We prioritize SEO\r\nthrough meticulous keyword research, on-page optimization, and adherence to\r\nsearch engine guidelines, aiming for enhanced online visibility and organic\r\ntraffic growth. Continuous monitoring and adaptation ensure sustained\r\nperformance.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">7. How do you ensure a\r\nwebsite is mobile-friendly and responsive?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We prioritize mobile\r\nresponsiveness by employing responsive design techniques and thorough testing\r\nacross various devices, ensuring optimal user experiences and adaptability.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">8. What is your process\r\nfor creating a digital marketing strategy?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">   -\r\nProvide insights into your approach to digital marketing, including market\r\nresearch, target audience analysis, and the selection of appropriate channels\r\nand tactics.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">9. How do you handle\r\nwebsite security and data protection?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We start by conducting\r\nthorough market research and analyzing client goals, then craft tailored\r\nstrategies leveraging diverse channels and data-driven insights, ensuring\r\neffective implementation and continual optimization for maximum impact.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">10. What is your\r\ntimeline for completing a typical web development project?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">Our typical web\r\ndevelopment projects follow a structured timeline, usually ranging from a few\r\nweeks for smaller projects to several months for more complex endeavors,\r\nensuring thorough planning, execution, and testing.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">11. How do you determine\r\nthe cost of a project?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We assess project scope,\r\ncomplexity, and required resources, factoring in design, development, and\r\ntesting phases, ensuring a transparent and tailored cost estimation aligned\r\nwith client needs and goals.</span></p><p><span style=\"font-size:12pt;font-family:\'Times New Roman\', serif;\"> </span></p><p><b><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">12. What is your\r\napproach to client communication and collaboration during a project?</span></b></p><p><span style=\"font-size:12pt;font-family:Arial, \'sans-serif\';color:#000000;\">We prioritize\r\ntransparent and regular communication, keeping clients informed of project\r\nprogress and involving them in key decisions. Our collaborative approach\r\nensures client input is valued, resulting in a successful and tailored project\r\noutcome.</span></p><p> </p>', 0, 1, 6, 'frequently-asked-questions', '2024-02-27 00:21:33', '2026-08-29 02:57:08'),
 (11, 4, 'সর্বশেষ প্রজেক্ট', '<p>সর্বশেষ প্রজেক্ট</p>', 0, 1, 0, 'recent-works', '2024-11-02 15:22:41', '2024-11-02 15:23:00'),
 (12, 4, 'প্রেজেন্টেশন', '<p>প্রেজেন্টেশন</p>', 0, 1, 0, 'presentations', '2024-11-02 15:23:46', '2024-11-02 15:24:07'),
-(13, 4, 'প্রশ্নোত্তর', '<p>প্রশ্নোত্তর</p>', 1, 1, 0, 'faq', '2024-11-02 15:24:20', '2024-11-02 15:24:46'),
+(13, 4, 'প্রশ্নোত্তর', '<p>প্রশ্নোত্তর</p>', 0, 1, 0, 'faq', '2024-11-02 15:24:20', '2026-08-29 02:57:08'),
 (14, 4, 'কেস স্টাডি', '<p>কেস স্টাডি</p>', 0, 1, 0, 'case-studys', '2024-11-02 15:28:54', '2024-11-02 15:29:11'),
 (16, 4, 'গোপনীয়তা নীতি', '<p>গোপনিয়তা নীতি</p>', 0, 1, 0, 'terms-and-conditions', '2024-11-02 15:31:58', '2024-11-02 15:32:09'),
 (17, 4, 'প্রাইভেসি পলিসি', '<p>প্রাইভেসি পলিসি</p>', 0, 1, 0, 'privacy-policys', '2024-11-02 15:33:48', '2024-11-02 15:34:19'),
@@ -1569,7 +1582,13 @@ INSERT INTO `panel_keywords` (`id`, `language_id`, `key`, `value`) VALUES
 (875, 4, 'quick_access_buttons', 'Quick Access Buttons'),
 (876, 4, 'email_or_phone', 'Email Or Phone'),
 (877, 1, 'hero_section', 'Hero Section'),
-(878, 4, 'hero_section', 'হিরো সেকশন');
+(878, 4, 'hero_section', 'হিরো সেকশন'),
+(879, 1, 'particles_status', 'Particles.js Effect'),
+(880, 1, 'videos', 'Videos'),
+(881, 1, 'add_video', 'Add Video'),
+(882, 1, 'edit_video', 'Edit Video'),
+(883, 1, 'video_url', 'Video URL'),
+(884, 1, 'video_url_help', 'Paste a YouTube or Vimeo video link.');
 
 -- --------------------------------------------------------
 
@@ -1618,7 +1637,8 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (16, 'contact check', 'web', '2021-05-02 13:14:52', '2021-05-02 13:14:52'),
 (17, 'pages check', 'web', '2021-05-02 13:14:52', '2021-05-02 13:14:52'),
 (18, 'comments check', 'web', '2021-05-02 13:14:52', '2021-05-02 13:14:52'),
-(19, 'language check', 'web', '2021-05-02 13:14:52', '2021-05-02 13:14:52');
+(19, 'language check', 'web', '2021-05-02 13:14:52', '2021-05-02 13:14:52'),
+(21, 'videos check', 'web', '2026-08-29 08:50:08', '2026-08-29 08:50:08');
 
 -- --------------------------------------------------------
 
@@ -1683,18 +1703,24 @@ CREATE TABLE `portfolios` (
 --
 
 INSERT INTO `portfolios` (`id`, `language_id`, `category_name`, `category_id`, `title`, `desc`, `image_status`, `thumbnail_image`, `portfolio_slug`, `status`, `meta_desc`, `meta_keyword`, `breadcrumb_status`, `custom_breadcrumb_image`, `order`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Ecommerce', 1, 'Nova Commerce', '<p>A modern ecommerce storefront with fast product discovery, clean checkout, and a green-forward brand experience built for conversion.</p>', 1, 'demo-nova-commerce.png', 'nova-commerce', 1, 'A modern ecommerce storefront with fast product discovery, clean checkout, and a green-forward brand experience built for conversion.', 'Nova Commerce, Netigian IT, portfolio', 0, NULL, 1, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(2, 4, 'ইকমার্স', 4, 'নোভা কমার্স', '<p>দ্রুত প্রোডাক্ট সার্চ, সহজ চেকআউট এবং কনভার্সন-ফ্রেন্ডলি ডিজাইনসহ আধুনিক ইকমার্স স্টোরফ্রন্ট।</p>', 1, 'demo-nova-commerce.png', 'nova-commerce-bn', 1, 'দ্রুত প্রোডাক্ট সার্চ, সহজ চেকআউট এবং কনভার্সন-ফ্রেন্ডলি ডিজাইনসহ আধুনিক ইকমার্স স্টোরফ্রন্ট।', 'নোভা কমার্স, Netigian IT', 0, NULL, 1, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(3, 1, 'Web App', 2, 'Pulse Finance', '<p>A fintech web experience with clear money insights, secure account views, and a calm dashboard interface for everyday banking.</p>', 1, 'demo-pulse-finance.png', 'pulse-finance', 1, 'A fintech web experience with clear money insights, secure account views, and a calm dashboard interface for everyday banking.', 'Pulse Finance, Netigian IT, portfolio', 0, NULL, 2, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(4, 4, 'ওয়েব অ্যাপ', 5, 'পালস ফাইন্যান্স', '<p>নিরাপদ অ্যাকাউন্ট ভিউ এবং পরিষ্কার ড্যাশবোর্ডসহ ফিনটেক ওয়েব এক্সপেরিয়েন্স।</p>', 1, 'demo-pulse-finance.png', 'pulse-finance-bn', 1, 'নিরাপদ অ্যাকাউন্ট ভিউ এবং পরিষ্কার ড্যাশবোর্ডসহ ফিনটেক ওয়েব এক্সপেরিয়েন্স।', 'পালস ফাইন্যান্স, Netigian IT', 0, NULL, 2, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(5, 1, 'Web App', 2, 'Atlas Trails', '<p>A travel booking website focused on destination storytelling, smart search, and an inviting journey from browse to book.</p>', 1, 'demo-atlas-trails.png', 'atlas-trails', 1, 'A travel booking website focused on destination storytelling, smart search, and an inviting journey from browse to book.', 'Atlas Trails, Netigian IT, portfolio', 0, NULL, 3, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(6, 4, 'ওয়েব অ্যাপ', 5, 'অ্যাটলাস ট্রেইলস', '<p>গন্তব্যের গল্প, স্মার্ট সার্চ এবং সহজ বুকিং ফ্লোসহ ট্রাভেল ওয়েবসাইট।</p>', 1, 'demo-atlas-trails.png', 'atlas-trails-bn', 1, 'গন্তব্যের গল্প, স্মার্ট সার্চ এবং সহজ বুকিং ফ্লোসহ ট্রাভেল ওয়েবসাইট।', 'অ্যাটলাস ট্রেইলস, Netigian IT', 0, NULL, 3, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(7, 1, 'UI / UX', 3, 'Verdant Care', '<p>A healthcare mobile UI system for appointments, reminders, and patient-friendly health tracking with soft green accents.</p>', 1, 'demo-verdant-care.png', 'verdant-care', 1, 'A healthcare mobile UI system for appointments, reminders, and patient-friendly health tracking with soft green accents.', 'Verdant Care, Netigian IT, portfolio', 0, NULL, 4, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(8, 4, 'ইউআই / ইউএক্স', 6, 'ভার্ডেন্ট কেয়ার', '<p>অ্যাপয়েন্টমেন্ট, রিমাইন্ডার এবং সহজ হেলথ ট্র্যাকিংয়ের জন্য মোবাইল ইউআই সিস্টেম।</p>', 1, 'demo-verdant-care.png', 'verdant-care-bn', 1, 'অ্যাপয়েন্টমেন্ট, রিমাইন্ডার এবং সহজ হেলথ ট্র্যাকিংয়ের জন্য মোবাইল ইউআই সিস্টেম।', 'ভার্ডেন্ট কেয়ার, Netigian IT', 0, NULL, 4, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(9, 1, 'UI / UX', 3, 'Studio Arc', '<p>An architecture studio portfolio with bold imagery, refined typography, and a gallery-first layout for showcase projects.</p>', 1, 'demo-studio-arc.png', 'studio-arc', 1, 'An architecture studio portfolio with bold imagery, refined typography, and a gallery-first layout for showcase projects.', 'Studio Arc, Netigian IT, portfolio', 0, NULL, 5, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(10, 4, 'ইউআই / ইউএক্স', 6, 'স্টুডিও আর্ক', '<p>বোল্ড ইমেজারি এবং গ্যালারি-ফার্স্ট লেআউটসহ আর্কিটেকচার স্টুডিও পোর্টফোলিও।</p>', 1, 'demo-studio-arc.png', 'studio-arc-bn', 1, 'বোল্ড ইমেজারি এবং গ্যালারি-ফার্স্ট লেআউটসহ আর্কিটেকচার স্টুডিও পোর্টফোলিও।', 'স্টুডিও আর্ক, Netigian IT', 0, NULL, 5, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(11, 1, 'Web App', 2, 'Beacon LMS', '<p>An online learning platform with course cards, progress tracking, and a focused study experience for modern learners.</p>', 1, 'demo-beacon-lms.png', 'beacon-lms', 1, 'An online learning platform with course cards, progress tracking, and a focused study experience for modern learners.', 'Beacon LMS, Netigian IT, portfolio', 0, NULL, 6, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(12, 4, 'ওয়েব অ্যাপ', 5, 'বিকন এলএমএস', '<p>কোর্স কার্ড, প্রগ্রেস ট্র্যাকিং এবং ফোকাসড স্টাডি এক্সপেরিয়েন্সসহ লার্নিং প্ল্যাটফর্ম।</p>', 1, 'demo-beacon-lms.png', 'beacon-lms-bn', 1, 'কোর্স কার্ড, প্রগ্রেস ট্র্যাকিং এবং ফোকাসড স্টাডি এক্সপেরিয়েন্সসহ লার্নিং প্ল্যাটফর্ম।', 'বিকন এলএমএস, Netigian IT', 0, NULL, 6, '2026-08-15 07:58:36', '2026-08-15 07:58:36');
+(1, 1, 'Ecommerce', 1, 'Nova Commerce', '<p>A modern ecommerce storefront with fast product discovery, clean checkout, and a green-forward brand experience built for conversion.</p>', 1, 'demo-nova-commerce.png', 'nova-commerce', 1, 'A modern ecommerce storefront with fast product discovery, clean checkout, and a green-forward brand experience built for conversion.', 'Nova Commerce, Netigian IT, portfolio', 0, NULL, 4, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(2, 4, 'ইকমার্স', 4, 'নোভা কমার্স', '<p>দ্রুত প্রোডাক্ট সার্চ, সহজ চেকআউট এবং কনভার্সন-ফ্রেন্ডলি ডিজাইনসহ আধুনিক ইকমার্স স্টোরফ্রন্ট।</p>', 1, 'demo-nova-commerce.png', 'nova-commerce-bn', 1, 'দ্রুত প্রোডাক্ট সার্চ, সহজ চেকআউট এবং কনভার্সন-ফ্রেন্ডলি ডিজাইনসহ আধুনিক ইকমার্স স্টোরফ্রন্ট।', 'নোভা কমার্স, Netigian IT', 0, NULL, 4, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(3, 1, 'Web App', 2, 'Pulse Finance', '<p>A fintech web experience with clear money insights, secure account views, and a calm dashboard interface for everyday banking.</p>', 1, 'demo-pulse-finance.png', 'pulse-finance', 1, 'A fintech web experience with clear money insights, secure account views, and a calm dashboard interface for everyday banking.', 'Pulse Finance, Netigian IT, portfolio', 0, NULL, 5, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(4, 4, 'ওয়েব অ্যাপ', 5, 'পালস ফাইন্যান্স', '<p>নিরাপদ অ্যাকাউন্ট ভিউ এবং পরিষ্কার ড্যাশবোর্ডসহ ফিনটেক ওয়েব এক্সপেরিয়েন্স।</p>', 1, 'demo-pulse-finance.png', 'pulse-finance-bn', 1, 'নিরাপদ অ্যাকাউন্ট ভিউ এবং পরিষ্কার ড্যাশবোর্ডসহ ফিনটেক ওয়েব এক্সপেরিয়েন্স।', 'পালস ফাইন্যান্স, Netigian IT', 0, NULL, 5, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(5, 1, 'Web App', 2, 'Atlas Trails', '<p>A travel booking website focused on destination storytelling, smart search, and an inviting journey from browse to book.</p>', 1, 'demo-atlas-trails.png', 'atlas-trails', 1, 'A travel booking website focused on destination storytelling, smart search, and an inviting journey from browse to book.', 'Atlas Trails, Netigian IT, portfolio', 0, NULL, 6, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(6, 4, 'ওয়েব অ্যাপ', 5, 'অ্যাটলাস ট্রেইলস', '<p>গন্তব্যের গল্প, স্মার্ট সার্চ এবং সহজ বুকিং ফ্লোসহ ট্রাভেল ওয়েবসাইট।</p>', 1, 'demo-atlas-trails.png', 'atlas-trails-bn', 1, 'গন্তব্যের গল্প, স্মার্ট সার্চ এবং সহজ বুকিং ফ্লোসহ ট্রাভেল ওয়েবসাইট।', 'অ্যাটলাস ট্রেইলস, Netigian IT', 0, NULL, 6, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(7, 1, 'UI / UX', 3, 'Verdant Care', '<p>A healthcare mobile UI system for appointments, reminders, and patient-friendly health tracking with soft green accents.</p>', 1, 'demo-verdant-care.png', 'verdant-care', 1, 'A healthcare mobile UI system for appointments, reminders, and patient-friendly health tracking with soft green accents.', 'Verdant Care, Netigian IT, portfolio', 0, NULL, 7, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(8, 4, 'ইউআই / ইউএক্স', 6, 'ভার্ডেন্ট কেয়ার', '<p>অ্যাপয়েন্টমেন্ট, রিমাইন্ডার এবং সহজ হেলথ ট্র্যাকিংয়ের জন্য মোবাইল ইউআই সিস্টেম।</p>', 1, 'demo-verdant-care.png', 'verdant-care-bn', 1, 'অ্যাপয়েন্টমেন্ট, রিমাইন্ডার এবং সহজ হেলথ ট্র্যাকিংয়ের জন্য মোবাইল ইউআই সিস্টেম।', 'ভার্ডেন্ট কেয়ার, Netigian IT', 0, NULL, 7, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(9, 1, 'UI / UX', 3, 'Studio Arc', '<p>An architecture studio portfolio with bold imagery, refined typography, and a gallery-first layout for showcase projects.</p>', 1, 'demo-studio-arc.png', 'studio-arc', 1, 'An architecture studio portfolio with bold imagery, refined typography, and a gallery-first layout for showcase projects.', 'Studio Arc, Netigian IT, portfolio', 0, NULL, 8, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(10, 4, 'ইউআই / ইউএক্স', 6, 'স্টুডিও আর্ক', '<p>বোল্ড ইমেজারি এবং গ্যালারি-ফার্স্ট লেআউটসহ আর্কিটেকচার স্টুডিও পোর্টফোলিও।</p>', 1, 'demo-studio-arc.png', 'studio-arc-bn', 1, 'বোল্ড ইমেজারি এবং গ্যালারি-ফার্স্ট লেআউটসহ আর্কিটেকচার স্টুডিও পোর্টফোলিও।', 'স্টুডিও আর্ক, Netigian IT', 0, NULL, 8, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(11, 1, 'Web App', 2, 'Beacon LMS', '<p>An online learning platform with course cards, progress tracking, and a focused study experience for modern learners.</p>', 1, 'demo-beacon-lms.png', 'beacon-lms', 1, 'An online learning platform with course cards, progress tracking, and a focused study experience for modern learners.', 'Beacon LMS, Netigian IT, portfolio', 0, NULL, 9, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(12, 4, 'ওয়েব অ্যাপ', 5, 'বিকন এলএমএস', '<p>কোর্স কার্ড, প্রগ্রেস ট্র্যাকিং এবং ফোকাসড স্টাডি এক্সপেরিয়েন্সসহ লার্নিং প্ল্যাটফর্ম।</p>', 1, 'demo-beacon-lms.png', 'beacon-lms-bn', 1, 'কোর্স কার্ড, প্রগ্রেস ট্র্যাকিং এবং ফোকাসড স্টাডি এক্সপেরিয়েন্সসহ লার্নিং প্ল্যাটফর্ম।', 'বিকন এলএমএস, Netigian IT', 0, NULL, 9, '2026-08-15 07:58:36', '2026-08-29 02:53:59'),
+(13, 1, 'Ecommerce', 1, 'Shopiaan', '<p>Shopiaan is a modern ecommerce platform built for fast product discovery, smooth checkout, and conversion-focused storefronts. From catalog management to order workflows, it delivers a polished shopping experience for growing brands.</p>', 1, 'shopiaan-ecommerce.png', 'shopiaan', 1, 'Modern ecommerce platform with product catalog, cart, and conversion-ready checkout.', 'shopiaan, ecommerce, online store, laravel', 1, NULL, 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(14, 4, 'ইকমার্স', 4, 'শপিয়ান', '<p>শপিয়ান একটি আধুনিক ইকমার্স প্ল্যাটফর্ম — দ্রুত প্রোডাক্ট ডিসকভারি, স্মুথ চেকআউট এবং কনভার্সন-ফোকাসড স্টোরফ্রন্টের জন্য তৈরি।</p>', 1, 'shopiaan-ecommerce.png', '', 1, 'আধুনিক ইকমার্স প্ল্যাটফর্ম — ক্যাটালগ, কার্ট ও চেকআউটসহ।', 'শপিয়ান, ইকমার্স, অনলাইন স্টোর', 1, NULL, 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(15, 1, 'Web App', 2, 'Netigency', '<p>Netigency is a digital agency website crafted to showcase services, case studies, and brand authority. Clean sections, strong CTAs, and a performance-minded layout help agencies convert visitors into clients.</p>', 1, 'netigency-agency.png', 'netigency', 1, 'Digital agency website with services, portfolio, and conversion-focused design.', 'netigency, agency, website, laravel', 1, NULL, 2, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(16, 4, 'ওয়েব অ্যাপ', 5, 'নেটিজেন্সি', '<p>নেটিজেন্সি একটি ডিজিটাল এজেন্সি ওয়েবসাইট — সার্ভিস, কেস স্টাডি এবং ব্র্যান্ড অথরিটি তুলে ধরার জন্য ডিজাইন করা।</p>', 1, 'netigency-agency.png', '-2', 1, 'ডিজিটাল এজেন্সি ওয়েবসাইট — সার্ভিস ও পোর্টফোলিওসহ।', 'নেটিজেন্সি, এজেন্সি, ওয়েবসাইট', 1, NULL, 2, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(17, 1, 'UI / UX', 3, 'Protivaa', '<p>Protivaa is an elegant personal portfolio website for creatives — featuring a refined hero, project case studies, and a calm visual system that lets work speak first.</p>', 1, 'protivaa-portfolio.png', 'protivaa', 1, 'Elegant creative portfolio website with case studies and minimal design.', 'protivaa, portfolio, ui ux, creative', 1, NULL, 3, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(18, 4, 'ইউআই / ইউএক্স', 6, 'প্রতিভা', '<p>প্রতিভা একটি এলিগ্যান্ট পার্সোনাল পোর্টফোলিও ওয়েবসাইট — রিফাইন্ড হিরো, কেস স্টাডি এবং কাজকে সামনে রাখা ভিজ্যুয়াল সিস্টেমসহ।</p>', 1, 'protivaa-portfolio.png', '-3', 1, 'ক্রিয়েটিভ পোর্টফোলিও ওয়েবসাইট — কেস স্টাডি ও মিনিমাল ডিজাইন।', 'প্রতিভা, পোর্টফোলিও, ইউআই ইউএক্স', 1, NULL, 3, '2026-08-29 02:54:00', '2026-08-29 02:54:00');
 
 -- --------------------------------------------------------
 
@@ -1740,6 +1766,48 @@ CREATE TABLE `portfolio_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `portfolio_details`
+--
+
+INSERT INTO `portfolio_details` (`id`, `portfolio_id`, `title`, `desc`, `order`, `created_at`, `updated_at`) VALUES
+(1, 13, 'Client', 'Shopiaan', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(2, 13, 'Date', '2024', 2, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(3, 13, 'Category', 'Ecommerce', 3, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(4, 13, 'Services', 'Store Design, Development', 4, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(5, 13, 'Tech Stack', 'Laravel, Vue.js, MySQL, Stripe', 5, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(6, 13, 'Live URL', 'https://shopiaan.com', 6, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(7, 14, 'ক্লায়েন্ট', 'Shopiaan', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(8, 14, 'তারিখ', '2024', 2, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(9, 14, 'ক্যাটাগরি', 'ইকমার্স', 3, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(10, 14, 'সার্ভিস', 'Store Design, Development', 4, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(11, 14, 'Tech Stack', 'Laravel, Vue.js, MySQL, Stripe', 5, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(12, 14, 'Live URL', 'https://shopiaan.com', 6, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(13, 15, 'Client', 'Netigency', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(14, 15, 'Date', '2024', 2, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(15, 15, 'Category', 'Web App', 3, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(16, 15, 'Services', 'Branding, Web Development', 4, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(17, 15, 'Tech Stack', 'Laravel, Blade, JavaScript, MySQL', 5, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(18, 15, 'Live URL', 'https://netigency.com', 6, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(19, 16, 'ক্লায়েন্ট', 'Netigency', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(20, 16, 'তারিখ', '2024', 2, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(21, 16, 'ক্যাটাগরি', 'ওয়েব অ্যাপ', 3, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(22, 16, 'সার্ভিস', 'Branding, Web Development', 4, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(23, 16, 'Tech Stack', 'Laravel, Blade, JavaScript, MySQL', 5, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(24, 16, 'Live URL', 'https://netigency.com', 6, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(25, 17, 'Client', 'Protivaa', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(26, 17, 'Date', '2025', 2, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(27, 17, 'Category', 'UI / UX', 3, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(28, 17, 'Services', 'UI Design, Front-end', 4, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(29, 17, 'Tech Stack', 'HTML, CSS, JavaScript, Laravel', 5, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(30, 17, 'Live URL', 'https://protivaa.com', 6, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(31, 18, 'ক্লায়েন্ট', 'Protivaa', 1, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(32, 18, 'তারিখ', '2025', 2, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(33, 18, 'ক্যাটাগরি', 'ইউআই / ইউএক্স', 3, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(34, 18, 'সার্ভিস', 'UI Design, Front-end', 4, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(35, 18, 'Tech Stack', 'HTML, CSS, JavaScript, Laravel', 5, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(36, 18, 'Live URL', 'https://protivaa.com', 6, '2026-08-29 02:54:00', '2026-08-29 02:54:00');
 
 -- --------------------------------------------------------
 
@@ -1795,7 +1863,13 @@ INSERT INTO `portfolio_sliders` (`id`, `portfolio_id`, `portfolio_image`, `order
 (9, 9, 'demo-studio-arc.png', 1, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
 (10, 10, 'demo-studio-arc.png', 1, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
 (11, 11, 'demo-beacon-lms.png', 1, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
-(12, 12, 'demo-beacon-lms.png', 1, '2026-08-15 07:58:36', '2026-08-15 07:58:36');
+(12, 12, 'demo-beacon-lms.png', 1, '2026-08-15 07:58:36', '2026-08-15 07:58:36'),
+(13, 13, 'shopiaan-ecommerce.png', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(14, 14, 'shopiaan-ecommerce.png', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(15, 15, 'netigency-agency.png', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(16, 16, 'netigency-agency.png', 1, '2026-08-29 02:53:59', '2026-08-29 02:53:59'),
+(17, 17, 'protivaa-portfolio.png', 1, '2026-08-29 02:54:00', '2026-08-29 02:54:00'),
+(18, 18, 'protivaa-portfolio.png', 1, '2026-08-29 02:54:00', '2026-08-29 02:54:00');
 
 -- --------------------------------------------------------
 
@@ -1900,7 +1974,9 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (12, 2),
 (14, 2),
 (15, 2),
-(17, 2);
+(17, 2),
+(21, 1),
+(21, 2);
 
 -- --------------------------------------------------------
 
@@ -1958,7 +2034,8 @@ INSERT INTO `sections` (`id`, `title`, `section`, `status`, `created_at`, `updat
 (34, 'Scroll Top Button', 'scroll_top_btn', 1, '2024-02-23 02:22:01', '2024-02-23 02:22:01'),
 (35, 'RTL Sidebar', 'rtl_sidebar', 0, '2024-02-23 02:22:01', '2024-03-13 05:52:38'),
 (36, 'Color Option Sidebar', 'color_option_sidebar', 0, '2024-02-23 02:22:01', '2024-03-13 05:52:33'),
-(37, 'Preloader', 'preloader', 1, '2024-02-23 02:22:01', '2024-02-23 02:22:01');
+(37, 'Preloader', 'preloader', 1, '2024-02-23 02:22:01', '2024-02-23 02:22:01'),
+(38, 'Videos Section', 'videos_section', 1, '2026-08-29 08:50:08', '2026-08-29 08:50:08');
 
 -- --------------------------------------------------------
 
@@ -2114,34 +2191,20 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1dOQJZVh2prEI231Bd3IJxrV5hsavmOYTFWR6Nu6', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiaFVjc2JHMHhKdUZ4REVsS0s3bU5sbW1TSDlpbmk3TU5VaGpkWUw4SCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728331),
-('4t75Y51gpGBoEsmtjI3cf0DHnEj7yY4UxWUlPTAl', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YToxMDp7czo2OiJfdG9rZW4iO3M6NDA6IlQ5VGpCZk03S0VoSTJHbEpxeGNPaUI1ZGwzbWZhbXU3bExibG13NVIiO3M6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjk7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjQ6ImI0MTQxOWVkYjA2OTI3ODE5MGRmNjZlNDdmYjhhZjljYmI3OGRhYTlkZWQ4M2JhOGRmNDc2ZTY4OGFmNTQ3NDgiO3M6MjU6Imxhbmd1YWdlX2lkX2Zyb21fZHJvcGRvd24iO2k6MTtzOjI3OiJsYW5ndWFnZV9uYW1lX2Zyb21fZHJvcGRvd24iO3M6NzoiRW5nbGlzaCI7czoyNzoibGFuZ3VhZ2VfY29kZV9mcm9tX2Ryb3Bkb3duIjtzOjI6ImVuIjtzOjMyOiJsYW5ndWFnZV9kaXJlY3Rpb25fZnJvbV9kcm9wZG93biI7aTowO3M6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjMyOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vcGFnZSI7czo1OiJyb3V0ZSI7czoxMDoicGFnZS5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7fQ==', 1787748500),
-('8cSucrpKhw1wcyPF7qfFmGCEvjwBMimDLJ2TpONo', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiQzZydzdya0tlM0FFZXNnVkREaml4ZGtram1mVjNKRnRsYUZXaFZyMiI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787748478),
-('9rruhHAGEbnRMDLpuUpA5kAguJXxyTNuvsW73mvQ', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiTTRKa25kZG41ZXNsQzI3REVxazlBVXE4MGRoNXhIUGhyajNWMXJ2MiI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6OTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjQ6ImI0MTQxOWVkYjA2OTI3ODE5MGRmNjZlNDdmYjhhZjljYmI3OGRhYTlkZWQ4M2JhOGRmNDc2ZTY4OGFmNTQ3NDgiO3M6MjU6Imxhbmd1YWdlX2lkX2Zyb21fZHJvcGRvd24iO2k6MTtzOjI3OiJsYW5ndWFnZV9uYW1lX2Zyb21fZHJvcGRvd24iO3M6NzoiRW5nbGlzaCI7czoyNzoibGFuZ3VhZ2VfY29kZV9mcm9tX2Ryb3Bkb3duIjtzOjI6ImVuIjtzOjMyOiJsYW5ndWFnZV9kaXJlY3Rpb25fZnJvbV9kcm9wZG93biI7aTowO3M6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjMyOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vcGFnZSI7czo1OiJyb3V0ZSI7czoxMDoicGFnZS5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728737),
-('ACXvomPFYchUJluLcOYArxbyGHfSAZScG4wVnTtQ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoia3hIaE5GWVcweHZlT2o5VlkydG1PQ0FyZUFkWHY1SnlJcTU5UHc2cSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728330),
-('al4Hg4sgzwbM4tlTtc3PzgOqBd4yjhsaJ7NF4WcG', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoidUw5NWZXUFRzOFAzYkRKVXlNNjcxUGtWMTdhNUpWOUdkenpDWFZTeSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728332),
-('bABRBqg1c5pkfF2UGkWewA5T3J8a70DwiMjR6zHn', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiSktVRmJEckNmUU9nYkZnSzhsZ0NXYXI2Y2RvR3dFNzRNbTFDcGxTdSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738789),
-('COXGN98lUNeCqppHIHHNne4DJuU0DudLOaZo2KiJ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiQTlIUFNVWDBMd3Rqd2RBNHpkbVNZOHM3SnBaVWwzZ3BvVzVJN2FocSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728328),
-('DiBmRru8HCBWJhUQYBIAwaNxgXJxSyyuEoBJueWT', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiRms1YnZMZ3I0ZjlJVEloOFM0YWRSV3RaOFFsVEFtVERONWNPbVhrNSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738791),
-('EGuMz4mB1I3x3bVYlcSVnFlbU5ops8JaSLWt6Qtl', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiaVNpVHp6M2RuOWhoSWxqQ0F6UVBGeDhkNDh6eU5rVnBUR1BPUHZoUSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738787),
-('gAdC4tAP24lhGa5K0nCKk0uV6TVBuGVcuD64ALyo', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiZlh4QUR3STVyUzM0amRIRGVqcGFFYWthT1dkVnN5VzVnUnhMUGxaeCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787748479),
-('gI8zGcdpaOVGkoc1IPuKTM3D5cxaPnJknol0E5sV', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoibUtta0lZMzBWZnMxNkNsR0hmc3Y1VGU5dExkNktWTXI4VExaRkJmdCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738790),
-('GsLftdGLSzycM7aP1dHJfMHUI1qtd5tVSb5Nxw5P', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiUmhxb3I0MGd0WG5tZVp0WEttQ2F6UERFZFJBTmdGc1U5TU5HS2c5OSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738788),
-('IM7VcRGf03hYHDQVzREnpSc3nzQVZXpYI2miUxED', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiOWVKcFRMcUFPekowNWtEWWNNVGExTTg5a0lPMjZVM0JXd2ZEaU5EWSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728323),
-('M2BVSDRLhTgFPgYdI3YQbNMoIAGQ9NWYcL44HRim', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiWnQ1WjI5b2JOblNLaXdQc3RoRWtnWmdYVUs5OFFaYW96cTdkYlpJUiI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728318),
-('nj1PHEDZlaI0e3DpzaAIdyYBeG2ZXm0sdK1Aib3K', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoidkp3MmtrSUdZTHBacXQxU1BuaXZpd2g0akhZV0xQS1NEbmM3RlVtSyI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728325),
-('NKs2WmPlVxoNAnZcZMkGRwBGz5szVf9BphRPZl1R', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiMVZMelFUNmpIbzdySXAxOXlQSzVWVHRoTHVTTExFSlRhMXRZT1FyVCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728320),
-('Q3vtd938SGks10CasX4t2F31ypNhKkq6ekT0G6YZ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiR2M4R2NKeXA0ZUV2dnlHZ001Z1YwSW9Hc21sdTdsdUtHYjlQVUc2QSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728333),
-('Qsvpsr4IdbK358n9N847h55tFdSGlgqscPVJEp6p', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiT1pUbENVemNGQVpMUXM0N21NR25oaTdSbG1SUmJBUUZPeXRnODVDcSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738789),
-('rMogC54Lv6r8zjS6pSgEStAQ8gFKOSrCkoXZJsQ4', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoibmhFU1Z0QmY4WnlBRzIydmpOWVU5OUt6cllMQmZFbWlCbHBqeFZiZiI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787748483),
-('sGpuKAQjQ3TZNkmRSAp8SiyTShvFdhOounBxpM9P', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiOVdQY1ZhR0R1Ylh5TW5QeUpLYXZ0ekdKemlMVkNpN201aFZzbEw3aCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728327),
-('uqZhCd4BYY0pRkqqAgDLfs25bKe6wjyZD2mnYyyn', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiYXl3Sm5maFpyeFpsY2F0M2FRdTFIek9LZlpDMUZEZGtJajdiZ1M3ZyI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738788),
-('VsSG0rElpMrJ8XeUIwSsiwgOuhXSaMnpcNpW9R24', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoia0hFWmZMMUt4Q25ETGcxN01YYlBSMzhRMEh0bzgxb2VrT2dVNjFrUyI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787748480),
-('Y9Rkovk4G5PZHumnn73EMubHPe5kudbiZuHBnbSr', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiSUlVdk5CUTZNUXVoSTc3QmZORTFlZGtDT1h4THRlQzU4ZUtKajdreCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6OTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787728732),
-('YesszFyqlPvvMZHZe5XbXHjuZClDRmXZLLgOyEEp', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YToxMDp7czo2OiJfdG9rZW4iO3M6NDA6IkliR3FyWVhvcHpnU0FCMDFPOEd6RzZmUldwWXRjRTZESjRycHMzSjAiO3M6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjk7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjY0OiJiNDE0MTllZGIwNjkyNzgxOTBkZjY2ZTQ3ZmI4YWY5Y2JiNzhkYWE5ZGVkODNiYThkZjQ3NmU2ODhhZjU0NzQ4IjtzOjI1OiJsYW5ndWFnZV9pZF9mcm9tX2Ryb3Bkb3duIjtpOjE7czoyNzoibGFuZ3VhZ2VfbmFtZV9mcm9tX2Ryb3Bkb3duIjtzOjc6IkVuZ2xpc2giO3M6Mjc6Imxhbmd1YWdlX2NvZGVfZnJvbV9kcm9wZG93biI7czoyOiJlbiI7czozMjoibGFuZ3VhZ2VfZGlyZWN0aW9uX2Zyb21fZHJvcGRvd24iO2k6MDtzOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czozOToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3NlcnZpY2UvZWNvbW1lcmNlIjtzOjU6InJvdXRlIjtzOjE3OiJzZXJ2aWNlLXBhZ2Uuc2hvdyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjY0OiJiNDE0MTllZGIwNjkyNzgxOTBkZjY2ZTQ3ZmI4YWY5Y2JiNzhkYWE5ZGVkODNiYThkZjQ3NmU2ODhhZjU0NzQ4Ijt9', 1787739096),
-('YPx4SCAmegeXcVsSUGxL6uSqPUTvRtvnJUjW80Ge', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiamRjc0hDdlVCeXkzMGRPakN3YVFKZGJBb3R3UDJjdUFwWkFFWHpuRCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738792),
-('YWucZ7Eyy1FqZCehJ07LmtrOQn1mZiVPdpc0P1RE', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiQkpJU2hMdjhlbnFFOFd5VHJKSzBlMjN3dVVnNzdlTWh5SlNKOHllMCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo4OiJob21lcGFnZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787738793),
-('zUyPA2smXapZEhpl5qk6eWvxyLToa73Z9jlLv8g0', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Cursor/3.16.17 Chrome/144.0.7559.236 Electron/40.10.3 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiRTdwbVhwS1lTcmt4V0dPVjB0S3JGQm1QOFR5Qm9obVRaZWtLTXZOOSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9qc29uL3ZlcnNpb24iO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1787748482);
+('2D88IjJnx5sCP9MAxLk4PrxPdkQhHA7MXuWYW4d2', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.6456', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiZGFkMnZtMFkzd3dhWW1RWktsbm01UWY4b3ptNk5URTVPUGVVcmtDSiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7fQ==', 1788015651),
+('aMVJtlaGj0f1AjB80w95sfoD4AuGNaEFuspar1Py', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoidjdNVzR6SkozcjhuTmJRQ1dJaVRFY2RCRHpCbEhDclhEaVh2akw1UCI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wb3J0Zm9saW8vMTcvZWRpdCI7czo1OiJyb3V0ZSI7czoxNDoicG9ydGZvbGlvLmVkaXQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo5O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7fQ==', 1788016221),
+('ANJm4aNAa3tDCJfMzVwvLbUpVSFlPkdOWIdVu5Fh', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.6456', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiVkFlSWJ1QUozUm9HcndGT1lyMU5Jbno0UndKUExJZUtNNlNmM3pDSSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wb3J0Zm9saW8vMTcvZWRpdCI7fX0=', 1788015831),
+('BaY6BSjtBepvc69ZdbTrNEFGwpLTcxyh7snzoDf7', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiTVNvN1lOM2FMU0s2bzhCbGtIMEJabWN6bk1rVDdzZGsxc3lmM2dSQiI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wb3J0Zm9saW8vMTcvZWRpdCI7czo1OiJyb3V0ZSI7czoxNDoicG9ydGZvbGlvLmVkaXQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo5O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7fQ==', 1788016422),
+('Blkw05lQ73g2VwHCH71j2SDv61CPMWFEWxh8tOsy', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiMWMzTTBDSmd3Z1pnSXVNc2VYSW43VTVjcFNDZ3dWTUxBcUpTeUlxWSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9mYXZpY29uLmljbyI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1788015949),
+('bZo7wCnttrAiw8cS9uMXrbo5F3YUkYcETWC7LKC4', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.6456', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoib3V6MFpTSUJVZFhQU2RKT2gxS3RrSFJVdlhsVnN0Y3BZMDB0OE5HdSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wb3J0Zm9saW8vMTcvZWRpdCI7czo1OiJyb3V0ZSI7czoxNDoicG9ydGZvbGlvLmVkaXQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo5O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7fQ==', 1788015895),
+('edNiYTnB3JzBZFA5wFzJ78gDPrf8Qz5iIg4X1Q5T', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiWmZQNGxWMUxuUDFnZ3NqNTJUaXk0TFM5cG5lZlNtaXV2WU5tM1AyMyI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wb3J0Zm9saW8vMTcvZWRpdCI7czo1OiJyb3V0ZSI7czoxNDoicG9ydGZvbGlvLmVkaXQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo5O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7fQ==', 1788016156),
+('FnGmrePeGBDYKhZDMdBzsKnOYGPqe02L2tlcWZla', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.6456', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiYXJEQzlFVkJVZDhTbFZXbnFWcTVtcDhVODBqSjNVTHVYWHdzSzRVSiI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wb3J0Zm9saW8vMTcvZWRpdCI7czo1OiJyb3V0ZSI7czoxNDoicG9ydGZvbGlvLmVkaXQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo5O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7fQ==', 1788015868),
+('hpSvwjyYJCMrc4R1EyIhZHrU1swofj8LKcNWYAes', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YToxMDp7czo2OiJfdG9rZW4iO3M6NDA6IlJUUzR3S2FpTzlmcktJN1BYMW5ZSWpHaWRSUU95Nm5PTlQzaUlXMGoiO3M6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjk7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjQ6ImI0MTQxOWVkYjA2OTI3ODE5MGRmNjZlNDdmYjhhZjljYmI3OGRhYTlkZWQ4M2JhOGRmNDc2ZTY4OGFmNTQ3NDgiO3M6MjU6Imxhbmd1YWdlX2lkX2Zyb21fZHJvcGRvd24iO2k6MTtzOjI3OiJsYW5ndWFnZV9uYW1lX2Zyb21fZHJvcGRvd24iO3M6NzoiRW5nbGlzaCI7czoyNzoibGFuZ3VhZ2VfY29kZV9mcm9tX2Ryb3Bkb3duIjtzOjI6ImVuIjtzOjMyOiJsYW5ndWFnZV9kaXJlY3Rpb25fZnJvbV9kcm9wZG93biI7aTowO3M6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjI4OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvdmlkZW9zIjtzOjU6InJvdXRlIjtzOjE2OiJ2aWRlby1wYWdlLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjY0OiJiNDE0MTllZGIwNjkyNzgxOTBkZjY2ZTQ3ZmI4YWY5Y2JiNzhkYWE5ZGVkODNiYThkZjQ3NmU2ODhhZjU0NzQ4Ijt9', 1788019178),
+('kZ6dKDkqNQ56SlGLwltCVXqqX2a3m48PeTQExbzf', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.6456', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiTk1yTTlnY2d0azBHdEtIOTlTSE13aEtNRWdlZ2FhZXg2MTVqZW1QYyI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1788015847),
+('N3tDqO799ZtW6mz3LwsND2XU9avlK3LEhIrmidgu', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoibVBKU0FCNlh4emxUUFZ5c2FpeEFvbXpzY0d4YWdTaWVZM1BXSXI5TSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wb3J0Zm9saW8vMTcvZWRpdCI7czo1OiJyb3V0ZSI7czoxNDoicG9ydGZvbGlvLmVkaXQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo5O3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2NDoiYjQxNDE5ZWRiMDY5Mjc4MTkwZGY2NmU0N2ZiOGFmOWNiYjc4ZGFhOWRlZDgzYmE4ZGY0NzZlNjg4YWY1NDc0OCI7fQ==', 1788016309),
+('nEaei9jJwkBUarYGB76ECYNYCeto1l021da7F3kD', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoickFGTGdlZ1NtZDdKMFpjalNvZjh1dHRyUUZVMG1JN1BEWnBuSnNreSI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1788016084),
+('rpfwuKNA29A1ROpmRGF7GtQfOwdcsoO2aeKJ5Gk7', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.6456', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiQXBidGxvdWpMNnpTRWNWMTJUMDY4WnFvUUxMUGJMM1ozTlByN3lkdiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2FkbWluL3BvcnRmb2xpby8xNy9lZGl0Ijt9czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MjU6Imxhbmd1YWdlX2lkX2Zyb21fZHJvcGRvd24iO2k6MTtzOjI3OiJsYW5ndWFnZV9uYW1lX2Zyb21fZHJvcGRvd24iO3M6NzoiRW5nbGlzaCI7czoyNzoibGFuZ3VhZ2VfY29kZV9mcm9tX2Ryb3Bkb3duIjtzOjI6ImVuIjtzOjMyOiJsYW5ndWFnZV9kaXJlY3Rpb25fZnJvbV9kcm9wZG93biI7aTowO30=', 1788015667),
+('uABkJPpupSpCKCWBZ4zoYyAaYFBMPR1MiC2kIyuD', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoibDdxMU9JekVLUjlhYXlFM1R4RWtLdHFtVllvUVlObVJlOU13N2FDbiI7czoyNToibGFuZ3VhZ2VfaWRfZnJvbV9kcm9wZG93biI7aToxO3M6Mjc6Imxhbmd1YWdlX25hbWVfZnJvbV9kcm9wZG93biI7czo3OiJFbmdsaXNoIjtzOjI3OiJsYW5ndWFnZV9jb2RlX2Zyb21fZHJvcGRvd24iO3M6MjoiZW4iO3M6MzI6Imxhbmd1YWdlX2RpcmVjdGlvbl9mcm9tX2Ryb3Bkb3duIjtpOjA7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9mYXZpY29uLmljbyI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1788015971);
 
 -- --------------------------------------------------------
 
@@ -2207,6 +2270,7 @@ CREATE TABLE `skills` (
   `title` text NOT NULL,
   `desc` text DEFAULT NULL,
   `skill_image` text NOT NULL,
+  `skill_image_light` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2215,9 +2279,9 @@ CREATE TABLE `skills` (
 -- Dumping data for table `skills`
 --
 
-INSERT INTO `skills` (`id`, `language_id`, `section_title`, `title`, `desc`, `skill_image`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Why Choose Us', 'We specialize in UI frameworks for years', 'A front end library is being released every day and it is requested to master these technologies.I also follow the market every day and follow the updates of new frontend frameworks and programming frameworks. It is easier for me to keep up with new technologies in projects', 'software-skill.png', '2024-02-08 17:46:34', '2026-08-17 13:48:12'),
-(2, 4, 'আমাদের দক্ষতা', 'আমরা বছরের পর বছর ধরে UI ফ্রেমওয়ার্কগুলিতে বিশেষজ্ঞ', 'একটি ফ্রন্ট এন্ড লাইব্রেরি প্রতিদিন প্রকাশিত হচ্ছে এবং এই প্রযুক্তিগুলি আয়ত্ত করার জন্য অনুরোধ করা হচ্ছে। আমি প্রতিদিন বাজার অনুসরণ করি এবং নতুন ফ্রন্টএন্ড ফ্রেমওয়ার্ক এবং প্রোগ্রামিং ফ্রেমওয়ার্কের আপডেটগুলি অনুসরণ করি। প্রকল্পগুলিতে নতুন প্রযুক্তির সাথে তাল মিলিয়ে চলা আমার পক্ষে সহজ', 'software-skill.png', '2024-11-02 14:06:40', '2026-08-17 13:48:12');
+INSERT INTO `skills` (`id`, `language_id`, `section_title`, `title`, `desc`, `skill_image`, `skill_image_light`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Why Choose Us', 'We specialize in UI frameworks for years', 'A front end library is being released every day and it is requested to master these technologies.I also follow the market every day and follow the updates of new frontend frameworks and programming frameworks. It is easier for me to keep up with new technologies in projects', 'software-skill.png', 'demo-skill-light.png', '2024-02-08 17:46:34', '2026-08-29 08:05:50'),
+(2, 4, 'আমাদের দক্ষতা', 'আমরা বছরের পর বছর ধরে UI ফ্রেমওয়ার্কগুলিতে বিশেষজ্ঞ', 'একটি ফ্রন্ট এন্ড লাইব্রেরি প্রতিদিন প্রকাশিত হচ্ছে এবং এই প্রযুক্তিগুলি আয়ত্ত করার জন্য অনুরোধ করা হচ্ছে। আমি প্রতিদিন বাজার অনুসরণ করি এবং নতুন ফ্রন্টএন্ড ফ্রেমওয়ার্ক এবং প্রোগ্রামিং ফ্রেমওয়ার্কের আপডেটগুলি অনুসরণ করি। প্রকল্পগুলিতে নতুন প্রযুক্তির সাথে তাল মিলিয়ে চলা আমার পক্ষে সহজ', 'software-skill.png', 'demo-skill-light.png', '2024-11-02 14:06:40', '2026-08-29 08:05:50');
 
 -- --------------------------------------------------------
 
@@ -2503,7 +2567,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `current_team_id`, `profile_photo_path`, `type`, `created_at`, `updated_at`) VALUES
-(9, 'Admin', 'admin@netigency.com', NULL, '$2y$10$TwW3UfMI/JEnjUjcz6FE9uIA0NZWG0MfsrpASf7e2mIzvP3JSOc8y', NULL, NULL, 'htXhvLeyrKiLQ56eUQ2xU8nctqk4PV9G7TYfomQIQldX6hk4r14Lrvozjjpc', NULL, '1786302415-photo_2025-12-31_16-47-05.jpg', 0, '2026-07-30 02:59:40', '2026-08-09 13:06:55');
+(9, 'Admin', 'admin@netigency.com', NULL, '$2y$10$TwW3UfMI/JEnjUjcz6FE9uIA0NZWG0MfsrpASf7e2mIzvP3JSOc8y', NULL, NULL, 'htXhvLeyrKiLQ56eUQ2xU8nctqk4PV9G7TYfomQIQldX6hk4r14Lrvozjjpc', NULL, '1788011933-photo_2025-12-31_16-47-05.jpg', 0, '2026-07-30 02:59:40', '2026-08-29 07:58:53');
 
 -- --------------------------------------------------------
 
@@ -2524,6 +2588,53 @@ CREATE TABLE `videos` (
 
 INSERT INTO `videos` (`id`, `video_link`, `created_at`, `updated_at`) VALUES
 (1, 'https://www.youtube.com/watch?v=1yBQPVPdQF8', '2024-02-13 17:25:46', '2024-03-08 03:21:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video_categories`
+--
+
+CREATE TABLE `video_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
+  `category_name` varchar(191) NOT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `category_slug` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `video_categories`
+--
+
+INSERT INTO `video_categories` (`id`, `language_id`, `category_name`, `order`, `status`, `category_slug`, `created_at`, `updated_at`) VALUES
+(1, 1, 'presentation', 0, 1, 'presentation', '2026-08-29 09:45:37', '2026-08-29 09:45:37');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video_items`
+--
+
+CREATE TABLE `video_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `language_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `category_name` varchar(191) DEFAULT NULL,
+  `title` varchar(191) NOT NULL,
+  `desc` text DEFAULT NULL,
+  `video_url` varchar(191) NOT NULL,
+  `provider` varchar(20) NOT NULL DEFAULT 'youtube',
+  `video_id` varchar(191) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `video_slug` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2995,6 +3106,21 @@ ALTER TABLE `videos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `video_categories`
+--
+ALTER TABLE `video_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `video_categories_language_id_foreign` (`language_id`);
+
+--
+-- Indexes for table `video_items`
+--
+ALTER TABLE `video_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `video_items_language_id_foreign` (`language_id`),
+  ADD KEY `video_items_category_id_foreign` (`category_id`);
+
+--
 -- Indexes for table `work_processes`
 --
 ALTER TABLE `work_processes`
@@ -3118,7 +3244,7 @@ ALTER TABLE `fixed_contents`
 -- AUTO_INCREMENT for table `frontend_keywords`
 --
 ALTER TABLE `frontend_keywords`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `google_analytics`
@@ -3154,7 +3280,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -3166,13 +3292,13 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT for table `panel_keywords`
 --
 ALTER TABLE `panel_keywords`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=879;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=885;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -3190,7 +3316,7 @@ ALTER TABLE `photos`
 -- AUTO_INCREMENT for table `portfolios`
 --
 ALTER TABLE `portfolios`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `portfolio_categories`
@@ -3202,7 +3328,7 @@ ALTER TABLE `portfolio_categories`
 -- AUTO_INCREMENT for table `portfolio_details`
 --
 ALTER TABLE `portfolio_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `portfolio_sections`
@@ -3214,7 +3340,7 @@ ALTER TABLE `portfolio_sections`
 -- AUTO_INCREMENT for table `portfolio_sliders`
 --
 ALTER TABLE `portfolio_sliders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `projects`
@@ -3238,7 +3364,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `seos`
@@ -3347,6 +3473,18 @@ ALTER TABLE `users`
 --
 ALTER TABLE `videos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `video_categories`
+--
+ALTER TABLE `video_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `video_items`
+--
+ALTER TABLE `video_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `work_processes`
@@ -3586,6 +3724,19 @@ ALTER TABLE `testimonials`
 --
 ALTER TABLE `testimonial_sections`
   ADD CONSTRAINT `testimonial_sections_language_id_foreign` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `video_categories`
+--
+ALTER TABLE `video_categories`
+  ADD CONSTRAINT `video_categories_language_id_foreign` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `video_items`
+--
+ALTER TABLE `video_items`
+  ADD CONSTRAINT `video_items_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `video_categories` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `video_items_language_id_foreign` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `work_processes`

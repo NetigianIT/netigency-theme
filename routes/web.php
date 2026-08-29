@@ -18,11 +18,11 @@ use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\FeatureSectionController;
 use App\Http\Controllers\Admin\FixedContentController;
 use App\Http\Controllers\Admin\GoogleAnalyticController;
+use App\Http\Controllers\Admin\HeroParticleController;
 use App\Http\Controllers\Admin\HomepageVersionController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\Admin\PhotoController;
 use App\Http\Controllers\Admin\PortfolioCategoryController;
 use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\PortfolioDetailController;
@@ -43,10 +43,13 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TeamSectionController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\TestimonialSectionController;
+use App\Http\Controllers\Admin\VideoCategoryController;
 use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\VideoItemController;
 use App\Http\Controllers\Admin\WorkProcessController;
 use App\Http\Controllers\Admin\WorkProcessSectionController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\VideoGalleryController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -93,6 +96,11 @@ Route::middleware(['XSS'])->group(function () {
         ->name('blog-page.search')->middleware('throttle:public-forms');
 });
 
+Route::middleware(['XSS'])->group(function () {
+    Route::get('videos', [VideoGalleryController::class, 'index'])->name('video-page.index');
+    Route::get('videos/category/{category_slug}', [VideoGalleryController::class, 'category'])->name('video-page.category');
+});
+
 Route::get('page/{page_slug}', [App\Http\Controllers\Frontend\PageController::class, 'show'])
     ->name('any-page.show')->middleware('XSS');
 
@@ -119,14 +127,6 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'role:super-admin'])->pref
     Route::put('admin-user/{id}', [AdminUserController::class, 'update'])->name('admin-user.update');
     Route::delete('admin-user/{id}', [AdminUserController::class, 'destroy'])->name('admin-user.destroy');
     Route::delete('admin-user-checked', [AdminUserController::class, 'destroy_checked'])->name('admin-user.destroy_checked');
-});
-
-Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:uploads check'])->prefix('admin')->group(function () {
-    Route::get('photo/create', [PhotoController::class, 'create'])->name('photo.create');
-    Route::post('photo', [PhotoController::class, 'store'])->name('photo.store');
-    Route::get('photo/{id}/edit', [PhotoController::class, 'edit'])->name('photo.edit');
-    Route::put('photo/{id}', [PhotoController::class, 'update'])->name('photo.update');
-    Route::delete('photo/{id}', [PhotoController::class, 'destroy'])->name('photo.destroy');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:banner check'])->prefix('admin')->group(function () {
@@ -277,6 +277,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:portfolio chec
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:teams check'])->prefix('admin')->group(function () {
+    Route::get('team', [TeamController::class, 'index'])->name('team.index');
     Route::get('team/create', [TeamController::class, 'create'])->name('team.create');
     Route::post('team', [TeamController::class, 'store'])->name('team.store');
     Route::get('team/{id}/edit', [TeamController::class, 'edit'])->name('team.edit');
@@ -327,6 +328,23 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:blogs check'])
     Route::put('blog-paginate/{id}', [BlogController::class, 'update_paginate'])->name('blog-paginate.update_paginate');
 });
 
+Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:videos check'])->prefix('admin')->group(function () {
+    Route::get('video-category/create', [VideoCategoryController::class, 'create'])->name('video-category.create');
+    Route::post('video-category', [VideoCategoryController::class, 'store'])->name('video-category.store');
+    Route::get('video-category/{id}/edit', [VideoCategoryController::class, 'edit'])->name('video-category.edit');
+    Route::put('video-category/{id}', [VideoCategoryController::class, 'update'])->name('video-category.update');
+    Route::delete('video-category/{id}', [VideoCategoryController::class, 'destroy'])->name('video-category.destroy');
+    Route::delete('video-category-checked', [VideoCategoryController::class, 'destroy_checked'])->name('video-category.destroy_checked');
+
+    Route::get('video-item', [VideoItemController::class, 'index'])->name('video-item.index');
+    Route::get('video-item/create', [VideoItemController::class, 'create'])->name('video-item.create');
+    Route::post('video-item', [VideoItemController::class, 'store'])->name('video-item.store');
+    Route::get('video-item/{id}/edit', [VideoItemController::class, 'edit'])->name('video-item.edit');
+    Route::put('video-item/{id}', [VideoItemController::class, 'update'])->name('video-item.update');
+    Route::delete('video-item/{id}', [VideoItemController::class, 'destroy'])->name('video-item.destroy');
+    Route::delete('video-item-checked', [VideoItemController::class, 'destroy_checked'])->name('video-item.destroy_checked');
+});
+
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check'])->prefix('admin')->group(function () {
     Route::get('site-info/create', [SiteInfoController::class, 'create'])->name('site-info.create');
     Route::post('site-info', [SiteInfoController::class, 'store'])->name('site-info.store');
@@ -349,6 +367,12 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check
     Route::get('seo/create', [SeoController::class, 'create'])->name('seo.create');
     Route::post('seo', [SeoController::class, 'store'])->name('seo.store');
     Route::put('seo/{id}', [SeoController::class, 'update'])->name('seo.update');
+});
+
+Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:settings check'])->prefix('admin')->group(function () {
+    Route::get('hero-particles/create', [HeroParticleController::class, 'create'])->name('hero-particles.create');
+    Route::post('hero-particles', [HeroParticleController::class, 'store'])->name('hero-particles.store');
+    Route::put('hero-particles/{id}', [HeroParticleController::class, 'update'])->name('hero-particles.update');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:contact check'])->prefix('admin')->group(function () {

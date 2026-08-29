@@ -70,4 +70,18 @@ class Portfolio extends Model
     {
         return $this->belongsTo('App\Models\Admin\PortfolioCategory','category_id','id');
     }
+
+    /**
+     * Plain-text card excerpt from rich description.
+     */
+    public function cardExcerpt(int $limit = 90): string
+    {
+        $text = trim(preg_replace('/\s+/', ' ', strip_tags((string) $this->desc)) ?? '');
+
+        if ($text === '') {
+            return '';
+        }
+
+        return \Illuminate\Support\Str::limit($text, $limit);
+    }
 }

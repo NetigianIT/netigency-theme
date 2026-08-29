@@ -24,7 +24,7 @@
                                 @endif
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="favicon_image">{{ __('content.favicon') }} ({{ __('content.size') }} 128 x 128) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="favicon_image" class="form-control-file" id="favicon_image">
@@ -53,7 +53,7 @@
                                 </div>
                                 <!--end col-->
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="admin_logo_image">{{ __('content.admin_logo') }} ({{ __('content.size') }} 328 x 96) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="admin_logo_image" class="form-control-file" id="admin_logo_image">
@@ -82,7 +82,7 @@
                                 </div>
                                 <!--end col-->
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="admin_small_logo_image">{{ __('content.admin_small_logo') }} ({{ __('content.size') }} 112 x 96) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="admin_small_logo_image" class="form-control-file" id="admin_small_logo_image">
@@ -111,7 +111,7 @@
                                 </div>
                                 <!--end col-->
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="site_white_logo_image">{{ __('content.site_white_logo') }} ({{ __('content.size') }} 148 x 50) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="site_white_logo_image" class="form-control-file" id="site_white_logo_image">
@@ -140,7 +140,7 @@
                                 </div>
                                 <!--end col-->
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="site_colored_logo_image">{{ __('content.site_colored_logo') }} ({{ __('content.size') }} 148 x 50) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="site_colored_logo_image" class="form-control-file" id="site_colored_logo_image">
@@ -189,35 +189,35 @@
                                         @endif
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="favicon_image">{{ __('content.favicon') }} ({{ __('content.size') }} 128 x 128) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="favicon_image" class="form-control-file" id="favicon_image">
                                     <small id="favicon_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="admin_logo_image">{{ __('content.admin_logo') }} ({{ __('content.size') }} 328 x 96) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="admin_logo_image" class="form-control-file" id="admin_logo_image">
                                     <small id="admin_logo_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="admin_small_logo_image">{{ __('content.admin_small_logo') }} ({{ __('content.size') }} 112 x 96) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="admin_small_logo_image" class="form-control-file" id="admin_small_logo_image">
                                     <small id="admin_small_logo_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="site_white_logo_image">{{ __('content.site_white_logo') }} ({{ __('content.size') }} 148 x 50) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="site_white_logo_image" class="form-control-file" id="site_white_logo_image">
                                     <small id="site_white_logo_image" class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="site_colored_logo_image">{{ __('content.site_colored_logo') }} ({{ __('content.size') }} 148 x 50) (.svg, .jpg, .jpeg, .png)</label>
                                     <input type="file" name="site_colored_logo_image" class="form-control-file" id="site_colored_logo_image">
