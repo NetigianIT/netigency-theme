@@ -20,6 +20,7 @@ class VideoItem extends Model
         'video_url',
         'provider',
         'video_id',
+        'thumbnail_image',
         'status',
         'order',
         'video_slug',
@@ -42,26 +43,14 @@ class VideoItem extends Model
     }
 
     /**
-     * Embed URL for iframe.
-     */
-    public function embedUrl(): ?string
-    {
-        if (empty($this->video_id)) {
-            return null;
-        }
-
-        if ($this->provider === 'vimeo') {
-            return 'https://player.vimeo.com/video/'.$this->video_id;
-        }
-
-        return 'https://www.youtube.com/embed/'.$this->video_id;
-    }
-
-    /**
-     * Thumbnail preview image.
+     * Thumbnail preview image (custom upload preferred).
      */
     public function thumbnailUrl(): ?string
     {
+        if (! empty($this->thumbnail_image)) {
+            return asset('uploads/img/videos/'.$this->thumbnail_image);
+        }
+
         if (empty($this->video_id)) {
             return null;
         }
@@ -71,6 +60,26 @@ class VideoItem extends Model
         }
 
         return 'https://img.youtube.com/vi/'.$this->video_id.'/hqdefault.jpg';
+    }
+
+    /**
+     * Embed URL with autoplay for click-to-play facade.
+     */
+    public function embedUrl(bool $autoplay = false): ?string
+    {
+        if (empty($this->video_id)) {
+            return null;
+        }
+
+        if ($this->provider === 'vimeo') {
+            $url = 'https://player.vimeo.com/video/'.$this->video_id;
+
+            return $autoplay ? $url.'?autoplay=1' : $url;
+        }
+
+        $url = 'https://www.youtube.com/embed/'.$this->video_id;
+
+        return $autoplay ? $url.'?autoplay=1&rel=0' : $url.'?rel=0';
     }
 
     /**

@@ -28,6 +28,8 @@ $( document ).ready( function() {
     Filaous_ScrollIt();
     Filaous_SkillsBar();
     Filaous_MyWorks();
+    Filaous_VideoFilter();
+    Filaous_VideoEmbed();
     Filaous_BgVideo();
     Filaous_Color_Options();
     Filaous_ClickSplash();
@@ -275,7 +277,8 @@ function Filaous_Carousel(){
         dots:false,
         nav:true,
         smartSpeed:1000,
-        navText: [ "<span class='fa fa-arrow-left'></span>","<span class='fa fa-arrow-right'></span>" ],
+        navContainer: $( '#testimonialCarouselNav' ).length ? '#testimonialCarouselNav' : false,
+        navText: [ "<span></span>","<span></span>" ],
         responsive:{
             0:{
                 items:1
@@ -298,7 +301,7 @@ function Filaous_Carousel(){
         nav:true,
         smartSpeed:1000,
         navContainer: $( '#blogCarouselNav' ).length ? '#blogCarouselNav' : false,
-        navText: [ "<span class='fa fa-arrow-left'></span>","<span class='fa fa-arrow-right'></span>" ],
+        navText: [ "<span></span>","<span></span>" ],
         responsive:{
             0:{
                 items:1
@@ -593,45 +596,170 @@ function Filaous_SkillsBar(){
 function Filaous_MyWorks() {
     "use-strict";
 
-    // Variables 
-    let galleryWrapper     = $( '#portfolio-masonry-wrap' );
-    let portfolioFilterBtn = $( '.portfolio-filter a' );
-    let portfolioGrid      = $('.portfolio-grid');
+    var $section = $('#porfolio');
+    var $galleryWrapper = $('#portfolio-masonry-wrap');
+    var $portfolioFilterBtn = $section.find('.portfolio-filter a[data-portfolio-filter]');
+    var $portfolioItems = $galleryWrapper.find('.portfolio-item');
+    var $portfolioGrid = $('.portfolio-grid');
+    var isotopeGrid = null;
 
-    // Portfolio Masonary Gallery
-    galleryWrapper.imagesLoaded(function() {
-        let grid = galleryWrapper.isotope({
-            itemSelector: '.portfolio-item',
-            percentPosition: true,
-            masonry: {
-                columnWidth: '.portfolio-item',
+    function applyPortfolioFilter(filterValue) {
+        filterValue = filterValue || '*';
+
+        $portfolioItems.each(function () {
+            var $item = $(this);
+            var match = filterValue === '*' || $item.hasClass(filterValue.replace(/^\./, ''));
+            $item.toggleClass('is-filtered-out', !match);
+        });
+
+        if (isotopeGrid) {
+            isotopeGrid.isotope({
+                filter: filterValue === '*' ? '*' : filterValue
+            });
+        }
+    }
+
+    if ($portfolioFilterBtn.length && $portfolioItems.length) {
+        $portfolioFilterBtn.on('click', function (event) {
+            event.preventDefault();
+
+            var $btn = $(this);
+            var filterValue = $btn.attr('data-portfolio-filter') || '*';
+
+            $portfolioFilterBtn.removeClass('current');
+            $btn.addClass('current');
+            applyPortfolioFilter(filterValue);
+        });
+    }
+
+    if ($galleryWrapper.length && typeof $.fn.isotope === 'function') {
+        var initIsotope = function () {
+            isotopeGrid = $galleryWrapper.isotope({
+                itemSelector: '.portfolio-item',
+                percentPosition: true,
+                layoutMode: 'fitRows',
+                filter: $portfolioFilterBtn.filter('.current').attr('data-portfolio-filter') || '*'
+            });
+        };
+
+        if (typeof $.fn.imagesLoaded === 'function') {
+            $galleryWrapper.imagesLoaded(function () {
+                initIsotope();
+            });
+        } else {
+            initIsotope();
+        }
+    }
+
+    if ($portfolioGrid.length && typeof $.fn.magnificPopup === 'function') {
+        $portfolioGrid.magnificPopup({
+            delegate: '.portfolio-zoom-link',
+            type: 'image',
+            gallery: {
+                enabled: true
+            }
+        });
+    }
+}
+
+/* -------------------------------------------------------------------
+ * Video gallery realtime tabs
+------------------------------------------------------------------- */
+function Filaous_VideoFilter() {
+    "use-strict";
+
+    var $tabs = $('[data-video-filter-tabs]');
+    var $grid = $('[data-video-grid]');
+    if (!$tabs.length || !$grid.length) {
+        return;
+    }
+
+    var $items = $grid.find('.ni-video-item');
+    var $empty = $('[data-video-empty]');
+    var $buttons = $tabs.find('[data-video-filter]');
+
+    function applyFilter(filterValue) {
+        var visibleCount = 0;
+
+        $items.each(function () {
+            var $item = $(this);
+            var match = filterValue === '*' || $item.hasClass(filterValue.replace(/^\./, ''));
+
+            if (match) {
+                $item.removeClass('is-hidden');
+                visibleCount += 1;
+            } else {
+                $item.addClass('is-hidden');
             }
         });
 
-        // filter items on button click
-        portfolioFilterBtn.on( 'click', function(event) {
-            let filterValue = $(this).attr( 'data-portfolio-filter' );
-            grid.isotope({
-                filter: filterValue
-            });
-            event.preventDefault();
-        });
-    });
-
-    // filter items on button click
-    portfolioFilterBtn.on( 'click', function(event) {
-        portfolioFilterBtn.removeClass( 'current' );
-        $(this).addClass( 'current' );
-        event.preventDefault();
-    });
-
-    //  Portfolio Gallery Popup */
-    portfolioGrid.magnificPopup({
-        delegate: '.portfolio-zoom-link',
-        type: 'image',
-        gallery: {
-            enabled: true
+        if ($empty.length) {
+            $empty.prop('hidden', visibleCount !== 0);
         }
+    }
+
+    $buttons.on('click', function (event) {
+        event.preventDefault();
+
+        var $btn = $(this);
+        var filterValue = $btn.attr('data-video-filter') || '*';
+        var href = $btn.attr('href');
+
+        $buttons.removeClass('current');
+        $btn.addClass('current');
+        applyFilter(filterValue);
+
+        if (href && window.history && window.history.pushState) {
+            window.history.pushState({ videoFilter: filterValue }, '', href);
+        }
+    });
+
+    window.addEventListener('popstate', function () {
+        var path = window.location.pathname.replace(/\/+$/, '');
+        var match = path.match(/\/videos\/category\/([^/]+)$/);
+        var filterValue = match ? '.' + decodeURIComponent(match[1]) : '*';
+        var $target = $buttons.filter('[data-video-filter="' + filterValue + '"]');
+
+        if (!$target.length) {
+            $target = $buttons.filter('[data-video-filter="*"]');
+            filterValue = '*';
+        }
+
+        $buttons.removeClass('current');
+        $target.addClass('current');
+        applyFilter(filterValue);
+    });
+
+    var $initial = $buttons.filter('.current').first();
+    if ($initial.length) {
+        applyFilter($initial.attr('data-video-filter') || '*');
+    }
+}
+
+/* -------------------------------------------------------------------
+ * Video click-to-play facade
+------------------------------------------------------------------- */
+function Filaous_VideoEmbed() {
+    "use-strict";
+
+    $(document).on('click', '[data-video-embed] .ni-video-card__play', function (event) {
+        event.preventDefault();
+
+        var $media = $(this).closest('[data-video-embed]');
+        var embedSrc = $media.attr('data-embed-src');
+        if (!embedSrc || $media.hasClass('is-playing')) {
+            return;
+        }
+
+        var title = $(this).find('img').attr('alt') || 'Video';
+        var iframe = document.createElement('iframe');
+        iframe.src = embedSrc;
+        iframe.title = title;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.setAttribute('allowfullscreen', '');
+
+        $media.addClass('is-playing').append(iframe);
     });
 }
 /* -------------------------------------------------------------------

@@ -17,12 +17,23 @@ class SkillController extends Controller
      */
     public function create()
     {
-        // Retrieving a model
         $language = getLanguage();
         $skill = Skill::where('language_id', $language->id)->first();
+
+        return view('admin.skill.create', compact('skill'));
+    }
+
+    /**
+     * Skill information list (separate from section create/edit).
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function info_list()
+    {
+        $language = getLanguage();
         $info_lists = SkillInfoList::where('language_id', $language->id)->orderBy('id', 'desc')->get();
 
-        return view('admin.skill.create', compact('skill', 'info_lists'));
+        return view('admin.skill.info-list', compact('info_lists'));
     }
 
     /**
@@ -168,7 +179,7 @@ class SkillController extends Controller
             'order' => $input['order']
         ]);
 
-        return redirect()->route('skill.create')
+        return redirect()->route('skill.info_list')
             ->with('success', 'content.created_successfully');
     }
 
@@ -180,8 +191,7 @@ class SkillController extends Controller
      */
     public function edit_info_list($id)
     {
-        // Retrieving models
-        $info_list = SkillInfoList::find($id);
+        $info_list = SkillInfoList::findOrFail($id);
 
         return view('admin.skill.edit', compact('info_list'));
     }
@@ -195,20 +205,16 @@ class SkillController extends Controller
      */
     public function update_info_list(Request $request, $id)
     {
-        // Form validation
         $request->validate([
             'title' => 'required',
             'percent_rate' => 'required|integer',
             'order' => 'integer',
         ]);
 
-        // Get All Request
         $input = $request->all();
+        SkillInfoList::findOrFail($id)->update($input);
 
-        // Record to database
-        SkillInfoList::find($id)->update($input);
-
-        return redirect()->route('skill.create')
+        return redirect()->route('skill.info_list')
             ->with('success', 'content.updated_successfully');
     }
 
@@ -220,13 +226,10 @@ class SkillController extends Controller
      */
     public function destroy_info_list($id)
     {
-        // Retrieve a model
-        $info_list = SkillInfoList::find($id);
-
-        // Delete record
+        $info_list = SkillInfoList::findOrFail($id);
         $info_list->delete();
 
-        return redirect()->route('skill.create')
+        return redirect()->route('skill.info_list')
             ->with('success', 'content.deleted_successfully');
     }
 
@@ -238,27 +241,20 @@ class SkillController extends Controller
      */
     public function destroy_checked(Request $request)
     {
-        // Get All Request
         $input = $request->input('checked_lists');
-
         $arr_checked_lists = explode(",", $input);
 
         if (array_filter($arr_checked_lists) == []) {
-            return redirect()->route('skill.create')
+            return redirect()->route('skill.info_list')
                 ->with('warning', 'content.please_choose');
         }
 
         foreach ($arr_checked_lists as $id) {
-
-            // Retrieve a model
             $info_list = SkillInfoList::findOrFail($id);
-
-            // Delete record
             $info_list->delete();
-
         }
 
-        return redirect()->route('skill.create')
+        return redirect()->route('skill.info_list')
             ->with('success', 'content.deleted_successfully');
     }
 

@@ -4075,8 +4075,77 @@ body.ni-spa-loading::before {
   overflow: hidden;
 }
 
+.tox-tinymce,
+.tox .tox-edit-area,
+.tox .tox-sidebar-wrap,
+.tox .tox-menu,
+.tox .tox-collection__group,
+.tox .tox-dialog__body-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+}
+
+.tox-tinymce::-webkit-scrollbar,
+.tox .tox-edit-area::-webkit-scrollbar,
+.tox .tox-sidebar-wrap::-webkit-scrollbar,
+.tox .tox-menu::-webkit-scrollbar,
+.tox .tox-collection__group::-webkit-scrollbar,
+.tox .tox-dialog__body-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.tox-tinymce::-webkit-scrollbar-track,
+.tox .tox-edit-area::-webkit-scrollbar-track,
+.tox .tox-sidebar-wrap::-webkit-scrollbar-track,
+.tox .tox-menu::-webkit-scrollbar-track,
+.tox .tox-collection__group::-webkit-scrollbar-track,
+.tox .tox-dialog__body-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tox-tinymce::-webkit-scrollbar-thumb,
+.tox .tox-edit-area::-webkit-scrollbar-thumb,
+.tox .tox-sidebar-wrap::-webkit-scrollbar-thumb,
+.tox .tox-menu::-webkit-scrollbar-thumb,
+.tox .tox-collection__group::-webkit-scrollbar-thumb,
+.tox .tox-dialog__body-content::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+}
+
+.tox-tinymce::-webkit-scrollbar-thumb:hover,
+.tox .tox-edit-area::-webkit-scrollbar-thumb:hover,
+.tox .tox-sidebar-wrap::-webkit-scrollbar-thumb:hover,
+.tox .tox-menu::-webkit-scrollbar-thumb:hover,
+.tox .tox-collection__group::-webkit-scrollbar-thumb:hover,
+.tox .tox-dialog__body-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
 .tox .tox-edit-area::before {
+  border: 0 !important;
   border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  opacity: 0 !important;
+  content: none !important;
+  display: none !important;
+}
+
+.tox-tinymce,
+.tox-tinymce.tox-tinymce--focus,
+.tox-tinymce:focus,
+.tox-tinymce:focus-within,
+.tox .tox-edit-area,
+.tox .tox-edit-area iframe,
+.tox .tox-edit-area__iframe {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.tox-tinymce.tox-tinymce--focus {
+  border-color: var(--ni-border) !important;
 }
 
 html[data-theme="dark"] .tox-tinymce {
@@ -4319,4 +4388,22 @@ html[data-theme="light"] .ni-switch-row {
 html[data-theme="light"] .ni-switch__track {
   background: #d1d5db;
 }
+
+/* Page create/edit: equal-height meta fields beside title */
+.ni-page-meta-row > [class*="col-"] > .form-group > label {
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+  white-space: nowrap;
+}
+
+.ni-page-meta-row .form-control,
+.ni-page-meta-row select.form-control {
+  height: 38px;
+  min-height: 38px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.35rem;
+}
+
 

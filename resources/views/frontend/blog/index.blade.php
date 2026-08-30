@@ -6,6 +6,9 @@
     @if (count($blogs) > 0)
         <section class="section pb-minus-76 page-content-offset" id="blog">
             <div class="container">
+                <div class="ni-videos-header text-center">
+                    <h1 class="ni-videos-title">{{ __('frontend.blogs') }}</h1>
+                </div>
                 <div class="row">
                     @foreach ($blogs as $blog)
                         <div class="col-md-4">
@@ -53,10 +56,11 @@
     @else
         <section class="section pb-minus-76 page-content-offset" id="blog">
             <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        {{ __('frontend.updating') }}
-                    </div>
+                <div class="ni-videos-header text-center">
+                    <h1 class="ni-videos-title">{{ __('frontend.blogs') }}</h1>
+                </div>
+                <div class="ni-videos-empty">
+                    <p class="ni-videos-empty__text">{{ __('frontend.updating') }}</p>
                 </div>
             </div>
         </section>

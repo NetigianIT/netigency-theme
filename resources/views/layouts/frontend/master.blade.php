@@ -68,7 +68,7 @@
     <!-- Theme stays green; palette skins are not loaded. -->
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=140">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=156">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -602,7 +602,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 <script src="{{ asset('assets/frontend/vendor/js/custom.select.plugin.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/scrollit.min.js') }}" defer></script>
 <script src="{{ asset('assets/frontend/vendor/js/isotope.min.js') }}" defer></script>
-<script src="{{ asset('assets/frontend/js/main.js') }}?v=87" defer></script>
+<script src="{{ asset('assets/frontend/js/main.js') }}?v=93" defer></script>
 <script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=3" defer></script>
 <script src="{{ asset('assets/frontend/js/language-switch.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}" defer></script>

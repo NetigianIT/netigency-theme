@@ -92,7 +92,7 @@
     @endisset
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=142">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=156">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -1573,7 +1573,8 @@
                         <x-frontend.section-title
                             :title="$testimonial_section->title"
                             :subtitle="$testimonial_section->section_title"
-                            col-class="col-md-6" />
+                            col-class="col-md-6"
+                            nav-slot-id="testimonialCarouselNav" />
                         @endisset
                     <div class="owl-carousel owl-theme" id="testimonialCarousel">
                         @foreach ($testimonials as $testimonial)
@@ -1612,11 +1613,14 @@
         @else
             <section class="section pb-minus-76 bg-primary-light">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="section-heading-left">
-                                <span>Testimonial</span>
-                                <h2>Our Clients</h2>
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <div class="ni-section-head">
+                                <div class="section-heading-left">
+                                    <span>Testimonial</span>
+                                    <h2>Our Testimonials</h2>
+                                </div>
+                                <div class="section-carousel-nav" id="testimonialCarouselNav"></div>
                             </div>
                         </div>
                     </div>
@@ -1739,14 +1743,7 @@
                             :subtitle="$blog_section->section_title"
                             col-class="col-md-6"
                             nav-slot-id="blogCarouselNav" />
-                   @else
-                        <div class="row align-items-center">
-                            <div class="col-7 col-md-6"></div>
-                            <div class="col-5 col-md-6">
-                                <div class="section-carousel-nav" id="blogCarouselNav"></div>
-                            </div>
-                        </div>
-                       @endisset
+                   @endisset
                     <div class="owl-carousel owl-theme" id="blogCarousel">
                         @foreach ($recent_posts as $recent_post)
                             <div class="item">
@@ -1788,14 +1785,14 @@
         <section class="section pb-minus-76" id="blog" data-scroll-index="6">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-7 col-md-6">
-                        <div class="section-heading-left">
-                            <span>Blogs</span>
-                            <h2>Our Blogs</h2>
+                    <div class="col-12">
+                        <div class="ni-section-head">
+                            <div class="section-heading-left">
+                                <span>Blogs</span>
+                                <h2>Our Blogs</h2>
+                            </div>
+                            <div class="section-carousel-nav" id="blogCarouselNav"></div>
                         </div>
-                    </div>
-                    <div class="col-5 col-md-6">
-                        <div class="section-carousel-nav" id="blogCarouselNav"></div>
                     </div>
                 </div>
                 <div class="owl-carousel owl-theme" id="blogCarousel">
@@ -2370,7 +2367,7 @@
 @if ($heroParticlesEnabled ?? true)
 <script src="{{ asset('assets/frontend/vendor/js/particles.js') }}" defer></script>
 @endif
-<script src="{{ asset('assets/frontend/js/main.js') }}?v=89" defer></script>
+<script src="{{ asset('assets/frontend/js/main.js') }}?v=93" defer></script>
 <script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=3" defer></script>
 <script src="{{ asset('assets/frontend/js/language-switch.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/frontend/js/theme-mode.js') }}" defer></script>

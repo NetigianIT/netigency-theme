@@ -377,7 +377,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=105">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=109">
 
 </head>
 
@@ -616,9 +616,10 @@
                 </li>
                 @endcan
                 @can('skill check')
-                <li class="nav-item  {{ (request()->is('admin/skill/create') ||
-                                         request()->is('admin/skill-info-list/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('admin/skill/create') }}">
+                <li class="nav-item  {{ (request()->is('admin/skill/*') ||
+                                         request()->is('admin/skill-info-list') ||
+                                         request()->is('admin/skill-info-list/*')) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('skill.create') }}">
                         <i class="fas fa-code menu-icon"></i>
                         <span class="menu-title">{{ __('content.skill') }}</span>
                     </a>
@@ -781,7 +782,7 @@
 
 @if ($needsAdminEditor)
     <script src="https://cdn.jsdelivr.net/npm/tinymce@7.6.1/tinymce.min.js" referrerpolicy="origin" defer></script>
-    <script src="{{ asset('assets/admin/side_menu/js/ni-editor.js') }}?v=5" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/ni-editor.js') }}?v=7" defer></script>
 @endif
 
 <script>

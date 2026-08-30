@@ -232,6 +232,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS',  'permission:skill check']
     Route::post('skill', [SkillController::class, 'store'])->name('skill.store');
     Route::put('skill/{id}', [SkillController::class, 'update'])->name('skill.update');
 
+    Route::get('skill-info-list', [SkillController::class, 'info_list'])->name('skill.info_list');
     Route::post('skill-info-list', [SkillController::class, 'store_info_list'])->name('skill.store_info_list');
     Route::get('skill-info-list/{id}/edit', [SkillController::class, 'edit_info_list'])->name('skill.edit_info_list');
     Route::put('skill-info-list/{id}', [SkillController::class, 'update_info_list'])->name('skill.update_info_list');

@@ -26,7 +26,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'features check']);
         Permission::create(['name' => 'services check']);
         Permission::create(['name' => 'counters check']);
-        Permission::create(['name' => 'work processes check']);
+        Permission::create(['name' => 'work process check']);
         Permission::create(['name' => 'skill check']);
         Permission::create(['name' => 'portfolio check']);
         Permission::create(['name' => 'teams check']);
@@ -49,7 +49,7 @@ class PermissionsSeeder extends Seeder
         $role2->givePermissionTo('features check');
         $role2->givePermissionTo('services check');
         $role2->givePermissionTo('counters check');
-        $role2->givePermissionTo('work processes check');
+        $role2->givePermissionTo('work process check');
         $role2->givePermissionTo('skill check');
         $role2->givePermissionTo('portfolio check');
         $role2->givePermissionTo('teams check');

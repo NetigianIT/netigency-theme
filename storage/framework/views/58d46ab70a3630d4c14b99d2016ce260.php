@@ -97,7 +97,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=141">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/theme-mode.css')); ?>?v=156">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -2016,14 +2016,14 @@
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($testimonial_section)): ?>
                         <?php if (isset($component)) { $__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalb2cd6a24aaa44aae6cff221852ee8c49 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.section-title','data' => ['title' => $testimonial_section->title,'subtitle' => $testimonial_section->section_title,'colClass' => 'col-md-6']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.section-title','data' => ['title' => $testimonial_section->title,'subtitle' => $testimonial_section->section_title,'colClass' => 'col-md-6','navSlotId' => 'testimonialCarouselNav']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.section-title'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($testimonial_section->title),'subtitle' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($testimonial_section->section_title),'col-class' => 'col-md-6']); ?>
+<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($testimonial_section->title),'subtitle' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($testimonial_section->section_title),'col-class' => 'col-md-6','nav-slot-id' => 'testimonialCarouselNav']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalb2cd6a24aaa44aae6cff221852ee8c49)): ?>
@@ -2072,11 +2072,14 @@
         <?php else: ?>
             <section class="section pb-minus-76 bg-primary-light">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="section-heading-left">
-                                <span>Testimonial</span>
-                                <h2>Our Clients</h2>
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <div class="ni-section-head">
+                                <div class="section-heading-left">
+                                    <span>Testimonial</span>
+                                    <h2>Our Testimonials</h2>
+                                </div>
+                                <div class="section-carousel-nav" id="testimonialCarouselNav"></div>
                             </div>
                         </div>
                     </div>
@@ -2214,14 +2217,7 @@
 <?php $component = $__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49; ?>
 <?php unset($__componentOriginalb2cd6a24aaa44aae6cff221852ee8c49); ?>
 <?php endif; ?>
-                   <?php else: ?>
-                        <div class="row align-items-center">
-                            <div class="col-7 col-md-6"></div>
-                            <div class="col-5 col-md-6">
-                                <div class="section-carousel-nav" id="blogCarouselNav"></div>
-                            </div>
-                        </div>
-                       <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                   <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <div class="owl-carousel owl-theme" id="blogCarousel">
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $recent_posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $recent_post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="item">
@@ -2264,14 +2260,14 @@
         <section class="section pb-minus-76" id="blog" data-scroll-index="6">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-7 col-md-6">
-                        <div class="section-heading-left">
-                            <span>Blogs</span>
-                            <h2>Our Blogs</h2>
+                    <div class="col-12">
+                        <div class="ni-section-head">
+                            <div class="section-heading-left">
+                                <span>Blogs</span>
+                                <h2>Our Blogs</h2>
+                            </div>
+                            <div class="section-carousel-nav" id="blogCarouselNav"></div>
                         </div>
-                    </div>
-                    <div class="col-5 col-md-6">
-                        <div class="section-carousel-nav" id="blogCarouselNav"></div>
                     </div>
                 </div>
                 <div class="owl-carousel owl-theme" id="blogCarousel">
@@ -2913,7 +2909,7 @@
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($heroParticlesEnabled ?? true): ?>
 <script src="<?php echo e(asset('assets/frontend/vendor/js/particles.js')); ?>" defer></script>
 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=89" defer></script>
+<script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=93" defer></script>
 <script src="<?php echo e(asset('assets/frontend/js/ni-contact-form.js')); ?>?v=3" defer></script>
 <script src="<?php echo e(asset('assets/frontend/js/language-switch.js')); ?>?v=1" defer></script>
 <script src="<?php echo e(asset('assets/frontend/js/theme-mode.js')); ?>" defer></script>

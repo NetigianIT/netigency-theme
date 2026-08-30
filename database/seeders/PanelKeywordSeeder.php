@@ -669,7 +669,7 @@ class PanelKeywordSeeder extends Seeder
             [
                 'language_id' => 1,
                 'key' => 'work_processes',
-                'value' => 'Work Processes',
+                'value' => 'Work Process',
             ],
             [
                 'language_id' => 1,

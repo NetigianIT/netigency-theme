@@ -14,11 +14,25 @@
     $headingBaseClass = $align === 'center' ? 'section-heading' : 'section-heading-left';
     $headingClasses = trim($headingBaseClass.' '.($light ? 'light ' : '').$headingClass);
     $rowClasses = trim('row align-items-center '.($dots ? 'ni-heading-dots ' : '').$rowClass);
-    $titleColClass = $navSlotId ? 'col-7 col-md-6' : $colClass;
 @endphp
 
+@if (!empty($navSlotId))
 <div class="{{ $rowClasses }}">
-    <div class="{{ $titleColClass }}">
+    <div class="col-12">
+        <div class="ni-section-head">
+            <div class="{{ $headingClasses }}">
+                @if (!empty($subtitle))
+                    <span>{{ $subtitle }}</span>
+                @endif
+                <h2>{{ $title }}</h2>
+            </div>
+            <div class="section-carousel-nav" id="{{ $navSlotId }}"></div>
+        </div>
+    </div>
+</div>
+@else
+<div class="{{ $rowClasses }}">
+    <div class="{{ $colClass }}">
         <div class="{{ $headingClasses }}">
             @if (!empty($subtitle))
                 <span>{{ $subtitle }}</span>
@@ -26,9 +40,5 @@
             <h2>{{ $title }}</h2>
         </div>
     </div>
-    @if (!empty($navSlotId))
-        <div class="col-5 col-md-6">
-            <div class="section-carousel-nav" id="{{ $navSlotId }}"></div>
-        </div>
-    @endif
 </div>
+@endif

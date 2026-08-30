@@ -82,7 +82,7 @@
       suffix: ".min",
       menubar: "file edit view insert format tools table help",
       plugins:
-        "advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount codesample emoticons quickbars visualchars nonbreaking",
+        "advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount codesample emoticons quickbars visualchars nonbreaking autoresize",
       toolbar:
         "undo redo | blocks fontsize | bold italic underline strikethrough | " +
         "forecolor backcolor | alignleft aligncenter alignright alignjustify | " +
@@ -92,11 +92,12 @@
       quickbars_selection_toolbar: "bold italic underline | quicklink h2 h3 blockquote",
       quickbars_insert_toolbar: "quickimage quicktable",
       contextmenu: "link image table",
-      height: 420,
-      min_height: 320,
+      min_height: 280,
+      autoresize_bottom_margin: 24,
+      autoresize_overflow_padding: 16,
       branding: false,
       promotion: false,
-      resize: true,
+      resize: false,
       image_title: true,
       image_caption: true,
       image_advtab: true,
@@ -112,7 +113,18 @@
         (isDark()
           ? " body { background: #171a21; color: #f3f4f6; }"
           : " body { background: #fff; color: #111827; }") +
-        " img { max-width: 100%; height: auto; } table { border-collapse: collapse; width: 100%; } td, th { border: 1px solid #d1d5db; padding: 8px; }",
+        " img { max-width: 100%; height: auto; } table { border-collapse: collapse; width: 100%; } td, th { border: 1px solid #d1d5db; padding: 8px; }" +
+        " html { scrollbar-width: thin; scrollbar-color: " +
+        (isDark() ? "#5b6472 #1c212b" : "#c5cad3 #f3f4f6") +
+        "; }" +
+        " ::-webkit-scrollbar { width: 6px; height: 6px; }" +
+        " ::-webkit-scrollbar-track { background: transparent; }" +
+        " ::-webkit-scrollbar-thumb { background: " +
+        (isDark() ? "rgba(148, 163, 184, 0.45)" : "rgba(100, 116, 139, 0.4)") +
+        "; border-radius: 999px; }" +
+        " ::-webkit-scrollbar-thumb:hover { background: " +
+        (isDark() ? "rgba(148, 163, 184, 0.7)" : "rgba(100, 116, 139, 0.65)") +
+        "; }",
       images_upload_handler: function (blobInfo) {
         return uploadFile(blobInfo.blob());
       },

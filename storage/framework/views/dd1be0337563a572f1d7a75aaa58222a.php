@@ -52,11 +52,25 @@ unset($__defined_vars, $__key, $__value); ?>
     $headingBaseClass = $align === 'center' ? 'section-heading' : 'section-heading-left';
     $headingClasses = trim($headingBaseClass.' '.($light ? 'light ' : '').$headingClass);
     $rowClasses = trim('row align-items-center '.($dots ? 'ni-heading-dots ' : '').$rowClass);
-    $titleColClass = $navSlotId ? 'col-7 col-md-6' : $colClass;
 ?>
 
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($navSlotId)): ?>
 <div class="<?php echo e($rowClasses); ?>">
-    <div class="<?php echo e($titleColClass); ?>">
+    <div class="col-12">
+        <div class="ni-section-head">
+            <div class="<?php echo e($headingClasses); ?>">
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($subtitle)): ?>
+                    <span><?php echo e($subtitle); ?></span>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                <h2><?php echo e($title); ?></h2>
+            </div>
+            <div class="section-carousel-nav" id="<?php echo e($navSlotId); ?>"></div>
+        </div>
+    </div>
+</div>
+<?php else: ?>
+<div class="<?php echo e($rowClasses); ?>">
+    <div class="<?php echo e($colClass); ?>">
         <div class="<?php echo e($headingClasses); ?>">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($subtitle)): ?>
                 <span><?php echo e($subtitle); ?></span>
@@ -64,10 +78,6 @@ unset($__defined_vars, $__key, $__value); ?>
             <h2><?php echo e($title); ?></h2>
         </div>
     </div>
-    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($navSlotId)): ?>
-        <div class="col-5 col-md-6">
-            <div class="section-carousel-nav" id="<?php echo e($navSlotId); ?>"></div>
-        </div>
-    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 <?php /**PATH C:\Users\HP\Desktop\Netigian IT\themes\netigency-theme\resources\views/components/frontend/section-title.blade.php ENDPATH**/ ?>

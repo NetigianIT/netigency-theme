@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\VideoCategory;
 use App\Models\Admin\VideoItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class VideoItemController extends Controller
 {
@@ -36,6 +37,7 @@ class VideoItemController extends Controller
             'category_id' => 'required|integer',
             'title' => 'required|max:255',
             'video_url' => 'required|url|max:500',
+            'thumbnail_image' => 'nullable|mimes:svg,png,jpeg,jpg,webp|max:2048',
             'desc' => 'nullable|string',
             'status' => 'integer|in:0,1',
             'order' => 'required|integer',
@@ -49,6 +51,17 @@ class VideoItemController extends Controller
         }
 
         $category = VideoCategory::findOrFail($request->category_id);
+        $thumbnailImage = null;
+
+        if ($request->hasFile('thumbnail_image')) {
+            $folder = 'uploads/img/videos/';
+            if (! File::isDirectory(public_path($folder))) {
+                File::makeDirectory(public_path($folder), 0755, true);
+            }
+            $file = $request->file('thumbnail_image');
+            $thumbnailImage = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path($folder), $thumbnailImage);
+        }
 
         VideoItem::create([
             'language_id' => getLanguage()->id,
@@ -59,6 +72,7 @@ class VideoItemController extends Controller
             'video_url' => $request->video_url,
             'provider' => $parsed['provider'],
             'video_id' => $parsed['video_id'],
+            'thumbnail_image' => $thumbnailImage,
             'status' => (int) $request->status,
             'order' => (int) $request->order,
         ]);
@@ -82,6 +96,7 @@ class VideoItemController extends Controller
             'category_id' => 'required|integer',
             'title' => 'required|max:255',
             'video_url' => 'required|url|max:500',
+            'thumbnail_image' => 'nullable|mimes:svg,png,jpeg,jpg,webp|max:2048',
             'desc' => 'nullable|string',
             'status' => 'integer|in:0,1',
             'order' => 'required|integer',
@@ -96,6 +111,22 @@ class VideoItemController extends Controller
 
         $video = VideoItem::findOrFail($id);
         $category = VideoCategory::findOrFail($request->category_id);
+        $thumbnailImage = $video->thumbnail_image;
+
+        if ($request->hasFile('thumbnail_image')) {
+            $folder = 'uploads/img/videos/';
+            if (! File::isDirectory(public_path($folder))) {
+                File::makeDirectory(public_path($folder), 0755, true);
+            }
+
+            if (! empty($video->thumbnail_image)) {
+                File::delete(public_path($folder.$video->thumbnail_image));
+            }
+
+            $file = $request->file('thumbnail_image');
+            $thumbnailImage = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path($folder), $thumbnailImage);
+        }
 
         $video->update([
             'category_id' => $category->id,
@@ -105,6 +136,7 @@ class VideoItemController extends Controller
             'video_url' => $request->video_url,
             'provider' => $parsed['provider'],
             'video_id' => $parsed['video_id'],
+            'thumbnail_image' => $thumbnailImage,
             'status' => (int) $request->status,
             'order' => (int) $request->order,
         ]);
@@ -115,7 +147,13 @@ class VideoItemController extends Controller
 
     public function destroy($id)
     {
-        VideoItem::findOrFail($id)->delete();
+        $video = VideoItem::findOrFail($id);
+
+        if (! empty($video->thumbnail_image)) {
+            File::delete(public_path('uploads/img/videos/'.$video->thumbnail_image));
+        }
+
+        $video->delete();
 
         return redirect()->route('video-item.index')
             ->with('success', 'content.deleted_successfully');
@@ -130,7 +168,13 @@ class VideoItemController extends Controller
                 ->with('warning', 'content.please_choose');
         }
 
-        VideoItem::whereIn('id', $ids)->delete();
+        $videos = VideoItem::whereIn('id', $ids)->get();
+        foreach ($videos as $video) {
+            if (! empty($video->thumbnail_image)) {
+                File::delete(public_path('uploads/img/videos/'.$video->thumbnail_image));
+            }
+            $video->delete();
+        }
 
         return redirect()->route('video-item.index')
             ->with('success', 'content.deleted_successfully');

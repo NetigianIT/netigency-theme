@@ -8,77 +8,31 @@
         $isFaqPage = str_contains($pageSlug, 'faq')
             || str_contains($pageSlug, 'frequently-asked')
             || str_contains($pageTitle, 'faq');
+        $isLegalPage = str_contains($pageSlug, 'terms')
+            || str_contains($pageSlug, 'privacy')
+            || str_contains($pageTitle, 'terms')
+            || str_contains($pageTitle, 'privacy');
     @endphp
 
-    @unless ($isFaqPage)
-        <!--// Breadcrumb Section Start //-->
-        <section class="breadcrumb-section section" data-scroll-index="1" @if (isset($breadcrumb)) data-bg-image-path = "{{ asset('uploads/img/general/'.$breadcrumb->breadcrumb_image) }}"
-                 @else data-bg-image-path="{{ asset('uploads/img/dummy/1920x350.jpg') }}"
-                 @endif>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="breadcrumb-inner">
-                            <h1>{{ $page->page_title }}</h1>
-                            <ul class="breadcrumb-links">
-                                <li>
-                                    <a href="{{ url('/') }}">{{ __('frontend.home') }}</a>
-                                </li>
-                                <li class="active">
-                                    {{ $page->page_title }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--// Breadcrumb Section end //-->
-    @endunless
-
-    <!--// Page Content Start //-->
-    <section class="section {{ $isFaqPage ? 'page-faq-section' : '' }}">
+    <section class="section ni-page-section page-content-offset {{ $isFaqPage ? 'page-faq-section' : '' }} {{ $isLegalPage ? 'ni-page-section--legal' : '' }}" id="page-content">
         <div class="container">
-            <div class="row">
-                <div class="{{ $isFaqPage ? 'col-lg-10 col-md-12 mx-auto' : 'col-lg-8 col-md-12' }}">
-                    @if ($isFaqPage)
-                        <div class="section-heading page-faq-heading">
-                            <h1>{{ $page->page_title }}</h1>
-                        </div>
-                    @endif
-                    <div class="services-detail-inner">
-                        <p>@php echo html_entity_decode($page->desc); @endphp</p>
-                    </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-9">
+                    <header class="ni-page-header">
+                        <nav class="ni-page-hero__breadcrumb" aria-label="Breadcrumb">
+                            <a href="{{ url('/') }}">{{ __('frontend.home') }}</a>
+                            <span aria-hidden="true">/</span>
+                            <span>{{ $page->page_title }}</span>
+                        </nav>
+                        <h1 class="ni-page-hero__title">{{ $page->page_title }}</h1>
+                    </header>
+
+                    <article class="ni-page-content services-detail-inner">
+                        {!! html_entity_decode($page->desc) !!}
+                    </article>
                 </div>
-                @unless ($isFaqPage)
-                    <div class="col-lg-4 col-md-12">
-                        <div class="widget-sidebar">
-                            <div class="sidebar-widgets">
-                                <h5 class="inner-header-title">{{ __('frontend.share') }}</h5>
-                                <ul class="sidebar-share clearfix">
-                                    <li>
-                                        <a href="{{$page->getShareUrl('twitter')}}" target="_blank">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{$page->getShareUrl('whatsapp')}}" target="_blank">
-                                            <i class="fab fa-whatsapp"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{$page->getShareUrl('pinterest')}}" target="_blank">
-                                            <i class="fab fa-pinterest"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                @endunless
             </div>
         </div>
     </section>
-    <!--// Page Content End //-->
 
 @endsection

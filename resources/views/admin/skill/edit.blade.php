@@ -1,27 +1,25 @@
 @extends('layouts.admin.master')
 
 @section('page_actions')
-    <a href="{{ url()->previous() }}" class="btn btn-primary"><i class="fas fa-angle-left"></i> {{ __('content.back') }}</a>
+    <a href="{{ route('skill.info_list') }}" class="btn btn-primary"><i class="fas fa-angle-left"></i> {{ __('content.back') }}</a>
 @endsection
 
 @section('content')
 
-    <!-- Include Alert Blade -->
     @include('admin.alert.alert')
 
-    <!-- Form row -->
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-            @if ($demo_mode == "on")
-                <!-- Include Alert Blade -->
+                <h4 class="card-title">{{ __('content.edit_info') }}</h4>
+
+                @if ($demo_mode == "on")
                     @include('admin.demo_mode.demo-mode')
                 @else
                     <form action="{{ route('skill.update_info_list', $info_list->id) }}" method="POST">
                         @method('PUT')
                         @csrf
-                        @endif
-
+                        <input type="hidden" name="order" value="{{ $info_list->order }}">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -37,12 +35,6 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="order">{{ __('content.order') }}</label>
-                                    <input type="number" name="order" class="form-control" id="order" value="{{ $info_list->order }}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
                                     <small class="form-text text-muted">{{ __('content.required_fields') }}</small>
                                 </div>
                             </div>
@@ -51,9 +43,9 @@
                             </div>
                         </div>
                     </form>
+                @endif
             </div>
         </div>
     </div>
-    <!-- end row -->
 
 @endsection
