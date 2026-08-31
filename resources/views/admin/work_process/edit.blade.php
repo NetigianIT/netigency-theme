@@ -25,12 +25,17 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="image_status" class="col-form-label">{{ __('content.image_status') }} </label>
-                                    <select class="form-control" name="image_status" id="image_status">
-                                        <option value="enable" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="enable" {{ $work_process->image_status == "enable" ? 'selected' : '' }}>{{ __('content.enable') }}</option>
-                                        <option value="disable" {{ $work_process->image_status == "disable" ? 'selected' : '' }}>{{ __('content.disable') }}</option>
-                                    </select>
+                                    @include('admin.components.switch', [
+                                        'name' => 'image_status',
+                                        'id' => 'image_status',
+                                        'label' => __('content.image_status'),
+                                        'value' => (string) old('image_status', $work_process->image_status),
+                                        'onValue' => 'enable',
+                                        'offValue' => 'disable',
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                        'hideState' => true,
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-6">

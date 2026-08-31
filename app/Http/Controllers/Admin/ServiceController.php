@@ -52,7 +52,6 @@ class ServiceController extends Controller
         $request->validate(array_merge([
             'title' => 'required',
             'order' => 'required|integer',
-            'status'   =>  'integer|in:0,1',
             'service_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ], DetailSync::validationRules()));
 
@@ -87,14 +86,14 @@ class ServiceController extends Controller
             'title' => $input['title'],
             'desc' => HtmlCleaner::clean($input['desc']),
             'short_desc' => null,
-            'icon' => $input['icon'],
+            'icon' => null,
             'image_status' => 'enable',
             'service_image' => $input['service_image'],
             'meta_desc' => $input['meta_desc'],
             'meta_keyword' => $input['meta_keyword'],
             'breadcrumb_status' => 0,
             'custom_breadcrumb_image' => null,
-            'status' => (int) ($input['status'] ?? 0),
+            'status' => 1,
             'order' => $input['order']
         ]);
 
@@ -131,15 +130,15 @@ class ServiceController extends Controller
         $request->validate(array_merge([
             'title' => 'required',
             'order' => 'required|integer',
-            'status'   =>  'integer|in:0,1',
             'service_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
         ], DetailSync::validationRules()));
 
         $service = Service::find($id);
 
         // Get All Request
-        $input = $request->except('details');
+        $input = $request->except('details', 'icon', 'status');
         $input['image_status'] = 'enable';
+        $input['icon'] = null;
 
         if($request->hasFile('service_image')){
 
@@ -170,6 +169,35 @@ class ServiceController extends Controller
         Service::find($id)->update($input);
 
         DetailSync::sync(ServiceDetail::class, 'service_id', (int) $id, $request->input('details', []));
+
+        return redirect()->route('service.index')
+            ->with('success', 'content.updated_successfully');
+    }
+
+    /**
+     * Toggle publish status from the list (AJAX / form).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_status(Request $request, $id)
+    {
+        $service = Service::findOrFail($id);
+
+        $status = $request->has('status')
+            ? (int) $request->input('status')
+            : ((int) $service->status === 1 ? 0 : 1);
+
+        $status = $status === 1 ? 1 : 0;
+        $service->update(['status' => $status]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'status' => $status,
+            ]);
+        }
 
         return redirect()->route('service.index')
             ->with('success', 'content.updated_successfully');

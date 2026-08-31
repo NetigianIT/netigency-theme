@@ -78,11 +78,7 @@ class BlogController extends Controller
             'category_id'   =>  'integer|required',
             'title'   =>  'required',
             'type' => 'in:with_this_account,anonymous',
-            'status'   =>  'integer|in:0,1',
-            'image_status'   =>  'integer|in:0,1',
             'blog_image'   =>  'mimes:svg,png,jpeg,jpg|max:2048',
-            'breadcrumb_status'   =>  'integer|in:0,1',
-            'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
         ]);
 
         // Get All Request
@@ -114,29 +110,6 @@ class BlogController extends Controller
             $input['blog_image']= null;
         }
 
-        if($request->hasFile('custom_breadcrumb_image')){
-
-            // Get image file
-            $custom_breadcrumb_image_file = $request->file('custom_breadcrumb_image');
-
-            // Folder path
-            $folder = 'uploads/img/blogs/breadcrumb/';
-
-            // Make image name
-            $custom_breadcrumb_image_name = time().'-'.$custom_breadcrumb_image_file->getClientOriginalName();
-
-            // Original size upload file
-            $custom_breadcrumb_image_file->move($folder, $custom_breadcrumb_image_name);
-
-            // Set input
-            $input['custom_breadcrumb_image']= $custom_breadcrumb_image_name;
-
-        } else {
-            // Set input
-            $input['custom_breadcrumb_image']= null;
-        }
-
-
         // Set author
         $author_name = null;
         $user_id = null;
@@ -159,15 +132,15 @@ class BlogController extends Controller
             'title' => $input['title'],
             'desc' => HtmlCleaner::clean($input['desc']),
             'short_desc' => $input['short_desc'],
-            'image_status' => $input['image_status'],
+            'image_status' => 1,
             'blog_image' => $input['blog_image'],
             'type' => $input['type'],
             'tag' => $input['tag'],
-            'status' => $input['status'],
+            'status' => 1,
             'meta_desc' => $input['meta_desc'],
             'meta_keyword' => $input['meta_keyword'],
-            'breadcrumb_status' => $input['breadcrumb_status'],
-            'custom_breadcrumb_image' => $input['custom_breadcrumb_image']
+            'breadcrumb_status' => 0,
+            'custom_breadcrumb_image' => null
         ]);
 
         return redirect()->route('blog.index')
@@ -203,17 +176,14 @@ class BlogController extends Controller
             'category_id'   =>  'integer|required',
             'title'   =>  'required',
             'type' => 'in:with_this_account,anonymous',
-            'status'   =>  'integer|in:0,1',
-            'image_status'   =>  'integer|in:0,1',
             'blog_image'   =>  'mimes:svg,png,jpeg,jpg|max:2048',
-            'breadcrumb_status'   =>  'integer|in:0,1',
-            'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
         ]);
 
         $blog = Blog::find($id);
 
         // Get All Request
-        $input = $request->all();
+        $input = $request->except('breadcrumb_status', 'custom_breadcrumb_image', 'status', 'image_status');
+        $input['image_status'] = 1;
 
         if($request->hasFile('blog_image')){
 
@@ -242,28 +212,6 @@ class BlogController extends Controller
 
         }
 
-        if($request->hasFile('custom_breadcrumb_image')) {
-
-            // Get image file
-            $custom_breadcrumb_image_file = $request->file('custom_breadcrumb_image');
-
-            // Folder path
-            $folder = 'uploads/img/blogs/breadcrumb/';
-
-            // Make image name
-            $custom_breadcrumb_image_name =  time().'-'.$custom_breadcrumb_image_file->getClientOriginalName();
-
-            // Delete Image
-            File::delete(public_path($folder.$blog->custom_breadcrumb_image));
-
-            // Original size upload file
-            $custom_breadcrumb_image_file->move($folder, $custom_breadcrumb_image_name);
-
-            // Set input
-            $input['custom_breadcrumb_image']= $custom_breadcrumb_image_name;
-
-        }
-
         // Set author
         if ($input['type'] == "with_this_account") {
             $author_name =  Auth::user()->name;
@@ -279,6 +227,35 @@ class BlogController extends Controller
 
         // Update to database
         Blog::find($id)->update($input);
+
+        return redirect()->route('blog.index')
+            ->with('success', 'content.updated_successfully');
+    }
+
+    /**
+     * Toggle publish status from the list (AJAX).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_status(Request $request, $id)
+    {
+        $blog = Blog::findOrFail($id);
+
+        $status = $request->has('status')
+            ? (int) $request->input('status')
+            : ((int) $blog->status === 1 ? 0 : 1);
+
+        $status = $status === 1 ? 1 : 0;
+        $blog->update(['status' => $status]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'status' => $status,
+            ]);
+        }
 
         return redirect()->route('blog.index')
             ->with('success', 'content.updated_successfully');

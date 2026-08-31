@@ -76,12 +76,8 @@ class PortfolioController extends Controller
         $request->validate(array_merge([
             'category_id' => 'integer|required',
             'title' => 'required',
-            'image_status'   =>  'integer|in:0,1',
             'thumbnail_image'   =>  'mimes:svg,png,jpeg,jpg|max:2048',
-            'status' => 'integer|in:0,1',
-            'breadcrumb_status' => 'integer|in:0,1',
             'order'   =>  'required|integer',
-            'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
         ], DetailSync::validationRules()));
 
         // Get All Request
@@ -109,28 +105,6 @@ class PortfolioController extends Controller
             $input['thumbnail_image']= null;
         }
 
-        if($request->hasFile('custom_breadcrumb_image')){
-
-            // Get image file
-            $custom_breadcrumb_image_file = $request->file('custom_breadcrumb_image');
-
-            // Folder path
-            $folder = 'uploads/img/portfolio/breadcrumb/';
-
-            // Make image name
-            $custom_breadcrumb_image_name = time().'-'.$custom_breadcrumb_image_file->getClientOriginalName();
-
-            // Original size upload file
-            $custom_breadcrumb_image_file->move($folder, $custom_breadcrumb_image_name);
-
-            // Set input
-            $input['custom_breadcrumb_image'] = $custom_breadcrumb_image_name;
-
-        } else {
-            // Set input
-            $input['custom_breadcrumb_image'] = null;
-        }
-
         // Find category
         $category = PortfolioCategory::find($input['category_id']);
 
@@ -141,13 +115,13 @@ class PortfolioController extends Controller
             'category_id' => $input['category_id'],
             'title' => $input['title'],
             'desc' => HtmlCleaner::clean($input['desc']),
-            'image_status' => $input['image_status'],
+            'image_status' => 1,
             'thumbnail_image' => $input['thumbnail_image'],
-            'status' => $input['status'],
+            'status' => 1,
             'meta_desc' => $input['meta_desc'],
             'meta_keyword' => $input['meta_keyword'],
-            'breadcrumb_status' => $input['breadcrumb_status'],
-            'custom_breadcrumb_image' => $input['custom_breadcrumb_image'],
+            'breadcrumb_status' => 0,
+            'custom_breadcrumb_image' => null,
             'order' => $input['order']
         ]);
 
@@ -187,18 +161,15 @@ class PortfolioController extends Controller
         $request->validate(array_merge([
             'category_id' => 'integer|required',
             'title' => 'required',
-            'image_status' => 'integer|in:0,1',
             'thumbnail_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
-            'status' => 'integer|in:0,1',
-            'breadcrumb_status' => 'integer|in:0,1',
             'order'   =>  'required|integer',
-            'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
         ], DetailSync::validationRules()));
 
         $portfolio = Portfolio::find($id);
 
         // Get All Request
-        $input = $request->except('details');
+        $input = $request->except('details', 'breadcrumb_status', 'custom_breadcrumb_image', 'status', 'image_status');
+        $input['image_status'] = 1;
 
         if($request->hasFile('thumbnail_image')){
 
@@ -222,29 +193,6 @@ class PortfolioController extends Controller
 
         }
 
-
-        if($request->hasFile('custom_breadcrumb_image')){
-
-            // Get image file
-            $custom_breadcrumb_image_file = $request->file('custom_breadcrumb_image');
-
-            // Folder path
-            $folder = 'uploads/img/portfolio/breadcrumb/';
-
-            // Make image name
-            $custom_breadcrumb_image_name =  time().'-'.$custom_breadcrumb_image_file->getClientOriginalName();
-
-            // Delete Image
-            File::delete(public_path($folder.$portfolio->portfolio_image));
-
-            // Original size upload file
-            $custom_breadcrumb_image_file->move($folder, $custom_breadcrumb_image_name);
-
-            // Set input
-            $input['custom_breadcrumb_image']= $custom_breadcrumb_image_name;
-
-        }
-
         // Find category
         $category = PortfolioCategory::find($input['category_id']);
         $input['category_name'] = $category->category_name;
@@ -256,6 +204,35 @@ class PortfolioController extends Controller
         Portfolio::find($id)->update($input);
 
         DetailSync::sync(PortfolioDetail::class, 'portfolio_id', (int) $id, $request->input('details', []));
+
+        return redirect()->route('portfolio.index')
+            ->with('success', 'content.updated_successfully');
+    }
+
+    /**
+     * Toggle publish status from the list (AJAX).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_status(Request $request, $id)
+    {
+        $portfolio = Portfolio::findOrFail($id);
+
+        $status = $request->has('status')
+            ? (int) $request->input('status')
+            : ((int) $portfolio->status === 1 ? 0 : 1);
+
+        $status = $status === 1 ? 1 : 0;
+        $portfolio->update(['status' => $status]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'status' => $status,
+            ]);
+        }
 
         return redirect()->route('portfolio.index')
             ->with('success', 'content.updated_successfully');

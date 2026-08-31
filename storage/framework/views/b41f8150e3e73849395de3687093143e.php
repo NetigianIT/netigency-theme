@@ -4,6 +4,10 @@
     <?php echo $__env->make('admin.portfolio.partials.tabs', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('page_actions'); ?>
+    <a href="<?php echo e(url('admin/portfolio/create')); ?>" class="btn btn-primary">+ <?php echo e(__('content.add_portfolio')); ?></a>
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('content'); ?>
 
     <!-- Include Alert Blade -->

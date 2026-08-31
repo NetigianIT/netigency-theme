@@ -196,6 +196,10 @@
             window.initNiSelect();
         }
 
+        if (typeof window.initNiSwitch === 'function') {
+            window.initNiSwitch();
+        }
+
         if (typeof window.initNiIconSelect === 'function') {
             window.initNiIconSelect();
         }

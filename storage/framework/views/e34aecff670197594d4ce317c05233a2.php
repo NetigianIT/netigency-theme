@@ -72,20 +72,27 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="image_status"><?php echo e(__('content.image_status')); ?></label>
-                                    <select class="form-control" name="image_status" id="image_status">
-                                        <option value="1" <?php echo e($fixed_content->image_status == 1 ? 'selected' : ''); ?>><?php echo e(__('content.enable')); ?></option>
-                                        <option value="0" <?php echo e($fixed_content->image_status == 0 ? 'selected' : ''); ?>><?php echo e(__('content.disable')); ?></option>
-                                    </select>
+                                    <?php echo $__env->make('admin.components.switch', [
+                                        'name' => 'image_status',
+                                        'id' => 'image_status',
+                                        'label' => __('content.image_status'),
+                                        'value' => (string) old('image_status', $fixed_content->image_status),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                        'hideState' => true,
+                                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="particles_status"><?php echo e(__('content.particles_status')); ?></label>
-                                    <select class="form-control" name="particles_status" id="particles_status">
-                                        <option value="1" <?php echo e(($fixed_content->particles_status ?? 1) == 1 ? 'selected' : ''); ?>><?php echo e(__('content.enable')); ?></option>
-                                        <option value="0" <?php echo e(($fixed_content->particles_status ?? 1) == 0 ? 'selected' : ''); ?>><?php echo e(__('content.disable')); ?></option>
-                                    </select>
+                                    <?php echo $__env->make('admin.components.switch', [
+                                        'name' => 'particles_status',
+                                        'id' => 'particles_status',
+                                        'label' => __('content.particles_status'),
+                                        'value' => (string) old('particles_status', $fixed_content->particles_status ?? 1),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -186,20 +193,27 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="image_status"><?php echo e(__('content.image_status')); ?></label>
-                                    <select class="form-control" name="image_status" id="image_status">
-                                        <option value="1" selected><?php echo e(__('content.enable')); ?></option>
-                                        <option value="0"><?php echo e(__('content.disable')); ?></option>
-                                    </select>
+                                    <?php echo $__env->make('admin.components.switch', [
+                                        'name' => 'image_status',
+                                        'id' => 'image_status',
+                                        'label' => __('content.image_status'),
+                                        'value' => (string) old('image_status', '1'),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                        'hideState' => true,
+                                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="particles_status"><?php echo e(__('content.particles_status')); ?></label>
-                                    <select class="form-control" name="particles_status" id="particles_status">
-                                        <option value="1" selected><?php echo e(__('content.enable')); ?></option>
-                                        <option value="0"><?php echo e(__('content.disable')); ?></option>
-                                    </select>
+                                    <?php echo $__env->make('admin.components.switch', [
+                                        'name' => 'particles_status',
+                                        'id' => 'particles_status',
+                                        'label' => __('content.particles_status'),
+                                        'value' => (string) old('particles_status', '1'),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                                 </div>
                             </div>
                             <div class="col-md-6">

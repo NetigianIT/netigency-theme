@@ -44,17 +44,18 @@
                     @foreach ($services as $service)
                         <div class="col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.{{ $loop->index }}s">
                             <div class="services-item">
+                                <div class="services-item-media">
+                                    <x-frontend.service-card-icon
+                                        :title="$service->title"
+                                        :icon="$service->icon"
+                                        :image="$service->service_image"
+                                        :use-image="!empty($service->service_image)" />
+                                </div>
                                 <div class="body">
                                     <h5>{{ $service->title }}</h5>
                                     @if (!empty($service->desc)) <p>{{ $service->des }}</p> @endif
                                     <a href="{{ route('service-page.show', ['service_slug' => $service->service_slug]) }}">Read More <i class="fa fa-arrow-right"></i></a>
                                 </div>
-                                @if (!empty($service->icon))
-                                    <div class="icon">
-                                        <span class="{{ $service->icon }}"></span>
-                                    </div>
-                                    <div class="icon-border"></div>
-                                @endif
                             </div>
                         </div>
                     @endforeach

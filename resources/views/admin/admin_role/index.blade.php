@@ -1,16 +1,11 @@
 @extends('layouts.admin.master')
 
-@section('page_tabs')
-    @include('admin.admin_role.partials.tabs')
-@endsection
-
 @section('page_actions')
     <a href="{{ url('admin/admin-role/create') }}" class="btn btn-primary">+ {{ __('content.add_admin_role') }}</a>
 @endsection
 
 @section('content')
 
-    <!-- Include Alert Blade -->
     @include('admin.alert.alert')
 
     <div class="row">
@@ -23,35 +18,36 @@
                                 <i class="fa fa-trash text-danger font-18"></i>
                             </a>
                         </div>
+
                         @if ($demo_mode == "on")
                             @include('admin.demo_mode.demo-mode')
                         @else
                             <form onsubmit="return btnCheckListGet()" action="{{ route('admin-role.destroy_checked') }}" method="POST">
                                 @method('DELETE')
                                 @csrf
-                        @endif
-                            <input type="hidden" id="checked_lists" name="checked_lists" value="">
+                                <input type="hidden" id="checked_lists" name="checked_lists" value="">
 
-                            <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteCheckedModalCenterTitle">{{ __('content.delete') }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body text-center">
-                                            {{ __('content.delete_selected') }}
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
-                                            <button onclick="btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
+                                <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteCheckedModalCenterTitle">{{ __('content.delete') }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                {{ __('content.delete_selected') }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
+                                                <button onclick="return btnCheckListGet()" type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        @endif
 
                         <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                             <thead>
@@ -66,7 +62,7 @@
                             </thead>
 
                             <tbody>
-                            @php $desc = count($roles); $asc = 0; @endphp
+                            @php $asc = 0; @endphp
                             @foreach ($roles as $role)
                                 <tr>
                                     <td>
@@ -77,7 +73,7 @@
                                     </td>
                                     <td>{{ $role->name }}</td>
                                     <td>
-                                        @php  $role_permissions = $role->getAllPermissions(); @endphp
+                                        @php $role_permissions = $role->getAllPermissions(); @endphp
                                         @if ($role->name == 'super-admin')
                                             <span class="badge badge-success m-1 permission-chip">{{ __('content.has_all_permissions') }}</span>
                                         @else
@@ -89,23 +85,27 @@
                                     <td class="all text-nowrap text-center">
                                         <div>
                                            @if ($role->name != 'super-admin')
-                                                <a href="{{ route('admin-role.edit', $role->id) }}" class="mr-2">
+                                                <a href="{{ route('admin-role.edit', $role->id) }}" class="mr-2" title="{{ __('content.edit') }}">
                                                     <i class="fa fa-edit text-info font-18"></i>
                                                 </a>
-                                                <a href="#" data-toggle="modal" data-target="#deleteModal{{ $role->id }}">
+                                                <a href="#" data-toggle="modal" data-target="#deleteModal{{ $role->id }}" title="{{ __('content.delete') }}">
                                                     <i class="fa fa-trash text-danger font-18"></i>
                                                 </a>
                                             @endif
                                         </div>
                                     </td>
                                 </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        @foreach ($roles as $role)
+                            @if ($role->name != 'super-admin')
+                                <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle{{ $role->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalCenterTitle">{{ __('content.delete') }}</h5>
+                                                <h5 class="modal-title" id="deleteModalTitle{{ $role->id }}">{{ __('content.delete') }}</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('content.close') }}">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -114,30 +114,29 @@
                                                 {{ __('content.you_wont_be_able_to_revert_this') }}
                                             </div>
                                             <div class="modal-footer">
-                                            @if ($demo_mode == "on")
+                                                @if ($demo_mode == "on")
                                                     @include('admin.demo_mode.demo-mode')
                                                 @else
                                                     <form class="d-inline-block" action="{{ route('admin-role.destroy', $role->id) }}" method="POST">
                                                         @method('DELETE')
                                                         @csrf
-                                                        @endif
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
-                                                    <button type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
-                                                </form>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('content.cancel') }}</button>
+                                                        <button type="submit" class="btn btn-success">{{ __('content.yes_delete_it') }}</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                            </tbody>
-                        </table>
+                            @endif
+                        @endforeach
                     @else
                         <span>{{ __('content.not_yet_created') }}</span>
                     @endif
 
-                </div> <!-- end card body-->
-            </div> <!-- end card -->
-        </div><!-- end col-->
-    </div><!-- end row-->
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

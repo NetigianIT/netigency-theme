@@ -1152,14 +1152,14 @@
                                     <div class="services-item-media">
                                         <?php if (isset($component)) { $__componentOriginalf362a52efe2853b09a2597474110adf2 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalf362a52efe2853b09a2597474110adf2 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.service-card-icon','data' => ['title' => $service->title,'icon' => $service->icon,'image' => $service->service_image,'useImage' => $service->image_status === 'enable']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.service-card-icon','data' => ['title' => $service->title,'icon' => $service->icon,'image' => $service->service_image,'useImage' => !empty($service->service_image)]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.service-card-icon'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service->title),'icon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service->icon),'image' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service->service_image),'use-image' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service->image_status === 'enable')]); ?>
+<?php $component->withAttributes(['title' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service->title),'icon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service->icon),'image' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($service->service_image),'use-image' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(!empty($service->service_image))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalf362a52efe2853b09a2597474110adf2)): ?>

@@ -167,12 +167,14 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="status" class="col-form-label">{{ __('content.status') }}</label>
-                                    <select name="status" class="form-control" id="status">
-                                        <option value="1" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="1">{{ __('content.enable') }}</option>
-                                        <option value="0">{{ __('content.disable') }}</option>
-                                    </select>
+                                    @include('admin.components.switch', [
+                                        'name' => 'status',
+                                        'id' => 'status',
+                                        'label' => __('content.status'),
+                                        'value' => (string) old('status', '1'),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-12">

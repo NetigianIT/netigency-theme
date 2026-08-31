@@ -59,7 +59,7 @@
                                 </th>
                                 <th>{{ __('content.image') }}</th>
                                 <th>{{ __('content.title') }}</th>
-                                <th class="all">{{ __('content.status') }}</th>
+                                <th class="all text-left">{{ __('content.status') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
@@ -78,12 +78,17 @@
                                         @endif
                                     </td>
                                     <td>{{ $service->title }}</td>
-                                    <td>
-                                        @if ($service->status == 1)
-                                            <span class="badge badge-success">{{ __('content.published') }}</span>
-                                        @else
-                                            <span class="badge badge-danger">{{ __('content.draft') }}</span>
-                                        @endif
+                                    <td class="text-left align-middle">
+                                        @include('admin.components.switch', [
+                                            'name' => 'status_'.$service->id,
+                                            'id' => 'status_'.$service->id,
+                                            'value' => (string) ($service->status ?? 0),
+                                            'onLabel' => __('content.published'),
+                                            'offLabel' => __('content.draft'),
+                                            'compact' => true,
+                                            'hideState' => true,
+                                            'toggleUrl' => route('service.update_status', $service->id),
+                                        ])
                                     </td>
                                     <td>
                                         <div>

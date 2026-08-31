@@ -27,20 +27,30 @@
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group mb-3 mb-lg-2">
                                     <label for="display_header_menu">{{ __('content.display_header_menu') }}</label>
-                                    <select class="form-control" name="display_header_menu" id="display_header_menu">
-                                        <option value="0" selected>{{ __('content.no') }}</option>
-                                        <option value="1">{{ __('content.yes') }}</option>
-                                        <option value="2">{{ __('content.other') }}</option>
-                                    </select>
+                                    @include('admin.components.select', [
+                                        'name' => 'display_header_menu',
+                                        'id' => 'display_header_menu',
+                                        'value' => (string) old('display_header_menu', '0'),
+                                        'options' => [
+                                            '0' => __('content.no'),
+                                            '1' => __('content.yes'),
+                                            '2' => __('content.other'),
+                                        ],
+                                    ])
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group mb-3 mb-lg-2">
-                                    <label for="status">{{ __('content.status') }}</label>
-                                    <select class="form-control" name="status" id="status">
-                                        <option value="1" selected>{{ __('content.enable') }}</option>
-                                        <option value="0">{{ __('content.disable') }}</option>
-                                    </select>
+                                    <label class="d-block">&nbsp;</label>
+                                    @include('admin.components.switch', [
+                                        'name' => 'status',
+                                        'id' => 'status',
+                                        'value' => (string) old('status', '1'),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                        'compact' => true,
+                                        'hideState' => true,
+                                    ])
                                 </div>
                             </div>
                             <div class="col-12">

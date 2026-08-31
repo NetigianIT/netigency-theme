@@ -23,23 +23,27 @@
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="image_status" class="col-form-label"><?php echo e(__('content.image_status')); ?> </label>
-                                    <select class="form-control" name="image_status" id="image_status">
-                                        <option value="enable" selected><?php echo e(__('content.select_your_option')); ?></option>
-                                        <option value="enable" <?php echo e($work_process->image_status == "enable" ? 'selected' : ''); ?>><?php echo e(__('content.enable')); ?></option>
-                                        <option value="disable" <?php echo e($work_process->image_status == "disable" ? 'selected' : ''); ?>><?php echo e(__('content.disable')); ?></option>
-                                    </select>
+                                    <?php echo $__env->make('admin.components.switch', [
+                                        'name' => 'image_status',
+                                        'id' => 'image_status',
+                                        'label' => __('content.image_status'),
+                                        'value' => (string) old('image_status', $work_process->image_status),
+                                        'onValue' => 'enable',
+                                        'offValue' => 'disable',
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="title"><?php echo e(__('content.title')); ?> <span class="text-red">*</span></label>
                                     <input type="text" name="title" class="form-control" id="title" value="<?php echo e($work_process->title); ?>" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="order"><?php echo e(__('content.order')); ?></label>
                                     <input type="number" name="order" class="form-control" id="order" value="<?php echo e($work_process->order); ?>" required>

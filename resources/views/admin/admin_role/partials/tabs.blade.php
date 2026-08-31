@@ -4,12 +4,7 @@
             'label' => __('content.admin_roles'),
             'url' => url('admin/admin-role'),
             'active' => request()->is('admin/admin-role')
-                || request()->is('admin/admin-role/*/edit'),
-        ],
-        [
-            'label' => __('content.add_admin_role'),
-            'url' => url('admin/admin-role/create'),
-            'active' => request()->is('admin/admin-role/create'),
+                || request()->is('admin/admin-role/*'),
         ],
     ];
 @endphp

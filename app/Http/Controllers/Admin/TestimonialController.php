@@ -47,12 +47,11 @@ class TestimonialController extends Controller
             'job' => 'required',
             'desc' => 'required',
             'star' => 'required|integer|in:1,2,3,4,5',
-            'image_status' => 'integer|in:0,1',
             'testimonial_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
             'order' => 'required|integer',
         ]);
 
-        $input = $request->all();
+        $input = $request->except('image_status');
 
         if ($request->hasFile('testimonial_image')) {
             $testimonial_image = $request->file('testimonial_image');
@@ -66,7 +65,7 @@ class TestimonialController extends Controller
 
         Testimonial::create([
             'language_id' => getLanguage()->id,
-            'image_status' => $input['image_status'] ?? 1,
+            'image_status' => 1,
             'testimonial_image' => $input['testimonial_image'],
             'name' => $input['name'],
             'job' => $input['job'],
@@ -106,13 +105,13 @@ class TestimonialController extends Controller
             'job' => 'required',
             'desc' => 'required',
             'star' => 'integer|in:1,2,3,4,5',
-            'image_status' => 'integer|in:0,1',
             'testimonial_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
             'order' => 'required|integer',
         ]);
 
         $testimonial = Testimonial::findOrFail($id);
-        $input = $request->all();
+        $input = $request->except('image_status');
+        $input['image_status'] = 1;
 
         if ($request->hasFile('testimonial_image')) {
             $testimonial_image = $request->file('testimonial_image');

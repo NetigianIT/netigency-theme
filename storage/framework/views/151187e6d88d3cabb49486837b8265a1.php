@@ -60,7 +60,7 @@
                                 </th>
                                 <th><?php echo e(__('content.image')); ?></th>
                                 <th><?php echo e(__('content.title')); ?></th>
-                                <th class="all"><?php echo e(__('content.status')); ?></th>
+                                <th class="all text-left"><?php echo e(__('content.status')); ?></th>
                                 <th class="all custom-width-action"><?php echo e(__('content.action')); ?></th>
                             </tr>
                             </thead>
@@ -79,12 +79,17 @@
                                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                     </td>
                                     <td><?php echo e($service->title); ?></td>
-                                    <td>
-                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($service->status == 1): ?>
-                                            <span class="badge badge-success"><?php echo e(__('content.published')); ?></span>
-                                        <?php else: ?>
-                                            <span class="badge badge-danger"><?php echo e(__('content.draft')); ?></span>
-                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                    <td class="text-left align-middle">
+                                        <?php echo $__env->make('admin.components.switch', [
+                                            'name' => 'status_'.$service->id,
+                                            'id' => 'status_'.$service->id,
+                                            'value' => (string) ($service->status ?? 0),
+                                            'onLabel' => __('content.published'),
+                                            'offLabel' => __('content.draft'),
+                                            'compact' => true,
+                                            'hideState' => true,
+                                            'toggleUrl' => route('service.update_status', $service->id),
+                                        ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                                     </td>
                                     <td>
                                         <div>

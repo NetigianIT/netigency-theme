@@ -274,4 +274,7 @@
   }
 
   window.NiSelect = { enhanceAll: enhanceAll, enhance: enhanceNativeSelect };
+  window.initNiSelect = function () {
+    enhanceAll();
+  };
 })();

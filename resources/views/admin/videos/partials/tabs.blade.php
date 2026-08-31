@@ -6,15 +6,10 @@
             'active' => request()->is('admin/video-category*'),
         ],
         [
-            'label' => __('content.add_video'),
-            'url' => url('admin/video-item/create'),
-            'active' => request()->is('admin/video-item/create'),
-        ],
-        [
             'label' => __('content.videos'),
             'url' => url('admin/video-item'),
             'active' => request()->is('admin/video-item')
-                || request()->is('admin/video-item/*/edit'),
+                || request()->is('admin/video-item/*'),
         ],
     ];
 @endphp

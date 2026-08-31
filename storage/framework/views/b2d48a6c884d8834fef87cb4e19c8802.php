@@ -11,8 +11,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title"><?php echo e(__('content.skill')); ?></h4>
-
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($demo_mode == "on"): ?>
                     <?php echo $__env->make('admin.demo_mode.demo-mode', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 <?php elseif(isset($skill)): ?>
@@ -20,12 +18,6 @@
                         <?php echo method_field('PUT'); ?>
                         <?php echo csrf_field(); ?>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="section_title"><?php echo e(__('content.section_title')); ?> <span class="text-red">*</span></label>
-                                    <input type="text" name="section_title" class="form-control" id="section_title" value="<?php echo e($skill->section_title); ?>" required>
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="title"><?php echo e(__('content.title')); ?> <span class="text-red">*</span></label>
@@ -74,12 +66,6 @@
                     <form action="<?php echo e(route('skill.store')); ?>" method="POST" enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="section_title"><?php echo e(__('content.section_title')); ?> <span class="text-red">*</span></label>
-                                    <input type="text" name="section_title" class="form-control" id="section_title" required>
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="title"><?php echo e(__('content.title')); ?> <span class="text-red">*</span></label>

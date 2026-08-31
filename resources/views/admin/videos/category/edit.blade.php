@@ -22,11 +22,14 @@
                         <input type="number" name="order" class="form-control" value="{{ $category->order }}" required>
                     </div>
                     <div class="form-group">
-                        <label>{{ __('content.status') }}</label>
-                        <select name="status" class="form-control">
-                            <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>{{ __('content.enable') }}</option>
-                            <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>{{ __('content.disable') }}</option>
-                        </select>
+                        @include('admin.components.switch', [
+                            'name' => 'status',
+                            'id' => 'status',
+                            'label' => __('content.status'),
+                            'value' => (string) old('status', $category->status),
+                            'onLabel' => __('content.enable'),
+                            'offLabel' => __('content.disable'),
+                        ])
                     </div>
                     <button type="submit" class="btn btn-primary">{{ __('content.submit') }}</button>
                 </form>

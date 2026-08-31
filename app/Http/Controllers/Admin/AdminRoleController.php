@@ -188,24 +188,23 @@ class AdminRoleController extends Controller
      */
     public function destroy($id)
     {
-        // Retrieve a model
-        $role = Role::find($id);
+        $role = Role::findOrFail($id);
 
-        if ($role->name != 'super-admin') {
-
-            // Delete record
-            $role->delete();
-
-            return redirect()->route('admin-role.index')
-                ->with('success','content.deleted_successfully');
-
-        } else {
-
+        if ($role->name === 'super-admin') {
             return redirect()->route('admin-role.index')
                 ->with('warning', 'content.you_are_not_authorized');
-
         }
 
+        $role->syncPermissions([]);
+        \Illuminate\Support\Facades\DB::table(config('permission.table_names.model_has_roles'))
+            ->where('role_id', $role->id)
+            ->delete();
+        $role->delete();
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        return redirect()->route('admin-role.index')
+            ->with('success', 'content.deleted_successfully');
     }
 
     /**

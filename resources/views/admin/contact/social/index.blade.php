@@ -60,7 +60,7 @@
                                 </th>
                                 <th>{{ __('content.socials') }}</th>
                                 <th>{{ __('content.link') }}</th>
-                                <th>{{ __('content.status') }}</th>
+                                <th class="all text-left">{{ __('content.status') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
@@ -75,20 +75,17 @@
                                     </td>
                                     <td><i class="{{ $social->social_media }}"></i></td>
                                     <td>{{ $social->link }}</td>
-                                    <td>
-                                        <form action="{{ route('social.update_status', $social->id) }}" method="POST">
-                                            @method('PATCH')
-                                            @csrf
-                                            @if ($social->status == 1)
-                                                <button type="submit" class="btn btn-danger">
-                                                    {{ __('content.disable') }}
-                                                </button>
-                                            @else
-                                                <button type="submit" class="btn btn-success">
-                                                    {{ __('content.enable') }}
-                                                </button>
-                                            @endif
-                                        </form>
+                                    <td class="text-left align-middle">
+                                        @include('admin.components.switch', [
+                                            'name' => 'status_'.$social->id,
+                                            'id' => 'status_'.$social->id,
+                                            'value' => (string) ($social->status ?? 0),
+                                            'onLabel' => __('content.enable'),
+                                            'offLabel' => __('content.disable'),
+                                            'compact' => true,
+                                            'hideState' => true,
+                                            'toggleUrl' => route('social.update_status', $social->id),
+                                        ])
                                     </td>
                                     <td class="all text-nowrap text-center">
                                         <div>

@@ -49,7 +49,7 @@ class PanelKeywordSeeder extends Seeder
             [
                 'language_id' => 1,
                 'key' => 'submit',
-                'value' => 'Submit',
+                'value' => 'Save',
             ],
             [
                 'language_id' => 1,

@@ -1,7 +1,7 @@
 @extends('layouts.admin.master')
 
-@section('page_tabs')
-    @include('admin.admin_role.partials.tabs')
+@section('page_actions')
+    <a href="{{ route('admin-role.index') }}" class="btn btn-primary"><i class="fas fa-angle-left"></i> {{ __('content.back') }}</a>
 @endsection
 
 @section('content')

@@ -121,11 +121,14 @@
                             <input type="number" name="order" class="form-control" value="0" required>
                         </div>
                         <div class="form-group">
-                            <label>{{ __('content.status') }}</label>
-                            <select name="status" class="form-control">
-                                <option value="1">{{ __('content.enable') }}</option>
-                                <option value="0">{{ __('content.disable') }}</option>
-                            </select>
+                            @include('admin.components.switch', [
+                                'name' => 'status',
+                                'id' => 'status',
+                                'label' => __('content.status'),
+                                'value' => (string) old('status', '1'),
+                                'onLabel' => __('content.enable'),
+                                'offLabel' => __('content.disable'),
+                            ])
                         </div>
                     </div>
                     <div class="modal-footer">

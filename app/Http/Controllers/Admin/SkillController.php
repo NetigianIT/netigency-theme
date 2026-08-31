@@ -46,7 +46,6 @@ class SkillController extends Controller
     {
         // Form validation
         $request->validate([
-            'section_title' => 'required',
             'title' => 'required',
             'skill_image' => 'required|image|mimes:svg,png,jpeg,jpg|max:2048',
             'skill_image_light' => 'nullable|image|mimes:svg,png,jpeg,jpg|max:2048',
@@ -83,7 +82,7 @@ class SkillController extends Controller
         // Record to database
         Skill::firstOrCreate([
             'language_id' => getLanguage()->id,
-            'section_title' => $input['section_title'],
+            'section_title' => __('frontend.technology'),
             'title' => $input['title'],
             'desc' => $input['desc'],
             'skill_image' => $input['skill_image'],
@@ -105,7 +104,6 @@ class SkillController extends Controller
     {
         // Form validation
         $request->validate([
-            'section_title' => 'required',
             'title' => 'required',
             'skill_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
             'skill_image_light' => 'mimes:svg,png,jpeg,jpg|max:2048',
@@ -114,7 +112,8 @@ class SkillController extends Controller
         $skill = Skill::find($id);
 
         // Get All Request
-        $input = $request->all();
+        $input = $request->except('section_title');
+        $input['section_title'] = __('frontend.technology');
         $folder = 'uploads/img/skill/';
 
         if($request->hasFile('skill_image')){

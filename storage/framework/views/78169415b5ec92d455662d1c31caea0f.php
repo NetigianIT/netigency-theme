@@ -7,14 +7,10 @@
                 || request()->is('admin/portfolio-category/*/edit'),
         ],
         [
-            'label' => __('content.add_portfolio'),
-            'url' => url('admin/portfolio/create'),
-            'active' => request()->is('admin/portfolio/create'),
-        ],
-        [
             'label' => __('content.portfolios'),
             'url' => url('admin/portfolio'),
             'active' => request()->is('admin/portfolio')
+                || request()->is('admin/portfolio/create')
                 || request()->is('admin/portfolio/*/edit')
                 || request()->is('admin/portfolio-slider*')
                 || request()->is('admin/portfolio-detail*'),

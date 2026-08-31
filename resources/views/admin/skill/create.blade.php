@@ -11,8 +11,6 @@
     <div class="row">
         <div class="col-xl-12 box-margin height-card">
             <div class="card card-body">
-                <h4 class="card-title">{{ __('content.skill') }}</h4>
-
                 @if ($demo_mode == "on")
                     @include('admin.demo_mode.demo-mode')
                 @elseif (isset($skill))
@@ -20,12 +18,6 @@
                         @method('PUT')
                         @csrf
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="section_title" class="form-control" id="section_title" value="{{ $skill->section_title }}" required>
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
@@ -74,12 +66,6 @@
                     <form action="{{ route('skill.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="section_title">{{ __('content.section_title') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="section_title" class="form-control" id="section_title" required>
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>

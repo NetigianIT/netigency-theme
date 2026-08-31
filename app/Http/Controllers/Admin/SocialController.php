@@ -98,17 +98,23 @@ class SocialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_status($id)
+    public function update_status(Request $request, $id)
     {
-        $social = Social::find($id);
+        $social = Social::findOrFail($id);
 
-        if ($social->status == 1) {
-            $status = 0;
-        } else {
-            $status = 1;
+        $status = $request->has('status')
+            ? (int) $request->input('status')
+            : ((int) $social->status === 1 ? 0 : 1);
+
+        $status = $status === 1 ? 1 : 0;
+        $social->update(['status' => $status]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'status' => $status,
+            ]);
         }
-
-        Social::find($id)->update(['status' => $status]);
 
         return redirect()->route('social.index')
             ->with('success', 'content.updated_successfully');

@@ -377,7 +377,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=113">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=121">
 
 </head>
 
@@ -1087,9 +1087,10 @@
 <script src="{{ asset('assets/admin/side_menu/js/ni-image-input.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-number-input.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=3" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=4" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-switch.js') }}?v=2" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-textarea-auto.js') }}?v=1" defer></script>
-    <script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=7" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=8" defer></script>
 
 </body>
 

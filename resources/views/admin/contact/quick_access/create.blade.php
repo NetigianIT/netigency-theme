@@ -43,12 +43,14 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="status">{{ __('content.status') }}</label>
-                                    <select class="form-control" name="status" id="status">
-                                        <option value="1" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="1" {{ $quick_access->status === 1 ? 'selected' : '' }}>{{ __('content.enable') }}</option>
-                                        <option value="0" {{ $quick_access->status === 0 ? 'selected' : '' }}>{{ __('content.disable') }}</option>
-                                    </select>
+                                    @include('admin.components.switch', [
+                                        'name' => 'status',
+                                        'id' => 'status',
+                                        'label' => __('content.status'),
+                                        'value' => (string) old('status', $quick_access->status),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -74,12 +76,14 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="status_phone">{{ __('content.status') }}</label>
-                                    <select class="form-control" name="status_phone" id="status_phone">
-                                        <option value="1" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="1" {{ $quick_access->status_phone === 1 ? 'selected' : '' }}>{{ __('content.enable') }}</option>
-                                        <option value="0" {{ $quick_access->status_phone === 0 ? 'selected' : '' }}>{{ __('content.disable') }}</option>
-                                    </select>
+                                    @include('admin.components.switch', [
+                                        'name' => 'status_phone',
+                                        'id' => 'status_phone',
+                                        'label' => __('content.status'),
+                                        'value' => (string) old('status_phone', $quick_access->status_phone),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -115,12 +119,14 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="status" class="col-form-label">{{ __('content.status') }}</label>
-                                    <select name="status" class="form-control" id="status">
-                                        <option value="1" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="1">{{ __('content.enable') }}</option>
-                                        <option value="0">{{ __('content.disable') }}</option>
-                                    </select>
+                                    @include('admin.components.switch', [
+                                        'name' => 'status',
+                                        'id' => 'status',
+                                        'label' => __('content.status'),
+                                        'value' => (string) old('status', '1'),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -145,12 +151,14 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="status_phone" class="col-form-label">{{ __('content.status') }}</label>
-                                    <select name="status_phone" class="form-control" id="status_phone">
-                                        <option value="1" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="1">{{ __('content.enable') }}</option>
-                                        <option value="0">{{ __('content.disable') }}</option>
-                                    </select>
+                                    @include('admin.components.switch', [
+                                        'name' => 'status_phone',
+                                        'id' => 'status_phone',
+                                        'label' => __('content.status'),
+                                        'value' => (string) old('status_phone', '1'),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-12">

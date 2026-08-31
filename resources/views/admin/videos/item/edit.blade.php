@@ -17,11 +17,16 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ __('content.category') }} <span class="text-red">*</span></label>
-                                <select name="category_id" class="form-control" required>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" {{ (string) old('category_id', $video->category_id) === (string) $category->id ? 'selected' : '' }}>{{ $category->category_name }}</option>
-                                    @endforeach
-                                </select>
+                                @php
+                                    $categoryOptions = collect($categories)->mapWithKeys(fn ($c) => [$c->id => $c->category_name])->all();
+                                @endphp
+                                @include('admin.components.select', [
+                                    'name' => 'category_id',
+                                    'id' => 'category_id',
+                                    'value' => (string) old('category_id', $video->category_id ?? ''),
+                                    'required' => true,
+                                    'options' => $categoryOptions,
+                                ])
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -63,11 +68,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>{{ __('content.status') }}</label>
-                                <select name="status" class="form-control">
-                                    <option value="1" {{ (string) old('status', $video->status) === '1' ? 'selected' : '' }}>{{ __('content.enable') }}</option>
-                                    <option value="0" {{ (string) old('status', $video->status) === '0' ? 'selected' : '' }}>{{ __('content.disable') }}</option>
-                                </select>
+                                @include('admin.components.switch', [
+                                    'name' => 'status',
+                                    'id' => 'status',
+                                    'label' => __('content.status'),
+                                    'value' => (string) old('status', $video->status),
+                                    'onLabel' => __('content.enable'),
+                                    'offLabel' => __('content.disable'),
+                                ])
                             </div>
                         </div>
                         <div class="col-md-12">

@@ -27,20 +27,30 @@
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group mb-3 mb-lg-2">
                                     <label for="display_header_menu">{{ __('content.display_header_menu') }}</label>
-                                    <select class="form-control" name="display_header_menu" id="display_header_menu">
-                                        <option value="1" {{ $page->display_header_menu == 1 ? 'selected' : '' }}>{{ __('content.yes') }}</option>
-                                        <option value="0" {{ $page->display_header_menu == 0 ? 'selected' : '' }}>{{ __('content.no') }}</option>
-                                        <option value="2" {{ $page->display_header_menu == 2 ? 'selected' : '' }}>{{ __('content.other') }}</option>
-                                    </select>
+                                    @include('admin.components.select', [
+                                        'name' => 'display_header_menu',
+                                        'id' => 'display_header_menu',
+                                        'value' => (string) old('display_header_menu', $page->display_header_menu),
+                                        'options' => [
+                                            '1' => __('content.yes'),
+                                            '0' => __('content.no'),
+                                            '2' => __('content.other'),
+                                        ],
+                                    ])
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group mb-3 mb-lg-2">
-                                    <label for="status">{{ __('content.status') }}</label>
-                                    <select class="form-control" name="status" id="status">
-                                        <option value="1" {{ $page->status == 1 ? 'selected' : '' }}>{{ __('content.enable') }}</option>
-                                        <option value="0" {{ $page->status == 0 ? 'selected' : '' }}>{{ __('content.disable') }}</option>
-                                    </select>
+                                    <label class="d-block">&nbsp;</label>
+                                    @include('admin.components.switch', [
+                                        'name' => 'status',
+                                        'id' => 'status',
+                                        'value' => (string) old('status', $page->status),
+                                        'onLabel' => __('content.enable'),
+                                        'offLabel' => __('content.disable'),
+                                        'compact' => true,
+                                        'hideState' => true,
+                                    ])
                                 </div>
                             </div>
                             <div class="col-12">

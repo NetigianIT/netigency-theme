@@ -21,16 +21,7 @@
                 @endif
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="image_status" class="col-form-label">{{ __('content.image_status') }}</label>
-                                    <select name="image_status" class="form-control" id="image_status">
-                                        <option value="1" @selected(old('image_status', $testimonial->image_status) == 1)>{{ __('content.enable') }}</option>
-                                        <option value="0" @selected(old('image_status', $testimonial->image_status) == 0)>{{ __('content.disable') }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 @include('admin.components.image-input', [
                                     'name' => 'testimonial_image',
                                     'id' => 'testimonial_image',
@@ -62,11 +53,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="star" class="col-form-label">{{ __('content.star') }}</label>
-                                    <select name="star" class="form-control" id="star">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <option value="{{ $i }}" @selected(old('star', $testimonial->star) == $i)>{{ $i }}</option>
-                                        @endfor
-                                    </select>
+                                    @include('admin.components.select', [
+                                        'name' => 'star',
+                                        'id' => 'star',
+                                        'value' => (string) old('star', $testimonial->star),
+                                        'options' => [
+                                            '1' => '1',
+                                            '2' => '2',
+                                            '3' => '3',
+                                            '4' => '4',
+                                            '5' => '5',
+                                        ],
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -30,11 +30,17 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label for="role_id">{{ __('content.role_name') }} <span class="text-red">*</span></label>
-                                    <select  class="form-control" name="role_id" id="role_id" required>
-                                        @foreach($admin_roles as $admin_role)
-                                            <option value="{{$admin_role->id}}" {{ $admin_role->name == $admin_user->getRoleNames()->first() ? 'selected' : '' }}>{{ $admin_role->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    @php
+                                        $roleOptions = collect($admin_roles)->mapWithKeys(fn ($r) => [$r->id => $r->name])->all();
+                                        $selectedRoleId = collect($admin_roles)->first(fn ($r) => $r->name == $admin_user->getRoleNames()->first())?->id ?? '';
+                                    @endphp
+                                    @include('admin.components.select', [
+                                        'name' => 'role_id',
+                                        'id' => 'role_id',
+                                        'value' => (string) old('role_id', $selectedRoleId),
+                                        'required' => true,
+                                        'options' => $roleOptions,
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-12">

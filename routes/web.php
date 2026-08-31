@@ -186,6 +186,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:services check
     Route::post('service', [ServiceController::class, 'store'])->name('service.store');
     Route::get('service/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
     Route::put('service/{id}', [ServiceController::class, 'update'])->name('service.update');
+    Route::patch('service/update_status/{id}', [ServiceController::class, 'update_status'])->name('service.update_status');
     Route::delete('service/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
     Route::delete('service-checked', [ServiceController::class, 'destroy_checked'])->name('service.destroy_checked');
 
@@ -256,6 +257,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:portfolio chec
     Route::post('portfolio', [PortfolioController::class, 'store'])->name('portfolio.store');
     Route::get('portfolio/{id}/edit', [PortfolioController::class, 'edit'])->name('portfolio.edit');
     Route::put('portfolio/{id}', [PortfolioController::class, 'update'])->name('portfolio.update');
+    Route::patch('portfolio/update_status/{id}', [PortfolioController::class, 'update_status'])->name('portfolio.update_status');
     Route::delete('portfolio/{id}', [PortfolioController::class, 'destroy'])->name('portfolio.destroy');
     Route::delete('portfolio-checked', [PortfolioController::class, 'destroy_checked'])->name('portfolio.destroy_checked');
 
@@ -320,6 +322,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:blogs check'])
     Route::post('blog', [BlogController::class, 'store'])->name('blog.store');
     Route::get('blog/{id}/edit', [BlogController::class, 'edit'])->name('blog.edit');
     Route::put('blog/{id}', [BlogController::class, 'update'])->name('blog.update');
+    Route::patch('blog/update_status/{id}', [BlogController::class, 'update_status'])->name('blog.update_status');
     Route::delete('blog/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
     Route::delete('blog-checked', [BlogController::class, 'destroy_checked'])->name('blog.destroy_checked');
 

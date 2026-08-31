@@ -1,10 +1,10 @@
 /* Netigian IT admin — portfolio dashboard look + dark/light mode */
 
 :root {
-  --ni-primary: #15bf86;
-  --ni-primary-hover: #12a574;
-  --ni-primary-soft: rgba(21, 191, 134, 0.12);
-  --ni-primary-rgb: 21, 191, 134;
+  --ni-primary: #0a8f63;
+  --ni-primary-hover: #087a55;
+  --ni-primary-soft: rgba(10, 143, 99, 0.12);
+  --ni-primary-rgb: 10, 143, 99;
   --ni-bg: #f7faf8;
   --ni-surface: #ffffff;
   --ni-surface-2: #ffffff;
@@ -33,7 +33,7 @@ html[data-theme="dark"] {
   --ni-navbar: #12151c;
   --ni-input-bg: #12151c;
   --ni-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --ni-primary-soft: rgba(21, 191, 134, 0.16);
+  --ni-primary-soft: rgba(10, 143, 99, 0.16);
 }
 
 /* ---------- Surfaces ---------- */
@@ -557,6 +557,27 @@ hr {
   border: 1px solid var(--ni-primary) !important;
   color: #fff !important;
   box-shadow: none !important;
+}
+
+/* Save icon on primary form submit buttons */
+button.btn.btn-primary[type="submit"] {
+  font-size: 0.875rem !important;
+  padding: 0.375rem 0.85rem !important;
+}
+
+button.btn.btn-primary[type="submit"]::before {
+  content: "\f0c7";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  margin-right: 0.4em;
+  line-height: 1;
+  vertical-align: -0.05em;
+  font-size: 0.95em;
 }
 
 .btn,
@@ -4352,6 +4373,54 @@ textarea.ni-textarea-auto {
   border: 1px solid var(--ni-border, #2a303a);
   border-radius: 12px;
   background: var(--ni-input-bg, #171a21);
+}
+
+.ni-switch-row--compact {
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  min-height: 0;
+  width: auto;
+}
+
+.ni-switch-row--compact .ni-switch {
+  gap: 0;
+}
+
+.ni-switch-row--compact .ni-switch__track {
+  width: 34px;
+  height: 20px;
+}
+
+.ni-switch-row--compact .ni-switch__thumb {
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+}
+
+.ni-switch-row--compact .ni-switch input:checked + .ni-switch__track .ni-switch__thumb {
+  transform: translateX(14px);
+}
+
+.ni-switch-row--icon-only .ni-switch__state:not(.sr-only) {
+  display: none;
+}
+
+.table td .ni-switch-row--compact {
+  float: none;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.ni-switch-row.is-loading {
+  opacity: 0.65;
+  pointer-events: none;
 }
 
 .ni-switch-row__text {

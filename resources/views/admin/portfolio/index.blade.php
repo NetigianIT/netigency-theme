@@ -64,6 +64,7 @@
                                 <th>{{ __('content.title') }}</th>
                                 <th>{{ __('content.category_name') }}</th>
                                 <th>{{ __('content.order') }}</th>
+                                <th class="all text-left">{{ __('content.status') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
@@ -78,6 +79,18 @@
                                     <td>{{ $portfolio->title }}</td>
                                     <td>{{ $portfolio->category_name }}</td>
                                     <td>{{ $portfolio->order }}</td>
+                                    <td class="text-left align-middle">
+                                        @include('admin.components.switch', [
+                                            'name' => 'status_'.$portfolio->id,
+                                            'id' => 'status_'.$portfolio->id,
+                                            'value' => (string) ($portfolio->status ?? 0),
+                                            'onLabel' => __('content.published'),
+                                            'offLabel' => __('content.draft'),
+                                            'compact' => true,
+                                            'hideState' => true,
+                                            'toggleUrl' => route('portfolio.update_status', $portfolio->id),
+                                        ])
+                                    </td>
                                     <td>
                                         <div>
                                             <a href="{{ route('portfolio-slider.create', $portfolio->id) }}" class="ni-action-icon ni-action-view mr-2" title="{{ __('content.sliders') }}">

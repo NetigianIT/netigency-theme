@@ -66,7 +66,7 @@
                                 <th>{{ __('content.category') }}</th>
                                 <th>{{ __('content.post_date') }}</th>
                                 <th>{{ __('content.view') }}</th>
-                                <th>{{ __('content.status') }}</th>
+                                <th class="all text-left">{{ __('content.status') }}</th>
                                 <th class="all custom-width-action">{{ __('content.action') }}</th>
                             </tr>
                             </thead>
@@ -89,12 +89,17 @@
                                     <td><span class="badge badge-pill badge-dark">@if (isset($blog->category->category_name)) {{ $blog->category->category_name }} @else {{ $blog->category_name }} @endif</span></td>
                                     <td>{{ Carbon\Carbon::parse($blog->created_at)->format('d.m.Y') }}</td>
                                     <td>{{ $blog->view }}</td>
-                                    <td>
-                                        @if ($blog->status == 0)
-                                            <span class="badge badge-pill badge-danger">{{ __('content.draft') }}</span>
-                                        @else
-                                            <span class="badge badge-pill badge-success">{{ __('content.published') }}</span>
-                                        @endif
+                                    <td class="text-left align-middle">
+                                        @include('admin.components.switch', [
+                                            'name' => 'status_'.$blog->id,
+                                            'id' => 'status_'.$blog->id,
+                                            'value' => (string) ($blog->status ?? 0),
+                                            'onLabel' => __('content.published'),
+                                            'offLabel' => __('content.draft'),
+                                            'compact' => true,
+                                            'hideState' => true,
+                                            'toggleUrl' => route('blog.update_status', $blog->id),
+                                        ])
                                     </td>
                                     <td>
                                         <div>

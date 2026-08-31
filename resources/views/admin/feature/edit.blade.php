@@ -41,10 +41,16 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="stack">{{ __('content.stack') }} <span class="text-red">*</span></label>
-                                    <select name="stack" class="form-control" id="stack" required>
-                                        <option value="main" @selected(old('stack', $feature->stack ?? 'supporting') === 'main')>{{ __('content.main_stack') }}</option>
-                                        <option value="supporting" @selected(old('stack', $feature->stack ?? 'supporting') === 'supporting')>{{ __('content.supporting_stack') }}</option>
-                                    </select>
+                                    @include('admin.components.select', [
+                                        'name' => 'stack',
+                                        'id' => 'stack',
+                                        'value' => old('stack', $feature->stack ?? 'supporting'),
+                                        'required' => true,
+                                        'options' => [
+                                            ['value' => 'main', 'label' => __('content.main_stack'), 'icon' => 'fas fa-layer-group'],
+                                            ['value' => 'supporting', 'label' => __('content.supporting_stack'), 'icon' => 'fas fa-cubes'],
+                                        ],
+                                    ])
                                 </div>
                             </div>
                             <div class="col-md-12">
