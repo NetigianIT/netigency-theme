@@ -106,6 +106,7 @@ class HomeController extends Controller
                     $query->where('status', 1);
                 })
                 ->orderBy('order', 'asc')
+                ->take(12)
                 ->get();
 
             $team_section = TeamSection::where('language_id', $language->id)->first();

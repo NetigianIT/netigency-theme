@@ -145,3 +145,30 @@ if (! function_exists('deferred_css')) {
             .'    <link rel="stylesheet" href="'.$url.'" media="print" data-media-all>';
     }
 }
+
+if (! function_exists('img_attrs')) {
+    /**
+     * Common responsive image attributes for frontend templates.
+     */
+    function img_attrs(bool $priority = false, ?int $width = null, ?int $height = null): string
+    {
+        $attrs = ['decoding="async"'];
+
+        if ($priority) {
+            $attrs[] = 'fetchpriority="high"';
+            $attrs[] = 'loading="eager"';
+        } else {
+            $attrs[] = 'loading="lazy"';
+        }
+
+        if ($width) {
+            $attrs[] = 'width="'.$width.'"';
+        }
+
+        if ($height) {
+            $attrs[] = 'height="'.$height.'"';
+        }
+
+        return implode(' ', $attrs);
+    }
+}

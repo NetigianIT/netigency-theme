@@ -21,6 +21,22 @@
     }
   }
 
+  function syncThemeImages() {
+    var theme = document.documentElement.getAttribute('data-theme') || 'light';
+    var images = document.querySelectorAll('.theme-mode-img--single');
+
+    for (var i = 0; i < images.length; i++) {
+      var img = images[i];
+      var src = theme === 'dark'
+        ? (img.dataset.darkSrc || img.dataset.lightSrc)
+        : (img.dataset.lightSrc || img.dataset.darkSrc);
+
+      if (src && img.getAttribute('src') !== src) {
+        img.src = src;
+      }
+    }
+  }
+
   function applyTheme(theme) {
     var next = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', next);
@@ -28,6 +44,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch (e) {}
+    syncThemeImages();
     var toggles = document.querySelectorAll('[data-theme-toggle]');
     for (var i = 0; i < toggles.length; i++) {
       toggles[i].setAttribute(

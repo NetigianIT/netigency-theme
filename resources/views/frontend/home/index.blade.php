@@ -39,6 +39,27 @@
     <!-- Title -->
     <title>{{ __('frontend.home') }} @if (isset($general_seo)) - {{ $general_seo->site_name }} @endif</title>
 
+@php
+    $heroPreloadDark = asset('uploads/img/general/demo-hero-dark.png');
+    $heroPreloadLight = asset('uploads/img/general/demo-hero-light.png');
+
+    if (isset($fixed_content) && (int) ($fixed_content->image_status ?? 0) === 1) {
+        $heroPreloadUrls = theme_mode_image_urls(
+            $fixed_content->thumbnail_image,
+            $fixed_content->thumbnail_image_light,
+            'general'
+        );
+        $heroPreloadDark = $heroPreloadUrls['dark'] ?: $heroPreloadDark;
+        $heroPreloadLight = $heroPreloadUrls['light'] ?: $heroPreloadLight;
+    }
+@endphp
+@if (!empty($heroPreloadDark))
+    <link rel="preload" as="image" href="{{ $heroPreloadDark }}" media="(prefers-color-scheme: dark)">
+@endif
+@if (!empty($heroPreloadLight))
+    <link rel="preload" as="image" href="{{ $heroPreloadLight }}" media="(prefers-color-scheme: light)">
+@endif
+
 @if (!empty($general_site_image->favicon_image))
     <!-- Favicon -->
         <link href="{{ asset('uplods/img/general/'.$general_site_image->favicon_image) }}" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
@@ -68,25 +89,25 @@
 @isset ($color_option)
 
         @if ($color_option->color_option == 1)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/blue-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/blue-color.css')) !!}
         @elseif ($color_option->color_option == 2)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/red-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/red-color.css')) !!}
         @elseif ($color_option->color_option == 3)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/yellow-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/yellow-color.css')) !!}
         @elseif ($color_option->color_option == 5)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/pink-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/pink-color.css')) !!}
         @elseif ($color_option->color_option == 6)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/turquose-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/turquose-color.css')) !!}
         @elseif ($color_option->color_option == 7)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/purple-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/purple-color.css')) !!}
         @elseif ($color_option->color_option == 8)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/blue-color-2.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/blue-color-2.css')) !!}
         @elseif ($color_option->color_option == 9)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/orange-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/orange-color.css')) !!}
         @elseif ($color_option->color_option == 10)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/magenta-color.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/magenta-color.css')) !!}
         @elseif ($color_option->color_option == 11)
-            <link rel="stylesheet" href="{{ asset('assets/frontend/css/skins/orange-color-2.css') }}">
+            {!! deferred_css(asset('assets/frontend/css/skins/orange-color-2.css')) !!}
         @endif
 
     @endisset
@@ -475,7 +496,7 @@
                 @endif
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
+                        <div class="col-lg-7 col-xl-6 col-md-10">
                             <div class="hero-inner">
                                 @php
                                     $heroAnimatedTitles = $fixed_content->animatedTitles();
@@ -504,14 +525,17 @@
                                     'general'
                                 );
                             @endphp
-                            <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
+                            <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp">
                                 <div class="hero-img">
                                     <div class="border-line-outer">
                                         <div class="border-line-inner">
                                             <x-frontend.theme-mode-image
                                                 :dark-src="$heroImages['dark']"
                                                 :light-src="$heroImages['light']"
-                                                alt="image"
+                                                :alt="$fixed_content->title"
+                                                :priority="true"
+                                                :width="600"
+                                                :height="480"
                                             />
                                         </div>
                                     </div>
@@ -523,7 +547,20 @@
                 @if (count($socials) > 0)
                     <ul class="hero-social-list">
                         @foreach ($socials as $social)
-                            <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif"><i class="{{ $social->social_media }}"></i></a></li>
+                            @php
+                                $heroSocialLabels = [
+                                    'fab fa-facebook-f' => 'Facebook',
+                                    'fab fa-facebook' => 'Facebook',
+                                    'fab fa-youtube' => 'YouTube',
+                                    'fab fa-linkedin-in' => 'LinkedIn',
+                                    'fab fa-linkedin' => 'LinkedIn',
+                                    'fab fa-instagram' => 'Instagram',
+                                    'fab fa-twitter' => 'Twitter',
+                                    'fab fa-x-twitter' => 'X',
+                                ];
+                                $heroSocialLabel = $heroSocialLabels[$social->social_media] ?? 'Social profile';
+                            @endphp
+                            <li><a href="@if (!empty($social->link)) {{ $social->link }} @else # @endif" aria-label="{{ $heroSocialLabel }}" target="_blank" rel="noopener noreferrer"><i class="{{ $social->social_media }}" aria-hidden="true"></i></a></li>
                         @endforeach
                     </ul>
                 @endif
@@ -536,7 +573,7 @@
                 @endif
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
+                        <div class="col-lg-7 col-xl-6 col-md-10">
                             <div class="hero-inner">
                                 @php
                                     $demoHeroWords = ['Web Products.', 'Mobile Apps.', 'Business Software.', 'Digital Solutions.'];
@@ -556,15 +593,18 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
+                        <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp">
                             <div class="hero-img">
                                 <div class="border-line-outer">
                                     <div class="border-line-inner">
                                         <x-frontend.theme-mode-image
                                             :dark-src="asset('uploads/img/general/demo-hero-dark.png')"
                                             :light-src="asset('uploads/img/general/demo-hero-light.png')"
-                                            alt="Hero image"
-                                            title="Hero image"
+                                            alt="We Build Modern CRM Systems"
+                                            title="We Build Modern CRM Systems"
+                                            :priority="true"
+                                            :width="600"
+                                            :height="480"
                                         />
                                     </div>
                                 </div>
@@ -606,8 +646,11 @@
                                 <x-frontend.theme-mode-image
                                     :dark-src="$aboutImages['dark']"
                                     :light-src="$aboutImages['light']"
-                                    alt="About image"
-                                    title="About image"
+                                    alt="{{ $about->title }}"
+                                    title="{{ $about->title }}"
+                                    :lazy="true"
+                                    :width="560"
+                                    :height="420"
                                 />
                                 @if (!empty($about->video_link))
                                     <a class="about-video-btn" href="{{ $about->video_link }}" aria-label="Play demo video">
@@ -660,8 +703,11 @@
                                 <x-frontend.theme-mode-image
                                     :dark-src="asset('uploads/img/about/demo-about-dark.png')"
                                     :light-src="asset('uploads/img/about/demo-about-light.png')"
-                                    alt="About image"
-                                    title="About image"
+                                    alt="About us"
+                                    title="About us"
+                                    :lazy="true"
+                                    :width="560"
+                                    :height="420"
                                 />
                                 <a class="about-video-btn" href="https://youtu.be/9dqvwS7NoxI" aria-label="Play demo video">
                                     <span class="about-video-btn__pulse" aria-hidden="true"></span>
@@ -1144,7 +1190,7 @@
                                                 <div class="number-border"></div>
                                                 @if ($item->image_status == "enable" && !empty($item->work_process_image))
                                                     <div class="img">
-                                                        <img src="{{ asset('uploads/img/work_process/'.$item->work_process_image) }}" class="img-fluid" alt="How i work">
+                                                        <img src="{{ asset('uploads/img/work_process/'.$item->work_process_image) }}" class="img-fluid" alt="{{ $item->title ?? 'Work process step' }}" {!! img_attrs(false, 400, 300) !!}>
                                                     </div>
                                                 @endif
                                                 <div class="text">
@@ -1174,7 +1220,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="How i work">
+                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="Discovery and planning" {!! img_attrs(false, 400, 300) !!}>
                                 </div>
                                 <div class="text">
                                     <h5>Thinking</h5>
@@ -1188,7 +1234,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="How i work">
+                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="Discovery and planning" {!! img_attrs(false, 400, 300) !!}>
                                 </div>
                                 <div class="text">
                                     <h5>Research</h5>
@@ -1202,7 +1248,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="How i work">
+                                    <img src="{{ asset('uploads/img/work_process/demo-process-01.png') }}" class="img-fluid" alt="Discovery and planning" {!! img_attrs(false, 400, 300) !!}>
                                 </div>
                                 <div class="text">
                                     <h5>Design</h5>
@@ -1237,6 +1283,9 @@
                                         :light-src="$skillImages['light']"
                                         alt="Software technology"
                                         title="Software technology"
+                                        :lazy="true"
+                                        :width="480"
+                                        :height="480"
                                     />
                                 </div>
                             </div>
@@ -1283,6 +1332,9 @@
                                     :light-src="asset('uploads/img/skill/demo-skill-light.png')"
                                     alt="Software technology"
                                     title="Software technology"
+                                    :lazy="true"
+                                    :width="480"
+                                    :height="480"
                                 />
                             </div>
                         </div>
@@ -1366,9 +1418,9 @@
                             <div class="col-md-6 col-lg-4 portfolio-item {{ $portfolio->portfolio_category->portfolio_category_slug }}">
                                 <div class="portfolio-item-inner">
                                         <div class="portfolio-item-img">
-                                            <img src="{{ portfolio_image_url($portfolio->thumbnail_image) }}" alt="Portfolio image" class="img-fluid">
-                                            <a href="{{ portfolio_image_url($portfolio->thumbnail_image) }}" class="portfolio-zoom-link">
-                                                <i class="fas fa-search"></i>
+                                            <img src="{{ portfolio_image_url($portfolio->thumbnail_image) }}" alt="{{ $portfolio->title }}" class="img-fluid" {!! img_attrs(false, 640, 400) !!}>
+                                            <a href="{{ portfolio_image_url($portfolio->thumbnail_image) }}" class="portfolio-zoom-link" aria-label="View {{ $portfolio->title }} image">
+                                                <i class="fas fa-search" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     <div class="body">
@@ -1379,8 +1431,8 @@
                                                 <p>{{ $portfolioExcerpt }}</p>
                                             @endif
                                         </div>
-                                        <a href="{{ route('portfolio-page.show', ['portfolio_slug' => $portfolio->portfolio_slug]) }}" class="portfolio-link">
-                                            <i class="fa fa-arrow-right"></i>
+                                        <a href="{{ route('portfolio-page.show', ['portfolio_slug' => $portfolio->portfolio_slug]) }}" class="portfolio-link" aria-label="View {{ $portfolio->title }}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -1423,9 +1475,9 @@
                             <div class="col-md-6 col-lg-4 portfolio-item {{ $demo['slug'] }}">
                                 <div class="portfolio-item-inner">
                                     <div class="portfolio-item-img">
-                                        <img src="{{ asset('uploads/img/portfolio/'.$demo['img']) }}" alt="{{ $demo['title'] }}" class="img-fluid">
-                                        <a href="{{ asset('uploads/img/portfolio/'.$demo['img']) }}" class="portfolio-zoom-link">
-                                            <i class="fas fa-search"></i>
+                                        <img src="{{ asset('uploads/img/portfolio/'.$demo['img']) }}" alt="{{ $demo['title'] }}" class="img-fluid" {!! img_attrs(false, 640, 400) !!}>
+                                        <a href="{{ asset('uploads/img/portfolio/'.$demo['img']) }}" class="portfolio-zoom-link" aria-label="View {{ $demo['title'] }} image">
+                                            <i class="fas fa-search" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                     <div class="body">
@@ -1433,8 +1485,8 @@
                                             <h5>{{ $demo['title'] }}</h5>
                                             <p>{{ $demo['desc'] }}</p>
                                         </div>
-                                        <a href="#" class="portfolio-link">
-                                            <i class="fa fa-arrow-right"></i>
+                                        <a href="#" class="portfolio-link" aria-label="View {{ $demo['title'] }}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -1465,7 +1517,7 @@
                                 <div class="team-card">
                                    @if (!empty($team->team_image))
                                         <div class="img">
-                                            <img src="{{ asset('uploads/img/teams/'.$team->team_image) }}" alt="Team image">
+                                            <img src="{{ asset('uploads/img/teams/'.$team->team_image) }}" alt="{{ $team->name }}" {!! img_attrs(false, 320, 320) !!}>
                                         </div>
                                        @endif
                                     <div class="body">
@@ -1500,7 +1552,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.1s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team image">
+                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team member" {!! img_attrs(false, 320, 320) !!}>
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1520,7 +1572,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.2s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team image">
+                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team member" {!! img_attrs(false, 320, 320) !!}>
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1540,7 +1592,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team image">
+                                    <img src="{{ asset('uploads/img/teams/demo-team-01.png') }}" alt="Team member" {!! img_attrs(false, 320, 320) !!}>
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1582,7 +1634,7 @@
                                 <div class="testimonial-item">
                                    @if ($testimonial->image_status == 1 && !empty($testimonial->testimonial_image))
                                         <div class="img">
-                                            <img src="{{ asset('uploads/img/testimonials/'.$testimonial->testimonial_image) }}" alt="Testimonial image" class="img-fluid">
+                                            <img src="{{ asset('uploads/img/testimonials/'.$testimonial->testimonial_image) }}" alt="{{ $testimonial->name }}" class="img-fluid" {!! img_attrs(false, 120, 120) !!}>
                                         </div>
                                        @endif
                                     <div class="body">
@@ -1628,7 +1680,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Client testimonial" class="img-fluid" {!! img_attrs(false, 120, 120) !!}>
                                 </div>
                                 <div class="body">
                                     <h5>Jeff N. Hood</h5>
@@ -1653,7 +1705,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Client testimonial" class="img-fluid" {!! img_attrs(false, 120, 120) !!}>
                                 </div>
                                 <div class="body">
                                     <h5>James E. Nelson</h5>
@@ -1678,7 +1730,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Client testimonial" class="img-fluid" {!! img_attrs(false, 120, 120) !!}>
                                 </div>
                                 <div class="body">
                                     <h5>Wallace Chuck</h5>
@@ -1703,7 +1755,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Testimonial image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/testimonials/demo-client-01.png') }}" alt="Client testimonial" class="img-fluid" {!! img_attrs(false, 120, 120) !!}>
                                 </div>
                                 <div class="body">
                                     <h5>Nitin Khajotia</h5>
@@ -1751,13 +1803,13 @@
                                     @if (!empty($recent_post->blog_image))
                                         <div class="blog-img">
                                             <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
-                                                <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" alt="Blog image" class="img-fluid">
+                                                <img src="{{ asset('uploads/img/blogs/'.$recent_post->blog_image) }}" alt="{{ $recent_post->title }}" class="img-fluid" {!! img_attrs(false, 600, 400) !!}>
                                             </a>
                                         </div>
                                     @else
                                         <div class="blog-img">
                                             <a href="{{ route('blog-page.show', ['slug' => $recent_post->slug]) }}">
-                                                <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="Blog image" class="img-fluid">
+                                                <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $recent_post->title }}" class="img-fluid" {!! img_attrs(false, 600, 400) !!}>
                                             </a>
                                         </div>
                                     @endif
@@ -1800,7 +1852,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog post preview" class="img-fluid" {!! img_attrs(false, 600, 400) !!}>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -1827,7 +1879,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog post preview" class="img-fluid" {!! img_attrs(false, 600, 400) !!}>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -1854,7 +1906,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog post preview" class="img-fluid" {!! img_attrs(false, 600, 400) !!}>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -1881,7 +1933,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog image" class="img-fluid">
+                                    <img src="{{ asset('uploads/img/dummy/600x400.jpg') }}" alt="Blog post preview" class="img-fluid" {!! img_attrs(false, 600, 400) !!}>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -2100,7 +2152,7 @@
         <!--//Google Map Section Start //-->
       @if (!empty($contact_section->map_iframe))
             <div class="google-map">
-                <iframe src="{{ $contact_section->map_iframe }}" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                <iframe src="{{ $contact_section->map_iframe }}" title="Office location map" loading="lazy" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             </div>
           @endif
         <!--// Google Map Section End //-->
@@ -2366,6 +2418,7 @@
 <script src="{{ asset('assets/frontend/vendor/js/isotope.min.js') }}" defer></script>
 @if ($heroParticlesEnabled ?? true)
 <script src="{{ asset('assets/frontend/vendor/js/particles.js') }}" defer></script>
+<script src="{{ asset('assets/frontend/js/particles-hero-init.js') }}?v=1" defer></script>
 @endif
 <script src="{{ asset('assets/frontend/js/main.js') }}?v=93" defer></script>
 <script src="{{ asset('assets/frontend/js/ni-contact-form.js') }}?v=3" defer></script>
