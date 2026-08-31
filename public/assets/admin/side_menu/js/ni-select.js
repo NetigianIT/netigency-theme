@@ -9,10 +9,45 @@
       var dropdown = el.querySelector("[data-ni-select-dropdown]");
       if (trigger) trigger.setAttribute("aria-expanded", "false");
       if (dropdown) dropdown.hidden = true;
+      clearActive(el);
     });
   }
 
+  function getOptions(root) {
+    return Array.prototype.slice.call(root.querySelectorAll("[data-ni-select-option]:not([disabled])"));
+  }
+
+  function clearActive(root) {
+    root.querySelectorAll(".ni-select__option.is-active").forEach(function (btn) {
+      btn.classList.remove("is-active");
+    });
+  }
+
+  function setActive(root, optionBtn) {
+    clearActive(root);
+    if (optionBtn) {
+      optionBtn.classList.add("is-active");
+      optionBtn.focus();
+    }
+  }
+
+  function openSelect(root) {
+    var trigger = root.querySelector("[data-ni-select-trigger]");
+    var dropdown = root.querySelector("[data-ni-select-dropdown]");
+    if (!trigger || !dropdown) return;
+    closeAll();
+    root.classList.add("is-open");
+    trigger.setAttribute("aria-expanded", "true");
+    dropdown.hidden = false;
+
+    var selected = root.querySelector("[data-ni-select-option].is-selected:not([disabled])");
+    var first = getOptions(root)[0];
+    setActive(root, selected || first);
+  }
+
   function setFromOption(root, optionBtn) {
+    if (!optionBtn || optionBtn.disabled) return;
+
     var native = root.querySelector("[data-ni-select-native], select.ni-select__native, select");
     var labelEl = root.querySelector("[data-ni-select-label]");
     var valueWrap = root.querySelector(".ni-select__value");
@@ -46,6 +81,17 @@
     });
   }
 
+  function moveActive(root, direction) {
+    var options = getOptions(root);
+    if (!options.length) return;
+    var current = root.querySelector(".ni-select__option.is-active");
+    var index = current ? options.indexOf(current) : -1;
+    var next = index + direction;
+    if (next < 0) next = options.length - 1;
+    if (next >= options.length) next = 0;
+    setActive(root, options[next]);
+  }
+
   function bindRoot(root) {
     if (root.getAttribute("data-ni-ready") === "1") return;
     root.setAttribute("data-ni-ready", "1");
@@ -59,17 +105,48 @@
     trigger.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
-      var willOpen = !root.classList.contains("is-open");
-      closeAll();
-      if (willOpen) {
-        root.classList.add("is-open");
-        trigger.setAttribute("aria-expanded", "true");
-        dropdown.hidden = false;
+      if (root.classList.contains("is-open")) {
+        closeAll();
+        trigger.focus();
+      } else {
+        openSelect(root);
+      }
+    });
+
+    trigger.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (!root.classList.contains("is-open")) openSelect(root);
+        else if (e.key === "ArrowDown") moveActive(root, 1);
       }
     });
 
     dropdown.addEventListener("click", function (e) {
       e.stopPropagation();
+    });
+
+    dropdown.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        moveActive(root, 1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        moveActive(root, -1);
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        var active = root.querySelector(".ni-select__option.is-active");
+        if (active) {
+          setFromOption(root, active);
+          closeAll();
+          trigger.focus();
+        }
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        closeAll();
+        trigger.focus();
+      } else if (e.key === "Tab") {
+        closeAll();
+      }
     });
 
     options.forEach(function (btn) {
@@ -78,6 +155,11 @@
         e.stopPropagation();
         setFromOption(root, btn);
         closeAll();
+        trigger.focus();
+      });
+
+      btn.addEventListener("mouseenter", function () {
+        if (!btn.disabled) setActive(root, btn);
       });
     });
   }
@@ -102,7 +184,6 @@
 
     var options = Array.prototype.slice.call(select.options);
     var selected = select.options[select.selectedIndex];
-    var selectedValue = selected ? selected.value : "";
     var selectedLabel = selected ? selected.textContent.trim() : "";
 
     var wrap = document.createElement("div");
@@ -139,9 +220,6 @@
     list.setAttribute("data-ni-select-list", "");
 
     options.forEach(function (opt) {
-      if (opt.disabled && opt.value === "" && options.length > 1) {
-        // keep placeholder as first visual option only if selected empty
-      }
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "ni-select__option" + (opt.selected ? " is-selected" : "");
@@ -155,7 +233,7 @@
         btn.classList.add("is-placeholder");
       }
       btn.innerHTML =
-        '<span class="ni-select__option-text"></span><i class="fas fa-check ni-select__check"></i>';
+        '<span class="ni-select__option-text"></span><i class="fas fa-check ni-select__check" aria-hidden="true"></i>';
       btn.querySelector(".ni-select__option-text").textContent = opt.textContent.trim();
       list.appendChild(btn);
     });
@@ -189,7 +267,6 @@
     enhanceAll();
   }
 
-  // DataTables / AJAX re-draws
   if (window.jQuery) {
     jQuery(document).on("draw.dt", function () {
       enhanceAll();

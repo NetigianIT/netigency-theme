@@ -7,14 +7,10 @@
                 || request()->is('admin/category/*/edit'),
         ],
         [
-            'label' => __('content.add_blog'),
-            'url' => url('admin/blog/create'),
-            'active' => request()->is('admin/blog/create'),
-        ],
-        [
             'label' => __('content.blogs'),
             'url' => url('admin/blog'),
             'active' => request()->is('admin/blog')
+                || request()->is('admin/blog/create')
                 || request()->is('admin/blog/*/edit'),
         ],
         [

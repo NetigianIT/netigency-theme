@@ -4,6 +4,10 @@
     @include('admin.blog.partials.tabs')
 @endsection
 
+@section('page_actions')
+    <a href="{{ route('blog.create') }}" class="btn btn-primary">+ {{ __('content.add_blog') }}</a>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->

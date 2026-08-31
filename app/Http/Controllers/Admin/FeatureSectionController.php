@@ -32,7 +32,7 @@ class FeatureSectionController extends Controller
             'title' => $input['title']
         ]);
 
-        return redirect()->route('feature.create')
+        return redirect()->route('feature.index')
             ->with('success', 'content.created_successfully');
     }
 
@@ -57,7 +57,7 @@ class FeatureSectionController extends Controller
         // Update model
         FeatureSection::find($id)->update($input);
 
-        return redirect()->route('feature.create')
+        return redirect()->route('feature.index')
             ->with('success', 'content.updated_successfully');
     }
 }

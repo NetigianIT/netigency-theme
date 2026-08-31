@@ -52,7 +52,7 @@
             <div class="row ni-detail-media">
                 <div class="col-lg-7">
                     <div class="ni-detail-media__main">
-                        @if ($service->image_status == 'enable' && !empty($service->service_image))
+                        @if (!empty($service->service_image))
                             <img src="{{ asset('uploads/img/service/'.$service->service_image) }}" alt="{{ $service->title }}" class="img-fluid" fetchpriority="high" decoding="async">
                         @else
                             <img src="{{ asset('uploads/img/dummy/no-image.jpg') }}" alt="{{ $service->title }}" class="img-fluid">

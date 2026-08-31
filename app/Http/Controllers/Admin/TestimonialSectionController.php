@@ -32,7 +32,7 @@ class TestimonialSectionController extends Controller
             'title' => $input['title']
         ]);
 
-        return redirect()->route('testimonial.create')
+        return redirect()->route('testimonial.index')
             ->with('success', 'content.created_successfully');
     }
 
@@ -57,7 +57,7 @@ class TestimonialSectionController extends Controller
         // Update model
         TestimonialSection::find($id)->update($input);
 
-        return redirect()->route('testimonial.create')
+        return redirect()->route('testimonial.index')
             ->with('success', 'content.updated_successfully');
     }
 }

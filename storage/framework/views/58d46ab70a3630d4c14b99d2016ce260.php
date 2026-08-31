@@ -39,6 +39,27 @@
     <!-- Title -->
     <title><?php echo e(__('frontend.home')); ?> <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($general_seo)): ?> - <?php echo e($general_seo->site_name); ?> <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?></title>
 
+<?php
+    $heroPreloadDark = asset('uploads/img/general/demo-hero-dark.png');
+    $heroPreloadLight = asset('uploads/img/general/demo-hero-light.png');
+
+    if (isset($fixed_content) && (int) ($fixed_content->image_status ?? 0) === 1) {
+        $heroPreloadUrls = theme_mode_image_urls(
+            $fixed_content->thumbnail_image,
+            $fixed_content->thumbnail_image_light,
+            'general'
+        );
+        $heroPreloadDark = $heroPreloadUrls['dark'] ?: $heroPreloadDark;
+        $heroPreloadLight = $heroPreloadUrls['light'] ?: $heroPreloadLight;
+    }
+?>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($heroPreloadDark)): ?>
+    <link rel="preload" as="image" href="<?php echo e($heroPreloadDark); ?>" media="(prefers-color-scheme: dark)">
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($heroPreloadLight)): ?>
+    <link rel="preload" as="image" href="<?php echo e($heroPreloadLight); ?>" media="(prefers-color-scheme: light)">
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($general_site_image->favicon_image)): ?>
     <!-- Favicon -->
         <link href="<?php echo e(asset('uplods/img/general/'.$general_site_image->favicon_image)); ?>" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
@@ -73,25 +94,35 @@
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($color_option)): ?>
 
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($color_option->color_option == 1): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/blue-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/blue-color.css')); ?>
+
         <?php elseif($color_option->color_option == 2): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/red-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/red-color.css')); ?>
+
         <?php elseif($color_option->color_option == 3): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/yellow-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/yellow-color.css')); ?>
+
         <?php elseif($color_option->color_option == 5): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/pink-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/pink-color.css')); ?>
+
         <?php elseif($color_option->color_option == 6): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/turquose-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/turquose-color.css')); ?>
+
         <?php elseif($color_option->color_option == 7): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/purple-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/purple-color.css')); ?>
+
         <?php elseif($color_option->color_option == 8): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/blue-color-2.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/blue-color-2.css')); ?>
+
         <?php elseif($color_option->color_option == 9): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/orange-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/orange-color.css')); ?>
+
         <?php elseif($color_option->color_option == 10): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/magenta-color.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/magenta-color.css')); ?>
+
         <?php elseif($color_option->color_option == 11): ?>
-            <link rel="stylesheet" href="<?php echo e(asset('assets/frontend/css/skins/orange-color-2.css')); ?>">
+            <?php echo deferred_css(asset('assets/frontend/css/skins/orange-color-2.css')); ?>
+
         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -480,7 +511,7 @@
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
+                        <div class="col-lg-7 col-xl-6 col-md-10">
                             <div class="hero-inner">
                                 <?php
                                     $heroAnimatedTitles = $fixed_content->animatedTitles();
@@ -509,20 +540,20 @@
                                     'general'
                                 );
                             ?>
-                            <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
+                            <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp">
                                 <div class="hero-img">
                                     <div class="border-line-outer">
                                         <div class="border-line-inner">
                                             <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $heroImages['dark'],'lightSrc' => $heroImages['light'],'alt' => 'image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $heroImages['dark'],'lightSrc' => $heroImages['light'],'alt' => $fixed_content->title,'priority' => true,'width' => 600,'height' => 480]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.theme-mode-image'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($heroImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($heroImages['light']),'alt' => 'image']); ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($heroImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($heroImages['light']),'alt' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($fixed_content->title),'priority' => true,'width' => 600,'height' => 480]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
@@ -543,7 +574,20 @@
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($socials) > 0): ?>
                     <ul class="hero-social-list">
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $socials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $social): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li><a href="<?php if(!empty($social->link)): ?> <?php echo e($social->link); ?> <?php else: ?> # <?php endif; ?>"><i class="<?php echo e($social->social_media); ?>"></i></a></li>
+                            <?php
+                                $heroSocialLabels = [
+                                    'fab fa-facebook-f' => 'Facebook',
+                                    'fab fa-facebook' => 'Facebook',
+                                    'fab fa-youtube' => 'YouTube',
+                                    'fab fa-linkedin-in' => 'LinkedIn',
+                                    'fab fa-linkedin' => 'LinkedIn',
+                                    'fab fa-instagram' => 'Instagram',
+                                    'fab fa-twitter' => 'Twitter',
+                                    'fab fa-x-twitter' => 'X',
+                                ];
+                                $heroSocialLabel = $heroSocialLabels[$social->social_media] ?? 'Social profile';
+                            ?>
+                            <li><a href="<?php if(!empty($social->link)): ?> <?php echo e($social->link); ?> <?php else: ?> # <?php endif; ?>" aria-label="<?php echo e($heroSocialLabel); ?>" target="_blank" rel="noopener noreferrer"><i class="<?php echo e($social->social_media); ?>" aria-hidden="true"></i></a></li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </ul>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -556,7 +600,7 @@
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-7 col-xl-6 col-md-10 wow fadeInUp">
+                        <div class="col-lg-7 col-xl-6 col-md-10">
                             <div class="hero-inner">
                                 <?php
                                     $demoHeroWords = ['Web Products.', 'Mobile Apps.', 'Business Software.', 'Digital Solutions.'];
@@ -576,20 +620,20 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp wow fadeInUp" data-wow-duration="0.7s" data-wow-delay="0.5s">
+                        <div class="col-lg-5 col-xl-6 col-md-12 hero-img-resp">
                             <div class="hero-img">
                                 <div class="border-line-outer">
                                     <div class="border-line-inner">
                                         <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/general/demo-hero-dark.png'),'lightSrc' => asset('uploads/img/general/demo-hero-light.png'),'alt' => 'Hero image','title' => 'Hero image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/general/demo-hero-dark.png'),'lightSrc' => asset('uploads/img/general/demo-hero-light.png'),'alt' => 'We Build Modern CRM Systems','title' => 'We Build Modern CRM Systems','priority' => true,'width' => 600,'height' => 480]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.theme-mode-image'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/general/demo-hero-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/general/demo-hero-light.png')),'alt' => 'Hero image','title' => 'Hero image']); ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/general/demo-hero-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/general/demo-hero-light.png')),'alt' => 'We Build Modern CRM Systems','title' => 'We Build Modern CRM Systems','priority' => true,'width' => 600,'height' => 480]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
@@ -654,14 +698,14 @@
                                 ?>
                                 <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $aboutImages['dark'],'lightSrc' => $aboutImages['light'],'alt' => 'About image','title' => 'About image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $aboutImages['dark'],'lightSrc' => $aboutImages['light'],'alt' => ''.e($about->title).'','title' => ''.e($about->title).'','lazy' => true,'width' => 560,'height' => 420]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.theme-mode-image'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($aboutImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($aboutImages['light']),'alt' => 'About image','title' => 'About image']); ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($aboutImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($aboutImages['light']),'alt' => ''.e($about->title).'','title' => ''.e($about->title).'','lazy' => true,'width' => 560,'height' => 420]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
@@ -737,14 +781,14 @@
                             <div class="about-img">
                                 <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/about/demo-about-dark.png'),'lightSrc' => asset('uploads/img/about/demo-about-light.png'),'alt' => 'About image','title' => 'About image']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/about/demo-about-dark.png'),'lightSrc' => asset('uploads/img/about/demo-about-light.png'),'alt' => 'About us','title' => 'About us','lazy' => true,'width' => 560,'height' => 420]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.theme-mode-image'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/about/demo-about-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/about/demo-about-light.png')),'alt' => 'About image','title' => 'About image']); ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/about/demo-about-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/about/demo-about-light.png')),'alt' => 'About us','title' => 'About us','lazy' => true,'width' => 560,'height' => 420]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
@@ -1515,7 +1559,7 @@
                                                 <div class="number-border"></div>
                                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($item->image_status == "enable" && !empty($item->work_process_image)): ?>
                                                     <div class="img">
-                                                        <img src="<?php echo e(asset('uploads/img/work_process/'.$item->work_process_image)); ?>" class="img-fluid" alt="How i work">
+                                                        <img src="<?php echo e(asset('uploads/img/work_process/'.$item->work_process_image)); ?>" class="img-fluid" alt="<?php echo e($item->title ?? 'Work process step'); ?>" <?php echo img_attrs(false, 400, 300); ?>>
                                                     </div>
                                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                                 <div class="text">
@@ -1560,7 +1604,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/work_process/demo-process-01.png')); ?>" class="img-fluid" alt="How i work">
+                                    <img src="<?php echo e(asset('uploads/img/work_process/demo-process-01.png')); ?>" class="img-fluid" alt="Discovery and planning" <?php echo img_attrs(false, 400, 300); ?>>
                                 </div>
                                 <div class="text">
                                     <h5>Thinking</h5>
@@ -1574,7 +1618,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/work_process/demo-process-01.png')); ?>" class="img-fluid" alt="How i work">
+                                    <img src="<?php echo e(asset('uploads/img/work_process/demo-process-01.png')); ?>" class="img-fluid" alt="Discovery and planning" <?php echo img_attrs(false, 400, 300); ?>>
                                 </div>
                                 <div class="text">
                                     <h5>Research</h5>
@@ -1588,7 +1632,7 @@
                                 </div>
                                 <div class="number-border"></div>
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/work_process/demo-process-01.png')); ?>" class="img-fluid" alt="How i work">
+                                    <img src="<?php echo e(asset('uploads/img/work_process/demo-process-01.png')); ?>" class="img-fluid" alt="Discovery and planning" <?php echo img_attrs(false, 400, 300); ?>>
                                 </div>
                                 <div class="text">
                                     <h5>Design</h5>
@@ -1620,14 +1664,14 @@
                                     ?>
                                     <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $skillImages['dark'],'lightSrc' => $skillImages['light'],'alt' => 'Software technology','title' => 'Software technology']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => $skillImages['dark'],'lightSrc' => $skillImages['light'],'alt' => 'Software technology','title' => 'Software technology','lazy' => true,'width' => 480,'height' => 480]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.theme-mode-image'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($skillImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($skillImages['light']),'alt' => 'Software technology','title' => 'Software technology']); ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($skillImages['dark']),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($skillImages['light']),'alt' => 'Software technology','title' => 'Software technology','lazy' => true,'width' => 480,'height' => 480]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
@@ -1680,14 +1724,14 @@
                             <div class="skills-img">
                                 <?php if (isset($component)) { $__componentOriginal8440a5f1adbd93b7621a6506d3f8965d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/skill/demo-skill-dark.png'),'lightSrc' => asset('uploads/img/skill/demo-skill-light.png'),'alt' => 'Software technology','title' => 'Software technology']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.frontend.theme-mode-image','data' => ['darkSrc' => asset('uploads/img/skill/demo-skill-dark.png'),'lightSrc' => asset('uploads/img/skill/demo-skill-light.png'),'alt' => 'Software technology','title' => 'Software technology','lazy' => true,'width' => 480,'height' => 480]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('frontend.theme-mode-image'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/skill/demo-skill-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/skill/demo-skill-light.png')),'alt' => 'Software technology','title' => 'Software technology']); ?>
+<?php $component->withAttributes(['dark-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/skill/demo-skill-dark.png')),'light-src' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(asset('uploads/img/skill/demo-skill-light.png')),'alt' => 'Software technology','title' => 'Software technology','lazy' => true,'width' => 480,'height' => 480]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8440a5f1adbd93b7621a6506d3f8965d)): ?>
@@ -1780,9 +1824,9 @@
                             <div class="col-md-6 col-lg-4 portfolio-item <?php echo e($portfolio->portfolio_category->portfolio_category_slug); ?>">
                                 <div class="portfolio-item-inner">
                                         <div class="portfolio-item-img">
-                                            <img src="<?php echo e(portfolio_image_url($portfolio->thumbnail_image)); ?>" alt="Portfolio image" class="img-fluid">
-                                            <a href="<?php echo e(portfolio_image_url($portfolio->thumbnail_image)); ?>" class="portfolio-zoom-link">
-                                                <i class="fas fa-search"></i>
+                                            <img src="<?php echo e(portfolio_image_url($portfolio->thumbnail_image)); ?>" alt="<?php echo e($portfolio->title); ?>" class="img-fluid" <?php echo img_attrs(false, 640, 400); ?>>
+                                            <a href="<?php echo e(portfolio_image_url($portfolio->thumbnail_image)); ?>" class="portfolio-zoom-link" aria-label="View <?php echo e($portfolio->title); ?> image">
+                                                <i class="fas fa-search" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     <div class="body">
@@ -1793,8 +1837,8 @@
                                                 <p><?php echo e($portfolioExcerpt); ?></p>
                                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                         </div>
-                                        <a href="<?php echo e(route('portfolio-page.show', ['portfolio_slug' => $portfolio->portfolio_slug])); ?>" class="portfolio-link">
-                                            <i class="fa fa-arrow-right"></i>
+                                        <a href="<?php echo e(route('portfolio-page.show', ['portfolio_slug' => $portfolio->portfolio_slug])); ?>" class="portfolio-link" aria-label="View <?php echo e($portfolio->title); ?>">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -1837,9 +1881,9 @@
                             <div class="col-md-6 col-lg-4 portfolio-item <?php echo e($demo['slug']); ?>">
                                 <div class="portfolio-item-inner">
                                     <div class="portfolio-item-img">
-                                        <img src="<?php echo e(asset('uploads/img/portfolio/'.$demo['img'])); ?>" alt="<?php echo e($demo['title']); ?>" class="img-fluid">
-                                        <a href="<?php echo e(asset('uploads/img/portfolio/'.$demo['img'])); ?>" class="portfolio-zoom-link">
-                                            <i class="fas fa-search"></i>
+                                        <img src="<?php echo e(asset('uploads/img/portfolio/'.$demo['img'])); ?>" alt="<?php echo e($demo['title']); ?>" class="img-fluid" <?php echo img_attrs(false, 640, 400); ?>>
+                                        <a href="<?php echo e(asset('uploads/img/portfolio/'.$demo['img'])); ?>" class="portfolio-zoom-link" aria-label="View <?php echo e($demo['title']); ?> image">
+                                            <i class="fas fa-search" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                     <div class="body">
@@ -1847,8 +1891,8 @@
                                             <h5><?php echo e($demo['title']); ?></h5>
                                             <p><?php echo e($demo['desc']); ?></p>
                                         </div>
-                                        <a href="#" class="portfolio-link">
-                                            <i class="fa fa-arrow-right"></i>
+                                        <a href="#" class="portfolio-link" aria-label="View <?php echo e($demo['title']); ?>">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -1894,7 +1938,7 @@
                                 <div class="team-card">
                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($team->team_image)): ?>
                                         <div class="img">
-                                            <img src="<?php echo e(asset('uploads/img/teams/'.$team->team_image)); ?>" alt="Team image">
+                                            <img src="<?php echo e(asset('uploads/img/teams/'.$team->team_image)); ?>" alt="<?php echo e($team->name); ?>" <?php echo img_attrs(false, 320, 320); ?>>
                                         </div>
                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                     <div class="body">
@@ -1944,7 +1988,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.1s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/teams/demo-team-01.png')); ?>" alt="Team image">
+                                    <img src="<?php echo e(asset('uploads/img/teams/demo-team-01.png')); ?>" alt="Team member" <?php echo img_attrs(false, 320, 320); ?>>
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1964,7 +2008,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.2s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/teams/demo-team-01.png')); ?>" alt="Team image">
+                                    <img src="<?php echo e(asset('uploads/img/teams/demo-team-01.png')); ?>" alt="Team member" <?php echo img_attrs(false, 320, 320); ?>>
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -1984,7 +2028,7 @@
                         <div class="col-md-6 col-lg-4 wow fadeInDown" data-wow-duration="0.7s" data-wow-delay="0.3s">
                             <div class="team-card">
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/teams/demo-team-01.png')); ?>" alt="Team image">
+                                    <img src="<?php echo e(asset('uploads/img/teams/demo-team-01.png')); ?>" alt="Team member" <?php echo img_attrs(false, 320, 320); ?>>
                                 </div>
                                 <div class="body">
                                     <div class="text">
@@ -2041,7 +2085,7 @@
                                 <div class="testimonial-item">
                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($testimonial->image_status == 1 && !empty($testimonial->testimonial_image)): ?>
                                         <div class="img">
-                                            <img src="<?php echo e(asset('uploads/img/testimonials/'.$testimonial->testimonial_image)); ?>" alt="Testimonial image" class="img-fluid">
+                                            <img src="<?php echo e(asset('uploads/img/testimonials/'.$testimonial->testimonial_image)); ?>" alt="<?php echo e($testimonial->name); ?>" class="img-fluid" <?php echo img_attrs(false, 120, 120); ?>>
                                         </div>
                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                     <div class="body">
@@ -2087,7 +2131,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Testimonial image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Client testimonial" class="img-fluid" <?php echo img_attrs(false, 120, 120); ?>>
                                 </div>
                                 <div class="body">
                                     <h5>Jeff N. Hood</h5>
@@ -2112,7 +2156,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Testimonial image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Client testimonial" class="img-fluid" <?php echo img_attrs(false, 120, 120); ?>>
                                 </div>
                                 <div class="body">
                                     <h5>James E. Nelson</h5>
@@ -2137,7 +2181,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Testimonial image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Client testimonial" class="img-fluid" <?php echo img_attrs(false, 120, 120); ?>>
                                 </div>
                                 <div class="body">
                                     <h5>Wallace Chuck</h5>
@@ -2162,7 +2206,7 @@
                         <div class="item">
                             <div class="testimonial-item">
                                 <div class="img">
-                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Testimonial image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/testimonials/demo-client-01.png')); ?>" alt="Client testimonial" class="img-fluid" <?php echo img_attrs(false, 120, 120); ?>>
                                 </div>
                                 <div class="body">
                                     <h5>Nitin Khajotia</h5>
@@ -2225,13 +2269,13 @@
                                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($recent_post->blog_image)): ?>
                                         <div class="blog-img">
                                             <a href="<?php echo e(route('blog-page.show', ['slug' => $recent_post->slug])); ?>">
-                                                <img src="<?php echo e(asset('uploads/img/blogs/'.$recent_post->blog_image)); ?>" alt="Blog image" class="img-fluid">
+                                                <img src="<?php echo e(asset('uploads/img/blogs/'.$recent_post->blog_image)); ?>" alt="<?php echo e($recent_post->title); ?>" class="img-fluid" <?php echo img_attrs(false, 600, 400); ?>>
                                             </a>
                                         </div>
                                     <?php else: ?>
                                         <div class="blog-img">
                                             <a href="<?php echo e(route('blog-page.show', ['slug' => $recent_post->slug])); ?>">
-                                                <img src="<?php echo e(asset('uploads/img/dummy/no-image.jpg')); ?>" alt="Blog image" class="img-fluid">
+                                                <img src="<?php echo e(asset('uploads/img/dummy/no-image.jpg')); ?>" alt="<?php echo e($recent_post->title); ?>" class="img-fluid" <?php echo img_attrs(false, 600, 400); ?>>
                                             </a>
                                         </div>
                                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -2275,7 +2319,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog post preview" class="img-fluid" <?php echo img_attrs(false, 600, 400); ?>>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -2302,7 +2346,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog post preview" class="img-fluid" <?php echo img_attrs(false, 600, 400); ?>>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -2329,7 +2373,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog post preview" class="img-fluid" <?php echo img_attrs(false, 600, 400); ?>>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -2356,7 +2400,7 @@
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
-                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog image" class="img-fluid">
+                                    <img src="<?php echo e(asset('uploads/img/dummy/600x400.jpg')); ?>" alt="Blog post preview" class="img-fluid" <?php echo img_attrs(false, 600, 400); ?>>
                                 </a>
                             </div>
                             <div class="blog-body">
@@ -2642,7 +2686,7 @@
         <!--//Google Map Section Start //-->
       <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($contact_section->map_iframe)): ?>
             <div class="google-map">
-                <iframe src="<?php echo e($contact_section->map_iframe); ?>" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                <iframe src="<?php echo e($contact_section->map_iframe); ?>" title="Office location map" loading="lazy" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             </div>
           <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         <!--// Google Map Section End //-->
@@ -2908,6 +2952,7 @@
 <script src="<?php echo e(asset('assets/frontend/vendor/js/isotope.min.js')); ?>" defer></script>
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($heroParticlesEnabled ?? true): ?>
 <script src="<?php echo e(asset('assets/frontend/vendor/js/particles.js')); ?>" defer></script>
+<script src="<?php echo e(asset('assets/frontend/js/particles-hero-init.js')); ?>?v=1" defer></script>
 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 <script src="<?php echo e(asset('assets/frontend/js/main.js')); ?>?v=93" defer></script>
 <script src="<?php echo e(asset('assets/frontend/js/ni-contact-form.js')); ?>?v=3" defer></script>

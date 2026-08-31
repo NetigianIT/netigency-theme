@@ -11,18 +11,27 @@ use Illuminate\Support\Facades\File;
 class TestimonialController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $language = getLanguage();
+        $testimonials = Testimonial::where('language_id', $language->id)->orderBy('id', 'asc')->get();
+        $testimonial_section = TestimonialSection::where('language_id', $language->id)->first();
+
+        return view('admin.testimonial.index', compact('testimonials', 'testimonial_section'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        // Retrieving a model
-        $language = getLanguage();
-        $testimonials = Testimonial::where('language_id', $language->id)->orderBy('id', 'asc')->get();
-        $testimonial_section = TestimonialSection::where('language_id', $language->id)->first();
-
-        return view('admin.testimonial.create', compact('testimonials', 'testimonial_section'));
+        return view('admin.testimonial.create');
     }
 
     /**
@@ -33,7 +42,6 @@ class TestimonialController extends Controller
      */
     public function store(Request $request)
     {
-        // Form validation
         $request->validate([
             'name' => 'required',
             'job' => 'required',
@@ -44,46 +52,32 @@ class TestimonialController extends Controller
             'order' => 'required|integer',
         ]);
 
-        // Get All Request
         $input = $request->all();
 
-        if($request->hasFile('testimonial_image')){
-
-            // Get image file
+        if ($request->hasFile('testimonial_image')) {
             $testimonial_image = $request->file('testimonial_image');
-
-            // Folder path
             $folder = 'uploads/img/testimonials/';
-
-            // Make image name
             $testimonial_image_name = time().'-'.$testimonial_image->getClientOriginalName();
-
-            // Upload image
             $testimonial_image->move($folder, $testimonial_image_name);
-
-            // Set input
             $input['testimonial_image'] = $testimonial_image_name;
-
         } else {
-            // Set input
             $input['testimonial_image'] = null;
         }
 
-        // Record to database
         Testimonial::create([
             'language_id' => getLanguage()->id,
+            'image_status' => $input['image_status'] ?? 1,
             'testimonial_image' => $input['testimonial_image'],
             'name' => $input['name'],
             'job' => $input['job'],
             'desc' => $input['desc'],
             'star' => $input['star'],
-            'order' => $input['order']
+            'order' => $input['order'],
         ]);
 
-        return redirect()->route('testimonial.create')
+        return redirect()->route('testimonial.index')
             ->with('success', 'content.created_successfully');
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -93,8 +87,7 @@ class TestimonialController extends Controller
      */
     public function edit($id)
     {
-        // Retrieving models
-        $testimonial = Testimonial::find($id);
+        $testimonial = Testimonial::findOrFail($id);
 
         return view('admin.testimonial.edit', compact('testimonial'));
     }
@@ -108,7 +101,6 @@ class TestimonialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Form validation
         $request->validate([
             'name' => 'required',
             'job' => 'required',
@@ -119,38 +111,25 @@ class TestimonialController extends Controller
             'order' => 'required|integer',
         ]);
 
-        // Get model
-        $testimonial = Testimonial::find($id);
-
-        // Get All Request
+        $testimonial = Testimonial::findOrFail($id);
         $input = $request->all();
 
-        if($request->hasFile('testimonial_image')){
-
-            // Get image file
+        if ($request->hasFile('testimonial_image')) {
             $testimonial_image = $request->file('testimonial_image');
+            $folder = 'uploads/img/testimonials/';
+            $testimonial_image_name = time().'-'.$testimonial_image->getClientOriginalName();
 
-            // Folder path
-            $folder ='uploads/img/testimonials/';
+            if (! empty($testimonial->testimonial_image)) {
+                File::delete(public_path($folder.$testimonial->testimonial_image));
+            }
 
-            // Make image name
-            $testimonial_image_name =  time().'-'.$testimonial_image->getClientOriginalName();
-
-            // Delete Image
-            File::delete(public_path($folder.$testimonial->testimonial_image));
-
-            // Upload image
             $testimonial_image->move($folder, $testimonial_image_name);
-
-            // Set input
             $input['testimonial_image'] = $testimonial_image_name;
-
         }
 
-        // Record to database
-        Testimonial::find($id)->update($input);
+        $testimonial->update($input);
 
-        return redirect()->route('testimonial.create')
+        return redirect()->route('testimonial.index')
             ->with('success', 'content.updated_successfully');
     }
 
@@ -162,19 +141,16 @@ class TestimonialController extends Controller
      */
     public function destroy($id)
     {
-        // Retrieve a model
-        $testimonial = Testimonial::find($id);
-
-        // Folder path
+        $testimonial = Testimonial::findOrFail($id);
         $folder = 'uploads/img/testimonials/';
 
-        // Delete Image
-        File::delete(public_path($folder.$testimonial->testimonial_image));
+        if (! empty($testimonial->testimonial_image)) {
+            File::delete(public_path($folder.$testimonial->testimonial_image));
+        }
 
-        // Delete record
         $testimonial->delete();
 
-        return redirect()->route('testimonial.create')
+        return redirect()->route('testimonial.index')
             ->with('success', 'content.deleted_successfully');
     }
 
@@ -186,33 +162,26 @@ class TestimonialController extends Controller
      */
     public function destroy_checked(Request $request)
     {
-        // Get All Request
         $input = $request->input('checked_lists');
-
-        $arr_checked_lists = explode(",", $input);
+        $arr_checked_lists = explode(',', $input);
 
         if (array_filter($arr_checked_lists) == []) {
-            return redirect()->route('testimonial.create')
+            return redirect()->route('testimonial.index')
                 ->with('warning', 'content.please_choose');
         }
 
         foreach ($arr_checked_lists as $id) {
-
-            // Retrieve a model
             $testimonial = Testimonial::findOrFail($id);
-
-            // Folder path
             $folder = 'uploads/img/testimonials/';
 
-            // Delete Image
-            File::delete(public_path($folder.$testimonial->testimonial_image));
+            if (! empty($testimonial->testimonial_image)) {
+                File::delete(public_path($folder.$testimonial->testimonial_image));
+            }
 
-            // Delete record
             $testimonial->delete();
-
         }
 
-        return redirect()->route('testimonial.create')
+        return redirect()->route('testimonial.index')
             ->with('success', 'content.deleted_successfully');
     }
 }

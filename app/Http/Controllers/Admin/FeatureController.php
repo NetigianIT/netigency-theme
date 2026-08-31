@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\File;
 class FeatureController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function index()
     {
-        // Retrieving a model
         $language = getLanguage();
         $features = Feature::where('language_id', $language->id)
             ->orderByRaw("CASE WHEN stack = 'main' THEN 0 ELSE 1 END")
@@ -26,7 +25,17 @@ class FeatureController extends Controller
             ->get();
         $feature_section = FeatureSection::where('language_id', $language->id)->first();
 
-        return view('admin.feature.create', compact('features', 'feature_section'));
+        return view('admin.feature.index', compact('features', 'feature_section'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('admin.feature.create');
     }
 
     /**
@@ -37,53 +46,34 @@ class FeatureController extends Controller
      */
     public function store(Request $request)
     {
-        // Form validation
         $request->validate([
-            'type' => 'in:icon,image',
             'title' => 'required',
             'stack' => 'required|in:main,supporting',
-            'order' => 'required|integer',
-            'feature_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
+            'feature_image' => 'required|mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
-        // Get All Request
         $input = $request->all();
+        $feature_image_name = null;
 
-        if($request->hasFile('feature_image')){
-
-            // Get image file
+        if ($request->hasFile('feature_image')) {
             $feature_image = $request->file('feature_image');
-
-            // Folder path
-            $folder ='uploads/img/features/';
-
-            // Make image name
-            $feature_image_name =  time().'-'.$feature_image->getClientOriginalName();
-
-            // Upload image
+            $folder = 'uploads/img/features/';
+            $feature_image_name = time().'-'.$feature_image->getClientOriginalName();
             $feature_image->move($folder, $feature_image_name);
-
-            // Set input
-            $input['feature_image']= $feature_image_name;
-
-        } else {
-            // Set input
-            $input['feature_image']= null;
         }
 
-        // Record to database
         Feature::create([
             'language_id' => getLanguage()->id,
-            'type' => $input['type'],
-            'icon' => $input['icon'],
-            'feature_image' => $input['feature_image'],
+            'type' => 'image',
+            'icon' => null,
+            'feature_image' => $feature_image_name,
             'title' => $input['title'],
-            'desc' => $input['desc'],
-            'order' => $input['order'],
+            'desc' => $input['desc'] ?? null,
+            'order' => 0,
             'stack' => $input['stack'] ?? 'supporting',
         ]);
 
-        return redirect()->route('feature.create')
+        return redirect()->route('feature.index')
             ->with('success', 'content.created_successfully');
     }
 
@@ -95,7 +85,6 @@ class FeatureController extends Controller
      */
     public function edit($id)
     {
-        // Retrieving models
         $feature = Feature::findOrFail($id);
 
         return view('admin.feature.edit', compact('feature'));
@@ -110,47 +99,33 @@ class FeatureController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Form validation
         $request->validate([
-            'type' => 'in:icon,image',
             'title' => 'required',
             'stack' => 'required|in:main,supporting',
-            'order' => 'required|integer',
-            'feature_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
+            'feature_image' => 'nullable|mimes:svg,png,jpeg,jpg|max:2048',
         ]);
 
-        // Get model
-        $feature = Feature::find($id);
+        $feature = Feature::findOrFail($id);
+        $input = $request->only(['title', 'desc', 'stack']);
+        $input['type'] = 'image';
+        $input['icon'] = null;
 
-        // Get All Request
-        $input = $request->all();
-
-        if($request->hasFile('feature_image')){
-
-            // Get image file
+        if ($request->hasFile('feature_image')) {
             $feature_image = $request->file('feature_image');
+            $folder = 'uploads/img/features/';
+            $feature_image_name = time().'-'.$feature_image->getClientOriginalName();
 
-            // Folder path
-            $folder ='uploads/img/features/';
+            if (! empty($feature->feature_image)) {
+                File::delete(public_path($folder.$feature->feature_image));
+            }
 
-            // Make image name
-            $feature_image_name =  time().'-'.$feature_image->getClientOriginalName();
-
-            // Delete Image
-            File::delete(public_path($folder.$feature->feature_image));
-
-            // Upload image
             $feature_image->move($folder, $feature_image_name);
-
-            // Set input
             $input['feature_image'] = $feature_image_name;
-
         }
 
-        // Record to database
-        Feature::find($id)->update($input);
+        $feature->update($input);
 
-        return redirect()->route('feature.create')
+        return redirect()->route('feature.index')
             ->with('success', 'content.updated_successfully');
     }
 
@@ -162,19 +137,16 @@ class FeatureController extends Controller
      */
     public function destroy($id)
     {
-        // Retrieve a model
-        $feature = Feature::find($id);
-
-        // Folder path
+        $feature = Feature::findOrFail($id);
         $folder = 'uploads/img/features/';
 
-        // Delete Image
-        File::delete(public_path($folder.$feature->feature_image));
+        if (! empty($feature->feature_image)) {
+            File::delete(public_path($folder.$feature->feature_image));
+        }
 
-        // Delete record
         $feature->delete();
 
-        return redirect()->route('feature.create')
+        return redirect()->route('feature.index')
             ->with('success', 'content.deleted_successfully');
     }
 
@@ -186,33 +158,26 @@ class FeatureController extends Controller
      */
     public function destroy_checked(Request $request)
     {
-        // Get All Request
         $input = $request->input('checked_lists');
-
         $arr_checked_lists = explode(",", $input);
 
         if (array_filter($arr_checked_lists) == []) {
-            return redirect()->route('feature.create')
+            return redirect()->route('feature.index')
                 ->with('warning', 'content.please_choose');
         }
 
         foreach ($arr_checked_lists as $id) {
-
-            // Retrieve a model
             $feature = Feature::findOrFail($id);
-
-            // Folder path
             $folder = 'uploads/img/features/';
 
-            // Delete Image
-            File::delete(public_path($folder.$feature->feature_image));
+            if (! empty($feature->feature_image)) {
+                File::delete(public_path($folder.$feature->feature_image));
+            }
 
-            // Delete record
             $feature->delete();
-
         }
 
-        return redirect()->route('feature.create')
+        return redirect()->route('feature.index')
             ->with('success', 'content.deleted_successfully');
     }
 }

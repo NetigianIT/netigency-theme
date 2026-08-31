@@ -68,7 +68,7 @@ export default function ServicesSection({ data = {} }) {
                     title={service.title}
                     icon={service.icon}
                     image={service.service_image}
-                    useImage={service.image_status === 'enable'}
+                    useImage={!!service.service_image}
                   />
                 </div>
                 <div className="body">

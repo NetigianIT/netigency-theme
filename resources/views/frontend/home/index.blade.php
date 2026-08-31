@@ -970,7 +970,7 @@
                                             :title="$service->title"
                                             :icon="$service->icon"
                                             :image="$service->service_image"
-                                            :use-image="$service->image_status === 'enable'" />
+                                            :use-image="!empty($service->service_image)" />
                                     </div>
                                     <div class="body">
                                         <h5>{{ $service->title }}</h5>

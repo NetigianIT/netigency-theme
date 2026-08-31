@@ -68,7 +68,7 @@
     <!-- Theme stays green; palette skins are not loaded. -->
 
     <!--// Dark / Light Mode //-->
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=156">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme-mode.css') }}?v=159">
     <style>
         .hero-social-list{display:none!important}
         .contact-form-wrap{
@@ -634,7 +634,7 @@ src="https://www.facebook.com/tr?id=2855647867917114&ev=PageView&noscript=1"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<script src="{{ asset('assets/frontend/js/ni-select.js') }}?v=1" defer></script>
+<script src="{{ asset('assets/frontend/js/ni-select.js') }}?v=2" defer></script>
 <script src="{{ asset('assets/frontend/js/ni-spa-nav.js') }}?v=1" defer></script>
 
 </body>

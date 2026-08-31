@@ -4,6 +4,10 @@
     @include('admin.portfolio.partials.tabs')
 @endsection
 
+@section('page_actions')
+    <a href="{{ url('admin/portfolio/create') }}" class="btn btn-primary">+ {{ __('content.add_portfolio') }}</a>
+@endsection
+
 @section('content')
 
     <!-- Include Alert Blade -->

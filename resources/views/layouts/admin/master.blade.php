@@ -377,7 +377,7 @@
     </style>
 
     <!-- Dark / Light Mode -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=109">
+    <link rel="stylesheet" href="{{ asset('assets/admin/side_menu/css/theme-mode.css') }}?v=113">
 
 </head>
 
@@ -581,9 +581,8 @@
                 </li>
                 @endcan
                 @can('features check')
-                <li class="nav-item  {{ (request()->is('admin/feature/create') ||
-                                         request()->is('admin/feature/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('admin/feature/create') }}">
+                <li class="nav-item  {{ request()->is('admin/feature*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('feature.index') }}">
                         <i class="fas fa-gift menu-icon"></i>
                         <span class="menu-title">{{ __('content.features') }}</span>
                     </a>
@@ -642,9 +641,8 @@
                 </li>
                 @endcan
                 @can('testimonials check')
-                <li class="nav-item  {{ (request()->is('admin/testimonial/create') ||
-                                         request()->is('admin/testimonial/*/edit')) ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('admin/testimonial/create') }}">
+                <li class="nav-item  {{ request()->is('admin/testimonial*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('testimonial.index') }}">
                         <i class="fas fa-quote-right menu-icon"></i>
                         <span class="menu-title">{{ __('content.testimonials') }}</span>
                     </a>
@@ -770,7 +768,7 @@
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatables.bootstrap4.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/datatable-responsive.min.js') }}" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/default-assets/responsive.bootstrap4.min.js') }}" defer></script>
-    <script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=16" defer></script>
+    <script src="{{ asset('assets/admin/side_menu/js/default-assets/demo.datatable-init.js') }}?v=17" defer></script>
 @endif
 
 @if ($needsAdminPickers)
@@ -1089,7 +1087,7 @@
 <script src="{{ asset('assets/admin/side_menu/js/ni-image-input.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-number-input.js') }}?v=1" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-icon-select.js') }}?v=1" defer></script>
-<script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=2" defer></script>
+<script src="{{ asset('assets/admin/side_menu/js/ni-select.js') }}?v=3" defer></script>
 <script src="{{ asset('assets/admin/side_menu/js/ni-textarea-auto.js') }}?v=1" defer></script>
     <script src="{{ asset('assets/admin/side_menu/js/ni-spa-nav.js') }}?v=7" defer></script>
 

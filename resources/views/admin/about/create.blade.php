@@ -120,15 +120,19 @@
     </div>
     <!-- end row -->
 
-    <div class="row">
+    <div class="row ni-info-list-gap">
         <div class="col-12">
             <div class="card mb-30">
                 <div class="card-body pb-0">
-                    <div class="d-flex justify-content-between align-items-center mb-20">
-                        <h6 class="card-title mb-0">{{ __('content.information_list') }}</h6>
-                        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">+ {{ __('content.add_info') }}</button>
-                    </div>
-                    <div class="table-responsive order-stats ni-dt-toolbar-end">
+                    <x-admin.global-table
+                        :title="__('content.information_list')"
+                        table-id="basic-datatable"
+                        :has-records="count($info_lists) > 0"
+                    >
+                        <x-slot:add>
+                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">+ {{ __('content.add_info') }}</button>
+                        </x-slot:add>
+
                         @if (count($info_lists) > 0)
                             <div>
                                 <a id="deleteChecked" class="ml-2" href="#" data-toggle="modal" data-target="#deleteCheckedModal">
@@ -140,7 +144,6 @@
                                 @csrf
                                 <input type="hidden" id="checked_lists" name="checked_lists" value="">
 
-                                <!-- Modal -->
                                 <div class="modal fade" id="deleteCheckedModal" tabindex="-1" role="dialog" aria-labelledby="deleteCheckedModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                         <div class="modal-content">
@@ -161,23 +164,23 @@
                                     </div>
                                 </div>
                             </form>
-                            <table id="basic-datatable"  class="table table-striped dt-responsive w-100">
+                            <table id="basic-datatable" class="table table-striped dt-responsive w-100">
                                 <thead>
                                 <tr>
                                     <th scope="col">
-                                    <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
-                                </th>
+                                        <input id="check_all" type="checkbox" onclick="showHideDeleteButton(this)" title="{{ __('content.all') }}">
+                                    </th>
                                     <th>{{ __('content.description') }}</th>
                                     <th>{{ __('content.order') }}</th>
                                     <th class="all custom-width-action">{{ __('content.action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @php $desc = count($info_lists); $asc=0; @endphp
+                                @php $asc = 0; @endphp
                                 @foreach ($info_lists as $info_list)
                                     <tr>
                                         <td>
-                                            <input  name="check_list[]" type="checkbox" value="{{ $info_list->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
+                                            <input name="check_list[]" type="checkbox" value="{{ $info_list->id }}" onclick="showHideDeleteButton2(this)"> <span class="ni-row-num">{{ ++$asc }}</span>
                                         </td>
                                         <td>{{ $info_list->desc }}</td>
                                         <td>{{ $info_list->order }}</td>
@@ -190,11 +193,10 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <span data-toggle="modal" data-target="#deleteModel{{ $info_list->id }}">
-                                                            <a type="button">
+                                                        <a type="button" href="javascript:void(0)">
                                                             <i class="fa fa-trash text-danger font-18"></i>
                                                         </a>
-                                                       </span>
-                                                    <!-- Modal -->
+                                                    </span>
                                                     <div class="modal fade" id="deleteModel{{ $info_list->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                                             <div class="modal-content">
@@ -221,10 +223,8 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                        @else
-                            <p>{{ __('content.not_yet_created') }}</p>
                         @endif
-                    </div>
+                    </x-admin.global-table>
                 </div>
             </div>
         </div>

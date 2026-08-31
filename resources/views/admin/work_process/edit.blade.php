@@ -23,7 +23,7 @@
                         @endif
 
                         <div class="row">
-                            <div class="col-xl-12">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="image_status" class="col-form-label">{{ __('content.image_status') }} </label>
                                     <select class="form-control" name="image_status" id="image_status">
@@ -31,6 +31,18 @@
                                         <option value="enable" {{ $work_process->image_status == "enable" ? 'selected' : '' }}>{{ __('content.enable') }}</option>
                                         <option value="disable" {{ $work_process->image_status == "disable" ? 'selected' : '' }}>{{ __('content.disable') }}</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
+                                    <input type="text" name="title" class="form-control" id="title" value="{{ $work_process->title }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="order">{{ __('content.order') }}</label>
+                                    <input type="number" name="order" class="form-control" id="order" value="{{ $work_process->order }}" required>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -61,18 +73,6 @@
                                     <!--end card-->
                                 </div>
                                 <!--end col-->
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
-                                    <input type="text" name="title" class="form-control" id="title" value="{{ $work_process->title }}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="order">{{ __('content.order') }}</label>
-                                    <input type="number" name="order" class="form-control" id="order" value="{{ $work_process->order }}" required>
-                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">

@@ -18,16 +18,10 @@
                         <input type="hidden" name="order" value="0">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label for="title">{{ __('content.title') }} <span class="text-red">*</span></label>
                                     <input id="title" name="title" type="text" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="short_desc">{{ __('content.short_desc') }}</label>
-                                    <textarea id="short_desc" name="short_desc" class="form-control" rows="1"></textarea>
                                 </div>
                             </div>
 
@@ -38,23 +32,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="icon" class="d-block">{{ __('content.icon') }}</label>
                                     @include('admin.components.icon-picker')
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="image_status" class="col-form-label">{{ __('content.image_status') }}</label>
-                                    <select class="form-control" name="image_status" id="image_status">
-                                        <option value="enable" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="enable">{{ __('content.enable') }}</option>
-                                        <option value="disable">{{ __('content.disable') }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 @include('admin.components.image-input', [
                                     'name' => 'service_image',
                                     'id' => 'service_image',
@@ -67,12 +51,28 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="status" class="col-form-label">{{ __('content.status') }}</label>
-                                    <select class="form-control" name="status" id="status">
-                                        <option value="1" selected>{{ __('content.select_your_option') }}</option>
-                                        <option value="1">{{ __('content.published') }}</option>
-                                        <option value="0">{{ __('content.draft') }}</option>
-                                    </select>
+                                    @php $statusOn = true; @endphp
+                                    <div class="ni-switch-row">
+                                        <div class="ni-switch-row__text">
+                                            <label class="ni-switch-row__label" for="status">{{ __('content.status') }}</label>
+                                        </div>
+                                        <input type="hidden" name="status" value="0">
+                                        <label class="ni-switch" title="{{ $statusOn ? __('content.published') : __('content.draft') }}">
+                                            <input
+                                                type="checkbox"
+                                                name="status"
+                                                id="status"
+                                                value="1"
+                                                {{ $statusOn ? 'checked' : '' }}
+                                            >
+                                            <span class="ni-switch__track" aria-hidden="true">
+                                                <span class="ni-switch__thumb"></span>
+                                            </span>
+                                            <span class="ni-switch__state" data-on="{{ __('content.published') }}" data-off="{{ __('content.draft') }}">
+                                                {{ $statusOn ? __('content.published') : __('content.draft') }}
+                                            </span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-8 d-flex align-items-end">
@@ -109,40 +109,29 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card">
-                                        <div class="card-header bg-secondary">
-                                            <a class="text-white collapsed" data-toggle="collapse" href="#accordion-2" aria-expanded="false">
-                                                {{ __('content.breadcrumb_customization') }}
-                                            </a>
-                                        </div>
-                                        <div id="accordion-2" class="collapse" data-parent="#accordion-">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="breadcrumb_status" class="col-form-label">{{ __('Do you want to use special breadcrumb for the page?') }}</label>
-                                                            <select name="breadcrumb_status" class="form-control" id="breadcrumb_status">
-                                                                <option value="0" selected>{{ __('content.select_your_option') }}</option>
-                                                                <option value="1">{{ __('content.yes') }}</option>
-                                                                <option value="0">{{ __('content.no') }}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="custom_breadcrumb_image">{{ __('content.custom_breadcrumb_image') }} ({{ __('content.size') }} 1920 x 350) (.svg, .jpg, .jpeg, .png)</label>
-                                                            <input type="file" name="custom_breadcrumb_image" class="form-control-file" id="custom_breadcrumb_image">
-                                                            <small class="form-text text-muted">{{ __('content.please_use_recommended_sizes') }}</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <script>
+                        (function () {
+                            var input = document.getElementById('status');
+                            if (!input) return;
+                            var wrap = input.closest('.ni-switch');
+                            var state = wrap ? wrap.querySelector('.ni-switch__state') : null;
+                            function sync() {
+                                if (!state) return;
+                                state.textContent = input.checked
+                                    ? (state.getAttribute('data-on') || 'Published')
+                                    : (state.getAttribute('data-off') || 'Draft');
+                                if (wrap) {
+                                    wrap.setAttribute('title', state.textContent);
+                                }
+                            }
+                            input.addEventListener('change', sync);
+                            sync();
+                        })();
+                    </script>
             </div>
         </div>
     </div>

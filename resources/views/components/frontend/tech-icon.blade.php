@@ -14,13 +14,13 @@
 @endphp
 
 <div class="tech-icon-wrap {{ $sizeClass }}">
-    @if ($type === 'icon' && $logoFile)
+    @if (!empty($featureImage))
+        <img src="{{ asset('uploads/img/features/'.$featureImage) }}" alt="{{ $title }}" class="tech-logo tech-logo--{{ $logoSlug }}" loading="lazy" decoding="async">
+    @elseif ($logoFile)
         <img src="{{ asset('assets/frontend/img/tech/'.$logoFile) }}" alt="{{ $title }}" class="tech-logo tech-logo--{{ $logoSlug }}" loading="lazy" decoding="async">
-    @elseif ($type === 'icon' && !empty($icon))
+    @elseif (!empty($icon))
         <div class="tech-fa-icon" aria-hidden="true">
             <span class="{{ $icon }}"></span>
         </div>
-    @elseif ($type !== 'icon' && !empty($featureImage))
-        <img src="{{ asset('uploads/img/features/'.$featureImage) }}" alt="{{ $title }}" class="tech-logo tech-logo--{{ $logoSlug }}" loading="lazy" decoding="async">
     @endif
 </div>

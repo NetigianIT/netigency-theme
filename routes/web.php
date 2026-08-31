@@ -168,6 +168,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS',  'permission:about us chec
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:features check'])->prefix('admin')->group(function () {
+    Route::get('feature', [FeatureController::class, 'index'])->name('feature.index');
     Route::get('feature/create', [FeatureController::class, 'create'])->name('feature.create');
     Route::post('feature', [FeatureController::class, 'store'])->name('feature.store');
     Route::get('feature/{id}/edit', [FeatureController::class, 'edit'])->name('feature.edit');
@@ -292,6 +293,7 @@ Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:teams check'])
 
 
 Route::middleware(['auth:sanctum', 'verified', 'XSS', 'permission:testimonials check'])->prefix('admin')->group(function () {
+    Route::get('testimonial', [TestimonialController::class, 'index'])->name('testimonial.index');
     Route::get('testimonial/create', [TestimonialController::class, 'create'])->name('testimonial.create');
     Route::post('testimonial', [TestimonialController::class, 'store'])->name('testimonial.store');
     Route::get('testimonial/{id}/edit', [TestimonialController::class, 'edit'])->name('testimonial.edit');

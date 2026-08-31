@@ -52,11 +52,8 @@ class ServiceController extends Controller
         $request->validate(array_merge([
             'title' => 'required',
             'order' => 'required|integer',
-            'images_status'   =>  'in:enable,disable',
             'status'   =>  'integer|in:0,1',
             'service_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
-            'breadcrumb_status'   =>  'integer|in:0,1',
-            'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
         ], DetailSync::validationRules()));
 
         // Get All Request
@@ -84,41 +81,20 @@ class ServiceController extends Controller
             $input['service_image']= null;
         }
 
-        if($request->hasFile('custom_breadcrumb_image')){
-
-            // Get image file
-            $custom_breadcrumb_image_file = $request->file('custom_breadcrumb_image');
-
-            // Folder path
-            $folder = 'uploads/img/service/breadcrumb/';
-
-            // Make image name
-            $custom_breadcrumb_image_name = time().'-'.$custom_breadcrumb_image_file->getClientOriginalName();
-
-            // Original size upload file
-            $custom_breadcrumb_image_file->move($folder, $custom_breadcrumb_image_name);
-
-            // Set input
-            $input['custom_breadcrumb_image']= $custom_breadcrumb_image_name;
-
-        } else {
-            // Set input
-            $input['custom_breadcrumb_image']= null;
-        }
-
         // Record to database
         $service = Service::create([
             'language_id' => getLanguage()->id,
             'title' => $input['title'],
             'desc' => HtmlCleaner::clean($input['desc']),
-            'short_desc' => $input['short_desc'],
+            'short_desc' => null,
             'icon' => $input['icon'],
-            'image_status' => $input['image_status'],
+            'image_status' => 'enable',
             'service_image' => $input['service_image'],
             'meta_desc' => $input['meta_desc'],
             'meta_keyword' => $input['meta_keyword'],
-            'breadcrumb_status' => $input['breadcrumb_status'],
-            'custom_breadcrumb_image' => $input['custom_breadcrumb_image'],
+            'breadcrumb_status' => 0,
+            'custom_breadcrumb_image' => null,
+            'status' => (int) ($input['status'] ?? 0),
             'order' => $input['order']
         ]);
 
@@ -155,17 +131,15 @@ class ServiceController extends Controller
         $request->validate(array_merge([
             'title' => 'required',
             'order' => 'required|integer',
-            'images_status'   =>  'in:enable,disable',
             'status'   =>  'integer|in:0,1',
             'service_image' => 'mimes:svg,png,jpeg,jpg|max:2048',
-            'breadcrumb_status'   =>  'integer|in:0,1',
-            'custom_breadcrumb_image' => 'mimes:svg,png,jpeg,jpg|max:2048'
         ], DetailSync::validationRules()));
 
         $service = Service::find($id);
 
         // Get All Request
         $input = $request->except('details');
+        $input['image_status'] = 'enable';
 
         if($request->hasFile('service_image')){
 
@@ -186,28 +160,6 @@ class ServiceController extends Controller
 
             // Set input
             $input['service_image'] = $service_image_name;
-
-        }
-
-        if($request->hasFile('custom_breadcrumb_image')) {
-
-            // Get image file
-            $custom_breadcrumb_image_file = $request->file('custom_breadcrumb_image');
-
-            // Folder path
-            $folder = 'uploads/img/service/breadcrumb/';
-
-            // Make image name
-            $custom_breadcrumb_image_name =  time().'-'.$custom_breadcrumb_image_file->getClientOriginalName();
-
-            // Delete Image
-            File::delete(public_path($folder.$service->custom_breadcrumb_image));
-
-            // Original size upload file
-            $custom_breadcrumb_image_file->move($folder, $custom_breadcrumb_image_name);
-
-            // Set input
-            $input['custom_breadcrumb_image']= $custom_breadcrumb_image_name;
 
         }
 
